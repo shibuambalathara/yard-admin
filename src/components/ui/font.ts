@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
-// import { Poppins_Font,inter_Font,roboto_init_Font,roboto_mono_Font } from "../components/ui/font";
 import { Inter, Roboto_Mono, Poppins, Roboto } from 'next/font/google';
 
-import "./globals.css";
-
-import Header from "@/components/header/header";
-
-const inter = Inter({
+ const inter = Inter({
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '700', '900'],
   style: ['normal',  ],
@@ -33,29 +27,12 @@ const inter = Inter({
  const Poppins_init = Poppins({
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '700', '900'],
-  variable: '--font-poppins',
+  variable: '--font-roboto',
   style: ['normal', 'italic'],
 
 });
 
-export const metadata: Metadata = {
-  title: "Yard Management",
-  description: "AutoBse Yard Management",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;  
-}>) {
-  return (
-
- <html lang="en"> 
-    <head >
-    </head>
-    <body className={`${roboto_init.variable } ${Poppins_init.variable}`}>{children}</body>
-    </html> 
-
-    
-  );
-}
+export const  inter_Font=inter.variable
+export const  roboto_mono_Font=roboto_mono_init.variable
+export const  roboto_init_Font=roboto_init.variable
+export const  Poppins_Font=Poppins_init.variable

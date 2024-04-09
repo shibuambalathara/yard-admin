@@ -7,14 +7,24 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      width: {
+        '85': '22rem', // Define custom width value for w-85
+      },
       // backgroundImage: {
       //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       //   "gradient-conic":
       //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       // },
+
+      fontFamily:{
+        roboto:['var(--font-roboto)'],
+        poppins:['var(--font-poppins)']
+      }
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"),
+  require("tailwind-scrollbar-hide") 
+],
 
   // daisyUI config (optional - here are the default values)
   daisyui: {
