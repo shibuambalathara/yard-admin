@@ -1,13 +1,20 @@
+"use client";
+
 import React, { useState } from 'react';
-import { admin, client_level_super_user, super_admin} from './sidebarlist';
+import { admin, client_level_super_user, super_admin,yardManager} from './sidebarlist';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { clientLevelUser } from '../sidebar/clientLevelUser';
+
 import SideBarItem from './sidebarItem';
 import { BsArrowLeftCircle } from "react-icons/bs";
+import useAuthStore from '../../store/useAuthStore';
 
 
 const SideBar = () => {
-  const [userRole, setUserRole] = useState('clientlevelsuperuser');
+  const { user,token,role } = useAuthStore();
+
+  console.log("role from sidebar",role);
+  const [userRole, setUserRole] = useState('yardmanager');
+ 
 
   const selectSidebarData = () => {
     switch (userRole) {
@@ -15,6 +22,8 @@ const SideBar = () => {
         return admin;
       case 'superadmin':
         return super_admin;
+        case 'yardmanager':
+        return yardManager;
       
       case 'clientlevelsuperuser':
         return client_level_super_user;
@@ -42,8 +51,10 @@ const SideBar = () => {
 
 
   return(
- <div className='h-screen  '>
+ <div className=' h-full'>
+  
   <SideBarItem  item={sidebarData}/>
+
  </div>
 
   )

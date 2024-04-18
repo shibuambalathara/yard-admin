@@ -6,9 +6,9 @@ import React from 'react'
 const ResetPassword = () => {
   return (
     <div>
-        <AuthTemplate  >
+        {/* <AuthTemplate  > */}
           <ForgetPassword/>  
-        </AuthTemplate>
+        {/* </AuthTemplate> */}
     </div>
   )
 }

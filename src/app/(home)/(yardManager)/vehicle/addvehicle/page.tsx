@@ -4,7 +4,7 @@ import React from 'react'
 
 const AddVehicle = () => {
   return (
-    <div className='w-full'><AddVehicleComponent/></div>
+    <div className='w-full '><AddVehicleComponent/></div>
   )
 }
 

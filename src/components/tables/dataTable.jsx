@@ -40,8 +40,8 @@ const DataTable = ({ data, columns }) => {
 
   // console.log("table", table);
   return (
-    <div className="h-screen w-full mx-auto flex justify-center items-center  border border-green-300 p-10">
-      <div className=" w-full  border p-5 ">
+    <div className=" w-full mx-auto flex justify-center items-center  ">
+      <div className=" w-full   p-5 ">
         <div className="mt-0.5">
           <div className="relative rounded-md shadow-sm max-w-sm">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

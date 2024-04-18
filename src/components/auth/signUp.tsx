@@ -1,8 +1,8 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { FormFieldInput, SelectInput } from "../../components/ui/fromFields";
-import { formStyle } from "../../components/ui/style";
+import { FormFieldInput, SelectInput } from "../ui/fromFields";
+import { formStyle } from "../ui/style";
 
 import React from "react";
 import Link from "next/link";

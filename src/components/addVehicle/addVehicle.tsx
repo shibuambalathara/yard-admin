@@ -24,8 +24,12 @@ const AddVehicleComponent = () => {
           formState: { errors },
         } = useForm<Inputs>();
   return (
-    <div className="flex items-center justify-center  h-screen  w-full">
-      <form className={`${vehicleFormStyle.data}`}>
+    <div className="flex flex-col items-center justify-center    p-6  ">
+      {/* <form className={`${vehicleFormStyle.data}`}> */}
+     <div className='h-[631px] p-3 overflow-y-scroll  border scrollbar-hide   shadow-xl'>
+     <h1 className='my-2 text-center border w-85  px-4 py-1 mx-auto uppercase bg-[#333333] text-white font-semibold'>Add Vehicle Details</h1>
+
+     <form className=" h-full   grid   grid-cols-2  p-6 gap-y-6 gap-x-4  ">
       <FormFieldInput
           label="Registration Number"
           type="text"
@@ -70,6 +74,28 @@ const AddVehicleComponent = () => {
           label="Color"
           type="text"
           name="color"
+          register={register}
+          error={errors.designation}
+          defaultValue=""
+          required
+          placeholder=""
+        />
+          <FormFieldInput
+          label="Interior Condition "
+          type="text"
+          name="InteriorCondition "
+          register={register}
+          error={errors.designation}
+          defaultValue=""
+          required
+          placeholder=""
+        />
+          <FormFieldInput
+          label="Exterior Condition 
+          "
+          type="text"
+          name="ExteriorCondition 
+          "
           register={register}
           error={errors.designation}
           defaultValue=""
@@ -236,16 +262,17 @@ const AddVehicleComponent = () => {
         />
         <ImageMaping  images=""/>
     
-        <div className=" w-full col-span-2 text-center">
+        <div className=" w-full col-span-2 text-center  pb-10">
           <button
             type="submit"
-            className="bg-[#333333] text-white px-4 py-1 w-20"
+            className="bg-[#333333] text-white px-4 py-1 w-60"
           >
             Submit
           </button>
         </div>
         
-      </form>
+      </form> 
+     </div>
     </div>
   )
 }

@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react'
 
-import data from "../../components/tables/mockData.json"
-import DataTable from "../../components/tables/dataTable"
+import data from "../../../components/tables/mockData.json"
+import DataTable from "../../../components/tables/dataTable"
 
 const ReactTable = () => {
     const movies = useMemo(() => data, [])

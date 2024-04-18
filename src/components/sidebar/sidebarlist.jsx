@@ -1,3 +1,5 @@
+
+
 import { RiAdminFill } from "react-icons/ri";
 import {
   MdDashboard,
@@ -541,3 +543,91 @@ export const admin = [
     path: "/report-bug",
   },
 ];
+
+export const yardManager = [
+  { title: "Dashboard", icon: <MdDashboard />, path: "/yardDashboard" },
+  {
+    title: "Park Fee",
+   
+    icon: <GiHomeGarage />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Add Park Fee",
+        icon: <TbListDetails />,
+        path: "/parkfee",
+      },
+
+      {
+        title: "Manage Park Fee",
+        icon: <TbListDetails />,
+        path: "/parkfee/manageparkfee",
+      },
+    ],
+  },
+
+  {
+    title: "Vehicles",
+    icon: <ImTruck />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Add Vehicle",
+        icon: <MdManageHistory />,
+        path: "/vehicle/addvehicle",
+      },
+
+      {
+        title: "Manage Vehicle",
+        icon: <TbStatusChange />,
+        path: "/vehicle/managevehicle",
+      },
+      {
+        title: "Manage Reject Request",
+        icon: <TbStatusChange />,
+        path: "/vehicle/managerequestreject",
+      },
+    ],
+  },
+  
+  {
+    title: "Waviers",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: " Manage Request ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/",
+      },
+      {
+        title: "Review Request  ",
+        icon: <TfiTruck />,
+        path: "/",
+      },
+      
+    ],
+  },
+  {
+    title: "Release Vehicles ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Proceed To Release",
+        icon: <LiaTruckMovingSolid />,
+        path: "/",
+      },
+      {
+        title: " Release History ",
+        icon: <TfiTruck />,
+        path: "/",
+      },
+      
+    ],
+  },
+
+];
+

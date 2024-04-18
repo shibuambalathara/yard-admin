@@ -3,7 +3,7 @@ import Logo from "../../../public/login-logo.png";
 import yms from "../../../public/yard managment system.jpg";
 import Image from "next/image";
 
-const AuthTemplate = ({ children, heading, subHeading }) => {
+const AuthTemplate = ({ children,  }) => {
   return (
     <>
       <div className="h-screen w-full  flex flex-col justify-center relative overflow-hidden border    space-y-4  z-[10]  ">
@@ -21,7 +21,7 @@ const AuthTemplate = ({ children, heading, subHeading }) => {
         {/* img ends  */}
 
         {/* heading strs  */}
-        <div className="">
+        {/* <div className="">
           {heading && (
             <h2 className=" text-center text-3xl font-extrabold text-gray-900">
               {heading}
@@ -32,7 +32,7 @@ const AuthTemplate = ({ children, heading, subHeading }) => {
               {subHeading}
             </p>
           )}
-        </div>
+        </div> */}
         
         {/* heading ends here  */}
 
@@ -63,7 +63,7 @@ const AuthTemplate = ({ children, heading, subHeading }) => {
   );
 };
 export default AuthTemplate;
-AuthTemplate.defaultProps = {
-  heading: "",
-  subHeading: "",
-};
+// AuthTemplate.defaultProps = {
+//   heading: "",
+//   subHeading: "",
+// };

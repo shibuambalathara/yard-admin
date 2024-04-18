@@ -1,25 +1,50 @@
 "use client";
-import React from "react";
+import React,{useEffect} from "react";
 import Image from "next/image";
 import yms from "../../../public/yard managment system.jpg";
 import { FormFieldInput, FormFieldInputLoginInput } from "../ui/fromFields";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import Router from "next/router";
+import useAuthStore from '../../store/useAuthStore';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+
+
+// import Router from "next/router";
 import { loginInputStyle } from "../../components/ui/style";
-const LogInComponent = () => {
+const LogInPassword = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-
+  const registering = useAuthStore((state) => state.register);
+  // console.log("register",registering);
   const handleLogin = () => {
     console.log("handleLogin");
+    const user = {
+      name: "prince",
+      email: "prince@example.com", // Provide an appropriate email
+      designation: "admin", // Provide an appropriate designation
+      role: "admin"
+    };// You may receive more user data from authentication
+  
+    const authToken = 'some_authentication_token';
+    const role="admin"
+    registering(user,authToken,role);
+    Cookies.set('authToken', authToken, { expires: 7 });
+    // console.log("ablljflajsdf");
+    // localStorage.setItem('role', role);
+    // localStorage.setItem('user', user);
 
-    // Router.push('/testpage')
-  };
+  //   if(!!authToken)
+    router.push('/');
+    
+   };
+ 
 
   return (
     <div className="  flex items-center justify-center  ">
@@ -77,9 +102,9 @@ const LogInComponent = () => {
           <div className="text-center flex  flex-col text-sm w-full space-y-1 mt-2">
             <div className="w-full flex justify-center space-x-1 text-sm">
               {" "}
-              <p>Don't have an account ?</p> <Link className="text-blue-800 text-sm" href="/signup">create account </Link>
+              <p>Don't have an account ?</p> <Link className="text-blue-800 text-sm" href="/register">create account </Link>
             </div>
-            <Link className="text-red-400" href="/resetPassword">Forget Password ? </Link>
+            <Link className="text-red-400" href="/resetpassword">Forget Password ? </Link>
 
           </div>
         </div>
@@ -88,4 +113,4 @@ const LogInComponent = () => {
   );
 };
 
-export default LogInComponent;
+export default LogInPassword;

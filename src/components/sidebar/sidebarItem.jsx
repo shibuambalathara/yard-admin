@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import {
@@ -27,7 +29,7 @@ const SidebarItem = ({ item }) => {
 
   return (
     <div
-      className={`bg-gray-800 h-screen min-h-max overflow-y-scroll scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
+      className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
         open ? "w-85" : "w-16"
       }`}
     >
@@ -50,7 +52,9 @@ const SidebarItem = ({ item }) => {
               <span className="text-lg block">
                 {menu.icon ? menu.icon : <MdDashboard />}
               </span>
-              <span className={`${!open && "hidden"} transition-all duration-300`}>
+              <span
+                className={`${!open && "hidden"} transition-all duration-300`}
+              >
                 {menu.path ? (
                   <Link className={`${!open && `hidden`}`} href={menu.path}>
                     {menu.title}
@@ -60,10 +64,12 @@ const SidebarItem = ({ item }) => {
                 )}
               </span>
               {menu.submenu && open && (
-                <MdKeyboardArrowDown className={`${openSubmenuIndex === index && "rotate-180"}`} />
+                <MdKeyboardArrowDown
+                  className={`${openSubmenuIndex === index && "rotate-180"}`}
+                />
               )}
             </li>
-            {menu.submenu && openSubmenuIndex === index && open && (
+            {/* {menu.submenu && openSubmenuIndex === index && open && (
               <ul>
                 {menu.submenuItems.map((submenu, subIndex) => (
                   <li
@@ -74,6 +80,31 @@ const SidebarItem = ({ item }) => {
                       {submenu.icon ? submenu.icon : <MdOutlineKeyboardArrowRight />}
                     </span>
                     <span>{submenu.title}</span>
+                  </li>
+                ))}
+              </ul>
+            )} */}
+            {menu.submenu && openSubmenuIndex === index && open && (
+              <ul>
+                {menu.submenuItems.map((submenu, subIndex) => (
+                  <li
+                    key={subIndex}
+                    className={`text-base text-white flex items-center gap-x-4 cursor-pointer p-2 px-4 hover:bg-gray-700 rounded-md mt-2`}
+                  >
+                    <span className="text-base">
+                      {submenu.icon ? (
+                        submenu.icon
+                      ) : (
+                        <MdOutlineKeyboardArrowRight />
+                      )}
+                    </span>
+                    <span>
+                      {submenu.path ? (
+                        <Link href={submenu.path}>{submenu.title}</Link>
+                      ) : (
+                        submenu.title
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
