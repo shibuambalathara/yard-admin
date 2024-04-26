@@ -1,5 +1,5 @@
 "use client";
-import React,{useEffect} from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import yms from "../../../public/yard managment system.jpg";
 import { FormFieldInput, FormFieldInputLoginInput } from "../ui/fromFields";
@@ -8,12 +8,33 @@ import Link from "next/link";
 import useAuthStore from '../../store/useAuthStore';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import axiosInstance from "../../utils/axios"
+import toast from "react-hot-toast";
 
 
 // import Router from "next/router";
 import { loginInputStyle } from "../../components/ui/style";
 const LogInPassword = () => {
   const router = useRouter();
+  const [loginError, setLoginError] = useState(""); // State to manage login error message
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    if (success) {
+        toast.success(success.text ? success.text : "Success");
+        setTimeout(() => {
+            setSuccess(null);
+        }, 2000);
+    }
+    if (error) {
+        toast.error(
+            error.text ? error.text : "Something went wrong. Please contact support"
+        );
+        setTimeout(() => {
+            setError(null);
+        }, 2000);
+    }
+}, [success, error]);
 
   const {
     register,
@@ -23,41 +44,52 @@ const LogInPassword = () => {
   } = useForm();
   const registering = useAuthStore((state) => state.register);
   // console.log("register",registering);
-  const handleLogin = () => {
-    console.log("handleLogin");
-    const user = {
-      name: "prince",
-      email: "prince@example.com", // Provide an appropriate email
-      designation: "admin", // Provide an appropriate designation
-      role: "admin"
-    };// You may receive more user data from authentication
+  const handleLogin = async(data) => {
+    try {
+      console.log("handleLogin", data);
   
-    const authToken = 'some_authentication_token';
-    const role="admin"
-    registering(user,authToken,role);
-    Cookies.set('authToken', authToken, { expires: 7 });
-    // console.log("ablljflajsdf");
-    // localStorage.setItem('role', role);
-    // localStorage.setItem('user', user);
+      const { email, password } = data; // Extract email and password from form data
+  
+      // Send user credentials to the server
+      const response = await axiosInstance.post('/auth/login', {
+        email: email,
+        password: password
+      });
+      
+      console.log('User FROM API RESPONSE', response.data);
+  
+      // If API call is successful, register user, set token, and redirect
+      const user = {
+        name:response.data.user.name ,
+        email: response.data.user.email, // Use the email from the form data
+        role: response.data.user.role
+      };
+      const authToken = response.data.user.accessToken;
+      console.log("TOKEN FROM API RESPONSE",authToken);
+      const role = response.data.user.role;
+      registering(user, authToken, role);
+      Cookies.set('authToken', authToken);
+      setSuccess({
+        text: "You have been successfully logged in.",
+    });
+      router.push('/');
+    } catch (error) {
+      console.error('ERROR FROM fetching users:', error.response.data.message);
+      setLoginError(error.response.data.message);
+      setError({
+        text: "Invalid username or password.",
+    });
 
-  //   if(!!authToken)
-    router.push('/');
-    
-   };
+
+    }
+  };
+  
+  
  
 
   return (
     <div className="  flex items-center justify-center  ">
-      {/* <div className="w-full h-full absolute z-[-1]  ">
-        <Image
-          src={yms}
-          alt="key"
-          objectFit="cover"
-          layout="fill"
-          quality={100}
-          className="bg-opacity-50 "
-        />
-      </div> */}
+   
 
       <div className="w-96 h-full border drop-shadow-xl flex flex-col ">
         <h1 className=" py-2 uppercase flex items-center justify-center   w-full bg-[#333333] text-center font-semibold  text-white font-roboto">
@@ -89,6 +121,9 @@ const LogInPassword = () => {
               placeholder="Your Password"
               required
             />
+            {loginError && (
+              <p className="text-red-500 text-sm mt-1">{loginError}</p>
+            )}
 
             <div className="w-full">
               <button

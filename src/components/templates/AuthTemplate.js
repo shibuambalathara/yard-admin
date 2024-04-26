@@ -8,7 +8,7 @@ const AuthTemplate = ({ children,  }) => {
     <>
       <div className="h-screen w-full  flex flex-col justify-center relative overflow-hidden border    space-y-4  z-[10]  ">
         {/* img strs */}
-        <div className="w-full h-full absolute z-[-1]  ">
+        {/* <div className="w-full h-full absolute z-[-1]  ">
           <Image
             src={yms}
             alt="key"
@@ -17,7 +17,7 @@ const AuthTemplate = ({ children,  }) => {
             quality={100}
             className="bg-opacity-50 "
           />
-        </div>
+        </div> */}
         {/* img ends  */}
 
         {/* heading strs  */}

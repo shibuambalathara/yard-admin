@@ -10,11 +10,14 @@ import useAuthStore from '../../store/useAuthStore';
 
 
 const SideBar = () => {
-  const { user,token,role } = useAuthStore();
+  // const { user,token,role } = useAuthStore();
 
-  console.log("role from sidebar",role);
-  const [userRole, setUserRole] = useState('yardmanager');
+  // console.log("role from sidebar",role);
+  const [userRole, setUserRole] = useState('superadmin');
  
+  const token = useAuthStore.getState().token; // Get token from the Zustand auth store
+
+console.log("Token form sidebar",token);
 
   const selectSidebarData = () => {
     switch (userRole) {

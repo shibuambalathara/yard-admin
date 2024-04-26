@@ -206,29 +206,30 @@ export const client_level_super_user = [
 
 
 export const super_admin = [
-    { title: "Dashboard", icon: <MdDashboard />, path: "/" },
+    { title: "Dashboard", icon: <MdDashboard />, path: "/adminDashboard" },
     {
         title: "Account Verification Requests ",
         icon: <RiAccountPinBoxFill />,
-        path: "/",
+        path: "/accountVerificationRequest",
       },
     
     {
         title: "Vehicle Category Management ",
         icon: <ImTruck />,
+        path: "/vehicleCategoryManagement",
     
-      submenu: true,
-      submenuItems: [
-        {
-            title: "Manage Category ",
-            icon: <MdManageHistory />,
+      // submenu: true,
+      // submenuItems: [
+      //   {
+      //       title: "Manage Category ",
+      //       icon: <MdManageHistory />,
     
-            path: "/",
-          },
+      //       path: "/",
+      //     },
     
   
         
-      ],
+      // ],
     },
   
     {
@@ -250,7 +251,7 @@ export const super_admin = [
     {
         title: "User Management",
         icon: <FaUserCircle />,
-        path: "/",
+        path: "/userManagement",
       },
       {
         title: "Organisation Management ",
@@ -555,7 +556,7 @@ export const yardManager = [
       {
         title: "Add Park Fee",
         icon: <TbListDetails />,
-        path: "/parkfee",
+        path: "/parkfee/addParkFee",
       },
 
       {
@@ -599,12 +600,12 @@ export const yardManager = [
       {
         title: " Manage Request ",
         icon: <LiaTruckMovingSolid />,
-        path: "/",
+        path: "/wavier/managerequest",
       },
       {
         title: "Review Request  ",
         icon: <TfiTruck />,
-        path: "/",
+        path: "/wavier/reviewrequest",
       },
       
     ],
@@ -616,14 +617,33 @@ export const yardManager = [
     submenu: true,
     submenuItems: [
       {
-        title: "Proceed To Release",
+        title: "Initiate Release",
         icon: <LiaTruckMovingSolid />,
-        path: "/",
+        path: "/releasevehicle/initiateRelease",
       },
       {
         title: " Release History ",
         icon: <TfiTruck />,
-        path: "/",
+        path: "/releasevehicle/releaseHistory",
+      },
+      
+    ],
+  },
+  {
+    title: "Create Independent User",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Create a Yard-Manager         ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/createIndependentUser/createYardManager",
+      },
+      {
+        title: "Create a Client",
+        icon: <TfiTruck />,
+        path: "/createIndependentUser/createAClient",
       },
       
     ],

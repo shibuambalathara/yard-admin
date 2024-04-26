@@ -14,6 +14,12 @@ const Login = () => {
     return classes.filter(Boolean).join(" ");
   }
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+
+  console.log("envVariable",apiUrl);
+  
+
   return (
     <AuthTemplate>
       <div className=" w-96 flex items-center justify-center  z-[10] relative ">

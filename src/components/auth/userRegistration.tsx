@@ -1,8 +1,10 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { FormFieldInput, SelectInput } from "../ui/fromFields";
+import { FormFieldInput, SelectInput,FormFieldPassword } from "../ui/fromFields";
 import { formStyle } from "../ui/style";
+import axiosInstance from "@/utils/axios";
+import { useRouter } from 'next/navigation';
 
 import React from "react";
 import Link from "next/link";
@@ -13,8 +15,11 @@ type Inputs = {
   designation: string;
   role: string;
   password: string;
+  confirmPassword:string;
 };
-const UserSignup = () => {
+const UserRegistration = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -22,17 +27,62 @@ const UserSignup = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const bidStatusOptions = [
-    { label: "Super Admin", value: "super_admin" },
-    { label: "Yard Manager", value: "yard_manager" },
-    { label: "Client Level Super User", value: "client_level_super_user" },
-    { label: "Client Level  User", value: "client_level_user" },
-    { label: "Client Level Sub User", value: "client_level_subsuer" },
+   
+    { label: "Yard Manager", value: "YARD_MANAGER" },
+    
+    { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
+    // { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
+    // { label: "Client Level Super User", value: "CLIENT_LEVEL_SUPER_USER" },
+    // { label: "Super Admin", value: "SUPER_ADMIN" },
+    
   ];
+
+  const password = watch('password');
+  // const onSubmit =async (data) => {
+    
+    
+  //   try {
+  //     console.log("ONSUBMIT", data);
+  //   const {name,email,contact,designation ,role,password}=data
+
+  //   console.log("data from user registration",name,email,contact,designation,role,password);
+  //     const response = await axiosInstance.post('/user/signup', {
+  //       name,email,contact,designation,role,password
+  //     });
+
+      
+  //   } catch (error) {
+  //     console.log(error);
+      
+      
+  //   }
+
+
+  // }
+  const onSubmit = async (data: Inputs) => {
+    try {
+      console.log("ONSUBMIT", data);
+      
+      // Modify the contact number to include "91" prefix
+      const modifiedData = {
+        ...data,
+        contact: `+91${data.contact}`
+      };
+
+      const response = await axiosInstance.post('/user/signup', modifiedData);
+      console.log("Response:", response);
+      router.push('/login');
+
+    } catch (error) {
+      console.error("Error:", error.response);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center border-2 h-screen w-full">
-      <form className={`${formStyle.data}`}>
+    <div className="flex items-center justify-center border-2 h-screen w-full ">
+      <form className={`${formStyle.data} bg-white rounded-md overflow-hidden`} onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full  text-center uppercase font-bold">
-          <h1>Fill the form to Register</h1>
+          <h1>Fill the form to Register </h1>
         </div>
         <FormFieldInput
           label=""
@@ -56,7 +106,7 @@ const UserSignup = () => {
         />
         <FormFieldInput
           label=""
-          type="number"
+          type="text"
           name="contact"
           register={register}
           error={errors.contact}
@@ -81,27 +131,36 @@ const UserSignup = () => {
           options={bidStatusOptions}
           register={register}
           error={errors.role}
+          required
         />
-        <FormFieldInput
+        <FormFieldPassword
           label=""
           type="password"
           name="password"
           register={register}
-          error={errors.password}
+          error={errors} // Pass the error message from useForm hook
           defaultValue=""
           required
           placeholder="Password"
+          isConfirmPassword={false}
+          confirmValue=""
         />
-        <FormFieldInput
+
+        {/* Confirm Password Field */}
+        <FormFieldPassword
           label=""
           type="password"
-          name="confirmpassword"
+          name="confirmPassword"
           register={register}
-          error={errors.password}
+          error={errors} // Pass the error message from useForm hook
           defaultValue=""
           required
           placeholder="Confirm Password"
+          isConfirmPassword={true}
+          confirmValue={password}
         />
+          {/* {errors.confirmPassword && <p className="text-red-500">Passwords do not match</p>} */}
+
         <div className="w-full">
           <button
             type="submit"
@@ -118,4 +177,4 @@ const UserSignup = () => {
   );
 };
 
-export default UserSignup;
+export default UserRegistration;

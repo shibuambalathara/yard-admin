@@ -2,6 +2,7 @@
 import React,{useState} from "react";
 import { FormFieldInputLoginInput } from "../ui/fromFields";
 import { useForm } from "react-hook-form";
+import {resetPasswordForm} from "../ui/style"
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -33,15 +34,17 @@ const ForgetPassword = () => {
   }
 
   return (
-    <div className="flex flex-col  h-full  w-96 border   ">
-      <h1 className=" py-2 uppercase flex items-center justify-center   w-full bg-[#333333] text-center font-semibold  text-white font-roboto">
+    <div className="flex flex-col  h-full  w-full border   ">
+     
+      <div className=" flex justify-center items-center w-full h-full">
+     <div className="bg-white  w-96 rounded-sm overflow-hidden">
+     <h1 className=" py-2 uppercase flex items-center justify-center   w-full bg-[#333333] text-center font-semibold  text-white font-roboto">
         Reset Password
       </h1>
-      <div className="bg-white p-10">
       {mobileMode&& (
         <form
         action=""
-        className="flex flex-col justify-center items-center  space-y-2  w-full mt-2 "
+        className={`${resetPasswordForm.data}`}
         onSubmit=""
       >
         <FormFieldInputLoginInput
@@ -70,7 +73,7 @@ const ForgetPassword = () => {
       {verificationMode && (
         <form
         action=""
-        className="flex flex-col justify-center items-center  space-y-2  w-full mt-2 "
+        className={`${resetPasswordForm.data}`}
         onSubmit=""
       >
         <FormFieldInputLoginInput
@@ -104,7 +107,7 @@ const ForgetPassword = () => {
       {updatePasswordMode && (
         <form
         action=""
-        className="flex flex-col justify-center items-center  space-y-2  w-full mt-2 "
+        className={`${resetPasswordForm.data}`}
         onSubmit=""
       >
         <FormFieldInputLoginInput
@@ -147,6 +150,7 @@ const ForgetPassword = () => {
         </div>
       </form>
       )}
+     </div>
       
       </div>
     </div>

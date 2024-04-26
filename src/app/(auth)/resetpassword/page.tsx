@@ -5,10 +5,10 @@ import React from 'react'
 
 const ResetPassword = () => {
   return (
-    <div>
-        {/* <AuthTemplate  > */}
+    <div className='h-full w-full'>
+        
           <ForgetPassword/>  
-        {/* </AuthTemplate> */}
+        
     </div>
   )
 }

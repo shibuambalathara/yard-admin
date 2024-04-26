@@ -1,11 +1,13 @@
 
+import Image from "next/image";
 import {inputStyle,labelStyle,loginInputStyle} from "../../components/ui/style"
+
 
 export const FormFieldInput = ({ label, type, name, register,defaultValue, error, placeholder, ...rest }) => {
   // console.log('REST FROM FORM', rest);
   
     return (
-      <div className="flex flex-col ">
+      <div className="flex flex-col h-fit ">
        
         <label  className={`${labelStyle.data}`} htmlFor={name}>
           {label}
@@ -20,6 +22,40 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
         />
         
         {error && <p className="text-red-500">{`${label} Required`}</p>}
+      </div>
+    );
+  };
+
+ export  const FormFieldPassword = ({ label, type, name, register, error, defaultValue, required, placeholder, isConfirmPassword, confirmValue }) => {
+  console.log('error',error); 
+  
+  return (
+      <div className="flex flex-col h-fit">
+        <label htmlFor={name}>{label}</label>
+        <input
+          type={type}
+          defaultValue={defaultValue}
+          {...register(name, {
+            required: required,
+            validate: (value) => {
+              // Check if this is the confirm password field and if it matches the password field
+              if (isConfirmPassword && value !== confirmValue) {
+                return 'Passwords do not match';
+              }
+              return true;
+            }
+          })}
+          placeholder={placeholder}
+          className={`${inputStyle.data}`}
+
+        />
+        {/* {error && <p className="text-red-500">{`${label} Required`}</p>} */}
+        {/* {error && <p className="text-red-500">{error}</p>}  */}
+        {error?.confirmPassword?.type == "required" && name=="confirmPassword" &&<p className="text-red-500">{`${label} Required`}</p> }
+        {error?.password?.type == "required" &&name=="password" &&<p className="text-red-500">{`${label} Required`}</p> }
+        {error?.confirmPassword?.type == "validate" && name=="confirmPassword" &&<p className="text-red-500">{`${label} password doest match`}</p> }
+        {/* {error.password.type == "required" &&<p className="text-red-500">{`${label} Required`}</p> } */}
+
       </div>
     );
   };
@@ -124,7 +160,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
 
     export  const ImageMaping= ({images}) => {
       return (
-        <div className="grid grid-cols-2 gap-x-10  gap-y-5 m-2">
+        <div className="grid grid-cols-2 gap-x-6  gap-y-4 m-2">
         {images &&  images?.map((imgs, index) => {
            return (
              <div className=" bg-gray-50 rounded-2xl">
@@ -132,7 +168,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
                <div className="text-center">  <p>Image {index+1}</p></div>
              
     <div className=" flex justify-center">
-    <Image src={imgs} alt={imgs} key={index} className="h-80  text-center" />
+    <Image src={imgs} alt={imgs} key={index} className="h-52  text-center" />
     </div>
               
              </div>
@@ -142,4 +178,13 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
             </div>
       )
     }
-    //
+     
+
+    export const TextArea=({  name,type,defaultValue,error,placeholder, register, ...rest })=>{
+
+      return(
+        <div>
+          <textarea name="" id="" placeholder={placeholder} cols="30" rows="10" className="w-96 h-20 border placeholder:pt-4  placeholder:text-center placeholder:my-auto"></textarea>
+        </div>
+      )
+    }

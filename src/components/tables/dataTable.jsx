@@ -67,7 +67,7 @@ const DataTable = ({ data, columns }) => {
         </div> */}
         <div className="mt-2 ring-1 w-full h-96 ring-gray-300 rounded-lg overflow-auto  ">
           <table className="min-w-full divide-y divide-gray-300 relative ">
-            <thead className="bg-blue-800 rounded-lg ">
+            <thead className="bg-gray-700 rounded-lg ">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr className="divide-x divide-gray-500" key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
@@ -155,8 +155,8 @@ const DataTable = ({ data, columns }) => {
             <button
               className={`${buttonStyle.data}  ${
                 !table.getCanPreviousPage()
-                  ? "bg-blue-100 text-black"
-                  : " bg-blue-800"
+                  ? "bg-stone-100 text-black"
+                  : " bg-gray-700"
               }`}
               onClick={() => table.setPageIndex(0)}
             >
@@ -167,8 +167,8 @@ const DataTable = ({ data, columns }) => {
               onClick={() => table.previousPage()}
               className={`${buttonStyle.data}  ${
                 !table.getCanPreviousPage()
-                  ? "bg-blue-100 text-black"
-                  : " bg-blue-800"
+                  ? "bg-stone-100 text-black"
+                  : " bg-gray-700"
               }`}
             >
               Previous page
@@ -178,15 +178,15 @@ const DataTable = ({ data, columns }) => {
               onClick={() => table.nextPage()}
               className={`${buttonStyle.data}  ${
                 !table.getCanNextPage()
-                  ? "bg-blue-100 text-black "
-                  : " bg-blue-800"
+                  ? "bg-gray-100 text-black "
+                  : " bg-gray-700"
               }`}
             >
               Next page {}
             </button>
             <button
               className={`${buttonStyle.data}  ${
-                !table.getCanNextPage() ? "bg-blue-100 " : " bg-blue-800"
+                !table.getCanNextPage() ? "bg-stone-100 " : " bg-gray-700"
               }`}
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}

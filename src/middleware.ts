@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  console.log('PATHNAME',pathname);
+  console.log('PATHNAME',request);
   
 
    console.log("This message is coming from MIDDLEWARE ");
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 
   let token = request.cookies.get('authToken')?.value // retrieve the token
 
-  console.log("TOKEN", token);
+  console.log("TOKEN  FROM MIDDLEWARE", token);
   
   // let token = true// retrieve the token
   const allowedRoutes = ['/login', '/register','/resetpassword'] // list of allowed paths user can visit without the token

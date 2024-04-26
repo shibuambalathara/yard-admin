@@ -1,10 +1,11 @@
 import React from 'react'
-import UsersignUp from "@/components/auth/signUp";
+import UserRegistration from "@/components/auth/userRegistration";
 
 const SignUp = () => {
   return (
-    <div><UsersignUp/></div>
+    <div><UserRegistration/></div>
   )
 }
 
 export default SignUp
+

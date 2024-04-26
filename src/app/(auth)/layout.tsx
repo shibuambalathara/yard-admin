@@ -4,9 +4,11 @@ import { cookies } from "next/headers";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import SideBar from "@/components/sidebar/sidebar";
+import yms from "../../../public/yard managment system.jpg";
 
 import { useRouter } from "next/navigation";
 import "../globals.css";
+import Image from "next/image";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,8 +53,20 @@ export default async function RootLayout({
     <html lang="en">
       <head></head>
 
-      <body className={`${roboto_init.variable} ${Poppins_init.variable}`}>
+      <body className={`${roboto_init.variable} ${Poppins_init.variable} h-screen `}>
+        <div className="relative w-full h-full ">
+        <div className="w-full h-full absolute z-[-1]  ">
+          <Image
+            src={yms}
+            alt="key"
+            objectFit="cover"
+            layout="fill"
+            quality={100}
+            className="bg-opacity-50 "
+          />
+        </div>
         {children}
+        </div>
       </body>
     </html>
   );
