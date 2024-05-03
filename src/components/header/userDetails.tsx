@@ -17,8 +17,8 @@ const UserDetails = () => {
     const userName = user&& user.name 
     const userRole = user && user.role 
 
-    console.log("User from useAuthStore():", userName);
-    console.log("Type of user from useAuthStore():", userRole);
+    // console.log("User from useAuthStore():", userName);
+    // console.log("Type of user from useAuthStore():", userRole);
    
 // useEffect(()=>{
 //   const userName = localStorage.getItem('user');
@@ -30,7 +30,7 @@ const UserDetails = () => {
 
   
 const handleLogout = async () => {
-  console.log("Entered in logout function");
+  // console.log("Entered in logout function");
 
   // Remove the authentication cookie
   Cookies.remove('authToken');
@@ -38,7 +38,7 @@ const handleLogout = async () => {
   // Call logout function from useAuthStore to clear the state and persisted data
   useAuthStore.getState().logout();
 
-  console.log("Finished in logout function");
+  // console.log("Finished in logout function");
   
   // Redirect to the login page
   router.push('/login');

@@ -70,7 +70,7 @@ const WavierManageRequest = () => {
 
   const handleSubmit = () => {
     const selectedData = dataList.filter((list) => selectedLists.includes(list.id));
-    console.log("Submitted Data:", selectedData);
+    // console.log("Submitted Data:", selectedData);
     // Perform further operations such as sending data to a server or processing data.
   };
   return (

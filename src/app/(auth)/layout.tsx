@@ -5,7 +5,7 @@ import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import SideBar from "@/components/sidebar/sidebar";
 import yms from "../../../public/yard managment system.jpg";
-
+import {Toaster} from "react-hot-toast"
 import { useRouter } from "next/navigation";
 import "../globals.css";
 import Image from "next/image";
@@ -66,6 +66,7 @@ export default async function RootLayout({
           />
         </div>
         {children}
+        <Toaster/>
         </div>
       </body>
     </html>

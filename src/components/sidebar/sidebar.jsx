@@ -17,7 +17,7 @@ const SideBar = () => {
  
   const token = useAuthStore.getState().token; // Get token from the Zustand auth store
 
-console.log("Token form sidebar",token);
+// console.log("Token form sidebar",token);
 
   const selectSidebarData = () => {
     switch (userRole) {

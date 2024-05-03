@@ -31,7 +31,7 @@ const CreateUser = () => {
   ];
 
   const onSubmit = (data) => {
-    console.log("ONSUBMIT", data);
+    // console.log("ONSUBMIT", data);
   }
 
   return (

@@ -71,7 +71,7 @@ const DataTable = ({ data, columns }) => {
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr className="divide-x divide-gray-500" key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
-                    console.log("from inside ", table.getCanNextPage());
+                    // console.log("from inside ", table.getCanNextPage());
 
                     return (
                       // <th
@@ -220,7 +220,7 @@ const DataTable = ({ data, columns }) => {
                 table.setPageSize(Number(e.target.value));
               }}
             >
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[7, 10, 30, 40, 50].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>

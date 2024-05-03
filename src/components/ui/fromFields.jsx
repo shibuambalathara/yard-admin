@@ -27,7 +27,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
   };
 
  export  const FormFieldPassword = ({ label, type, name, register, error, defaultValue, required, placeholder, isConfirmPassword, confirmValue }) => {
-  console.log('error',error); 
+  // console.log('error',error); 
   
   return (
       <div className="flex flex-col h-fit">

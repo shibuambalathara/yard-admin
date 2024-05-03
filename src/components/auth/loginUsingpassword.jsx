@@ -46,7 +46,7 @@ const LogInPassword = () => {
   // console.log("register",registering);
   const handleLogin = async(data) => {
     try {
-      console.log("handleLogin", data);
+      // console.log("handleLogin", data);
   
       const { email, password } = data; // Extract email and password from form data
   
@@ -56,7 +56,7 @@ const LogInPassword = () => {
         password: password
       });
       
-      console.log('User FROM API RESPONSE', response.data);
+      // console.log('User FROM API RESPONSE', response.data);
   
       // If API call is successful, register user, set token, and redirect
       const user = {
@@ -65,8 +65,9 @@ const LogInPassword = () => {
         role: response.data.user.role
       };
       const authToken = response.data.user.accessToken;
-      console.log("TOKEN FROM API RESPONSE",authToken);
+      // console.log("TOKEN FROM API RESPONSE",authToken);
       const role = response.data.user.role;
+      localStorage.setItem('token',authToken)
       registering(user, authToken, role);
       Cookies.set('authToken', authToken);
       setSuccess({

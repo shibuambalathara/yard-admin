@@ -4,10 +4,10 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  console.log('PATHNAME',request);
+  // console.log('PATHNAME',request);
   
 
-   console.log("This message is coming from MIDDLEWARE ");
+  //  console.log("This message is coming from MIDDLEWARE ");
 
   /* ignore routes starting with api and _next (temp solution)
     matchers in next.config isn't working
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 
   let token = request.cookies.get('authToken')?.value // retrieve the token
 
-  console.log("TOKEN  FROM MIDDLEWARE", token);
+  // console.log("TOKEN  FROM MIDDLEWARE", token);
   
   // let token = true// retrieve the token
   const allowedRoutes = ['/login', '/register','/resetpassword'] // list of allowed paths user can visit without the token

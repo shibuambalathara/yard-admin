@@ -19,7 +19,7 @@ const LoginUsingOtp = () => {
       const registering = useAuthStore((state) => state.register);
       // console.log("register",registering);
       const handleLogin = () => {
-        console.log("handleLogin from otp compoennt");
+        // console.log("handleLogin from otp compoennt");
         const user = {
           name: "prince",
           email: "prince@example.com", // Provide an appropriate email
@@ -30,7 +30,7 @@ const LoginUsingOtp = () => {
         const role="admin"
         registering(user,role);
         Cookies.set('authToken', authToken, { expires: 7 });
-        console.log("ablljflajsdf");
+        // console.log("ablljflajsdf");
       //   if(!!authToken)
         router.push('/');
         
