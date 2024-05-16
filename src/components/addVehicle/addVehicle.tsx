@@ -159,6 +159,7 @@ const AddVehicleComponent = () => {
           options=""
           register={register}
           error={errors.role}
+          data=""
         />
          <FormFieldInput
           label="Contract  No"

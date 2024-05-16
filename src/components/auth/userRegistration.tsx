@@ -136,8 +136,9 @@ const UserRegistration = () => {
           defaultValue="Select  Role"
           options={bidStatusOptions}
           register={register}
-          error={errors.role}
+          error={errors.role}                             
           required
+          data=""
         />
         <FormFieldPassword
           label=""

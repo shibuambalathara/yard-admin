@@ -71,7 +71,7 @@ const CreateUser = () => {
           placeholder=""
         />
         
-        <SelectInput
+        {/* <SelectInput
           label="Role"
           name="role"
           defaultValue="Select  Role"
@@ -79,7 +79,7 @@ const CreateUser = () => {
           register={register}
           error={errors.role}
           required
-        />
+        /> */}
 
 
 <FormFieldInput

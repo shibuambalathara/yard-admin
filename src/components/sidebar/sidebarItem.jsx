@@ -27,6 +27,10 @@ const SidebarItem = ({ item }) => {
     }
   };
 
+  const handleClick=()=>{
+console.log("button clikced");
+  }
+
   return (
     <div
       className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
@@ -56,9 +60,11 @@ const SidebarItem = ({ item }) => {
                 className={`${!open && "hidden"} transition-all duration-300`}
               >
                 {menu.path ? (
-                  <Link className={`${!open && `hidden`}`} href={menu.path}>
+                  <div onClick={handleClick}> 
+                    <Link className={`${!open && `hidden`}`} href={menu.path}>
                     {menu.title}
                   </Link>
+                  </div>
                 ) : (
                   <span>{menu.title}</span>
                 )}

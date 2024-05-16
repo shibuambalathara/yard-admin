@@ -1,409 +1,232 @@
-// import React from 'react'
-
-// const ViewFullProfile = ({profileId}) => {
-//   return (
-//     <>
-//     <div>viewFullProfile form profile component{profileId.profileId}</div>
-//     <div>
-        
-//     </div>
-//     </>
-//   )
-// }
-
-// export default ViewFullProfile
-
-"use client"
-import React from 'react'
+"use client";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FormFieldInput, SelectInput,ImageMaping } from '../../ui/fromFields';
+import {
+  FormFieldInput,
+  SelectInput,
+  ImageMaping,
+  TextArea,
+} from "../../ui/fromFields";
 import { formStyle } from "../../ui/style";
-import Link from 'next/link';
-import img1 from "../../../../public/aadhar.jpg"
-import img2 from "../../../../public/aadhar.jpg"
-import img3 from "../../../../public/aadhar.jpg"
-import img4 from "../../../../public/aadhar.jpg"
+import Link from "next/link";
+import img1 from "../../../../public/aadhar.jpg";
+import img2 from "../../../../public/aadhar.jpg";
+import img3 from "../../../../public/aadhar.jpg";
+import img4 from "../../../../public/aadhar.jpg";
+import axiosInstance from "@/utils/axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 type Inputs = {
-    vehicleCategory: string;
-    clientUserCategory: string;
-    ClientUserDropDown: number;
-    parkfee: string;
-  
+  name: string;
+  email: string;
+  contact: number;
+  role: string;
+  accountVerification: string; // Assuming accountVerification is a string
+  validFrom: Date;
+  validTo: Date;
+  rejectionComment: string;
+  document: {
+    type: string;
+    name: string;
+    image: string;
   };
-  const images = [img1, img2, img3]; // Array containing imported images
+};
+const images = [img1, img2, img3]; // Array containing imported images
 
-const ViewFullProfile = ({profileId}) => {
+const ViewFullProfile = ({ profileId }) => {
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
+  const [userData, setUserData] = useState(null); // State to store fetched user data
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue
+  } = useForm<Inputs>();
 
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm<Inputs>();
 
-    const bidStatusOptions = [
-        { label: "Super Admin", value: "super_admin" },
-        { label: "Yard Manager", value: "yard_manager" },
-        { label: "Client Level Super User", value: "client_level_super_user" },
-        { label: "Client Level  User", value: "client_level_user" },
-        { label: "Client Level Sub User", value: "client_level_subsuer" },
-      ];
-
-      const handleParkFee=()=>{
-
-      }
-    return (
-        // <div className="flex flex-col items-center justify-center border-2 border-green-800 p-6 h-full   w-full ">
-        //     <div className='border-2 h-full w-full p-4 overflow-y-scroll'>
-        //     <div className="w-full  text-center uppercase font-bold">
-        //       <h1>Add Park Fee</h1>
-        //     </div>
-        //        <form className=" h-full   grid   grid-cols-2   gap-y-2 gap-x-2  ">
-
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //     <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-        //          <FormFieldInput
-        //       label=""
-        //       type="number"
-        //       name="parkfee"
-        //       register={register}
-        //       error={errors.parkfee}
-        //       defaultValue=""
-        //       required
-        //       placeholder="Park Fee Per Day"
-        //     />
-            
-        //     <div className="w-full col-span-2 flex justify-between border">
-        //       <button
-        //         type="submit"
-        //         className="bg-[#333333] text-white px-4 py-1 w-60"
-        //       >
-        //         Submit
-        //       </button>
-        //       <button
-        //         type="submit"
-        //         className="bg-[#333333] text-white px-4 py-1 w-60"
-        //       >
-        //         Submit
-        //       </button>
-        //     </div>
-            
-        //   </form>
-        //     </div>
-        // </div>
-<div className='  h-full w-full p-6'>
-<h1 className='w-full uppercase border text-center text-lg font-semibold'>Profile {profileId.profileId}</h1>
-<div  className='  w-full '>
-    <form action="" className="border scrollbar-hide grid grid-cols-2 w-full  h-[600px] content-start gap-y-8 overflow-y-scroll  p-4 justify-items-center">
-    <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park Fee Per Day"
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park Fee Per Day"
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park Fee Per Day"
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park Fee Per Day"
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-            <FormFieldInput
-              label=""
-              type="number"
-              name="parkfee"
-              register={register}
-              error={errors.parkfee}
-              defaultValue=""
-              required
-              placeholder="Park "
-            />
-           <div className='col-span-2 '> <ImageMaping images={images}/></div>
-            <div className="w-full col-span-2 flex justify-between ">
-               <button
-                type="submit"
-                className="bg-[#333333] text-white px-4 py-1 w-60"
-              >
-                Approve
-              </button>
-              <button
-                type="submit"
-                className="bg-[#333333] text-white px-4 py-1 w-60"
-              >
-                Reject
-              </button>
-            </div>
-            
-    </form>
-</div>
-</div>
-
+  useEffect(() => {
+    if (success) {
+      toast.success(success.text ? success.text : "Success");
+      setTimeout(() => {
+        setSuccess(null);
+      }, 2000);
+    }
+    if (error) {
+      toast.error(
+        error.text ? error.text : "Something went wrong. Please contact support"
       );
-}
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+    }
+  }, [success, error]);
+  console.log("profileid", profileId);
 
-export default ViewFullProfile
+  const FetchUserDate = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `http://13.232.152.20/api/v1/yms/account/user/${profileId.profileId}`
+      );
+      console.log("RESPONSE FROM VEIW SINGLEUSER", response);
+      setUserData(response.data.user);
+
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  useEffect(() => {
+    FetchUserDate();
+  }, []);
+
+  // useEffect(() => {
+  //   if (userData) {
+  //     // Set default values for each form field
+  //     setValue("name", userData.name);
+  //     setValue("email", userData.email);
+  //     setValue("contact", userData.contact);
+  //     setValue("role", userData.role);
+  //     setValue("accountVerification", userData.accountVerification);
+  //     setValue("validFrom", userData.accountValidFrom);
+  //     setValue("validTo", userData.accountValidTo);
+  //     setValue("rejectionComment", userData.rejectionComment);
+  //     // Handle setting default value for document if available
+  //     if (userData.documents && userData.documents.length > 0) {
+  //       setValue("document", {
+  //         type: userData.documents[0].type,
+  //         name: userData.documents[0].name,
+  //         image: userData.documents[0].image,
+  //       });
+  //     }
+  //   }
+  // }, [userData, setValue]);
+
+  const AccountStatus=[
+    {label:"Approved",value:"APPROVED"},
+    {label:"Rejected",value:"REJECTED"}
+  ]
+
+  const onSubmit = (data: Inputs) => {
+    // Handle form submission
+  };
+
+  return (
+    <div className="  h-full w-full p-6">
+      <h1 className="w-full uppercase border text-center text-lg font-semibold">
+         {userData?.name}
+      </h1>
+      <div className="  w-full ">
+        <form
+          action=""
+          className="border scrollbar-hide grid grid-cols-2 w-full  h-[600px] content-start gap-y-8 overflow-y-scroll  p-4 justify-items-center"
+        >
+          <FormFieldInput
+            label="Name"
+            type="text"
+            name="name"
+            register={register}
+            error={errors.name}
+            defaultValue={userData?.name}
+            required
+            placeholder=""
+          />
+          <FormFieldInput
+            label="Email"
+            type="email"
+            name="email"
+            register={register}
+            error={errors.email}
+            defaultValue={userData?.email}
+            required
+            placeholder=" "
+          />
+          <FormFieldInput
+            label="Contact"
+            type="number"
+            name="contact"
+            register={register}
+            error={errors.contact}
+            defaultValue={parseInt(userData?.contact)}
+            required
+            placeholder=" "
+          />
+          <FormFieldInput
+            label="Role"
+            type="string"
+            name="role"
+            register={register}
+            error={errors.role}
+            defaultValue={userData?.role}
+            required
+            placeholder=" "
+          />
+          <SelectInput
+            label="Account Verification"
+            options={AccountStatus}
+            name="accountVerification"
+            register={register}
+            error={errors.accountVerification}
+            defaultValue=""
+            required
+            placeholder="Park "
+            data={userData?.accountVerification}
+          />
+          <FormFieldInput
+            label="Valid From"
+            type="date"
+            name="validFrom"
+            register={register}
+            error={errors.validFrom}
+            defaultValue=""
+            required
+            placeholder="Park Fee Per Day"
+          />
+          <FormFieldInput
+            label="valid To"
+            type="date"
+            name="validTo"
+            register={register}
+            error={errors.validTo}
+            defaultValue=""
+            required
+            placeholder=" "
+          />
+          <TextArea
+            label="Rejection Comment"
+            type="number"
+            name="rejectionComment"
+            register={register}
+            error={errors.rejectionComment}
+            defaultValue=""
+            required
+            placeholder="Rejection Reason "
+          />
+
+          <div className="col-span-2 ">
+            {" "}
+            <ImageMaping images={images} />
+          </div>
+          <div className="w-full col-span-2 flex justify-between ">
+            <button
+              type="submit"
+              className="bg-[#333333] text-white px-4 py-1 w-60"
+            >
+              Approve
+            </button>
+            <button
+              type="submit"
+              className="bg-[#333333] text-white px-4 py-1 w-60"
+            >
+              Reject
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ViewFullProfile;

@@ -6,6 +6,7 @@ import useAuthStore from '@/store/useAuthStore';
 const axiosInstance = axios.create({
 //   baseURL: 'https://your-api-base-url.com/', // Replace with your API base URL
   baseURL: 'http://13.232.152.20/api/v1/yms/',
+  // baseURL: 'http://localhost:7000',
   headers: {
     'Content-Type': 'application/json', // Default headers
   }, // Replace with your API base URL

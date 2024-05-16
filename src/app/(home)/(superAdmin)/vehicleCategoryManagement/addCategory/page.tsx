@@ -1,4 +1,4 @@
-import Addcategory from '@/components/superAdmin/addCategory'
+import Addcategory from '@/components/superAdmin/vehicleCategoryManagement/addCategory'
 import React from 'react'
 
 const AddCategory = () => {

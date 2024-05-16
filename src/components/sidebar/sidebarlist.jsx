@@ -235,17 +235,18 @@ export const super_admin = [
     {
         title: "Client Category Management ",
         icon: <FaUsers />,
-      submenu: true,
-      submenuItems: [
-        {
-            title: "Manage Category ",
-            icon: <MdManageHistory />,
-            path: "/",
-          },
+        path:"/clientCategoryManagement",
+      // submenu: true,
+      // submenuItems: [
+      //   {
+      //       title: "Manage Category ",
+      //       icon: <MdManageHistory />,
+      //       path: "/",
+      //     },
     
   
         
-      ],
+      // ],
     },
    
     {

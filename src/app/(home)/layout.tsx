@@ -7,6 +7,8 @@ import SideBar from "@/components/sidebar/sidebar";
 import Login from "../(auth)/login/page";
 import { useRouter } from "next/navigation";
 import "../globals.css";
+import {Toaster} from "react-hot-toast"
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,7 +58,10 @@ export default async function RootLayout({
           <Header />
           <div className="flex flex-1 h-full">
             <SideBar />
-            <div className="flex-1 h-full">{children}</div>
+            <div className="flex-1 h-full">
+              {children}
+              <Toaster/>
+              </div>
           </div>
         </div>
       </body>
