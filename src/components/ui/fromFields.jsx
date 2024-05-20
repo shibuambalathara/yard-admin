@@ -16,7 +16,7 @@ export const FormFieldInput = ({
   
   ...rest
 }) => {
-  console.log('defaultValue', defaultValue);
+  // console.log('defaultValue', defaultValue);
 
   return (
     <div className="flex flex-col h-fit ">
@@ -185,7 +185,7 @@ export const SelectInput = ({
   
   ...rest
 }) => {
-  console.log("options", options);
+  // console.log("options", options);
   return (
     <div className="flex flex-col">
       <label htmlFor={name} className={`${labelStyle.data}`}>
@@ -250,7 +250,7 @@ export const TextArea = ({
   ...rest
 }) => {
 
-  console.log('default value frm textare',defaultValue);
+  // console.log('default value frm textare',defaultValue);
   return (
     <div className="flex flex-col ">
       <label htmlFor={name} className={`${labelStyle.data}`}>

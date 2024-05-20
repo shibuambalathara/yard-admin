@@ -37,30 +37,13 @@ const[page,setPage]=useState(1)
 // };
 // console.log("page",page)
 
-const fetchData = () => {
-  const logTime = () => {
-    return new Date().getTime();
-  };
-
-  console.log("account verification page mounted");
-  
-
-  const startTime = logTime();
-  console.log('hit 1', new Date(startTime).toLocaleTimeString());
-  
-  axiosInstance
-    .get(`/account/users?page=${page}&limit=10&accountVerification=${statusFilter}&role=${roleFilter}`)
-    .then(response => {
-      const endTime = logTime();
-      const timeDifference = (endTime - startTime) / 1000; // Convert milliseconds to seconds
-      console.log('hit 2', new Date(endTime).toLocaleTimeString());
-      console.log('Time difference between hit 1 and hit 2: in account page', timeDifference, 'seconds');
-      setFilteredData(response.data);
-    })
-    .catch(error => {
-      console.log('hit 3', logTime());
-      console.error("Error fetching data:", error);
-    });
+const fetchData = async () => {
+  try {
+    const response = await axiosInstance.get(`/account/users?page=${page}&limit=10&accountVerification=${statusFilter}&role=${roleFilter}`);
+    setFilteredData(response.data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 };
 
 

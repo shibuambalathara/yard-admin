@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  console.log('PATHNAME',request);
+  // console.log('PATHNAME',request);
   
 
   //  console.log("This message is coming from MIDDLEWARE ");

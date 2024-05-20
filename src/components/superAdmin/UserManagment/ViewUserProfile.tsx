@@ -10,10 +10,10 @@ import img3 from "../../../../public/aadhar.jpg";
 import img4 from "../../../../public/aadhar.jpg";
 import Image from "next/image";
 type Inputs = {
-  vehicleCategory: string;
-  clientUserCategory: string;
-  ClientUserDropDown: number;
-  parkfee: string;
+  name: string;
+  email: string;
+  contact: number;
+  code: string;
 };
 const images = [img1, img2, img3]; // Array containing imported images
 
@@ -31,6 +31,12 @@ const ViewFullUserProfile = ({ profileId }) => {
    
   ];
 
+  const userIdProofTypes = [
+    { label: "Aadhar ", value: "AADHAR" },
+    { label: "Pancard ", value: "PANCARD" },
+
+  ];
+
   const handleParkFee = () => {};
   return (
     <div className="  h-full w-full p-6">
@@ -38,7 +44,7 @@ const ViewFullUserProfile = ({ profileId }) => {
         Profile{" "}
       </h1>
       <div className="  w-full ">
-        <form
+        {/* <form
           action=""
           className="border scrollbar-hide grid grid-cols-2 w-full  h-[600px] content-start gap-y-8 overflow-y-scroll  p-4 justify-items-center"
         >
@@ -63,9 +69,9 @@ const ViewFullUserProfile = ({ profileId }) => {
             placeholder="Park "
           />
           <FormFieldInput
-            label="Contact"
-            type="number"
-            name="contact"
+            label="Role"
+            type="text"
+            name="Role"
             register={register}
             error={errors.parkfee}
             defaultValue=""
@@ -175,7 +181,7 @@ const ViewFullUserProfile = ({ profileId }) => {
               Reject
             </button>
           </div>
-        </form>
+        </form> */}
       </div>
     </div>
   );

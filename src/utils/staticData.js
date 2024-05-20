@@ -14,7 +14,7 @@ export const bidStatusOptions = [
 ];
 
 export const Role = [
-  { label: "Super Admin", value: "  SUPER_ADMIN" },
+  { label: "Super Admin", value: "SUPER_ADMIN" },
   { label: "Yard Manager", value: "YARD_MANAGER" },
   { label: "Client Level Super User", value: "CLIENT_LEVEL_SUPER_USER" },
   { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
@@ -45,3 +45,9 @@ export const clientUserCategory=[
 export const ClientUserDropDown=[{ label: "userone", value: "userone" },
 { label: "usertwo", value: "usertwo" },
 { label: "userThree", value: "userThree" },]
+
+export const documentType=[
+  
+  {label:"Aadhar",value:"AADHAR"},
+  {label:"Pancard",value:"PANCARD"},
+]
