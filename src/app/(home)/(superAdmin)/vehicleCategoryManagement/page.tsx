@@ -8,6 +8,7 @@ import Link from 'next/link';
 import axiosInstance from '@/utils/axios'
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import Addcategory from "@/components/superAdmin/vehicleCategoryManagement/addCategory"
 
 const VehicleCategoryManagement = () => {
 
@@ -16,6 +17,7 @@ const VehicleCategoryManagement = () => {
   const [error, setError] = useState(null);
   const [page,setpage]=useState(1)
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
   // console.log("vehicle category managgemtne page mounted");
 
   useEffect(() => {
@@ -72,7 +74,14 @@ const fetchData = () => {
 };
 
 
-// console.log('useState from veh-cat',category);
+const handleModalOpen = () => {
+  setModalOpen(true);
+};
+
+const handleModalClose = () => {
+  setModalOpen(false);
+};
+
 
 
   useEffect(()=>{
@@ -100,10 +109,16 @@ const fetchData = () => {
   return (
     <div className='w-full p-2 '>
         <h1 className='text-center font-roboto text-lg font-bold py-4 uppercase'>Manage Vehcile Category</h1>
-        <div className=" w-36  flex flex-col text-center space-y-2  mx-4">
-          <Link href="/vehicleCategoryManagement/addCategory" className="bg-gray-700 text-white px-4 py-1 ml-3 rounded-md "
->Add Category</Link>
-          </div>  
+        <div className="text-end mx-4 ">
+        
+          <button
+            onClick={handleModalOpen}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Add Category
+          </button>
+          {modalOpen && <Addcategory onClose={handleModalClose} />}
+        </div> 
         <div>
       {category &&<DataTable data={category} columns={categoryColumn} />}  
         </div>

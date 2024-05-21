@@ -7,9 +7,10 @@ import axiosInstance from "@/utils/axios";
 import Link from "next/link";
 import DataTableid from "@/components/idAcess/idAccess";
 import Pagination from "@/components/pagination/pagination";
-
+import Addcategory from "@/components/clientCategoryManagement/AddClientCategory"
  const ClientCategoryManagement = () => {
 const [clientData, setClientData] = useState(null);
+const [modalOpen, setModalOpen] = useState(false);
 
  
 
@@ -53,19 +54,30 @@ const [clientData, setClientData] = useState(null);
     []
   );
 
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+  
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  
+
   return (
     <div className="w-full p-2 ">
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
         Manage Client Category
       </h1>
-      <div className=" w-36  flex flex-col text-center space-y-2  mx-4">
-        <Link
-          href="/vehicleCategoryManagement/addCategory"
-          className="bg-gray-700 text-white px-4 py-1 ml-3 rounded-md "
-        >
-          Add Client
-        </Link>
-      </div>
+      <div className="text-end mx-4 ">
+        
+          <button
+            onClick={handleModalOpen}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Add Client
+          </button>
+          {modalOpen && <Addcategory onClose={handleModalClose} />}
+        </div> 
       <div>
         {clientData && <DataTable data={clientData} columns={ClientColumn} />}
       </div>

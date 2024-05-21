@@ -1,7 +1,7 @@
 "use client"
 import { useForm } from "react-hook-form";
 import { useState,useEffect } from "react";
-import { Role, documentType } from "../../utils/staticData";
+import { Role, DocumentType } from "../../../utils/staticData";
 import { FormFieldInput, SelectInput } from "@/components/ui/fromFields";
 import React from "react";
 import axiosInstance from "@/utils/axios";
@@ -25,6 +25,7 @@ const [success, setSuccess] = useState(null);
     account_usage_to: string;
     document_type: string;
     document_value: string;
+    document_name:string
   };
   const {
     register,
@@ -227,9 +228,22 @@ console.log("document value00",typeof(fileName))
           />
         </div>
         <div className="mb-">
+          <FormFieldInput
+            label="Document Name"
+            type="text"
+            name="document_name"
+            register={register}
+            error={errors.account_usage_to}
+            required
+            placeholder=""
+            defaultValue=""
+
+          />
+        </div>
+        <div className="mb-">
           <SelectInput
             label="Document Type"
-            options={documentType}
+            options={DocumentType}
             name="document_type"
             register={register}
             error={errors.document_type}

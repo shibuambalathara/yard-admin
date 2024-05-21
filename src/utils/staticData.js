@@ -46,7 +46,7 @@ export const ClientUserDropDown=[{ label: "userone", value: "userone" },
 { label: "usertwo", value: "usertwo" },
 { label: "userThree", value: "userThree" },]
 
-export const documentType=[
+export const DocumentType=[
   
   {label:"Aadhar",value:"AADHAR"},
   {label:"Pancard",value:"PANCARD"},

@@ -90,57 +90,62 @@ const fetchData = async () => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Account Verification Request
       </h1>
-      <div className="w-1/2 border flex text-center space-y-2 mx-4">
-        <div className="flex flex-col">
-          <label
-            htmlFor="bid-status"
-            className="font-roboto font-semibold text-lg"
-          >
-            Select by Role
-          </label>
-          <select
-            id="bid-status"
-            className="px-2 py-1 border-2"
-            onChange={(e) => setRoleFilter(e.target.value)}
-          >
-            <option disabled value="">
-              select a client
-            </option>
-            {Role.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex flex-col">
-          <label
-            htmlFor="bid-status"
-            className="font-roboto font-semibold text-lg"
-          >
-            Select by Status
-          </label>
-          <select
-            id="bid-status"
-            className="px-2 py-1 border-2"
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option disabled value="">
-              select Status
-            </option>
-            {AccountStatus.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
+
+      <div className="w-1/2 space-x-4 flex text-center  mx-4 items-center  ">
+
+      <div className="flex flex-col space-y-2 w-1/2">
+    <label
+      htmlFor="role-select"
+      className="font-roboto font-semibold text-lg text-gray-700"
+    >
+      Role
+    </label>
+    <select
+      id="role-select"
+      className="px-3 py-2 rounded-md shadow-sm focus:outline-none  border"
+      onChange={(e) => setRoleFilter(e.target.value)}
+    >
+      <option disabled value="">
+        Select a role
+      </option>
+      {Role.map((option, index) => (
+        <option key={index} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  <div className="flex flex-col space-y-2 w-1/2">
+    <label
+      htmlFor="status-select"
+      className="font-roboto font-semibold text-lg text-gray-700"
+    >
+       Status
+    </label>
+    <select
+      id="status-select"
+      className="px-3 py-2 rounded-md shadow-sm focus:outline-none  border"
+      onChange={(e) => setStatusFilter(e.target.value)}
+    >
+      <option disabled value="">
+        Select a status
+      </option>
+      {AccountStatus.map((option, index) => (
+        <option key={index} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  </div>
       </div>
+
+
       <div className="flex flex-col">
         <DataTable data={UsersData} columns={UsersColumn} />
       <div className=" w-full text-center">  
-{/* { filteredData?.data?.totalCount   &&    <Pagination page={page} setPage={setPage} totalDataCount={filteredData?.data?.totalCount} />
-}       */}
+{ filteredData?.data?.totalCount   &&    <Pagination page={page} setPage={setPage} totalDataCount={filteredData?.data?.totalCount} />
+}       
   </div>
       </div>
     </div>
