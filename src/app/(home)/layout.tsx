@@ -8,6 +8,7 @@ import Login from "../(auth)/login/page";
 import { useRouter } from "next/navigation";
 import "../globals.css";
 import { Toaster } from "react-hot-toast";
+import ToastProvider from "@/utils/ToastProvider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -60,8 +61,11 @@ export default async function RootLayout({
           <div className="flex flex-1 h-full">
             <SideBar />
             <div className="flex-1 min-h-full">
+              <ToastProvider>
               {children}
-              <Toaster />
+              </ToastProvider>
+            
+              
             </div>
           </div>
         </div>

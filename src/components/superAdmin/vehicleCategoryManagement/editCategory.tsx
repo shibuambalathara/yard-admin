@@ -1,27 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  FormFieldInput,
- 
-  TextArea,
-} from "../../ui/fromFields";
+import { FormFieldInput, TextArea } from "../../ui/fromFields";
 import { formStyle } from "../../ui/style";
 
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Loading from "@/app/(home)/(superAdmin)/loading";
 
 type Inputs = {
   name: string;
   description: string;
-  
 };
 
 const ViewVehicleCategory = ({ categoryId }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
+
   const {
     register,
     handleSubmit,
@@ -30,7 +28,7 @@ const ViewVehicleCategory = ({ categoryId }) => {
     setValue,
     reset,
   } = useForm<Inputs>();
-const router=useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (success) {
@@ -48,64 +46,70 @@ const router=useRouter()
       }, 2000);
     }
   }, [success, error]);
-  // console.log("categoryId", categoryId);
 
   const FetchVehicleCategory = async () => {
+    setIsLoading(true);
     try {
-        const response = await axiosInstance.get(`/vehicle/cat/${categoryId?.categoryId}`);
-
-      
-      // console.log("RESPONSE FOR INDIVIDAULA VEHCAT", response);
+      const response = await axiosInstance.get(`/vehicle/cat/${categoryId?.categoryId}`);
+      console.log("RESPONSE FOR INDIVIDUAL VEHCAT", response);
       setCategoryData(response?.data?.vehicleCategory);
-reset(response?.data?.vehicleCategory)
+      reset(response?.data?.vehicleCategory);
+      setSuccess({
+        text: response?.data?.message,
+      });
     } catch (error) {
-      // console.log("error", error);
+      console.log("error", error);
+      toast.error(error?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  // console.log('456',categoryData);
-  
 
   useEffect(() => {
     FetchVehicleCategory();
   }, []);
 
-  const EditVehilceCategory = async(data: Inputs) => {
+  const EditVehilceCategory = async (data: Inputs) => {
+    setIsLoading(true);
+    console.log("Data on submit", data);
 
-    console.log("Data on submit",data);
-    
     try {
-        const modifiedData={
-            
-            name:data?.name.toUpperCase(),
-            description:data?.description
-        }
-     
-      const response = await axiosInstance.put(`/vehicle/cat/edit/${categoryId?.categoryId}`, modifiedData);
-      console.log("Response:", response);
+      const modifiedData = {
+        name: data?.name.toUpperCase(),
+        description: data?.description,
+      };
+
+      const response = await axiosInstance.put(
+        `/vehicle/cat/edit/${categoryId?.categoryId}`,
+        modifiedData
+      );
       setSuccess({
         text: response?.data?.message,
-    });
-      // router.push('');
-      router.push('/vehicleCategoryManagement')
-
-
+      });
+      router.push("/vehicleCategoryManagement");
     } catch (error) {
       console.error("Error:", error.response);
-      toast.error(error?.response?.data?.message)
-      
-
+      toast.error(error?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
     }
-
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center border-2 h-full w-full">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex items-center justify-center border-2 h-full  w-full ">
+    <div className="flex items-center justify-center border-2 h-full w-full">
       <form
         className={`${formStyle.data}`}
         onSubmit={handleSubmit(EditVehilceCategory)}
       >
-        <div className="w-full  text-center uppercase font-bold">
+        <div className="w-full text-center uppercase font-bold">
           <h1>Edit Vehicle Category</h1>
         </div>
 
@@ -126,7 +130,6 @@ reset(response?.data?.vehicleCategory)
           register={register}
           error={errors.description}
           defaultValue={categoryData?.description}
-          
           placeholder=" Enter Description"
         />
 

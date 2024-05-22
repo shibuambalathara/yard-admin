@@ -1,4 +1,4 @@
-import ViewUserFullProfile from '@/components/superAdmin/UserManagment/ViewUserProfile'
+import ViewUserFullProfile from '@/components/superAdmin/UserManagment/viewUserProfile'
 import React from 'react'
 
 const ViewUserProfile =({params}:{params:{profileId:string}}) => {

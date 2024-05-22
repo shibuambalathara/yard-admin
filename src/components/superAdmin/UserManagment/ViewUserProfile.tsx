@@ -11,7 +11,6 @@ import img4 from "../../../../public/aadhar.jpg";
 import Image from "next/image";
 import { Role, DocumentType } from "@/utils/staticData";
 import axiosInstance from "@/utils/axios";
-import { Edu_NSW_ACT_Foundation } from "next/font/google";
 type Inputs = {
   name: string;
   email: string;

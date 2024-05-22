@@ -18,7 +18,7 @@ export default function Home() {
     const isAuthenticated = cookieStore.get('authToken')?.value;
 
 
-   console.log("isAuthenticated from layout.jsx",isAuthenticated);
+  //  console.log("isAuthenticated from layout.jsx",isAuthenticated);
   
     // Implement your authentication check logic here
     // This could involve checking a cookie, token, or session data

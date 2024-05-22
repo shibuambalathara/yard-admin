@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import data from "@/components/tables/mockData.json";
 import DataTable from "@/components/tables/dataTable";
 import { Role } from "@/utils/staticData";
 import Link from "next/link";
