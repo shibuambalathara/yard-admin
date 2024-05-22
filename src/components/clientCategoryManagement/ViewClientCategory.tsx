@@ -7,6 +7,7 @@ import { formStyle } from "@/components/ui/style";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Loading from "@/app/(home)/(superAdmin)/loading";
 
 type Inputs = {
   name: string;
@@ -17,6 +18,8 @@ const ViewClientCategory = ({ clientId }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [clientcategoryData, SetClientCategoryData] = useState(null);
+  const [isLoading,setIsLoading]=useState(true)
+  
   const {
     register,
     handleSubmit,
@@ -49,6 +52,7 @@ const ViewClientCategory = ({ clientId }) => {
   // console.log("categoryId", categoryId);
 
   const FetchVehicleCategory = async () => {
+    setIsLoading(true)
     try {
       const response = await axiosInstance.get(
         `/clientorg/cat/${clientId?.clientId}`
@@ -59,6 +63,8 @@ const ViewClientCategory = ({ clientId }) => {
       reset(response?.data?.clientCategory);
     } catch (error) {
       // console.log("error", error);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -96,6 +102,14 @@ console.log('clientCatId',typeof(clientId?.clientId));
       toast.error(error?.response?.data?.message);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center border-2 h-full  w-full ">

@@ -105,7 +105,7 @@ const View = (row) => {
   // console.log("view", row);
   return (
     <div>
-      <Link href={`/clientCategoryManagement/${row.original.id}`}>View</Link>
+      <Link href={`/clientCategoryManagement/${row.original.id}`} target="_blank" rel="noopener noreferrer">View</Link>
     </div>
   );
 };

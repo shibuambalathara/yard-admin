@@ -11,6 +11,9 @@ import img4 from "../../../../public/aadhar.jpg";
 import Image from "next/image";
 import { Role, DocumentType } from "@/utils/staticData";
 import axiosInstance from "@/utils/axios";
+import Loading from "@/app/(home)/(superAdmin)/loading";
+import toast from "react-hot-toast";
+
 type Inputs = {
   name: string;
   email: string;
@@ -28,8 +31,27 @@ type Inputs = {
 const images = [img1, img2, img3]; // Array containing imported images
 
 const ViewFullUserProfile = ({ profileId }) => {
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
   const [initialData, setInitialData] = useState<Inputs | null>(null); // Store initial values
+  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
 
+  useEffect(() => {
+    if (success) {
+      toast.success(success.text ? success.text : "Success");
+      setTimeout(() => {
+        setSuccess(null);
+      }, 2000);
+    }
+    if (error) {
+      toast.error(
+        error.text ? error.text : "Something went wrong. Please contact support"
+      );
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+    }
+  }, [success, error]);
   const {
     register,
     handleSubmit,
@@ -40,27 +62,40 @@ const ViewFullUserProfile = ({ profileId }) => {
   const watchedFields = watch(); // Watch all fields
 
   const FetchUserDate = async () => {
+    setIsLoading(true);
     try {
       const response = await axiosInstance.get(
         `http://13.232.152.20/api/v1/yms/user/${profileId.profileId}`
       );
 
-      // console.log("response", response);
+      console.log("response", response);
 
       const resetData = {
         ...response?.data?.data,
-        document_value: response?.data?.data?.documents.document_value,
+        document_value: response?.data?.data?.documents?.document_value,
 
-        document_type: response?.data?.data?.documents.document_type,
+        document_type: response?.data?.data?.documents?.document_type,
         account_usage_from:
           response?.data?.data?.account_usage_from.split("T")[0], // Extract only the date part
         account_usage_to: response?.data?.data?.account_usage_to.split("T")[0], // Extract only the date part
       };
 
+      console.log('resetData',resetData);
+      
+      setSuccess({
+        text: response?.data?.message,
+      });
       setInitialData(resetData); // Store the initial data
       reset(resetData);
     } catch (error) {
+      console.log('resetData',initialData);
+
       console.log("error", error);
+      setError({
+        text: error?.response?.data?.message,
+      });
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,12 +122,6 @@ const ViewFullUserProfile = ({ profileId }) => {
         }
       }
 
-      
-
-       
-        // console.log("Edited data:", DataToSumbit);
-
-      // Perform the update API call here with editedData
       const response = await axiosInstance.put(`/user/${profileId.profileId}`, editedData);
       console.log("response of updating user",response);
       
@@ -101,7 +130,13 @@ const ViewFullUserProfile = ({ profileId }) => {
     }
   };
 
-  // console.log("intial data", initialData);
+  if (isLoading) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
 
   return (

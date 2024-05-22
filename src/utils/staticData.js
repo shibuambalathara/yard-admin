@@ -22,7 +22,7 @@ export const Role = [
 ];
 
 export const AccountStatus=[
-  { label: "pending", value: "PENDING" },
+  { label: "Pending", value: "PENDING" },
   { label: "Rejected", value: "REJECTED" },
   { label: "Approved", value: "APPROVED" },
 ]

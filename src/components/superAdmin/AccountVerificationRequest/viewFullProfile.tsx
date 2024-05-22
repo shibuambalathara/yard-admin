@@ -16,16 +16,19 @@ import img4 from "../../../../public/aadhar.jpg";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Loading from "@/app/(home)/(superAdmin)/loading";
+import { Role, AccountStatus } from "@/utils/staticData";
 
 type Inputs = {
   name: string;
   email: string;
   contact: number;
   role: string;
-  accountVerification: string; // Assuming accountVerification is a string
-  validFrom: Date;
-  validTo: Date;
-  rejectionComment: string;
+  account_verification: string; // Assuming accountVerification is a string
+
+  account_usage_from: Date;
+  account_usage_to: Date;
+  rejection_cmnt: string;
   document: {
     type: string;
     name: string;
@@ -38,14 +41,15 @@ const ViewFullProfile = ({ profileId }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null); // State to store fetched user data
+  const [isLoading, setIsLoading] = useState(true);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-    setValue
+    setValue,
+    reset,
   } = useForm<Inputs>();
-
 
   useEffect(() => {
     if (success) {
@@ -63,24 +67,37 @@ const ViewFullProfile = ({ profileId }) => {
       }, 2000);
     }
   }, [success, error]);
-  console.log("profileid", profileId);
+  // console.log("profileid", profileId);
 
   const FetchUserDate = async () => {
+    setIsLoading(true);
     try {
       const response = await axiosInstance.get(
         `http://13.232.152.20/api/v1/yms/account/user/${profileId.profileId}`
       );
-      console.log("RESPONSE FROM VEIW SINGLEUSER", response);
-      setUserData(response.data.user);
+      console.log("RESPONSE FROM VEIW SINGLEUSER", response?.data?.res);
+      setUserData(response.data.res);
+      const modifiedData = {
+        ...response?.data?.res,
 
+        account_usage_from:
+          response?.data?.res?.account_usage_from?.split("T")[0],
+        account_usage_to: response?.data?.res?.to?.split("T")[0],
+      };
+
+      console.log("modifiedDAta", modifiedData?.account_verification);
+
+      reset(modifiedData);
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     FetchUserDate();
-  }, []);
+  }, [profileId.profileId]);
 
   // useEffect(() => {
   //   if (userData) {
@@ -104,19 +121,22 @@ const ViewFullProfile = ({ profileId }) => {
   //   }
   // }, [userData, setValue]);
 
-  const AccountStatus=[
-    {label:"Approved",value:"APPROVED"},
-    {label:"Rejected",value:"REJECTED"}
-  ]
-
   const onSubmit = (data: Inputs) => {
     // Handle form submission
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className="  h-full w-full p-6">
       <h1 className="w-full uppercase border text-center text-lg font-semibold">
-         {userData?.name}
+        {userData?.name}
       </h1>
       <div className="  w-full ">
         <form
@@ -129,7 +149,7 @@ const ViewFullProfile = ({ profileId }) => {
             name="name"
             register={register}
             error={errors.name}
-            defaultValue={userData?.name}
+            defaultValue=""
             required
             placeholder=""
           />
@@ -139,47 +159,46 @@ const ViewFullProfile = ({ profileId }) => {
             name="email"
             register={register}
             error={errors.email}
-            defaultValue={userData?.email}
+            defaultValue=""
             required
             placeholder=" "
           />
           <FormFieldInput
             label="Contact"
-            type="number"
+            type="tel"
             name="contact"
             register={register}
             error={errors.contact}
-            defaultValue={parseInt(userData?.contact)}
-            required
-            placeholder=" "
-          />
-          <FormFieldInput
-            label="Role"
-            type="string"
-            name="role"
-            register={register}
-            error={errors.role}
-            defaultValue={userData?.role}
+            defaultValue=""
             required
             placeholder=" "
           />
           <SelectInput
-            label="Account Verification"
-            options={AccountStatus}
-            name="accountVerification"
+            label="Role"
+            options={Role}
+            name="role"
             register={register}
-            error={errors.accountVerification}
+            error={errors.role}
             defaultValue=""
             required
-            placeholder="Park "
-            data={userData?.accountVerification}
+            
+          />
+          <SelectInput
+            label="Account Verification"
+            options={AccountStatus}
+            name="account_verification"
+            register={register}
+            error={errors.account_verification}
+            defaultValue=""
+            required
+            
           />
           <FormFieldInput
             label="Valid From"
             type="date"
             name="validFrom"
             register={register}
-            error={errors.validFrom}
+            error={errors.account_usage_from}
             defaultValue=""
             required
             placeholder="Park Fee Per Day"
@@ -189,7 +208,7 @@ const ViewFullProfile = ({ profileId }) => {
             type="date"
             name="validTo"
             register={register}
-            error={errors.validTo}
+            error={errors.account_usage_to}
             defaultValue=""
             required
             placeholder=" "
@@ -199,7 +218,7 @@ const ViewFullProfile = ({ profileId }) => {
             type="number"
             name="rejectionComment"
             register={register}
-            error={errors.rejectionComment}
+            error={errors.rejection_cmnt}
             defaultValue=""
             required
             placeholder="Rejection Reason "

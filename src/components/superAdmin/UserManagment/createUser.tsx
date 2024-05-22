@@ -88,7 +88,7 @@ console.log("document value00",typeof(fileName))
     setTimeout(() => {
       reset(); // Reset the form
       onClose(); // Close the modal
-    }, 1000);
+    }, 200);
       
     } catch (error) {
       toast.error(error?.response?.data?.message)
@@ -101,7 +101,7 @@ console.log("document value00",typeof(fileName))
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-5xl">
+      <div className="bg-white p-4 rounded-lg w-full max-w-5xl">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
@@ -123,7 +123,7 @@ console.log("document value00",typeof(fileName))
        <p className=" cursor-pointer" onClick={onClose}>x</p>
        </div>
       <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 gap-4 justify-center place-items-center p-2 border ">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 gap-2 justify-center place-items-center p-2 border ">
         <div className="mb-">
           <FormFieldInput
             label="Name"

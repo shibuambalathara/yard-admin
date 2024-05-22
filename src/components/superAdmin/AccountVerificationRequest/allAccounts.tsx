@@ -5,11 +5,9 @@ import DataTable from "@/components/tables/dataTable";
 import { Role, AccountStatus } from "@/utils/staticData";
 import axiosInstance from "@/utils/axios";
 import Link from "next/link";
-import DataTableid from "@/components/idAcess/idAccess";
 import Pagination from "@/components/pagination/pagination";
 import toast from "react-hot-toast";
-import DataLoading from "@/components/commonComponents/spinner/DataFetching";
-import Spinner from "@/components/commonComponents/spinner/spinner";
+
 const AccountVerificationRequests = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -145,13 +143,13 @@ const AccountVerificationRequests = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {isLoading ? (
-          <p className="flex w-full justify-center">
+        {/* {isLoading ? ( */}
+          {/* <p className="flex w-full justify-center">
             <Spinner />
           </p>
-        ) : (
+        ) : ( */}
           <DataTable data={UsersData} columns={UsersColumn} />
-        )}
+        {/* )} */}
         <div className="w-full text-center">
           {filteredData?.data?.totalCount && (
             <Pagination
