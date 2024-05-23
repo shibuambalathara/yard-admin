@@ -100,13 +100,14 @@ const UserManagement = () => {
   const handleModalClose = () => {
     setModalOpen(false);
   };
-  if (isLoading) {
-    return (
-      <div className="flex w-full h-screen items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
+
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex w-full h-screen items-center justify-center">
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full  ">

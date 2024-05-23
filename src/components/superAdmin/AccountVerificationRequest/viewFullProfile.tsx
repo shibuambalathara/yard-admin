@@ -6,6 +6,7 @@ import {
   SelectInput,
   ImageMaping,
   TextArea,
+  AccountVerificatioSelect
 } from "../../ui/fromFields";
 import { formStyle } from "../../ui/style";
 import Link from "next/link";
@@ -24,8 +25,8 @@ type Inputs = {
   email: string;
   contact: number;
   role: string;
+  designation: string;
   account_verification: string; // Assuming accountVerification is a string
-
   account_usage_from: Date;
   account_usage_to: Date;
   rejection_cmnt: string;
@@ -42,6 +43,8 @@ const ViewFullProfile = ({ profileId }) => {
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null); // State to store fetched user data
   const [isLoading, setIsLoading] = useState(true);
+  const [initialData, setInitialData] = useState<Inputs | null>(null); // Store initial values
+
   const {
     register,
     handleSubmit,
@@ -73,21 +76,22 @@ const ViewFullProfile = ({ profileId }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `http://13.232.152.20/api/v1/yms/account/user/${profileId.profileId}`
+        `/account/user/${profileId.profileId}`
       );
-      console.log("RESPONSE FROM VEIW SINGLEUSER", response?.data?.res);
+      // console.log("RESPONSE FROM VEIW SINGLEUSER", response?.data?.res);
       setUserData(response.data.res);
       const modifiedData = {
         ...response?.data?.res,
-
+        account_verification: response?.data?.res?.account_verification,
         account_usage_from:
           response?.data?.res?.account_usage_from?.split("T")[0],
-        account_usage_to: response?.data?.res?.to?.split("T")[0],
+        account_usage_to: response?.data?.res?.account_usage_to?.split("T")[0],
       };
 
-      console.log("modifiedDAta", modifiedData?.account_verification);
+      // console.log("modifiedDAta", modifiedData?.account_verification);
 
       reset(modifiedData);
+      setInitialData(modifiedData); // Store the initial data
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -99,30 +103,52 @@ const ViewFullProfile = ({ profileId }) => {
     FetchUserDate();
   }, [profileId.profileId]);
 
-  // useEffect(() => {
-  //   if (userData) {
-  //     // Set default values for each form field
-  //     setValue("name", userData.name);
-  //     setValue("email", userData.email);
-  //     setValue("contact", userData.contact);
-  //     setValue("role", userData.role);
-  //     setValue("accountVerification", userData.accountVerification);
-  //     setValue("validFrom", userData.accountValidFrom);
-  //     setValue("validTo", userData.accountValidTo);
-  //     setValue("rejectionComment", userData.rejectionComment);
-  //     // Handle setting default value for document if available
-  //     if (userData.documents && userData.documents.length > 0) {
-  //       setValue("document", {
-  //         type: userData.documents[0].type,
-  //         name: userData.documents[0].name,
-  //         image: userData.documents[0].image,
-  //       });
-  //     }
-  //   }
-  // }, [userData, setValue]);
+  // console.log("initialData", initialData);
+  const currentAccountVerification = watch("account_verification");
 
-  const onSubmit = (data: Inputs) => {
-    // Handle form submission
+  // console.log("currentAccountVerification",currentAccountVerification);
+  // console.log("initialData?.account_verification",initialData?.account_verification);
+  
+
+  const handleUserUpdate = async (data: Inputs) => {
+    // console.log("data on submit", data);
+    const validFrom = data?.account_usage_from ? new Date(data.account_usage_from).toISOString() : null;
+    const validTo = data?.account_usage_to ? new Date(data.account_usage_to).toISOString() : null;
+
+    const modifiedData = {
+      ...data,
+      name: data?.name?.toUpperCase(),
+      account_usage_from: validFrom,
+      account_usage_to: validTo,
+      designation: data?.designation?.toUpperCase(),
+    };
+
+    // console.log("MODIFIEDdATA", modifiedData);
+
+    // const editedData: Partial<Inputs> = {};
+    // if (initialData) {
+    //   for (const field in data) {
+    //     if (modifiedData[field] !== initialData[field]) {
+    //       editedData[field] = modifiedData[field];
+    //       console.log("editing loop", editedData[field]);
+    //     }
+    //   }
+    // }
+
+    // console.log("user edited data senting to back", modifiedData);
+
+    try {
+      const response = await axiosInstance.put(
+        `/account/user/${profileId.profileId}`,
+        modifiedData
+      );
+      // console.log("UPDATE RESPONSE FROM VEIW SINGLEUSER", response);
+      setUserData(response.data.res);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -140,6 +166,7 @@ const ViewFullProfile = ({ profileId }) => {
       </h1>
       <div className="  w-full ">
         <form
+          onSubmit={handleSubmit(handleUserUpdate)}
           action=""
           className="border scrollbar-hide grid grid-cols-2 w-full  h-[600px] content-start gap-y-8 overflow-y-scroll  p-4 justify-items-center"
         >
@@ -173,6 +200,16 @@ const ViewFullProfile = ({ profileId }) => {
             required
             placeholder=" "
           />
+          <FormFieldInput
+            label="Designation"
+            type="text"
+            name="designation"
+            register={register}
+            error={errors.designation}
+            defaultValue=""
+            required
+            placeholder=" "
+          />
           <SelectInput
             label="Role"
             options={Role}
@@ -181,9 +218,9 @@ const ViewFullProfile = ({ profileId }) => {
             error={errors.role}
             defaultValue=""
             required
-            
           />
-          <SelectInput
+
+          <AccountVerificatioSelect
             label="Account Verification"
             options={AccountStatus}
             name="account_verification"
@@ -191,55 +228,56 @@ const ViewFullProfile = ({ profileId }) => {
             error={errors.account_verification}
             defaultValue=""
             required
-            
+            currentAccountVerification={currentAccountVerification}
           />
-          <FormFieldInput
-            label="Valid From"
-            type="date"
-            name="validFrom"
-            register={register}
-            error={errors.account_usage_from}
-            defaultValue=""
-            required
-            placeholder="Park Fee Per Day"
-          />
-          <FormFieldInput
-            label="valid To"
-            type="date"
-            name="validTo"
-            register={register}
-            error={errors.account_usage_to}
-            defaultValue=""
-            required
-            placeholder=" "
-          />
-          <TextArea
-            label="Rejection Comment"
-            type="number"
-            name="rejectionComment"
-            register={register}
-            error={errors.rejection_cmnt}
-            defaultValue=""
-            required
-            placeholder="Rejection Reason "
-          />
+          {currentAccountVerification == "APPROVED" && (
+            <>
+              <FormFieldInput
+                label="Valid From"
+                type="date"
+                name="account_usage_from"
+                register={register}
+                error={errors.account_usage_from}
+                defaultValue=""
+                required
+                placeholder=""
+              />
+              <FormFieldInput
+                label="valid To"
+                type="date"
+                name="account_usage_to"
+                register={register}
+                error={errors.account_usage_to}
+                defaultValue=""
+                required
+                placeholder=" "
+              />
+            </>
+          )}
 
-          <div className="col-span-2 ">
+{currentAccountVerification == "REJECTED" && (
+            <TextArea
+              label="Rejection Comment"
+              type="number"
+              name="rejection_cmnt"
+              register={register}
+              error={errors.rejection_cmnt}
+              defaultValue=""
+              required
+              placeholder="Rejection Reason "
+            />
+          )}
+
+          <div className="col-span-2 border ">
             {" "}
             <ImageMaping images={images} />
           </div>
-          <div className="w-full col-span-2 flex justify-between ">
+          <div className="w-full col-span-2 flex justify-center   ">
             <button
               type="submit"
               className="bg-[#333333] text-white px-4 py-1 w-60"
             >
-              Approve
-            </button>
-            <button
-              type="submit"
-              className="bg-[#333333] text-white px-4 py-1 w-60"
-            >
-              Reject
+              Submit
             </button>
           </div>
         </form>

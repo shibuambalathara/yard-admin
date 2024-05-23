@@ -1,10 +1,6 @@
-// type Inputs = {
-//     vehicleCategory: string;
-//     clientUserCategory: string;
-//     ClientUserDropDown: number;
-//     parkfee: string;
-  
-//   };
+
+
+
 export const bidStatusOptions = [
   { label: "Super Admin", value: "super_admin" },
   { label: "Yard Manager", value: "yard_manager" },

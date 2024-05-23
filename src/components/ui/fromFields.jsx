@@ -1,9 +1,14 @@
+"use client"
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 import {
   inputStyle,
   labelStyle,
   loginInputStyle,
 } from "../../components/ui/style";
+import { Role, AccountStatus } from "@/utils/staticData";
+import { useFormContext } from 'react-hook-form';
+import { useState,useEffect } from "react";
 
 export const FormFieldInput = ({
   label,
@@ -27,7 +32,7 @@ export const FormFieldInput = ({
         type={type}
         defaultValue={defaultValue}
         {...register(name, rest)}
-        className={`${inputStyle.data}`}
+        className={`${inputStyle.data} ${name===`name` && `uppercase`}`}
         placeholder={placeholder}
       />
 
@@ -185,7 +190,9 @@ export const SelectInput = ({
   
   ...rest
 }) => {
-  // console.log("options", options);
+ 
+
+
   return (
     <div className="flex flex-col">
       <label htmlFor={name} className={`${labelStyle.data}`}>
@@ -211,10 +218,58 @@ export const SelectInput = ({
     </div>
   );
 };
+export const AccountVerificatioSelect = ({
+  label,
+  name,
+  options,
+  defaultValue,
+  error,
+  register,
+  currentAccountVerification,
+  ...rest
+}) => {
+  const [filteredOptions, setFilteredOptions] = useState([]);
+
+  useEffect(() => {
+    if (currentAccountVerification === "APPROVED" || currentAccountVerification === "REJECTED") {
+      setFilteredOptions(options.filter(option => option.value !== "PENDING"));
+    } else {
+      setFilteredOptions(options);
+    }
+  }, [currentAccountVerification, options]);
+
+  console.log('CURRENT OPTIONS', filteredOptions);
+
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={name} className={`${labelStyle.data}`}>
+        {label}
+      </label>
+      <select
+        {...register(name, { required: true })}
+        className={`${inputStyle.data}`}
+        {...rest}
+        defaultValue={defaultValue}
+        
+      >
+        <option disabled value={defaultValue}>
+          {defaultValue }
+        </option>
+        {options &&
+          filteredOptions?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+      </select>
+      {error && <p className="text-red-500">{`${label} Required`}</p>}
+    </div>
+  );
+};
 
 export const ImageMaping = ({ images }) => {
   return (
-    <div className="grid grid-cols-2 gap-x-6  gap-y-4 m-2">
+    <div className="grid grid-cols-3 gap-x-6  gap-y-4 m-2">
       {images &&
         images?.map((imgs, index) => {
           return (
@@ -229,7 +284,9 @@ export const ImageMaping = ({ images }) => {
                   src={imgs}
                   alt={imgs}
                   key={index}
-                  className="h-52  text-center"
+                  // className="h-52  text-center"
+                  height={250}
+                  width={300}
                 />
               </div>
             </div>

@@ -91,13 +91,13 @@ const VehicleCategoryManagement = () => {
     []
   );
 
-  if (isLoading) {
-    return (
-      <div className="flex w-full h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex w-full h-screen items-center justify-center">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full p-2">

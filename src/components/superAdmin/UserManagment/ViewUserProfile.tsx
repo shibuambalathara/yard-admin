@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { FormFieldInput, SelectInput, ImageMaping } from "../../ui/fromFields";
+import { FormFieldInput, SelectInput, ImageMaping ,AccountVerificatioSelect} from "../../ui/fromFields";
 import { formStyle } from "../../ui/style";
 import Link from "next/link";
 import img1 from "../../../../public/aadhar.jpg";
@@ -105,10 +105,12 @@ const ViewFullUserProfile = ({ profileId }) => {
 
   const onSubmit = async (data: Inputs) => {
     console.log("Data on submit:", data);
-
+    const validFrom = new Date(data?.account_usage_from).toISOString();
+    const validTo = new Date(data?.account_usage_to).toISOString();
   const modifiedData={
     ...data,
-    name:data?.name.toUpperCase()
+     account_usage_from:validFrom,
+    account_usage_to:validTo
   }
     
     try {
@@ -121,6 +123,9 @@ const ViewFullUserProfile = ({ profileId }) => {
           }
         }
       }
+
+      console.log('editedData',editedData);
+      
 
       const response = await axiosInstance.put(`/user/${profileId.profileId}`, editedData);
       console.log("response of updating user",response);
