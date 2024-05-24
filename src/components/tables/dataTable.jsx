@@ -71,7 +71,7 @@ const DataTable = ({ data, columns }) => {
                               header?.column?.columnDef?.header,
                               header.getContext()
                             )}
-                            <div className="flex pl-2">
+                            <div className="flex justify-center items-center pl-2">
                               {sorting.find((sort) => sort.id === header.id) ? (
                                 sorting.find((sort) => sort.id === header.id).desc ? (
                                   <PiSortDescendingLight />

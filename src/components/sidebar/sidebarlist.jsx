@@ -259,27 +259,7 @@ export const super_admin = [
         icon: <CgOrganisation />,
         path: "/",
       },
-      {
-        title: "Link Accounts  ",
-    icon: <FaLink />,
-
-      submenu: true,
-      submenuItems: [
-        {
-            title: "Connect Client Level Super User",
-            icon: <VscDebugDisconnect />,
-            path: "/",
-          },
-          {
-            title: "View Connections",
-            icon: <FaUsersViewfinder />,
-            path: "/",
-          },
-    
-  
-        
-      ],
-    },
+      
     
   ];
 
