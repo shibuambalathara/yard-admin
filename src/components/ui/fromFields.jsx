@@ -1,14 +1,16 @@
 "use client"
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+
 import {
   inputStyle,
   labelStyle,
   loginInputStyle,
-} from "../../components/ui/style";
+} from "./style";
 import { Role, AccountStatus } from "@/utils/staticData";
 import { useFormContext } from 'react-hook-form';
 import { useState,useEffect } from "react";
+
 
 export const FormFieldInput = ({
   label,
@@ -40,6 +42,40 @@ export const FormFieldInput = ({
     </div>
   );
 };
+
+export const InputField = ({
+  name,
+  label,
+  type = "text",
+  register,
+  errors,
+  pattern,
+}) => {
+ 
+  return (
+    <div className="mb-4">
+      <label  className={`${labelStyle.data}`}>{label}</label>
+      <input
+        type={type}
+        {...register(name, {
+          required: `${label} is required`,
+          pattern: {
+            value: pattern,
+            message: `${label} is invalid`,
+          },
+        })}
+        // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`${inputStyle.data} ${name===`name` && `uppercase`}`}
+       
+
+      />
+      {errors[name] && (
+        <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
+      )}
+    </div>
+  );
+}
+
 
 export const FormFieldPassword = ({
   label,
@@ -179,7 +215,7 @@ export const RadioButtonInput = ({
     </div>
   );
 };
-
+//old one
 export const SelectInput = ({
   label,
   name,
@@ -218,6 +254,83 @@ export const SelectInput = ({
     </div>
   );
 };
+
+
+//new one
+export const SelectFields = ({ name, label, register, errors, options,defaultValue }) => {
+  console.log('errors from selectField',errors);
+  return (
+    <div className="mb-4">
+      <label className="block text-gray-700">{label}</label>
+      <select 
+        {...register(name, { required:true })} 
+        // className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`${inputStyle.data}`}
+
+      >
+        <option disabled value={defaultValue}>
+          {defaultValue }
+        </option>
+        {options &&
+          options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+      </select>
+      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]?.message || `${label} is required`}</p>}
+    </div>
+  );
+};
+
+
+// again new
+export const SelectFieldss = ({ name, label, register, errors, options, defaultValue }) => {
+  console.log('errors from selectField', errors);
+  return (
+    <div className="mb-4">
+      <label className="block text-gray-700">{label}</label>
+      <select 
+        {...register(name, { required: 'Role is required', validate: value => value !== defaultValue || 'Role is required' })} 
+        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="">{defaultValue}</option>
+        {options &&
+          options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+      </select>
+      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>}
+    </div>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const AccountVerificatioSelect = ({
   label,
   name,
