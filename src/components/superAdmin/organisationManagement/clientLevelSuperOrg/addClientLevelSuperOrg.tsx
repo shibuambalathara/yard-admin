@@ -1,60 +1,115 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
-import { Role, DocumentType,Country } from "@//utils/staticData";
-import { FormFieldInput, SelectInput,SelectComponent,InputField } from "@/components/ui/fromFields";
+import { useState, useEffect, useCallback } from "react";
+import { Role, DocumentType, Country } from "@//utils/staticData";
+import {
+  FormFieldInput,
+  SelectInput,
+  SelectComponent,
+  InputField,
+} from "@/components/ui/fromFields";
 import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
-
 
 const CreateClientLevelSuperOrganisation = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [users, setAllUsers] = useState([]);
+  const [category, setAllCategory] = useState([]);
 
   type Inputs = {
     clsup_org_name: string;
     userId: string;
     clsup_org_category_id: string;
     country: string;
-    clientLvlOrgIds: string;
- 
+    // clientLvlOrgIds: string;
   };
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
       userId: "",
       clsup_org_category_id: "",
       country: "",
-      clientLvlOrgIds: ""
-    }
+      // clientLvlOrgIds: "",
+    },
   });
 
-  useEffect(() => {
-    if (success) {
-      toast.success(success.text ? success.text : "Success");
-      setTimeout(() => {
-        setSuccess(null);
-      }, 2000);
-    }
-    if (error) {
-      toast.error(
-        error.text ? error.text : "Something went wrong. Please contact support"
+  const FetchClientLevelSuperUsers = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/user/users/assignment?role=CLIENT_LEVEL_SUPER_USER`
       );
-      setTimeout(() => {
-        setError(null);
-      }, 2000);
+      setAllUsers(response?.data?.data);
+
+      console.log("reponse of FetchClientLevelSuperUsers ",response);
+
+      toast.success("successs");
+    } catch (error) {
+      console.log("error", error);
+      toast.error(`something went wrong`);
     }
-  }, [success, error]);
+  }, []);
+
+  const FetchAllClientCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`clientorg/cat/`);
+
+      setAllCategory(response?.data?.clientCategory);
+
+      // console.log("resposne of FetchAllClientCategory",response);
+      reset()
+      toast.success("successs");
+    } catch (error) {
+      console.log("error", error);
+      toast.error(`something went wrong`);
+    }
+  }, []);
+
+  useEffect(() => {
+    FetchClientLevelSuperUsers();
+    FetchAllClientCategory();
+  }, []);
+
+  const AllUsers = users.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
+  const AllCategory = category.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
+  console.log("AllUsers", AllUsers);
+  // console.log("AllCat", AllCategory);
 
   const onSubmit = async (data: Inputs) => {
-  
-    console.log("data from cientSuperorg",data);
-    
+    console.log("data from cientSuperorg", data);
+
+    const modifiedData = {
+      ...data,
+      clsup_org_name: data?.clsup_org_name?.toUpperCase(),
+    };
+
+    try {
+      const response = await axiosInstance.post(
+        `clientorg/client_lvl_super_org/create`,
+        modifiedData
+      );
+
+      console.log("response after superOrgCreae", response);
+      toast.success("superOrgCreated");
+    } catch (error) {
+      console.log("error", error);
+      toast.error(`error in creating superOrg`);
+    }
+
     // Handle form submission
   };
 
@@ -85,8 +140,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
           <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
-            
-          <div className="mb-">
+            <div className="mb-">
               <InputField
                 label="Super Organisation Name"
                 type="text"
@@ -94,13 +148,12 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
                 register={register}
                 errors={errors}
                 pattern=""
-                
               />
             </div>
             <div className="mb-">
               <SelectComponent
                 label="Select User"
-                options={Role}
+                options={AllUsers}
                 name="userId"
                 register={register}
                 errors={errors}
@@ -108,11 +161,11 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
                 defaultValue=""
               />
             </div>
-          
+
             <div className="mb-">
               <SelectComponent
                 label="Select Category "
-                options={DocumentType}
+                options={AllCategory}
                 name="clsup_org_category_id"
                 register={register}
                 errors={errors}
@@ -129,11 +182,9 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
                 errors={errors}
                 required={true}
                 defaultValue=""
-              
-             
               />
             </div>
-            <div className="mb-">
+            {/* <div className="mb-">
               <SelectComponent
                 label="Select Organisation Children"
                 options={DocumentType}
@@ -143,7 +194,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
                 required={true}
                 defaultValue=""
               />
-            </div>
+            </div> */}
           </div>
 
           <div className=" w-full text-center p-1 mt-3  space-x-2">
@@ -153,13 +204,12 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
             >
               Submit
             </button>
-             <button
-             onClick={()=>onClose()}
+            <button
+              onClick={() => onClose()}
               className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
             </button>
-           
           </div>
         </form>
       </div>

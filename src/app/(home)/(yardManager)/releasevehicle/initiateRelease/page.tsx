@@ -7,7 +7,6 @@ import { useMemo } from "react";
 import data from "@/components/tables/mockData.json";
 import DataTable from "@/components/tables/dataTable";
 import { SelectInput } from "@/components/ui/fromFields";
-import { bidStatusOptions } from "../../../../../utils/staticData";
 
 const InitiateRelease = () => {
   const movies = useMemo(() => data, []);
@@ -47,16 +46,7 @@ const InitiateRelease = () => {
         <div className=" px-10 mt-2">
         <div className=" w-36  flex flex-col text-center space-y-2">
           <label htmlFor="bid-status " className="font-roboto font-semibold text-lg">Select a Client</label>
-          <select id="bid-status"  className="px-2 py-1 border-2">
-          <option disabled value="">select a client</option>
-
-            {/* Render each option based on bidStatusOptions data */}
-            {bidStatusOptions.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+         
           </div>
 
           {/* Display the currently selected option */}

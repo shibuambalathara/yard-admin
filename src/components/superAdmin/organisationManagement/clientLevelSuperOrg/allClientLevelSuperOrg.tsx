@@ -47,7 +47,7 @@ const AllClientLevelOrganisation = () => {
       const response = await axiosInstance.get(
         `/user/users?page=${page}&limit=10&status=1&role=${roleFilter}`
       );
-      console.log("all users", response);
+      // console.log("all users", response);
       setFilteredData(response.data);
       setSuccess({
         text: response?.data?.message,
@@ -62,7 +62,7 @@ const AllClientLevelOrganisation = () => {
     }
   };
 
-  console.log("role filter", roleFilter);
+  // console.log("role filter", roleFilter);
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect

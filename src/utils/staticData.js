@@ -27,12 +27,12 @@ export const AccountStatus = [
 //   { label: "Three wheeler", value: "client_level_user" },
 
 // ]
-// export const clientUserCategory=[
-//   { label: "insurance", value: "insurance" },
-//   { label: "individual", value: "individual" },
-//   { label: "individual", value: "individual" },
+export const bidStatusOptions=[
+  { label: "insurance", value: "insurance" },
+  { label: "individual", value: "individual" },
+  { label: "individual", value: "individual" },
 
-// ]
+]
 
 export const DocumentType = [
   { label: "Aadhar", value: "AADHAR" },

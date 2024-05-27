@@ -17,7 +17,7 @@ type Inputs = {
   description: string;
 };
 
-const Addcategory = ({ onClose }) => {
+const Addcategory = ({ onClose,fetchData }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -54,10 +54,11 @@ const Addcategory = ({ onClose }) => {
         name: data?.name?.toUpperCase()
       };
       const response = await axiosInstance.post(
-        "/vehicle/cat/add",
+        "/clientorg/cat/add",
         modifiedData
       );
-      console.log("Response:", response);
+      fetchData()
+      console.log("Response: of cateogory created", response);
       setSuccess({
         text: response?.data?.message,
       });
@@ -71,46 +72,7 @@ const Addcategory = ({ onClose }) => {
   };
 
   return (
-    // <div className="flex items-center justify-center border-2 h-full  w-full ">
-    //   <form
-    //     className={`${formStyle.data}`}
-    //     onSubmit={handleSubmit(AddVehicleCategory)}
-    //   >
-    //     <div className="w-full  text-center uppercase font-bold">
-    //       <h1>Add Vehicle Category</h1>
-    //     </div>
-
-    //     <FormFieldInput
-    //       label=""
-    //       type="text"
-    //       name="name"
-    //       register={register}
-    //       error={errors.name}
-    //       defaultValue=""
-    //       required
-    //       placeholder="Enter Category Name"
-    //     />
-    //     <TextArea
-    //       label=""
-    //       type="text"
-    //       name="description"
-    //       register={register}
-    //       error={errors.description}
-    //       defaultValue=""
-    //       required
-    //       placeholder=" Enter Description"
-    //     />
-
-    //     <div className="w-full">
-    //       <button
-    //         type="submit"
-    //         className="bg-[#333333] text-white px-4 py-1 w-full"
-    //       >
-    //         Add
-    //       </button>
-    //     </div>
-    //   </form>
-    // </div>
+   
     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-lg">
         <button

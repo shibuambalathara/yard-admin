@@ -17,7 +17,7 @@ const [isLoading,setIsLoading]=useState(true)
  
 
   const fetchData = async () => {
-    console.log("account verification page mounted");
+    console.log("CAT CALLED");
     setIsLoading(true)
 
     try {
@@ -90,7 +90,7 @@ const [isLoading,setIsLoading]=useState(true)
           >
             Add Client
           </button>
-          {modalOpen && <Addcategory onClose={handleModalClose} />}
+          {modalOpen && <Addcategory onClose={handleModalClose}     fetchData={fetchData}/>}
         </div> 
       <div>
         {clientData && <DataTable data={clientData} columns={ClientColumn} />}

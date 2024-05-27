@@ -61,7 +61,7 @@ const UserManagement = () => {
     }
   };
 
-  console.log("role filter", roleFilter);
+  // console.log("role filter", roleFilter);
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
