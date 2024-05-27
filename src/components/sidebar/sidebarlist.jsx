@@ -257,7 +257,7 @@ export const super_admin = [
       {
         title: "Organisation Management ",
         icon: <CgOrganisation />,
-        path: "/",
+        // path: "/",
          submenu: true,
       submenuItems: [
         {

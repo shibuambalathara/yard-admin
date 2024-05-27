@@ -55,7 +55,7 @@ export const InputField = ({
 }) => {
  
   return (
-    <div className="mb-4">
+    <div className="mb-">
       <label  className={`${labelStyle.data}`}>{label}</label>
       <input
         type={type}
@@ -316,7 +316,10 @@ export const SelectComponent= ({
   register,
   errors,
   required = false,
+  defaultValue
 }) => {
+console.log("errors",errors);
+
   return (
     <div className="flex flex-col w-full">
       <label htmlFor={name} className={labelStyle?.data}>
@@ -324,11 +327,15 @@ export const SelectComponent= ({
       </label>
       <select
         id={name}
-        {...register(name, { required })}
+        {...register(name, { required: required && "This field is required" })}
         // className="py-1 px-12 border border-gray-300 rounded"
         className={inputStyle.data}
+        defaultValue={defaultValue}
+
       >
-        <option value="">--Please choose an option--</option>
+        <option value="" disabled hidden>
+          {label}
+        </option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
@@ -341,7 +348,7 @@ export const SelectComponent= ({
 };
 
  
-  
+
 
 
 

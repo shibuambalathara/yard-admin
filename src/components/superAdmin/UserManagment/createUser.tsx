@@ -42,42 +42,42 @@ const CreateUser = () => {
   } = useForm<Inputs>();
 
   const onSubmit = useCallback(async (data: Inputs) => {
-    console.log("data", data);
+    console.log("data from createUser", data);
 
-    const validFrom = new Date(data?.account_usage_from).toISOString();
-    const validTo = new Date(data?.account_usage_to).toISOString();
-    const fileList = data?.document_value[0]; // Assuming document_value is the FileList object
-    const file = fileList[0]; // Get the first file in the FileList
-    const fileName = "dummy file";
-    console.log("document value", fileName);
-    console.log("document value00", typeof fileName);
+    // const validFrom = new Date(data?.account_usage_from).toISOString();
+    // const validTo = new Date(data?.account_usage_to).toISOString();
+    // const fileList = data?.document_value[0]; // Assuming document_value is the FileList object
+    // const file = fileList[0]; // Get the first file in the FileList
+    // const fileName = "dummy file";
+    // console.log("document value", fileName);
+    // console.log("document value00", typeof fileName);
 
-    // const fileName = file?.name;
+    // // const fileName = file?.name;
 
-    const modifiedData = {
-      ...data,
+    // const modifiedData = {
+    //   ...data,
 
-      name: data?.name.toUpperCase(),
-      contact: `+91${data?.contact}`,
-      account_usage_from: validFrom,
-      account_usage_to: validTo,
-      document_value: "dummy file name",
-    };
+    //   name: data?.name.toUpperCase(),
+    //   contact: `+91${data?.contact}`,
+    //   account_usage_from: validFrom,
+    //   account_usage_to: validTo,
+    //   document_value: "dummy file name",
+    // };
 
-    console.log("data from modal", data);
+    // console.log("data from modal", data);
 
-    try {
-      const response = await axiosInstance.post(
-        "user/create/active_user",
-        modifiedData
-      );
-      console.log("response", response);
-      toast.success(response?.data?.message || "success");
-      reset();
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "something went wrong");
-      console.log("error", error);
-    }
+    // try {
+    //   const response = await axiosInstance.post(
+    //     "user/create/active_user",
+    //     modifiedData
+    //   );
+    //   console.log("response", response);
+    //   toast.success(response?.data?.message || "success");
+    //   reset();
+    // } catch (error) {
+    //   toast.error(error?.response?.data?.message || "something went wrong");
+    //   console.log("error", error);
+    // }
 
     // Handle form submission
   }, []);
@@ -149,6 +149,7 @@ const CreateUser = () => {
               register={register}
               errors={errors}
               required={true}
+              defaultValue=""
             />
           </div>
           <div className="mb-">
@@ -234,6 +235,7 @@ const CreateUser = () => {
               register={register}
               errors={errors}
               required={true}
+              defaultValue=""
             />
           </div>
           <div className="">
@@ -254,7 +256,7 @@ const CreateUser = () => {
 
         <div className=" w-full text-center p-1 mt-3">
           <button
-            disabled={!isDirty}
+            
             type="submit"
             className="bg-blue-500 text-white py-2 px-10 w-40 rounded hover:bg-blue-600 transition duration-200"
           >

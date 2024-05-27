@@ -12,9 +12,10 @@ import { FaUserSlash ,FaUser,FaRegEye } from "react-icons/fa";
 import { FaUserLargeSlash,FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
+import CreateClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/addClientLevelSuperOrg"
 
 
-const AllOrganisation = () => {
+const AllClientLevelOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -180,14 +181,14 @@ const AllOrganisation = () => {
           <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
         </div>
         <div className="self-end">
-          <Link
-          href={`/userManagement/createUser`}
-            // onClick={handleModalOpen}
+          <button
+          // href={`/userManagement/createUser`}
+            onClick={handleModalOpen}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
           >
             Add User
-          </Link>
-          {/* {modalOpen && <CreateUserModal onClose={handleModalClose} />} */}
+          </button>
+          {modalOpen && <CreateClientLevelSuperOrg onClose={handleModalClose} />}
         </div>
       </div>
       <div>
@@ -203,7 +204,7 @@ const AllOrganisation = () => {
   );
 };
 
-export default AllOrganisation;
+export default AllClientLevelOrganisation;
 
 const View = (row) => {
   // console.log("from view", row.original.id);

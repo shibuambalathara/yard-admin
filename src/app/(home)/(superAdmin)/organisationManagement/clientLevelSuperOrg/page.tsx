@@ -1,7 +1,7 @@
-import AllOrganisation from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/allClientLevelSuperOrg"
+import AllClientLevelOrganisation from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/allClientLevelSuperOrg"
 
-const clientLevelSuperOrganisation = () => {
-  return <div><AllOrganisation/></div>;
+const ClientLevelSuperOrganisation = () => {
+  return <div><AllClientLevelOrganisation/></div>;
 };
 
-export default clientLevelSuperOrganisation;
+export default ClientLevelSuperOrganisation;
