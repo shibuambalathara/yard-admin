@@ -1,5 +1,5 @@
 import React from 'react'
-import ViewClientCategory from '@/components/clientCategoryManagement/ViewClientCategory'
+import ViewClientCategory from '@/components/superAdmin/clientCategoryManagement/ViewClientCategory'
 
 const IndividualClient = ({params}:{params:{clientId:string}}) => {
   return (

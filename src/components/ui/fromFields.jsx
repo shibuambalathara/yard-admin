@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import {
+  formStyle,
   inputStyle,
   labelStyle,
   loginInputStyle,
@@ -42,6 +43,7 @@ export const FormFieldInput = ({
     </div>
   );
 };
+
 
 export const InputField = ({
   name,
@@ -257,58 +259,89 @@ export const SelectInput = ({
 
 
 //new one
-export const SelectFields = ({ name, label, register, errors, options,defaultValue }) => {
-  console.log('errors from selectField',errors);
-  return (
-    <div className="mb-4">
-      <label className="block text-gray-700">{label}</label>
-      <select 
-        {...register(name, { required:true })} 
-        // className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        className={`${inputStyle.data}`}
+// export const SelectFields = ({ name, label, register, errors, options,defaultValue }) => {
+//   console.log('errors from selectField',errors);
+//   return (
+//     <div className="mb-4">
+//       <label className="block text-gray-700">{label}</label>
+//       <select 
+//         {...register(name, { required:true })} 
+//         // className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//         className={`${inputStyle.data}`}
 
+//       >
+//         <option disabled value={defaultValue}>
+//           {defaultValue }
+//         </option>
+//         {options &&
+//           options?.map((option) => (
+//             <option key={option.value} value={option.value}>
+//               {option.label}
+//             </option>
+//           ))}
+//       </select>
+//       {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]?.message || `${label} is required`}</p>}
+//     </div>
+//   );
+// };
+
+
+// // again new
+// export const SelectFieldss = ({ name, label, register, errors, options, defaultValue }) => {
+//   console.log('errors from selectField', errors);
+//   return (
+//     <div className="mb-4">
+//       <label className="block text-gray-700">{label}</label>
+//       <select 
+//         {...register(name, { required: 'Role is required', validate: value => value !== defaultValue || 'Role is required' })} 
+//         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//       >
+//         <option value="">{defaultValue}</option>
+//         {options &&
+//           options.map((option) => (
+//             <option key={option.value} value={option.value}>
+//               {option.label}
+//             </option>
+//           ))}
+//       </select>
+//       {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>}
+//     </div>
+//   );
+// };
+
+export const SelectComponent= ({
+  label,
+  name,
+  options,
+  register,
+  errors,
+  required = false,
+}) => {
+  return (
+    <div className="flex flex-col w-full">
+      <label htmlFor={name} className={labelStyle?.data}>
+        {label}
+      </label>
+      <select
+        id={name}
+        {...register(name, { required })}
+        // className="py-1 px-12 border border-gray-300 rounded"
+        className={inputStyle.data}
       >
-        <option disabled value={defaultValue}>
-          {defaultValue }
-        </option>
-        {options &&
-          options?.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+        <option value="">--Please choose an option--</option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
-      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]?.message || `${label} is required`}</p>}
+      {errors[name] && <p className="text-red-500">{name} is required</p>}
     </div>
   );
 };
 
-
-// again new
-export const SelectFieldss = ({ name, label, register, errors, options, defaultValue }) => {
-  console.log('errors from selectField', errors);
-  return (
-    <div className="mb-4">
-      <label className="block text-gray-700">{label}</label>
-      <select 
-        {...register(name, { required: 'Role is required', validate: value => value !== defaultValue || 'Role is required' })} 
-        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="">{defaultValue}</option>
-        {options &&
-          options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-      </select>
-      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>}
-    </div>
-  );
-};
-
-
-
+ 
+  
 
 
 

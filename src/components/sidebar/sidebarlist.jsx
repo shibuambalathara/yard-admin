@@ -16,8 +16,8 @@ import { TbListDetails, TbStatusChange } from "react-icons/tb";
 import { FaCarOn, FaUsersViewfinder } from "react-icons/fa6";
 import { TfiTruck } from "react-icons/tfi";
 import { LiaTruckMovingSolid } from "react-icons/lia";
-import { VscDebugDisconnect } from "react-icons/vsc";
-import { TfiViewListAlt } from "react-icons/tfi";
+import { HiBuildingOffice2 } from "react-icons/hi2";
+
 
 export const client_level_super_user = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/" },
@@ -258,274 +258,38 @@ export const super_admin = [
         title: "Organisation Management ",
         icon: <CgOrganisation />,
         path: "/",
+         submenu: true,
+      submenuItems: [
+        {
+            title: "Client level super organisation  ",
+            icon: <HiBuildingOffice2 />
+            ,
+            path: "/organisationManagement/clientLevelSuperOrg",
+          },
+          {
+            title: "Client level Organisation   ",
+            icon: <HiBuildingOffice2 />
+            ,
+            path: "/organisationManagement/clientLevelOrg",
+          },
+          {
+            title: "Client level sub Organisation    ",
+            icon: <HiBuildingOffice2 />
+            ,
+            path: "/organisationManagement/clientLevelSubOrg",
+          },
+    
+    
+  
+        
+      ],
       },
       
     
   ];
 
 
-// export const super_admin = [
-//   {
-//     title: "Dashboard",
-//     icon: <MdDashboard />,
-//     path: "/",
-//   },
-//   {
-//     title: "Account Verification Requests ",
-//     icon: <RiAccountPinBoxFill />,
-//     path: "/",
-//   },
-//   {
-//     title: "Vehicle Category Management ",
-//     icon: <ImTruck />,
 
-//     childrens: [
-//       {
-//         title: "Manage Category ",
-//         icon: <MdManageHistory />,
-
-//         path: "/",
-//       },
-//     ],
-//   },
-//   {
-//     title: "Client Category Management ",
-//     icon: <FaUsers />,
-//     childrens: [
-//       {
-//         title: "Manage Category ",
-//         icon: <MdManageHistory />,
-//         path: "/",
-//       },
-//     ],
-//   },
-//   {
-//     title: "User Management",
-//     icon: <FaUserCircle />,
-//     path: "/",
-//   },
-//   {
-//     title: "Organisation Management ",
-//     icon: <CgOrganisation />,
-//     path: "/",
-//   },
-//   {
-//     title: "Link Accounts  ",
-//     icon: <FaLink />,
-//     childrens: [
-//       {
-//         title: "Connect Client Level Super User",
-//         icon: <VscDebugDisconnect />,
-//         path: "/",
-//       },
-//       {
-//         title: "View Connections",
-//         icon: <FaUsersViewfinder />,
-//         path: "/",
-//       },
-//     ],
-//   },
-// ];
-
-// export const client_level_super_user = [
-//   {
-//     title: "Dashboard",
-//     icon: <MdDashboard />,
-//     path: "/table",
-//   },
-//   {
-//     title: "Yard",
-//     icon: <GiHomeGarage />,
-//     childrens: [
-//       {
-//         title: "Yard Details",
-//         icon: <TbListDetails />,
-//         path: "/",
-//       },
-//       {
-//         title: "Yard Rent Details",
-//         icon: <TbListDetails />,
-//         path: "/about",
-//       },
-//     ],
-//   },
-//   {
-//     title: "Vehicle Ownership Requests",
-//     icon: <ImTruck />,
-//     childrens: [
-//       {
-//         title: "Manage Request",
-//         icon: <MdManageHistory />,
-//         path: "/login",
-//       },
-//       {
-//         title: "Review Request Status",
-//         icon: <TbStatusChange />,
-//         path: "/register",
-//       },
-//     ],
-//   },
-//   {
-//     title: "Vehicle Tracking",
-//     icon: <FaCarOn />,
-//     childrens: [
-//       {
-//         title: "View Inbound Vehicles",
-//         icon: <LiaTruckMovingSolid />,
-//         path: "/profile",
-//       },
-//       {
-//         title: "View Outbound Vehicles",
-//         icon: <TfiTruck />,
-//         path: "/profile",
-//       },
-//     ],
-//   },
-
-//   {
-//     title: "contact",
-//     icon: <MdOutlineAddIcCall />,
-//     path: "/support",
-//   },
-//   {
-//     title: "Help",
-//     icon: <FaHandsHelping />,
-//     path: "/report-bug",
-//   },
-// ];
-
-
-
-
-export const admin = [
-  {
-    title: "ADMIN",
-  },
-  {
-    title: "user1",
-    icon: "",
-    childrens: [
-      {
-        title: "Home",
-        icon: "@",
-        path: "/",
-      },
-      {
-        title: "About",
-        icon: "@",
-        path: "/about",
-      },
-      {
-        title: "Contact",
-        icon: "@",
-        childrens: [
-          {
-            title: "Facebook",
-            icon: "@",
-          },
-          {
-            title: "Twitter",
-            icon: "@",
-          },
-          {
-            title: "Instagram",
-            icon: "@",
-          },
-        ],
-      },
-      {
-        title: "FAQ",
-        icon: "@",
-      },
-    ],
-  },
-  {
-    title: "user2",
-    icon: "@",
-    childrens: [
-      {
-        title: "Login",
-        path: "/login",
-      },
-      {
-        title: "Register",
-        path: "/register",
-      },
-      {
-        title: "Forgot Password",
-        path: "/forgot-password",
-      },
-      {
-        title: "Reset Password",
-        path: "/reset-password",
-      },
-    ],
-  },
-  {
-    title: "user3",
-    icon: "@",
-    childrens: [
-      {
-        title: "Profile",
-        path: "/profile",
-      },
-      {
-        title: "Settings",
-        childrens: [
-          {
-            title: "Account",
-            path: "/settings/account",
-          },
-          {
-            title: "Billing",
-            childrens: [
-              {
-                title: "Payment",
-                path: "/settings/billing/payment",
-              },
-              {
-                title: "Subscription",
-                path: "/settings/billing/subscription",
-              },
-            ],
-          },
-          {
-            title: "Notifications",
-            path: "/settings/notifications",
-          },
-        ],
-      },
-      {
-        title: "Logout",
-        path: "/logout",
-      },
-    ],
-  },
-  {
-    title: "user4",
-    icon: "@",
-    childrens: [
-      {
-        title: "Search",
-        path: "/search",
-      },
-      {
-        title: "History",
-        path: "/history",
-      },
-    ],
-  },
-  {
-    title: "Support",
-    icon: "@",
-    path: "/support",
-  },
-  {
-    title: "Report Bug",
-    icon: "@",
-    path: "/report-bug",
-  },
-];
 
 export const yardManager = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/yardDashboard" },

@@ -5,9 +5,7 @@ import { Role, DocumentType } from "../../../utils/staticData";
 import {
   FormFieldInput,
   InputField,
-  SelectInput,
-  SelectFields,
-  SelectFieldss,
+  SelectComponent,
 } from "@/components/ui/fromFields";
 import React from "react";
 import axiosInstance from "@/utils/axios";
@@ -127,8 +125,8 @@ const CreateUser = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="mySelect" className={labelStyle.data}>
+          <div className="mb-">
+            {/* <label htmlFor="mySelect" className={labelStyle.data}>
               Select an Role:
             </label>
             <select
@@ -143,7 +141,15 @@ const CreateUser = () => {
                 </option>
               ))}
             </select>
-            {errors.role && <p className="text-red-500">Role Required</p>}
+            {errors.role && <p className="text-red-500">Role Required</p>} */}
+            <SelectComponent
+              label="Select a Role"
+              name="role"
+              options={Role}
+              register={register}
+              errors={errors}
+              required={true}
+            />
           </div>
           <div className="mb-">
             <InputField
@@ -200,7 +206,7 @@ const CreateUser = () => {
             />
           </div>
           <div className="mb-">
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label htmlFor="mySelect" className={labelStyle.data}>
                 Select an Document type:
               </label>
@@ -219,9 +225,18 @@ const CreateUser = () => {
               {errors.role && (
                 <p className="text-red-500">Document type Required</p>
               )}
-            </div>
+        
+            </div> */}
+            <SelectComponent
+              label="Select a Document Type"
+              name="document_type"
+              options={DocumentType}
+              register={register}
+              errors={errors}
+              required={true}
+            />
           </div>
-          <div className="mb-2">
+          <div className="">
             <label className="block font-bold mb-2" htmlFor="document_value">
               Document Value
             </label>

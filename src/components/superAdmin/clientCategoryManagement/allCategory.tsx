@@ -7,7 +7,7 @@ import axiosInstance from "@/utils/axios";
 import Link from "next/link";
 import DataTableid from "@/components/idAcess/idAccess";
 import Pagination from "@/components/pagination/pagination";
-import Addcategory from "@/components/clientCategoryManagement/AddClientCategory"
+import Addcategory from "@/components/superAdmin/clientCategoryManagement/AddClientCategory"
 import Loading from "@/app/(home)/(superAdmin)/loading";
  const ClientCategoryManagement = () => {
 const [clientData, setClientData] = useState(null);
