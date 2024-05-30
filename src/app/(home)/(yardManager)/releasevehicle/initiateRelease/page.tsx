@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 import data from "@/components/tables/mockData.json";
 import DataTable from "@/components/tables/dataTable";
-import { SelectInput } from "@/components/ui/fromFields";
+// import { SelectInput } from "@/components/ui/fromFields";
 
 const InitiateRelease = () => {
   const movies = useMemo(() => data, []);

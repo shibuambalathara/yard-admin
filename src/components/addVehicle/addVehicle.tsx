@@ -158,7 +158,7 @@ const AddVehicleComponent = () => {
           defaultValue="Select  Vehicle Category"
           options=""
           register={register}
-          error={errors.role}
+          error={errors}
           data=""
         />
          <FormFieldInput

@@ -48,7 +48,7 @@ const AddParkFee = () => {
               defaultValue="select vehicle category"
               options={bidStatusOptions}
               register={register}
-              error={errors.vehicleCategory}
+              error={errors}
             />
             <SelectInput
               label=""
@@ -56,7 +56,7 @@ const AddParkFee = () => {
               defaultValue="Select  Role"
               options={bidStatusOptions}
               register={register}
-              error={errors.clientUserCategory}
+              error={errors}
             />
             <SelectInput
               label=""
@@ -64,7 +64,7 @@ const AddParkFee = () => {
               defaultValue="Select  Role"
               options={bidStatusOptions}
               register={register}
-              error={errors.ClientUserDropDown}
+              error={errors}
             />
             <FormFieldInput
               label=""
