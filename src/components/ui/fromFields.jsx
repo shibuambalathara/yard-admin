@@ -229,7 +229,7 @@ export const SelectInput = ({
   ...rest
 }) => {
  
-
+console.log("options",options);
 
   return (
     <div className="flex flex-col">
@@ -242,9 +242,9 @@ export const SelectInput = ({
         {...rest}
         defaultValue={defaultValue}
       >
-        <option disabled value={defaultValue}>
-          {defaultValue }
-        </option>
+        {/* <option disabled >
+        {defaultValue}
+        </option> */}
         {options &&
           options?.map((option) => (
             <option key={option.value} value={option.value}>
@@ -252,7 +252,7 @@ export const SelectInput = ({
             </option>
           ))}
       </select>
-      {error && <p className="text-red-500">{`${label} Required`}</p>}
+      {error[name] && <p className="text-red-500">{name} is required</p>}
     </div>
   );
 };

@@ -11,6 +11,7 @@ import {
 import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
+import { useRouter } from 'next/navigation'
 
 const ViewClientLevelSuperOrganisation = ({ profileId }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +28,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
     code: string;
     country: string;
     id: string;
-    is_blocked: boolean;
+    is_blocked: boolean;    
     user: string;
     user_id: string;
   };
@@ -40,7 +41,10 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  // console.log("profileid from super org",profileId?.superOrgId);
+ 
+  
+
+//   console.log("profileid from super org",profileId);
   // const dataofForm = getValues();
   // console.log("dataofform",dataofForm);
 
@@ -49,9 +53,10 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
       const response = await axiosInstance.get(
         `/user/users/assignment?role=CLIENT_LEVEL_SUPER_USER`
       );
+
       setAllUsers(response?.data?.data);
 
-      // console.log("reponse of FetchClientLevelSuperUsers ",response);
+    //   console.log("reponse of FetchClientLevelSuperUsers007 ",response);
 
       toast.success("successs");
     } catch (error) {
@@ -59,6 +64,9 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
       toast.error(`something went wrong`);
     }
   }, []);
+
+//   console.log("users from state",users);
+  
 
   const FetchAllClientCategory = useCallback(async () => {
     try {
@@ -82,7 +90,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
       );
 
       console.log(
-        "fetch  response of superOrgCreae individaul",
+        "fetch  data of cl_lvl_super_org",
         allOrganisations
       );
 
@@ -94,16 +102,27 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
       };
      
 
+    //   const level = users?.filter(item => item?.id === allOrganisations?.data?.res?.user_id);
+        
+        
+      
+      
+
+    //   console.log("level",level);
+      
+      
+    //   allOrganisations?.data?.res?.user_id
+
       // console.log("OPTION USERS",users);
       
 
       setIndividual(destructuredData);
 
-      console.log("destructuredData", destructuredData);
-      setValue('user_id', destructuredData.user);
+    //   console.log("destructuredData", destructuredData);
+      
 
       reset(destructuredData);
-      console.log("d");
+    //   console.log("d");
       
 
       // console.log("Form values after reset:", getValues());
@@ -115,7 +134,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
     }
   }, []);
 
-  // console.log("individaul user of edit frm superOrg",individual);
+//   console.log("individaul user of edit frm superOrg",individual);
 
   // console.log("inddividyak", individual?.clsup_org_category);
 
@@ -134,6 +153,28 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
     label: item.name,
   }));
 
+
+ let result= AllUsers.filter((item)=>item?.value == individual?.user_id)
+
+//  console.log("result",result);
+ 
+  
+ if (result.length === 0) {
+    // The individual.user_id is not present in AllUsers, so we push a new item
+    AllUsers.push({ label:individual?.user,value: individual?.user_id });
+    // console.log("Updated AllUsers", AllUsers);
+  }
+ else {
+  // If AllUsers is empty, we can directly push the new item
+  AllUsers.push({ label:individual?.user,value: individual?.user_id });
+//   console.log("Updated AllUsers", AllUsers);
+}
+
+// console.log("Updated AllUsers", AllUsers);
+
+// console.log("result",result);
+
+
   // console.log("AllUsers", AllUsers);
 
   const AllCategory = category.map((item) => ({
@@ -145,27 +186,27 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
 
   const onSubmit = async (data: Inputs) => {
     console.log("data from cientSuperorg", data);
-  //  const ModifiedData= {
-  //     clsup_org_name: data?.clsup_org_name,
-  //     userId: data?.userId,
-      
-  //     clsup_org_category_id: data?.clsup_org_category_id,
-  //     country: data?.country,
+   const ModifiedData= {
+      clsup_org_name: data?.clsup_org_name,
+      user_id: data?.user_id,
+      id:data?.id,
+      clsup_org_category_id: data?.clsup_org_category_id,
+      country: data?.country,
     
-  //   }
+    }
 
-    // console.log("MODIFIEDDATA",ModifiedData);
+    console.log("MODIFIEDDATA",ModifiedData);
     
-    // try {
-    //     const response = await axiosInstance.post(
-    //       `clientorg/client_lvl_super_org/${profileId?.profileId}`
-    //     );
-    //     console.log("response after superOrgCreae", response);
-    //     toast.success("superOrgCreated");
-    //   } catch (error) {
-    //     console.log("error", error);
-    //     toast.error(`error in creating superOrg`);
-    //   }
+    try {
+        const response = await axiosInstance.put(
+          `clientorg/client_lvl_super_org/${profileId?.superOrgId}`,data
+        );
+        console.log("response after superOrgCreae", response);
+        toast.success("superOrgCreated");
+      } catch (error) {
+        console.log("error", error);
+        toast.error(`error in creating superOrg`);
+      }
     //   // Handle form submission
   };
 
@@ -214,26 +255,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
               required={true}
               defaultValue={individual?.user}
             />
-            {/* <div className="mb-">
-              <label htmlFor="role" className="block font-bold mb-2">
-                Select a user
-              </label>
-              <select
-                id="user"
-                {...register("user", { required: "user is required" })}
-                className="py-1 px-12 border border-gray-300 rounded"
-              >
-                <option value=""></option>
-                {AllUsers.map((option, index) => (
-                  <option key={index} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              {errors.user && (
-                <p className="text-red-500">{errors.user.message}</p>
-              )}
-            </div> */}
+            
           </div>
 
           <div className="mb-">
@@ -246,56 +268,20 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
               required={true}
               defaultValue={individual?.clsup_org_category}
             />
-            {/* <div className="mb-">
-              <label
-                htmlFor="clsup_org_category"
-                className="block font-bold mb-2"
-              >
-                Select a cat
-              </label>
-              <select
-                id="user"
-                {...register("clsup_org_category", {
-                  required: "clsup_org_category is required",
-                })}
-                className="py-1 px-12 border border-gray-300 rounded"
-                // defaultValue={individual?.clsup_org_category}
-
-              >
-                <option value="" selected>{individual?.clsup_org_category}</option>
-                {AllCategory.map((option, index) => (
-                  <option key={index} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              {errors.user && (
-                <p className="text-red-500">{errors.user.message}</p>
-              )}
-            </div> */}
+            
           </div>
           <div className="mb-">
-            <SelectComponent
+            <SelectInput
               label=" Select Country"
               options={Country}
               name="country"
               register={register}
-              errors={errors}
+              error={errors}
               required={true}
               defaultValue=""
             />
           </div>
-          {/* <div className="mb-">
-              <SelectComponent
-                label="Select Organisation Children"
-                options={DocumentType}
-                name="clientLvlOrgIds"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
+          
         </div>
 
         <div className=" w-full text-center p-1 mt-3  space-x-2">
@@ -305,12 +291,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
           >
             Submit
           </button>
-          <button
-            // onClick={() => onClose()}
-            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-          >
-            Cancel
-          </button>
+          
         </div>
       </form>
     </div>

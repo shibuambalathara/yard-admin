@@ -12,7 +12,7 @@ import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 
-const CreateClientLevelSuperOrganisation = ({ onClose,fetchData }) => {
+const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -43,7 +43,6 @@ const CreateClientLevelSuperOrganisation = ({ onClose,fetchData }) => {
       // console.log("reponse of FetchClientLevelSuperUsers ",response);
 
       toast.success("successs");
-     
     } catch (error) {
       // console.log("error", error);
       toast.error(`something went wrong`);
@@ -57,7 +56,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose,fetchData }) => {
       setAllCategory(response?.data?.clientCategory);
 
       // console.log("resposne of FetchAllClientCategory",response);
-      reset()
+      reset();
       toast.success("successs");
     } catch (error) {
       // console.log("error", error);
@@ -91,8 +90,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose,fetchData }) => {
       clsup_org_name: data?.clsup_org_name?.toUpperCase(),
     };
 
-    console.log("modifiedDAta",modifiedData);
-    
+    console.log("modifiedDAta", modifiedData);
 
     try {
       const response = await axiosInstance.post(
@@ -102,8 +100,8 @@ const CreateClientLevelSuperOrganisation = ({ onClose,fetchData }) => {
 
       console.log("response after superOrgCreae", response);
       toast.success("superOrgCreated");
-       fetchData()
-      onClose()
+      fetchData();
+      onClose();
     } catch (error) {
       // console.log("error", error);
       toast.error(`error in creating superOrg`);
