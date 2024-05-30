@@ -59,7 +59,7 @@ const AllClientLevelOrganisation = () => {
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
-    }
+    } 
   };
 
   // console.log("filteredData from clientLevelsuperOrg", filteredData);

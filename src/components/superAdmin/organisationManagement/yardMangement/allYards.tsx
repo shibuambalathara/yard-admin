@@ -1,9 +1,12 @@
 "use client"
 import React from 'react'
+import CreateYard from './createYard'
 
 const AllYards = () => {
   return (
-    <div>AllYards</div>
+    
+    <div><CreateYard/>
+    AllYards</div>
   )
 }
 
