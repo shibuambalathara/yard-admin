@@ -104,6 +104,8 @@ const ViewFullUserProfile = ({ profileId }) => {
   }, [profileId]);
 
   const onSubmit = async (data: Inputs) => {
+    console.log("ENETERED IN USER UPDATE");
+    
     console.log("Data on submit:", data);
     const validFrom = new Date(data?.account_usage_from).toISOString();
     const validTo = new Date(data?.account_usage_to).toISOString();

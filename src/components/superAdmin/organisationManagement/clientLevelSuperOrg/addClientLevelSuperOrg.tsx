@@ -12,7 +12,7 @@ import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 
-const CreateClientLevelSuperOrganisation = ({ onClose }) => {
+const CreateClientLevelSuperOrganisation = ({ onClose,fetchData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
 
   type Inputs = {
     clsup_org_name: string;
-    userId: string;
+    user_id: string;
     clsup_org_category_id: string;
     country: string;
     // clientLvlOrgIds: string;
@@ -31,14 +31,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>({
-    defaultValues: {
-      userId: "",
-      clsup_org_category_id: "",
-      country: "",
-      // clientLvlOrgIds: "",
-    },
-  });
+  } = useForm<Inputs>();
 
   const FetchClientLevelSuperUsers = useCallback(async () => {
     try {
@@ -47,11 +40,12 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
       );
       setAllUsers(response?.data?.data);
 
-      console.log("reponse of FetchClientLevelSuperUsers ",response);
+      // console.log("reponse of FetchClientLevelSuperUsers ",response);
 
       toast.success("successs");
+     
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       toast.error(`something went wrong`);
     }
   }, []);
@@ -66,7 +60,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
       reset()
       toast.success("successs");
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       toast.error(`something went wrong`);
     }
   }, []);
@@ -90,12 +84,15 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
   // console.log("AllCat", AllCategory);
 
   const onSubmit = async (data: Inputs) => {
-    console.log("data from cientSuperorg", data);
+    console.log("create from cientSuperorg", data);
 
     const modifiedData = {
       ...data,
       clsup_org_name: data?.clsup_org_name?.toUpperCase(),
     };
+
+    console.log("modifiedDAta",modifiedData);
+    
 
     try {
       const response = await axiosInstance.post(
@@ -105,8 +102,10 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
 
       console.log("response after superOrgCreae", response);
       toast.success("superOrgCreated");
+       fetchData()
+      onClose()
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       toast.error(`error in creating superOrg`);
     }
 
@@ -154,7 +153,7 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
               <SelectComponent
                 label="Select User"
                 options={AllUsers}
-                name="userId"
+                name="user_id"
                 register={register}
                 errors={errors}
                 required={true}
@@ -216,5 +215,4 @@ const CreateClientLevelSuperOrganisation = ({ onClose }) => {
     </div>
   );
 };
-
 export default CreateClientLevelSuperOrganisation;

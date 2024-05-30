@@ -256,7 +256,6 @@ const CreateUser = () => {
 
         <div className=" w-full text-center p-1 mt-3">
           <button
-            
             type="submit"
             className="bg-blue-500 text-white py-2 px-10 w-40 rounded hover:bg-blue-600 transition duration-200"
           >

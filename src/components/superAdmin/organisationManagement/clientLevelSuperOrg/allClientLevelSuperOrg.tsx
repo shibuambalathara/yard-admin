@@ -13,9 +13,9 @@ import { FaUserLargeSlash,FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/addClientLevelSuperOrg"
+import Pagination from "@/components/pagination/pagination";
 
-
-const AllClientLevelOrganisation = () => {
+const AllClientLevelSuperOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -23,7 +23,7 @@ const AllClientLevelOrganisation = () => {
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     if (success) {
       toast.success(success.text ? success.text : "Success");
@@ -45,10 +45,10 @@ const AllClientLevelOrganisation = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/user/users?page=${page}&limit=10&status=1&role=${roleFilter}`
+        `/clientorg/client_lvl_super_org?page=1&limit=5&status=1&client_org_level=CLIENT_SUPER_ORG`
       );
-      // console.log("all users", response);
-      setFilteredData(response.data);
+      console.log("all users", response);
+      setFilteredData(response?.data?.res);
       setSuccess({
         text: response?.data?.message,
       });
@@ -62,105 +62,57 @@ const AllClientLevelOrganisation = () => {
     }
   };
 
+    //  console.log("filteredData from clientLevelsuperOrg",filteredData);
+     
+    //  clientLvlSuperOrg  clientLevelSuperOrgs
+ 
   // console.log("role filter", roleFilter);
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
   }, [roleFilter, page]);
 
-  const UsersData = filteredData?.data?.users || [];
+  const UsersData = filteredData?.clientLvlSuperOrg || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "Name",
-        accessorKey: "name",
-        id: "name", // Ensure unique id
+        header: "Organization Category",
+        accessorKey: "clsup_org_category.name",
+        // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "Email",
-        accessorKey: "email",
-        id: "email", // Ensure unique id
-      },
-      {
-        header: "Role",
-        accessorKey: "role",
-        id: "role", // Ensure unique id
+        header: "Organization Name",
+        accessorKey: "clsup_org_name",
+        // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Code",
         accessorKey: "code",
-        id: "code", // Ensure unique id
+        // id: "code", // Ensure unique id
       },
+      {
+        header: "Country",
+        accessorKey: "country",
+        // id: "country", // Ensure unique id
+      },
+      // {
+      //   header: "ID",
+      //   accessorKey: "id",
+      //   // id: "id", // Ensure unique id
+      // },
       {
         id: "viewUser",
         header: "View User",
         cell: ({ row }) => View(row),
       },
-//       {
-//         id: "isBlocked",
-//         header: "Status",
-//         cell: ({ row }) =>
-//           row?.original?.is_blocked ?  (
-//             <div className="border-2 p-1 bg-green-600 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-//  <p className="text-lg"><FaUserLarge/></p> 
-//               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, false)}>unblock</button>
-//             </div>
-//           ) : (
-//             <div className="border-2 p-1 bg-red-500 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-//                <p className="text-xl"><FaUserLargeSlash/> </p>
-//               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, true)}>block</button>
-//             </div>  
-//           )
-//       },
-{
-  id: "isBlocked",
-  header: "Status",
-  cell: ({ row }) => {
-    const isBlocked = row?.original?.is_blocked;
-
-    return (
-      <div className={`border-2 p-1 ${isBlocked ? 'bg-red-500' : 'bg-green-600'} space-x-2 font-semibold rounded-md uppercase text-center flex justify-center items-center`}>
-        <p className="text-lg">
-          {isBlocked ? <FaUserLargeSlash /> : <FaUserLarge />}
-        </p>
-        <button
-          className="text-white font-semibold uppercase"
-          onClick={() => handleUserBlockToggle(row.original, !isBlocked)}
-        >
-          {isBlocked ? 'block' : 'unblock'}
-        </button>
-      </div>
-    );
-  }
-}
-
-      
     ], 
     [filteredData]
   );
+  
 
-  const handleUserBlockToggle = async (user, block) => {
-    // console.log("user from handleUserBlockToggle", user);
-    const action = block ? 'block' : 'unblock';
-    const confirmation = window.confirm(`Are you sure you want to ${action} this user?`);
+  // console.log("filetered data from clientLevelSuperOrg",filteredData);
   
-    if (!confirmation) {
-      return;
-    }
-  
-    try {
-      const response = await axiosInstance.patch(`/user/${user.id}/restrict/any`, {
-        blockProperty: block,
-      });
-      console.log('response from block',response);
-      fetchData()
-      
-      console.log('response from user block/unblock', response);
-    } catch (error) {
-      console.log("error from user block/unblock", error);
-    }
-  };
 
 
   const handleModalOpen = () => {
@@ -173,7 +125,7 @@ const AllClientLevelOrganisation = () => {
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
+      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         User Management
       </h1>
       <div className="flex w-full px-8 justify-between">
@@ -188,7 +140,7 @@ const AllClientLevelOrganisation = () => {
           >
             Add User
           </button>
-          {modalOpen && <CreateClientLevelSuperOrg onClose={handleModalClose} />}
+          {modalOpen && <CreateClientLevelSuperOrg onClose={handleModalClose} fetchData={fetchData} />}
         </div>
       </div>
       <div>
@@ -198,24 +150,33 @@ const AllClientLevelOrganisation = () => {
           </div>
         ) : ( */}
        {   filteredData && <DataTable data={UsersData} columns={userColumn} />
+       
         /* )} */}
+        <div className="w-full text-center">
+          {filteredData?.totalCount && (
+            <Pagination
+              page={page}
+              setPage={setPage}
+              totalDataCount={filteredData?.totalCount}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default AllClientLevelOrganisation;
+export default AllClientLevelSuperOrganisation;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
     <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
       <p><MdOutlineViewHeadline/></p>
-      <Link href={`/userManagement/${row.original.id}`} target="_blank" rel="noopener noreferrer" className="">
+      <Link href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`} target="_blank" rel="noopener noreferrer" className="">
         View
       </Link>
     </div>
   );
 };
-
 

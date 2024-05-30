@@ -1,8 +1,9 @@
 import React from 'react'
+import AllClientLevelOrganisation from "@/components/superAdmin/organisationManagement/clientLevelOrg/allClientLevelOrgs"
 
 const ClientLevelOrganisation = () => {
   return (
-    <div>ClientLevelOrganisation</div>
+    <div><AllClientLevelOrganisation/></div>
   )
 }
 
