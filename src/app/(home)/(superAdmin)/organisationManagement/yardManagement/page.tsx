@@ -6,7 +6,7 @@ import AllYards from '@/components/superAdmin/organisationManagement/yardMangeme
 
 const YardManagement = () => {
   return (
-    <div><AllYards/></div>
+    <div className='w-full h-full '><AllYards/></div>
   )
 }
 

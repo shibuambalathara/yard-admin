@@ -278,6 +278,11 @@ export const super_admin = [
             ,
             path: "/organisationManagement/clientLevelSubOrg",
           },
+          {
+            title: "Yard  Management  ",
+            icon: <HiBuildingOffice2 />,
+            path: "/organisationManagement//yardManagement",
+          },
     
     
   
