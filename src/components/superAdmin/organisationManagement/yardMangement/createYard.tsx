@@ -14,7 +14,7 @@ import {
   labelStyle,
   loginInputStyle,
 } from "../../../../components/ui/style";
-const CreateYard = ({ onClose, fetchData }) => {
+const CreateYard = ({ onClose}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ const CreateYard = ({ onClose, fetchData }) => {
   const [ClientLevelSuperUsers,setClientLevelSuperUsers]=useState([])
   const [category, setAllCategory] = useState([]);
   const [selectedState, setSelectedState] = useState('');
-
+  const [filterDistricts, setFilterDistricts] = useState([]);
 
   type Inputs = {
     yard_name: string;
@@ -90,13 +90,15 @@ const CreateYard = ({ onClose, fetchData }) => {
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
     setSelectedState(selectedState);
-  }
+    const stateData = states.find(state => state.state === selectedState);
+    setFilterDistricts(stateData ? stateData.districts : []);
+  };
    
-    const singleState = states[11]
-    console.log(singleState);
+    // console.log('kerala',singleState);
     
-    const {districts} =  singleState
-    console.log("state",districts)
+    
+    // const {districts} =  singleState
+    // console.log("kerala",districts)
   //   // Handle form submission
   // },[])
   const createYard = useCallback(async (data: Inputs) => {
@@ -105,6 +107,7 @@ const CreateYard = ({ onClose, fetchData }) => {
       ...data,
       yard_name: data?.yard_name?.toUpperCase(),
       field_executive_name: data?.field_executive_name?.toUpperCase(),
+      district : data?.district
     };
 
     // console.log("client level org modifiedData",modifiedData);
@@ -116,6 +119,7 @@ const CreateYard = ({ onClose, fetchData }) => {
       );
       console.log("response after clientOrgCreaet", response);
       console.log("yard created");
+      onClose()
       
     } catch (error) {
       console.log("error", error);
@@ -124,7 +128,7 @@ const CreateYard = ({ onClose, fetchData }) => {
   
   },[])
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 ">
       <div className="bg-white p-4 rounded-lg w-full max-w-md">
         <button
           onClick={onClose}
@@ -247,7 +251,7 @@ const CreateYard = ({ onClose, fetchData }) => {
                 defaultValue=""
               />
             </div>
-            <div className="mb-">
+            {/* <div className="mb-">
               <SelectComponent
                 label=" Select State"
                 options={State}
@@ -258,20 +262,7 @@ const CreateYard = ({ onClose, fetchData }) => {
                 defaultValue=""
                 
               />
-            </div>
-            
-            <div className="mb-">
-              <SelectComponent
-                label ="Select district "
-                options={State}
-                name="district"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-                
-              />
-            </div>
+            </div>  */}
             <div className="flex flex-col w-full">
   <label htmlFor="state" className={labelStyle?.data}>
     Select State
@@ -281,13 +272,41 @@ const CreateYard = ({ onClose, fetchData }) => {
     {...register('state', { required: true })}
     className={inputStyle.data}
     defaultValue=""
+    onChange={handleStateChange}
   >
     <option value="" disabled hidden>
-      Select State
+      Select state
     </option>
-    {State.map((option, index) => (
-      <option key={index} value={option.value}>
-        {option.label}
+    {states.map((option, index) => (
+      <option key={index} value={option.state}>
+        {option.state}
+      </option>
+    ))}
+  </select>
+  {errors.state && (
+    <p className="text-red-500">State is required</p>
+  )}
+</div>
+            
+
+
+
+            <div className="flex flex-col w-full">
+  <label htmlFor="district" className={labelStyle?.data}>
+    Select district
+  </label>
+  <select
+    id="district"
+    {...register('district', { required: true })}
+    className={inputStyle.data}
+    defaultValue=""
+  >
+    <option value="" disabled hidden>
+      Select district
+    </option>
+    {filterDistricts.map((option, index) => (
+      <option key={index} value={option}>
+        {option}
       </option>
     ))}
   </select>

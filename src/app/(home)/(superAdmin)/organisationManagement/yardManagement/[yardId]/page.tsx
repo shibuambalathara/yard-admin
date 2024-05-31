@@ -5,7 +5,7 @@ import EditIndividualYard from '@/components/superAdmin/organisationManagement/y
 
 const EditIndividualYards = ({ params }: { params: { yardId: string } })=> {
   return (
-    <div className='w-full h-full'><EditIndividualYard/></div>
+    <div className='w-full h-full'><EditIndividualYard yardId={params}/></div>
   )
 }
 
