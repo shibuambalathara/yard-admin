@@ -196,7 +196,7 @@ const ViewFullUserProfile = ({ profileId }) => {
                 options={Role}
                 name="role"
                 register={register}
-                error={errors.role}
+                error={errors}
                 required
                 placeholder=""
                 defaultValue="Select user role"
@@ -245,8 +245,8 @@ const ViewFullUserProfile = ({ profileId }) => {
                 options={DocumentType}
                 name="document_type"
                 register={register}
-                error={errors.document_type}
-                required
+                error={errors}
+                required={true}
                 placeholder="Select document type"
                 defaultValue="Select document type"
               />

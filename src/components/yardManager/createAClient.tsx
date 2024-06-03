@@ -42,13 +42,13 @@ const CreateAClient = () => {
             </div>
             
             
-            <SelectInput
+            {/* <SelectInput
               label=""
               name="vehicleCategory"
               defaultValue="select vehicle category"
               options={bidStatusOptions}
               register={register}
-              error={errors.vehicleCategory}
+              error={errors}
             />
             <SelectInput
               label=""
@@ -56,7 +56,7 @@ const CreateAClient = () => {
               defaultValue="Select  Role"
               options={bidStatusOptions}
               register={register}
-              error={errors.clientUserCategory}
+              error={errors}
             />
             <SelectInput
               label=""
@@ -64,8 +64,8 @@ const CreateAClient = () => {
               defaultValue="Select  Role"
               options={bidStatusOptions}
               register={register}
-              error={errors.ClientUserDropDown}
-            />
+              error={errors}
+            /> */}
             <FormFieldInput
               label=""
               type="number"

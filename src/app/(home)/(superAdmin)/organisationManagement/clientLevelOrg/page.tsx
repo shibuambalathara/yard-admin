@@ -3,7 +3,7 @@ import AllClientLevelOrganisation from "@/components/superAdmin/organisationMana
 
 const ClientLevelOrganisation = () => {
   return (
-    <div><AllClientLevelOrganisation/></div>
+    <div className='h-full w-full'><AllClientLevelOrganisation/></div>
   )
 }
 

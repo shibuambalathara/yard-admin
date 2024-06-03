@@ -126,19 +126,17 @@ const AllClientLevelSuperOrganisation = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        User Management
+       Client Level Super Organisation
       </h1>
-      <div className="flex w-full px-8 justify-between">
-        <div className="">
-          <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
-        </div>
+      <div className="flex w-full px-8 justify-end  ">
+        
         <div className="self-end">
           <button
           // href={`/userManagement/createUser`}
             onClick={handleModalOpen}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
           >
-            Add User
+            Assign
           </button>
           {modalOpen && <CreateClientLevelSuperOrg onClose={handleModalClose} fetchData={fetchData} />}
         </div>
@@ -171,12 +169,32 @@ export default AllClientLevelSuperOrganisation;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-      <p><MdOutlineViewHeadline/></p>
-      <Link href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`} target="_blank" rel="noopener noreferrer" className="">
-        View
-      </Link>
-    </div>
+   
+  //   <div className="border  bg-gray-700 text-white py-1 rounded-md ">
+  //   {/* <p>
+  //     <MdOutlineViewHeadline />
+  //   </p>
+  //   <Link href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`}
+  //     target="_blank"
+  //     rel="noopener noreferrer"
+  //     className=""
+  //   >
+  //     View
+  //   </Link> */}
+  // </div>
+
+<div className="flex  justify-center items-center border w-fit space-x-1 bg-gray-800 text-white  py-1 px-3  rounded-md">
+<p>
+       <MdOutlineViewHeadline />
+   </p>
+     <Link href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`}
+       target="_blank"
+      rel="noopener noreferrer"
+     className=""
+     >
+       View
+     </Link> 
+</div>
   );
 };
 

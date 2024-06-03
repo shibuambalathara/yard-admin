@@ -300,22 +300,10 @@ export const yardManager = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/yardDashboard" },
   {
     title: "Park Fee",
-   
-    icon: <GiHomeGarage />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Add Park Fee",
-        icon: <TbListDetails />,
-        path: "/parkfee/addParkFee",
-      },
+    path: "/parkfee",
 
-      {
-        title: "Manage Park Fee",
-        icon: <TbListDetails />,
-        path: "/parkfee/manageparkfee",
-      },
-    ],
+    icon: <GiHomeGarage />,
+    
   },
 
   {

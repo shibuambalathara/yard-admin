@@ -44,7 +44,7 @@ const UserManagement = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/user/users?page=${page}&limit=10&status=1&role=${roleFilter}`
+        `/user/users?page=${page}&limit=5&status=1&role=${roleFilter}`
       );
       console.log("all users", response);
       setFilteredData(response.data);
@@ -94,7 +94,7 @@ const UserManagement = () => {
       {
         id: "viewUser",
         header: "View User",
-        cell: ({ row }) => View(row),
+        cell: ({ row }) => <div className=" flex justify-center">{View(row)}</div>,
       },
 //       {
 //         id: "isBlocked",
@@ -119,7 +119,7 @@ const UserManagement = () => {
     const isBlocked = row?.original?.is_blocked;
 
     return (
-      <div className={`border-2 p-1 ${isBlocked ? 'bg-red-500' : 'bg-green-600'} space-x-2 font-semibold rounded-md uppercase text-center flex justify-center items-center`}>
+      <div className={`border-2 p-1 ${isBlocked ? 'bg-red-500' : 'bg-green-600'} space-x-2 font-semibold w-fit rounded-md uppercase text-center flex justify-center items-center`}>
         <p className="text-lg">
           {isBlocked ? <FaUserLargeSlash /> : <FaUserLarge />}
         </p>
@@ -208,7 +208,7 @@ export default UserManagement;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border   py-1 px-3 space-x-1 bg-gray-700 text-white  rounded-md ">
       <p><MdOutlineViewHeadline/></p>
       <Link href={`/userManagement/${row.original.id}`} target="_blank" rel="noopener noreferrer" className="">
         View

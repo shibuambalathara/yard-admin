@@ -60,7 +60,7 @@ export default async function RootLayout({
           <Header />
           <div className="flex flex-1 h-full">
             <SideBar />
-            <div className="flex-1 min-h-full">
+            <div className="flex-1 min-h-full overflow-y-scroll scrollbar-hide">
               <ToastProvider>
               {children}
               </ToastProvider>

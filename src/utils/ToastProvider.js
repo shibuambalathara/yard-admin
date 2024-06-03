@@ -7,7 +7,7 @@ const ToastProvider = ({children}) => {
   return (
     <>
     <Toaster
-  position="bottom-left"
+  position="top-right"
   reverseOrder={false}
   gutter={8}
   containerClassName=""

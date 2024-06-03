@@ -13,26 +13,28 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import useAuthStore from "../../store/useAuthStore";
 
 const SideBar = () => {
-  // const { user,token,role } = useAuthStore();
+  const { user,token,role } = useAuthStore();
+
+  console.log("user role form sidebar",role);
 
   // console.log("role from sidebar",role);
   const [userRole, setUserRole] = useState("superadmin");
 
-  const token = useAuthStore.getState().token; // Get token from the Zustand auth store
+  const tokens = useAuthStore.getState().token; // Get token from the Zustand auth store
 
   // console.log("Token form sidebar",token);
 
   const selectSidebarData = () => {
-    switch (userRole) {
+    switch (role) {
       case "superadmin":
         return super_admin;
-      case "yardmanager":
+      case "YARD_MANAGER":
         return yardManager;
 
       case "clientlevelsuperuser":
         return client_level_super_user;
       default:
-        return admin; // Default to user data
+        return super_admin; // Default to user data
     }
   };
 

@@ -1,31 +1,26 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useCallback } from "react";
-import { Role, DocumentType, Country } from "@//utils/staticData";
-import {
-  FormFieldInput,
-  SelectInput,
-  SelectComponent,
-  InputField,
-} from "@/components/ui/fromFields";
+import { Country, State } from "@//utils/staticData";
+import { SelectComponent, InputField } from "@/components/ui/fromFields";
 import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 
-const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
+const AddParkFee = ({ onClose, fetchData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const [users, setAllUsers] = useState([]);
+  const [clientLevelOrg, setClientLevelOrg] = useState([]);
+  const [vehicleCategory,setAllVehicleCategory]=useState([])
   const [category, setAllCategory] = useState([]);
 
   type Inputs = {
-    clsup_org_name: string;
-    user_id: string;
-    clsup_org_category_id: string;
-    country: string;
-    // clientLvlOrgIds: string;
-  };
+    vehicle_category_id: string;
+    park_fee_per_day:Number
+    cl_org_id: string;
+     };
+
   const {
     register,
     handleSubmit,
@@ -33,82 +28,84 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const FetchClientLevelSuperUsers = useCallback(async () => {
+
+  
+
+  const FetchClientLevelOrgs = useCallback(async () => {
     try {
       const response = await axiosInstance.get(
-        `/user/users/assignment?role=CLIENT_LEVEL_SUPER_USER`
+        `/clientorg/client_lvl_org`
       );
-      setAllUsers(response?.data?.data);
+      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-      // console.log("reponse of FetchClientLevelSuperUsers ",response);
+    //   console.log("reponse of clientlevelorg ", response);
 
       toast.success("successs");
     } catch (error) {
       // console.log("error", error);
-      toast.error(`something went wrong`);
+      toast.error(`something went wrong`); 
     }
   }, []);
 
-  const FetchAllClientCategory = useCallback(async () => {
+//   console.log("client level orgs",clientLevelOrg);
+  
+
+  const FetchAllVehicleCategory = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(`clientorg/cat/`);
+      const response = await axiosInstance.get(`/Vehicle/cat`);
 
-      setAllCategory(response?.data?.clientCategory);
+      setAllVehicleCategory(response?.data?.vehicleCategory);
 
-      // console.log("resposne of FetchAllClientCategory",response);
+      console.log("resposne of vehicle category",response);
       reset();
       toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error from vehiclecat", error);
+    //   toast.error(error?.me);
     }
   }, []);
 
   useEffect(() => {
-    FetchClientLevelSuperUsers();
-    FetchAllClientCategory();
+    // FetchVehicleCategory();
+    FetchAllVehicleCategory();
+    FetchClientLevelOrgs();
   }, []);
 
-  const AllUsers = users.map((item) => ({
+  const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
+    value: item.id,
+    label: item.cl_org_name
+    ,
+  }));
+
+  const vehicleCategorys = vehicleCategory?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
 
-  const AllCategory = category.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
-
-  console.log("AllUsers", AllUsers);
+//   console.log("allClientLevelOrganisations", allClientLevelOrganisations);
   // console.log("AllCat", AllCategory);
+//   console.log("clientLevelSuperUsers",clientLevelSuperUsers);
+  
 
-  const onSubmit = async (data: Inputs) => {
-    console.log("create from cientSuperorg", data);
-
-    const modifiedData = {
-      ...data,
-      clsup_org_name: data?.clsup_org_name?.toUpperCase(),
-    };
-
-    console.log("modifiedDAta", modifiedData);
-
+  const AddParkFee = useCallback(async (data: Inputs) => {
+    console.log("data for adding park fee", data);
+  
     try {
       const response = await axiosInstance.post(
-        `clientorg/client_lvl_super_org/create`,
-        modifiedData
+        '/parkfee/create',
+        data
       );
-
-      console.log("response after superOrgCreae", response);
-      toast.success("superOrgCreated");
-      fetchData();
-      onClose();
+      console.log("response after creating park fee", response);
+      
+      toast.success(response?.data?.res?.message);
+      fetchData()
+      onClose()
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`error in creating superOrg`);
+      console.log("error", error);
+    //   toast.error(error);
     }
-
     // Handle form submission
-  };
+  },[])
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -130,18 +127,18 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
           </svg>
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Create super ORG</h1>
+          <h1 className=" font-bold  ">Add Park Fee</h1>
           <p className=" cursor-pointer" onClick={onClose}>
             x
           </p>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
+        <form onSubmit={handleSubmit(AddParkFee)} className="  border-gray-200 ">
           <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
             <div className="mb-">
               <InputField
-                label="Super Organisation Name"
-                type="text"
-                name="clsup_org_name"
+                label="park Fee Per Day"
+                type="number"
+                name="park_fee_per_day"
                 register={register}
                 errors={errors}
                 pattern=""
@@ -149,21 +146,9 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
             </div>
             <div className="mb-">
               <SelectComponent
-                label="Select User"
-                options={AllUsers}
-                name="user_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-
-            <div className="mb-">
-              <SelectComponent
-                label="Select Category "
-                options={AllCategory}
-                name="clsup_org_category_id"
+                label="Selec Client Organisation"
+                options={allClientLevelOrganisations}
+                name="cl_org_id"
                 register={register}
                 errors={errors}
                 required={true}
@@ -171,27 +156,19 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
               />
             </div>
             <div className="mb-">
-              {/* <SelectComponent
-                label=" Select Country"
-                options={Country}
-                name="country"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              /> */}
-            </div>
-            {/* <div className="mb-">
               <SelectComponent
-                label="Select Organisation Children"
-                options={DocumentType}
-                name="clientLvlOrgIds"
+                label="Selec Vehicle Category"
+                options={vehicleCategorys}
+                name="vehicle_category_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
               />
-            </div> */}
+            </div>
+            
+           
+            
           </div>
 
           <div className=" w-full text-center p-1 mt-3  space-x-2">
@@ -215,4 +192,5 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
     </div>
   );
 };
-export default CreateClientLevelSuperOrganisation;
+
+export default AddParkFee;

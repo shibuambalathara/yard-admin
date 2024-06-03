@@ -215,7 +215,7 @@ const ViewFullProfile = ({ profileId }) => {
             options={Role}
             name="role"
             register={register}
-            error={errors.role}
+            error={errors}
             defaultValue=""
             required
           />
