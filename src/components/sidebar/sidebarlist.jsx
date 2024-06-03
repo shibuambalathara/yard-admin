@@ -1,5 +1,3 @@
-
-
 import { RiAdminFill } from "react-icons/ri";
 import {
   MdDashboard,
@@ -17,7 +15,6 @@ import { FaCarOn, FaUsersViewfinder } from "react-icons/fa6";
 import { TfiTruck } from "react-icons/tfi";
 import { LiaTruckMovingSolid } from "react-icons/lia";
 import { HiBuildingOffice2 } from "react-icons/hi2";
-
 
 export const client_level_super_user = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/" },
@@ -75,7 +72,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -94,7 +90,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -113,7 +108,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -137,7 +131,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -161,7 +154,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
 
@@ -186,12 +178,9 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
-  
-  
-  
+
   {
     title: "User Management",
     icon: <MdOutlineAddIcCall />,
@@ -204,97 +193,60 @@ export const client_level_super_user = [
   },
 ];
 
+export const Super_Admin = [
+  { title: "Dashboard", icon: <MdDashboard />, path: "/adminDashboard" },
+  {
+    title: "Account Verification Requests ",
+    icon: <RiAccountPinBoxFill />,
+    path: "/accountVerificationRequest",
+  },
 
-export const super_admin = [
-    { title: "Dashboard", icon: <MdDashboard />, path: "/adminDashboard" },
-    {
-        title: "Account Verification Requests ",
-        icon: <RiAccountPinBoxFill />,
-        path: "/accountVerificationRequest",
-      },
-    
-    {
-        title: "Vehicle Category Management ",
-        icon: <ImTruck />,
-        path: "/vehicleCategoryManagement",
-    
-      // submenu: true,
-      // submenuItems: [
-      //   {
-      //       title: "Manage Category ",
-      //       icon: <MdManageHistory />,
-    
-      //       path: "/",
-      //     },
-    
-  
-        
-      // ],
-    },
-  
-    {
-        title: "Client Category Management ",
-        icon: <FaUsers />,
-        path:"/clientCategoryManagement",
-      // submenu: true,
-      // submenuItems: [
-      //   {
-      //       title: "Manage Category ",
-      //       icon: <MdManageHistory />,
-      //       path: "/",
-      //     },
-    
-  
-        
-      // ],
-    },
-   
-    {
-        title: "User Management",
-        icon: <FaUserCircle />,
-        path: "/userManagement",
+  {
+    title: "Vehicle Category Management ",
+    icon: <ImTruck />,
+    path: "/vehicleCategoryManagement",
+  },
+
+  {
+    title: "Client Category Management ",
+    icon: <FaUsers />,
+    path: "/clientCategoryManagement",
+  },
+
+  {
+    title: "User Management",
+    icon: <FaUserCircle />,
+    path: "/userManagement",
+  },
+  {
+    title: "Organisation Management ",
+    icon: <CgOrganisation />,
+    // path: "/",
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Client level super organisation  ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/clientLevelSuperOrg",
       },
       {
-        title: "Organisation Management ",
-        icon: <CgOrganisation />,
-        // path: "/",
-         submenu: true,
-      submenuItems: [
-        {
-            title: "Client level super organisation  ",
-            icon: <HiBuildingOffice2 />
-            ,
-            path: "/organisationManagement/clientLevelSuperOrg",
-          },
-          {
-            title: "Client level Organisation   ",
-            icon: <HiBuildingOffice2 />
-            ,
-            path: "/organisationManagement/clientLevelOrg",
-          },
-          {
-            title: "Client level sub Organisation    ",
-            icon: <HiBuildingOffice2 />
-            ,
-            path: "/organisationManagement/clientLevelSubOrg",
-          },
-          {
-            title: "Yard  Management  ",
-            icon: <HiBuildingOffice2 />,
-            path: "/organisationManagement//yardManagement",
-          },
-    
-    
-  
-        
-      ],
+        title: "Client level Organisation   ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/clientLevelOrg",
       },
-      
-    
-  ];
-
-
-
+      {
+        title: "Client level sub Organisation    ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/clientLevelSubOrg",
+      },
+      {
+        title: "Yard  Management  ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement//yardManagement",
+      },
+    ],
+  },
+];
 
 export const yardManager = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/yardDashboard" },
@@ -303,7 +255,6 @@ export const yardManager = [
     path: "/parkfee",
 
     icon: <GiHomeGarage />,
-    
   },
 
   {
@@ -329,7 +280,7 @@ export const yardManager = [
       },
     ],
   },
-  
+
   {
     title: "Waviers",
     icon: <FaCarOn />,
@@ -346,7 +297,6 @@ export const yardManager = [
         icon: <TfiTruck />,
         path: "/wavier/reviewrequest",
       },
-      
     ],
   },
   {
@@ -365,7 +315,6 @@ export const yardManager = [
         icon: <TfiTruck />,
         path: "/releasevehicle/releaseHistory",
       },
-      
     ],
   },
   {
@@ -384,9 +333,6 @@ export const yardManager = [
         icon: <TfiTruck />,
         path: "/createIndependentUser/createAClient",
       },
-      
     ],
   },
-
 ];
-
