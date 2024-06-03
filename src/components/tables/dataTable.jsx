@@ -54,19 +54,19 @@ const DataTable = ({ data, columns }) => {
               />
             </div>
           </div>
-          <div className="mt-2 ring-1 w-full h-96 ring-gray-300 rounded-lg overflow-auto">
+          <div className="mt-2 ring-1 w-full h-fit  ring-gray-300 rounded-lg overflow-auto">
             <table className="min-w-full divide-y divide-gray-300 relative">
               <thead className="bg-gray-700 rounded-lg">
                 {table?.getHeaderGroups().map((headerGroup) => (
                   <tr className="divide-x divide-gray-500" key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
                       <th
-                        className="py-3.5 pl-1 pr-1 text-sm font-semibold text-gray-100 text-left sm:pl-2"
+                        className="py-3.5 uppercase pl-1 pr-1 text-sm font-semibold text-gray-100 text-left sm:pl-2"
                         key={header.id}
                         onClick={header?.column?.getToggleSortingHandler()}
                       >
                         {header.isPlaceholder ? null : (
-                          <div className="flex items-center">
+                          <div className="flex items-center ">
                             {flexRender(
                               header?.column?.columnDef?.header,
                               header.getContext()

@@ -152,7 +152,7 @@ const AddVehicleComponent = () => {
           required
           placeholder=""
         />
-      <SelectInput
+      {/* <SelectInput
           label="Category"
           name="role"
           defaultValue="Select  Vehicle Category"
@@ -160,7 +160,8 @@ const AddVehicleComponent = () => {
           register={register}
           error={errors}
           data=""
-        />
+          required={false}
+        /> */}
          <FormFieldInput
           label="Contract  No"
           type="number"

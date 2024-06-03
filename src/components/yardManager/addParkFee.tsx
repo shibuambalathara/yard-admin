@@ -42,7 +42,7 @@ const AddParkFee = () => {
             </div>
             
             
-            <SelectInput
+            {/* <SelectInput
               label=""
               name="vehicleCategory"
               defaultValue="select vehicle category"
@@ -65,7 +65,7 @@ const AddParkFee = () => {
               options={bidStatusOptions}
               register={register}
               error={errors}
-            />
+            /> */}
             <FormFieldInput
               label=""
               type="number"

@@ -12,10 +12,10 @@ import { FaUserSlash, FaUser, FaRegEye } from "react-icons/fa";
 import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
-import CreateClientLevelOrg from "@/components/superAdmin/organisationManagement/clientLevelOrg/addClientLevelOrgs";
+import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 
-const AllClientLevelOrganisation = () => {
+const MangeParkFee = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -24,28 +24,12 @@ const AllClientLevelOrganisation = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (success) {
-      toast.success(success.text ? success.text : "Success");
-      setTimeout(() => {
-        setSuccess(null);
-      }, 2000);
-    }
-    if (error) {
-      toast.error(
-        error.text ? error.text : "Something went wrong. Please contact support"
-      );
-      setTimeout(() => {
-        setError(null);
-      }, 2000);
-    }
-  }, [success, error]);
 
-  const fetchData = async () => {
+  const fetchParkFeeData = async () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/clientorg/client_lvl_org?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
+        `/parkfee/?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
       );
       // console.log("all users", response);
       setFilteredData(response?.data?.res);
@@ -64,27 +48,27 @@ const AllClientLevelOrganisation = () => {
 
   // console.log("filteredData from clientLevelsuperOrg", filteredData);
 
-  useEffect(() => {
-    fetchData(); // Call fetchData directly inside useEffect
-  }, [roleFilter, page]);
+//   useEffect(() => {
+//     fetchData(); // Call fetchData directly inside useEffect
+//   }, [roleFilter, page]);
 
   const UsersData = filteredData?.clientLevelOrg || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "Organization Name",
+        header: "Vehicle Category Name ",
         accessorKey: "cl_org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Organization Category",
+        header: "Client  Name",
         accessorKey: "cl_org_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
 
       {
-        header: "Code",
+        header: "Park fee per day ",
         accessorKey: "code",
         // id: "code", // Ensure unique id
       },
@@ -96,7 +80,7 @@ const AllClientLevelOrganisation = () => {
       
       {
         id: "viewUser",
-        header: "View User",
+        header: "Edit",
         cell: ({ row }) => View(row),
       },
     ],
@@ -116,24 +100,22 @@ const AllClientLevelOrganisation = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      client Level Organisation
+      Park Fee
       </h1>
       <div className="flex w-full px-8 justify-between">
-        <div className="">
-          <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
-        </div>
+        
         <div className="self-end">
           <button
             // href={`/userManagement/createUser`}
             onClick={handleModalOpen}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-          >
-            Assign
+          >  
+            Add Park Fee
           </button>
           {modalOpen && (
-            <CreateClientLevelOrg
+            <AddParkFee
               onClose={handleModalClose}
-              fetchData={fetchData}
+              fetchData={fetchParkFeeData}
             />
           )}
         </div>
@@ -164,7 +146,7 @@ const AllClientLevelOrganisation = () => {
   );
 };
 
-export default AllClientLevelOrganisation;
+export default MangeParkFee;
 
 const View = (row) => {
   // console.log("from view", row.original.id);

@@ -42,7 +42,7 @@ const CreateYardManagers = () => {
             </div>
             
             
-            <SelectInput
+            {/* <SelectInput
               label=""
               name="vehicleCategory"
               defaultValue="select vehicle category"
@@ -65,7 +65,7 @@ const CreateYardManagers = () => {
               options={bidStatusOptions}
               register={register}
               error={errors}
-            />
+            /> */}
             <FormFieldInput
               label=""
               type="number"

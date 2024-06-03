@@ -15,9 +15,9 @@ export const Role = [
 ];
 
 export const AccountStatus = [
-  { label: "Pending", value: "PENDING" },
-  { label: "Rejected", value: "REJECTED" },
-  { label: "Approved", value: "APPROVED" },
+  { label: "PENDING", value: "PENDING" },
+  { label: "REJECTED", value: "REJECTED" },
+  { label: "APPROVED", value: "APPROVED" },
 ];
 
 // export const vehicleCategory=[

@@ -137,7 +137,7 @@ const UserRegistration = () => {
           options={bidStatusOptions}
           register={register}
           error={errors}                             
-          required
+          required={true}
           data=""
         />
         <FormFieldPassword

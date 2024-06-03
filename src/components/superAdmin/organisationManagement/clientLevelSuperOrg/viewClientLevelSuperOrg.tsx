@@ -13,7 +13,7 @@ import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation'
 
-const ViewClientLevelSuperOrganisation = ({ profileId }) => {
+const ViewClientLevelSuperOrg = ({ profileId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -41,7 +41,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
- 
+ const router=useRouter()
   
 
 //   console.log("profileid from super org",profileId);
@@ -187,32 +187,29 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
   const onSubmit = async (data: Inputs) => {
     console.log("data from cientSuperorg", data);
    const ModifiedData= {
-      clsup_org_name: data?.clsup_org_name,
-      user_id: data?.user_id,
-      id:data?.id,
-      clsup_org_category_id: data?.clsup_org_category_id,
-      country: data?.country,
-    
+     ...data,
+     clsup_org_name:data?.clsup_org_name?.toUpperCase()  
     }
 
     console.log("MODIFIEDDATA",ModifiedData);
     
     try {
         const response = await axiosInstance.put(
-          `clientorg/client_lvl_super_org/${profileId?.superOrgId}`,data
+          `clientorg/client_lvl_super_org/${profileId?.superOrgId}`,ModifiedData
         );
         console.log("response after superOrgCreae", response);
-        toast.success("superOrgCreated");
+        toast.success(response?.data?.message);
       } catch (error) {
         console.log("error", error);
-        toast.error(`error in creating superOrg`);
+        toast.error(error?.response?.data?.message);
       }
     //   // Handle form submission
   };
 
   return (
     // <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white p-4 rounded-lg w-full max-w-md">
+   <div className="h-full w-full flex items-center justify-center border">
+    <div className="bg-white p-4 rounded-lg w-full max-w-md border">
       {/* <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
@@ -229,11 +226,11 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
             <path d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button> */}
-      <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-        <h1 className=" font-bold  ">Create super ORG</h1>
-        {/* <p className=" cursor-pointer" onClick={onClose}> */}x{/* </p> */}
+      <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1 ">
+        <h1 className=" font-bold  ">Edit super ORG</h1>
+        {/* <p className=" cursor-pointer" onClick={onClose}> */}{/* </p> */}
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
+      <form onSubmit={handleSubmit(onSubmit)} className=" border border-gray-200 ">
         <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
           <div className="mb-">
             <InputField
@@ -271,7 +268,7 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
             
           </div>
           <div className="mb-">
-            <SelectInput
+            {/* <SelectInput
               label=" Select Country"
               options={Country}
               name="country"
@@ -279,13 +276,22 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
               error={errors}
               required={true}
               defaultValue=""
-            />
+            /> */}
           </div>
           
         </div>
 
-        <div className=" w-full text-center p-1 mt-3  space-x-2">
+        <div className=" w-full text-center p-1 mt-3  space-x-2 flex justify-around">
+        
+          
           <button
+            type="button"
+              onClick={() => window.close()}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+            <button
             type="submit"
             className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
           >
@@ -295,7 +301,8 @@ const ViewClientLevelSuperOrganisation = ({ profileId }) => {
         </div>
       </form>
     </div>
+    </div>
   );
 };
 
-export default ViewClientLevelSuperOrganisation;
+export default ViewClientLevelSuperOrg;

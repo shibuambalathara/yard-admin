@@ -7,11 +7,13 @@ import axiosInstance from "@/utils/axios";
 import Link from "next/link";
 import Pagination from "@/components/pagination/pagination";
 import toast from "react-hot-toast";
-
+import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
+import {SelectComponent} from "@/components/ui/fromFields"
+import Loading from "@/app/(home)/(superAdmin)/loading";
 const AccountVerificationRequests = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const [roleFilter, setRoleFilter] = useState("YARD_MANAGER");
+  const [roleFilter, setRoleFilter] = useState("SUPER_ADMIN");
   const [statusFilter, setStatusFilter] = useState("PENDING");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -40,6 +42,8 @@ const AccountVerificationRequests = () => {
       const response = await axiosInstance.get(
         `/account/users?page=${page}&limit=10&accountVerification=${statusFilter}&role=${roleFilter}`
       );
+      console.log("response of acc",response);
+      
       setFilteredData(response.data);
       setSuccess({
         text: response?.data?.message,
@@ -53,6 +57,9 @@ const AccountVerificationRequests = () => {
       setIsLoading(false);
     }
   };
+
+  console.log("filteredData",filteredData);
+  
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
@@ -85,7 +92,7 @@ const AccountVerificationRequests = () => {
     },
   ];
 
-  // if(loading){
+  // if(isLoading){
   //   return <Loading/>
   // }
 
@@ -107,10 +114,11 @@ const AccountVerificationRequests = () => {
             id="role-select"
             className="px-3 py-2 rounded-md shadow-sm focus:outline-none  border"
             onChange={(e) => setRoleFilter(e.target.value)}
+            // defaultValue="DFADF"
           >
-            <option disabled value="">
-              Select a role
-            </option>
+            <option value="" disabled hidden >
+          Select Role
+        </option>
             {Role.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
@@ -130,10 +138,12 @@ const AccountVerificationRequests = () => {
             id="status-select"
             className="px-3 py-2 rounded-md shadow-sm focus:outline-none  border"
             onChange={(e) => setStatusFilter(e.target.value)}
+            // defaultValue="DFADF"
+
           >
-            <option disabled value="">
-              Select a status
-            </option>
+             <option value="" disabled hidden >
+          Select Status
+        </option>
             {AccountStatus.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
@@ -143,23 +153,28 @@ const AccountVerificationRequests = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {/* {isLoading ? ( */}
-          {/* <p className="flex w-full justify-center">
-            <Spinner />
-          </p>
-        ) : ( */}
-          <DataTable data={UsersData} columns={UsersColumn} />
-        {/* )} */}
-        <div className="w-full text-center">
-          {filteredData?.data?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.data?.totalCount}
-            />
-          )}
-        </div>
+  {/* Conditionally render DataTable if there are users */}
+  {filteredData?.data?.totalCount > 1 ? (
+    <>
+      <DataTable data={UsersData} columns={UsersColumn} />
+      <div className="w-full text-center">
+        {filteredData?.data?.totalCount && (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalDataCount={filteredData?.data?.totalCount}
+          />
+        )}
       </div>
+    </>
+  ) : (
+    // Render NoUsersMessage if there are no users
+    <div>
+      <NoUsersMessage roleFilter={roleFilter} statusFilter={statusFilter} />
+    </div>
+  )}
+</div>
+
     </div>
   );
 };

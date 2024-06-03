@@ -246,7 +246,7 @@ const ViewFullUserProfile = ({ profileId }) => {
                 name="document_type"
                 register={register}
                 error={errors}
-                required
+                required={true}
                 placeholder="Select document type"
                 defaultValue="Select document type"
               />

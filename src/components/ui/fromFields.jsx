@@ -225,11 +225,11 @@ export const SelectInput = ({
   defaultValue,
   error,
   register,
-  
+  required,
   ...rest
 }) => {
  
-console.log("options",options);
+// console.log("options",options);
 
   return (
     <div className="flex flex-col">
@@ -237,10 +237,10 @@ console.log("options",options);
         {label}
       </label>
       <select
-        {...register(name, { required: true })}
+        {...register(name, { required: required })}
         className={`${inputStyle.data}`}
         {...rest}
-        defaultValue={defaultValue}
+        // defaultValue={defaultValue}
       >
         {/* <option disabled >
         {defaultValue}
@@ -286,7 +286,7 @@ export const SelectComponent= ({
         <option value="" disabled hidden>
           {label}
         </option>
-        {options.map((option, index) => (
+        {options && options?.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
           </option>
