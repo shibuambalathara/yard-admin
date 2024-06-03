@@ -14,12 +14,11 @@ import {
   labelStyle,
   loginInputStyle,
 } from "../../../../components/ui/style";
-const CreateYard = ({ onClose}) => {
+const CreateYard = ({ onClose ,fetchYard}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const [clientLevelUsers, setClientLevelUsers] = useState([]);
-  const [ClientLevelSuperUsers,setClientLevelSuperUsers]=useState([])
+  const [Users, setUsers] = useState([]);
   const [category, setAllCategory] = useState([]);
   const [selectedState, setSelectedState] = useState('');
   const [filterDistricts, setFilterDistricts] = useState([]);
@@ -48,14 +47,14 @@ const CreateYard = ({ onClose}) => {
 
   
 
-  const FetchClientLevelOrgs = useCallback(async () => {
+  const FetchUsers = useCallback(async () => {
     try {
       const response = await axiosInstance.get(
         `/user/users/assignment?role=YARD_MANAGER`
       );
-      setClientLevelUsers(response?.data?.data);
+      setUsers(response?.data?.data);
 
-      // console.log("reponse of clientlevelusers ", response);
+      // console.log("reponse of Users ", response);
 
       toast.success("successs");
     } catch (error) {
@@ -67,10 +66,10 @@ const CreateYard = ({ onClose}) => {
   
 
   useEffect(() => {
-    FetchClientLevelOrgs();
+    FetchUsers();
   }, []);
 
-  const AllUsers = clientLevelUsers?.map((item) => ({
+  const AllUsers = Users?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
@@ -119,6 +118,7 @@ const CreateYard = ({ onClose}) => {
       );
       console.log("response after clientOrgCreaet", response);
       console.log("yard created");
+      fetchYard()
       onClose()
       
     } catch (error) {
@@ -147,7 +147,7 @@ const CreateYard = ({ onClose}) => {
           </svg>
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Create super ORG</h1>
+          <h1 className=" font-bold  ">Create Yard</h1>
           <p className=" cursor-pointer" onClick={onClose}>
             x
           </p>
