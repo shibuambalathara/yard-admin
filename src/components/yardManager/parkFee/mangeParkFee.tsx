@@ -31,7 +31,7 @@ const MangeParkFee = () => {
       const response = await axiosInstance.get(
         `/parkfee/?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
       );
-      // console.log("all users", response);
+      console.log("all users", response);
       setFilteredData(response?.data?.res);
       setSuccess({
         text: response?.data?.message,
@@ -46,41 +46,43 @@ const MangeParkFee = () => {
     }
   };
 
-  // console.log("filteredData from clientLevelsuperOrg", filteredData);
+  console.log("filteredData from mangeparkfee", filteredData);
 
-//   useEffect(() => {
-//     fetchData(); // Call fetchData directly inside useEffect
-//   }, [roleFilter, page]);
+  useEffect(() => {
+    fetchParkFeeData(); // Call fetchData directly inside useEffect
+  }, [roleFilter, page]);
 
-  const UsersData = filteredData?.clientLevelOrg || [];
+  const UsersData = filteredData?.parkFee || [];
 
   const userColumn = useMemo(
     () => [
+
       {
-        header: "Vehicle Category Name ",
-        accessorKey: "cl_org_name",
+        header: "Client Organisation ",
+        accessorKey: "cl_org.cl_org_name",
+        // id: "clsup_org_category_name", // Ensure unique id
+      },
+      {
+        header: "Vehicle Category  ",
+        accessorKey: "vehicle_category.name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Client  Name",
-        accessorKey: "cl_org_category.name",
-        // id: "clsup_org_category_name", // Ensure unique id
+        header: "Yard  ",
+        accessorKey: "yard.yard_name",
+        // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "Park fee per day ",
-        accessorKey: "code",
+        accessorKey: "park_fee_per_day",
         // id: "code", // Ensure unique id
       },
-      {
-        header: "Country",
-        accessorKey: "country",
-        // id: "country", // Ensure unique id
-      },
+      
       
       {
-        id: "viewUser",
-        header: "Edit",
+        
+        header: "Action",
         cell: ({ row }) => View(row),
       },
     ],
@@ -104,7 +106,7 @@ const MangeParkFee = () => {
       </h1>
       <div className="flex w-full px-8 justify-between">
         
-        <div className="self-end">
+        <div className="flex justify-end w-full">
           <button
             // href={`/userManagement/createUser`}
             onClick={handleModalOpen}
@@ -131,7 +133,7 @@ const MangeParkFee = () => {
 
           /* )} */
         }
-        <div className="w-full text-center">
+        {/* <div className="w-full text-center">
           {filteredData?.totalCount && (
             <Pagination
               page={page}
@@ -139,7 +141,7 @@ const MangeParkFee = () => {
               totalDataCount={filteredData?.totalCount}
             />
           )}
-        </div>
+        </div> */}
       </div>
       
     </div>
@@ -156,7 +158,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/organisationManagement/clientLevelOrg/${row.original.id}`}
+        href={`/parkfee/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

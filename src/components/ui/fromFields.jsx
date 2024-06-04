@@ -281,7 +281,7 @@ export const SelectComponent= ({
         // className="py-1 px-12 border border-gray-300 rounded"
         className={inputStyle.data}
         defaultValue={defaultValue}
-
+        
       >
         <option value="" disabled hidden>
           {label}
