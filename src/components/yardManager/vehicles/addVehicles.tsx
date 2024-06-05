@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
+import {vehicleStatus} from "@/utils/staticData"
 
 const AddVehicle = () => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
@@ -92,12 +93,17 @@ const AddVehicle = () => {
 
     const actual_entry_date = new Date(data?.actual_entry_date).toISOString();
     const mfg_year = new Date(data?.mfg_year).toISOString();
+    const start_condition=parseInt(data?.start_condition)
+    console.log("start condition",start_condition);
+    
 
     const modifiedData = {
       ...data,
       actual_entry_date,
       mfg_year,
+      start_condition
     };
+console.log("modifiedDAta",modifiedData);
 
     try {
       const response = await axiosInstance.post(
@@ -209,14 +215,17 @@ const AddVehicle = () => {
               errors={errors}
               pattern
             />
-            <InputField
-              label="Start Condition"
-              type="text"
-              name="start_condition"
-              register={register}
-              errors={errors}
-              pattern
-            />
+           
+            <div>
+              <SelectComponent
+                label="Start Condition"
+                name="start_condition"
+                options={vehicleStatus}
+                register={register}
+                errors={errors}
+                defaultValue=""
+              />
+            </div>
             <InputField
               label="Registration Number"
               type="text"
@@ -282,7 +291,7 @@ const AddVehicle = () => {
 
             <InputField
               label="Key Count"
-              type="text"
+              type="number"
               name="key_count"
               register={register}
               errors={errors}

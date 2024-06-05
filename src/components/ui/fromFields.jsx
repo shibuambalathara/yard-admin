@@ -73,7 +73,7 @@ export const InputField = ({
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         className={`${inputStyle.data} ${name===`name` && `uppercase`}`}
        
-
+  onChange={handleInputChange}
       />
       {errors[name] && (
         <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
@@ -181,7 +181,7 @@ export const RadioButtonInput = ({
         <label className={`${labelStyle.data}`}>
           <input
             type="radio"
-            value="yes"
+            value="YES"
             name={name}
             {...register(name)} // Spread the register function with the name
             className=""
@@ -191,7 +191,7 @@ export const RadioButtonInput = ({
         <label className={`${labelStyle.data}`}>
           <input
             type="radio"
-            value="no"
+            value="NO"
             name={name}
             {...register(name)} // Spread the register function with the name
             className=""
@@ -279,7 +279,7 @@ export const SelectComponent= ({
           </option>
         ))}
       </select>
-      {errors[name] && <p className="text-red-500">{name} is required</p>}
+      {errors && errors[name] && <p className="text-red-500">{name} is required</p>}
     </div>
   );
 };
