@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { InputField, SelectComponent, SelectInput } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import { states } from "@/utils/staticData";
@@ -12,10 +11,11 @@ import {
   labelStyle,
   loginInputStyle,
 } from "../../../../components/ui/style";
+import { log } from "console";
 
 const EdityardDataYard = ({ yardId }) => {
   const [yardData, setYardData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
+  const [isLoading, setIsLoading] = useState(true);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [selectState, setSelectState] = useState("");
@@ -44,44 +44,41 @@ const EdityardDataYard = ({ yardId }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-
   const FetchUsers = useCallback(async () => {
     try {
       const response = await axiosInstance.get(
         `/user/users/assignment?role=YARD_MANAGER`
       );
       setUsers(response?.data?.data);
+      
+      
 
-      // console.log("reponse of Users ", response);
-
-      toast.success("successs");
+      toast.success(response?.data?.message);
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      toast.error(error?.response?.data?.message);
+      console.log(error)
     }
   }, []);
 
-
-
   const fetchData = async () => {
     setIsLoading(true);
-    const id = yardId?.yardId;
+     
 
     try {
-      const response = await axiosInstance.get(`/yard/${id}`);
-      console.log('res',response)
+      const response = await axiosInstance.get(`/yard/${ yardId?.yardId}`);
+      console.log(response);
+      
       const destructuredData = { 
         ...response?.data?.res,
         user: response?.data?.res?.user?.name,
       };
-      console.log('fetched',destructuredData);
       setYardData(destructuredData);
-      setSelectState(destructuredData?.state.toUpperCase());
+      setSelectState(destructuredData?.state);
       reset(destructuredData);
-      setSuccess({ text: response?.data?.message });
-      toast.success('fetched')
+      
+      toast.success(response?.data?.message);
     } catch (error) {
-      setError({ text: error?.response?.data?.message });
+      toast.error(error?.response?.data?.message)
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
@@ -96,57 +93,48 @@ const EdityardDataYard = ({ yardId }) => {
   useEffect(() => {
     if (selectState) {
       const stateData = states.find(
-        (state) => state.state.toUpperCase() === selectState
+        (state) => state.state === selectState
       );
-      setFilterDistricts(stateData?.districts.map((value) => value.toUpperCase()));
+      setFilterDistricts(stateData?.districts.map((value) => value));
     }
   }, [selectState]);
 
   const editYard = useCallback(async (data: Inputs) => {
     const modifiedData = {
       ...data,
-      yard_name: data?.yard_name?.toUpperCase(),
+      yard_name: data?.yard_name.toUpperCase(),
       field_executive_name: data?.field_executive_name?.toUpperCase(),
-      district: data?.district.toUpperCase(),
+      district: data?.district,
     };
-    console.log('data',modifiedData);
-    
 
     try {
       const id = yardId?.yardId;
-      await axiosInstance.put(`/yard/${id}`, modifiedData);
-      
-      toast.success('Yard is updated')
+      const response = await axiosInstance.put(`/yard/${id}`, modifiedData);
+      toast.success(response?.data?.message);
     } catch (error) {
-      console.log("error", error);
-      toast.error(`something went wrong`);
+      toast.error(error?.response?.data?.message);
     }
   }, [yardId]);
 
   const handleStateChange = (e) => {
-    const selectedState = e.target.value.toUpperCase();
+    const selectedState = e.target.value;
     setSelectState(selectedState);
+      
+    setValue("district", '')
   };
 
-
   const AllUsers = Users?.map((item) => ({
-    // value: item.id,
+    value: item.id,
     label: item.name,
   }));
 
   let result = AllUsers.filter((item) => item?.label == yardData?.user);
   if (result.length === 0) {
-    // The yardData.user_id is not present in AllUsers, so we push a new item
-    AllUsers.push({ label: yardData?.user});
-    // console.log("Updated AllUsers", AllUsers);
+    AllUsers.push({ value: yardData?.user_id, label: yardData?.user });
   } else {
-    // If AllUsers is empty, we can directly push the new item
-    AllUsers.push({  label: yardData?.user });
-      console.log("Updated AllUsers", AllUsers);
+    AllUsers.push({ value: yardData?.user_id, label: yardData?.user });
   }
 
-
-console.log('user',AllUsers)
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -156,8 +144,8 @@ console.log('user',AllUsers)
       <div className="flex w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1 justify-center">
         <h1 className="font-bold text-center">Edit Yard</h1>
       </div>
-      <form onSubmit={handleSubmit(editYard)} className="border-gray-200 mt-4">
-        <div className="mx-auto grid grid-cols-2 gap-x-8 gap-y-10 justify-center items-center place-items-center p-2 w-fit">
+      <form onSubmit={handleSubmit(editYard)} className="border-gray-200 mt-14">
+        <div className="mx-auto grid grid-cols-3 gap-x-8 gap-y-10 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
           <div>
             <InputField
               label="Yard Name"
@@ -168,15 +156,15 @@ console.log('user',AllUsers)
               pattern=""
             />
           </div>
-          <div>
-          <SelectInput
+          <div className="mt-2">
+            <SelectInput
               label="Select User"
               options={AllUsers}
-              name="user"
+              name="user_id"
               register={register}
               error={errors}
               required={false}
-             defaultValue={''}
+              defaultValue={''}
             />
           </div>
           <div>
@@ -199,44 +187,26 @@ console.log('user',AllUsers)
               pattern=""
             />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="state" className={labelStyle.data}>
-              State
-            </label>
-            <select
-              {...register("state", { required: true })}
-              className={inputStyle.data}
-              onChange={handleStateChange}
-              value={selectState}
-            >
-              {upperStates.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            {errors.state && (
-              <p className="text-red-500">State is required</p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="district" className={labelStyle.data}>
-              District
-            </label>
-            <select
-              {...register("district", { required: true })}
-              className={inputStyle.data}
-            >
-              {filterDistricts?.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            {errors.district && (
-              <p className="text-red-500">District is required</p>
-            )}
-          </div>
+          <SelectChange
+            label="State"
+            name="state"
+            options={states.map(state => ({ value: state.state, label: state.state }))}
+            register={register}
+            errors={errors}
+            required={true}
+            defaultValue=""
+            handleChange={handleStateChange}
+          />
+          <SelectChange
+            label="District"
+            name="district"
+            options={filterDistricts.map(district => ({ value: district, label: district }))}
+            register={register}
+            errors={errors}
+            required={true}
+            defaultValue=""
+            
+          />
           <div>
             <InputField
               label="Postal Code"
@@ -289,3 +259,41 @@ console.log('user',AllUsers)
 };
 
 export default EdityardDataYard;
+
+export const SelectChange = (props) => {
+  const{
+    label,
+    name,
+    options,
+    register,
+    errors,
+    required = true,
+    defaultValue,
+
+  }=props
+  
+  return (
+    <div className="flex flex-col w-full">
+      <label htmlFor={name} className={labelStyle?.data}>
+        {label}
+      </label>
+      <select
+        id={name}
+        {...register(name, { required })}
+        className={inputStyle.data}
+        defaultValue={defaultValue}
+        onChange={props?.handleChange} // Only add onChange if handleChange is provided
+      >
+        <option value="" disabled hidden>
+          {`Select ${label}`}
+        </option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value || option}>
+            {option.label || option}
+          </option>
+        ))}
+      </select>
+      {errors[name] && <p className="text-red-500">{`${label} is required`}</p>}
+    </div>
+  );
+};
