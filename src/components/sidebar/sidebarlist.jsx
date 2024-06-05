@@ -260,25 +260,26 @@ export const yardManager = [
   {
     title: "Vehicles",
     icon: <ImTruck />,
+    path:"/vehicle",
     submenu: true,
-    submenuItems: [
-      {
-        title: "Add Vehicle",
-        icon: <MdManageHistory />,
-        path: "/vehicle/addvehicle",
-      },
+    // submenuItems: [
+    //   {
+    //     title: "Add Vehicle",
+    //     icon: <MdManageHistory />,
+    //     path: "/vehicle/addvehicle",
+    //   },
 
-      {
-        title: "Manage Vehicle",
-        icon: <TbStatusChange />,
-        path: "/vehicle/managevehicle",
-      },
-      {
-        title: "Manage Reject Request",
-        icon: <TbStatusChange />,
-        path: "/vehicle/managerequestreject",
-      },
-    ],
+    //   {
+    //     title: "Manage Vehicle",
+    //     icon: <TbStatusChange />,
+    //     path: "/vehicle/managevehicle",
+    //   },
+    //   {
+    //     title: "Manage Reject Request",
+    //     icon: <TbStatusChange />,
+    //     path: "/vehicle/managerequestreject",
+    //   },
+    // ],
   },
 
   {

@@ -1,10 +1,10 @@
-import AddVehicleComponent from '@/components/addVehicle/addVehicle'
+import AddVehicleComponent from '@/components/yardManager/vehicles/addVehicles'
 import React from 'react'
 
 
 const AddVehicle = () => {
   return (
-    <div className='w-full '>AddVehicle</div>
+    <div className='w-full '><AddVehicleComponent/></div>
   )
 }
 
