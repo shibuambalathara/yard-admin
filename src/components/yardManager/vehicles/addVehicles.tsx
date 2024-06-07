@@ -10,14 +10,27 @@ import {
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
-import {vehicleStatus} from "@/utils/staticData"
+import { vehicleStatus } from "@/utils/staticData";
+import DataLoading from "@/components/commonComponents/spinner/DataFetching";
+import Spinner from "@/components/commonComponents/spinner/spinner";
+import { useRouter } from "next/navigation";
 
 const AddVehicle = () => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const router=useRouter()
 
+  type FileInputs = {
+    FRONT_IMAGE: FileList;
+    BACK_IMAGE: FileList;
+    RIGHT_IMAGE: FileList;
+    LEFT_IMAGE: FileList;
+    ODOMETER_IMAGE: FileList;
+    INTERIOR_IMAGE: FileList;
+    OTHER_IMAGE: FileList;
+  };
   type Inputs = {
-    yard_id: string;
     cl_org_id: string;
     vehicle_category_id: string;
     loan_number: string;
@@ -36,13 +49,7 @@ const AddVehicle = () => {
     board_type: string;
     rc_available: string;
     key_count: string;
-    FRONT_IMAGE: File[] | null; // Array of File objects representing front images
-    BACK_IMAGE: File[] | null; // Array of File objects representing back images
-    RIGHT_IMAGE: File[] | null; // Array of File objects representing right images
-    LEFT_IMAGE: File[] | null; // Array of File objects representing left images
-    ODOMETER_IMAGE: File[] | null; // Array of File objects representing odometer images
-    INTERIOR_IMAGE: File[] | null; // Array of File objects representing interior images
-    OTHER_IMAGE: File[] | null; // Array of File objects representing other images
+    files: FileInputs; // Files property containing images
   };
 
   const {
@@ -50,7 +57,30 @@ const AddVehicle = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>(
+  //   {
+  //   defaultValues: {
+  //     cl_org_id: "STRING",
+  //     vehicle_category_id: "STRING",
+  //     loan_number: "STRING316",
+  //     actual_entry_date: "STRING",
+  //     mfg_year: "STRING",
+  //     make: "STRING",
+  //     model: "STRING",
+  //     variant: "STRING",
+  //     colour: "STRING",
+  //     condition: "STRING",
+  //     start_condition: "STRING",
+  //     reg_number: "KL12GG5698",
+  //     eng_number: "STRING",
+  //     chasis_number: "STRING",
+  //     odometer: "STRING",
+  //     board_type: "STRING",
+  //     rc_available: "STRING",
+  //     key_count: "STRING",
+  //   },
+  // }
+);
 
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
@@ -88,45 +118,106 @@ const AddVehicle = () => {
     FetchClientLevelOrgs();
   }, [FetchAllVehicleCategory, FetchClientLevelOrgs]);
 
-  const AddVehcile = useCallback(async (data: Inputs) => {
-    console.log("data of adding vehciel", data);
-
+  const AddVehicle = useCallback(async (data: Inputs) => {
+    console.log('data on submit',data);
+    
+    setIsLoading(true);
+    const formData = new FormData();
     const actual_entry_date = new Date(data?.actual_entry_date).toISOString();
+    console.log("actual entry date", actual_entry_date);
+
     const mfg_year = new Date(data?.mfg_year).toISOString();
-    const start_condition=parseInt(data?.start_condition)
-    console.log("start condition",start_condition);
     
 
-    const modifiedData = {
+    // Append other form data fields
+    const dataUpperCase = {
       ...data,
-      actual_entry_date,
-      mfg_year,
-      start_condition
+      cl_org_id: data.cl_org_id,
+      vehicle_category_id: data.vehicle_category_id,
+      loan_number: data.loan_number,
+      actual_entry_date: actual_entry_date,
+      mfg_year: mfg_year,
+      make: data.make,
+      model: data.model,
+      variant: data.variant,
+      colour: data.colour,
+      condition: data.condition,
+      start_condition: data.start_condition,
+      reg_number: data.reg_number,
+      eng_number: data.eng_number,
+      chasis_number: data.chasis_number,
+      odometer: data.odometer,
+      board_type: data.board_type,
+      rc_available: data.rc_available,
+      key_count: data.key_count,
     };
-console.log("modifiedDAta",modifiedData);
+    // /   // Create a FormData object
+
+    // Append each key-value pair to the FormData object
+    for (const key in dataUpperCase) {
+      formData.append(key, dataUpperCase[key]);
+    }
+
+    // Utility function to append files to FormData
+    const appendFiles = (files: FileList, fieldName: string) => {
+      console.log(`Appending files for field: ${fieldName}`);
+      console.log(files);
+
+      // Convert FileList to array
+      const filesArray = Array.from(files);
+
+      filesArray.forEach((file) => {
+        formData.append(fieldName, file);
+      });
+    };
+
+    // Append files to FormData
+    appendFiles(data.files.FRONT_IMAGE, "FRONT_IMAGE");
+    appendFiles(data.files.BACK_IMAGE, "BACK_IMAGE");
+    appendFiles(data.files.RIGHT_IMAGE, "RIGHT_IMAGE");
+    appendFiles(data.files.LEFT_IMAGE, "LEFT_IMAGE");
+    appendFiles(data.files.ODOMETER_IMAGE, "ODOMETER_IMAGE");
+    appendFiles(data.files.INTERIOR_IMAGE, "INTERIOR_IMAGE");
+    appendFiles(data.files.OTHER_IMAGE, "OTHER_IMAGE");
 
     try {
-      const response = await axiosInstance.post(
-        "/vehicle/create",
-        modifiedData
-      );
-      console.log("response of creating vehicle",response);
-
+      console.log("Submitting form data to /vehicle/create");
+      const response = await axiosInstance.post("/vehicle/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        maxBodyLength: Infinity,
+      });
+      console.log("Response received:", response);
       toast.success(response?.data?.res?.message);
+      reset()
+      router.push('/vehicle')
     } catch (error) {
-        console.log(error);
-        
-      toast.error(error?.response?.data?.message);
+      
+      console.error("Error occurred:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center">
+        <DataLoading/>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
           Add Vehicle Details
         </h2>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(AddVehcile)}>
+        <form
+          className="mt-8 space-y-6"
+          onSubmit={handleSubmit(AddVehicle)}
+          encType="multipart/form-data"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
             <div>
               <SelectComponent
@@ -215,7 +306,7 @@ console.log("modifiedDAta",modifiedData);
               errors={errors}
               pattern
             />
-           
+
             <div>
               <SelectComponent
                 label="Start Condition"
@@ -223,6 +314,7 @@ console.log("modifiedDAta",modifiedData);
                 options={vehicleStatus}
                 register={register}
                 errors={errors}
+                required={true}
                 defaultValue=""
               />
             </div>
@@ -299,49 +391,49 @@ console.log("modifiedDAta",modifiedData);
             />
             <FileUploadInput
               label="Front Images"
-              name="FRONT_IMAGE"
+              name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files
               register={register}
               accept="image/*"
               multiple
             />
             <FileUploadInput
               label="Back Images"
-              name="BACK_IMAGE"
+              name="files.BACK_IMAGE" // Accessing BACK_IMAGE from files
               register={register}
               accept="image/*"
               multiple
             />
             <FileUploadInput
               label="Right Images"
-              name="RIGHT_IMAGE"
+              name="files.RIGHT_IMAGE" // Accessing RIGHT_IMAGE from files
               register={register}
               accept="image/*"
               multiple
             />
             <FileUploadInput
-              label="left Images"
-              name="LEFT_IMAGE"
+              label="Left Images"
+              name="files.LEFT_IMAGE" // Accessing LEFT_IMAGE from files
               register={register}
               accept="image/*"
               multiple
             />
             <FileUploadInput
               label="Odometer Images"
-              name="ODOMETER_IMAGE"
+              name="files.ODOMETER_IMAGE" // Accessing ODOMETER_IMAGE from files
               register={register}
               accept="image/*"
               multiple
             />
             <FileUploadInput
               label="Interior Images"
-              name="INTERIOR_IMAGE"
+              name="files.INTERIOR_IMAGE" // Accessing INTERIOR_IMAGE from files
               register={register}
               accept="image/*"
               multiple
             />
             <FileUploadInput
               label="Other Images"
-              name="OTHER_IMAGE"
+              name="files.OTHER_IMAGE" // Accessing OTHER_IMAGE from files
               register={register}
               accept="image/*"
               multiple
