@@ -1,4 +1,4 @@
-import AddVehicleComponent from '@/components/addVehicle/addVehicle'
+import AddVehicleComponent from '@/components/yardManager/vehicles/addVehicles'
 import React from 'react'
 
 

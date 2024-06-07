@@ -53,7 +53,11 @@ export const InputField = ({
   errors,
   pattern,
 }) => {
- 
+  const handleInputChange = (event) => {
+    if (name !== 'email' && name !== 'password' && name !== 'date' && name !== 'number') {
+      event.target.value = event.target.value.toUpperCase();
+    }
+  };
   return (
     <div className="mb-">
       <label  className={`${labelStyle.data}`}>{label}</label>
@@ -69,7 +73,7 @@ export const InputField = ({
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         className={`${inputStyle.data} ${name===`name` && `uppercase`}`}
        
-
+  onChange={handleInputChange}
       />
       {errors[name] && (
         <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
@@ -162,7 +166,6 @@ export const FormFieldInputLoginInput = ({
 
 export const RadioButtonInput = ({
   label,
-  type,
   name,
   register,
   defaultValue,
@@ -170,53 +173,37 @@ export const RadioButtonInput = ({
   placeholder,
   ...rest
 }) => {
-  // console.log('REST FROM FORM', rest);
-
   return (
-    // <div className="flex flex-col ">
+    <div className="flex flex-col space-x-2">
+      <p className={`${labelStyle.data} ml-1`}>{label}</p>
 
-    //   <label  className={`${labelStyle.data}`} htmlFor={name}>
-    //     {label}
-    //   </label>
-    //   <input
-    //     type={type}
-    //     defaultValue={defaultValue}
-    //     {...register(name, rest)}
-    //     className={`${inputStyle.data}`}
-    //     placeholder={placeholder}
-
-    //   />
-
-    //   {error && <p className="text-red-500">{`${label} Required`}</p>}
-    // </div>
-    <div className="flex flex-col  space-x-2 ">
-      <p className={`${labelStyle.data}`}>{label}</p>
-
-      <div className="space-x-2 flex items-center">
+      <div className="space-x-4 flex items-start justify-start w-96 mt-1 ">
         <label className={`${labelStyle.data}`}>
           <input
             type="radio"
-            value="yes"
-
-            // checked={selectedOption === 'yes'}
-            // onChange={handleOptionChange}
+            value="YES"
+            name={name}
+            {...register(name)} // Spread the register function with the name
+            className=""
           />
           Yes
         </label>
         <label className={`${labelStyle.data}`}>
           <input
             type="radio"
-            value="no"
-
-            // checked={selectedOption === 'no'}
-            // onChange={handleOptionChange}
+            value="NO"
+            name={name}
+            {...register(name)} // Spread the register function with the name
+            className=""
           />
-          No
+          No  
         </label>
       </div>
     </div>
   );
 };
+
+
 //old one
 export const SelectInput = ({
   label,
@@ -281,7 +268,7 @@ export const SelectComponent= ({
         // className="py-1 px-12 border border-gray-300 rounded"
         className={inputStyle.data}
         defaultValue={defaultValue}
-
+        
       >
         <option value="" disabled hidden>
           {label}
@@ -292,7 +279,7 @@ export const SelectComponent= ({
           </option>
         ))}
       </select>
-      {errors[name] && <p className="text-red-500">{name} is required</p>}
+      {errors && errors[name] && <p className="text-red-500">{name} is required</p>}
     </div>
   );
 };
@@ -435,3 +422,24 @@ export const TextArea = ({
     </div>
   );
 };
+
+
+
+export const FileUploadInput = ({ label, name, register, accept, multiple }) => {
+  return (
+    <div>
+      <label  className={`${labelStyle.data}`}>{label}</label>
+      <input
+        id={name}
+        name={name}
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        className={`${inputStyle.data} `}
+        {...register(name)}
+      />
+    </div>
+  );
+};
+
+export default FileUploadInput;

@@ -87,6 +87,7 @@ const ViewVehicleCategory = ({ categoryId }) => {
         text: response?.data?.message,
       });
       router.push("/vehicleCategoryManagement");
+      window.onclose
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);

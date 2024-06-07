@@ -91,11 +91,7 @@ const AllClientLevelSuperOrganisation = () => {
         accessorKey: "code",
         // id: "code", // Ensure unique id
       },
-      {
-        header: "Country",
-        accessorKey: "country",
-        // id: "country", // Ensure unique id
-      },
+      
       // {
       //   header: "ID",
       //   accessorKey: "id",

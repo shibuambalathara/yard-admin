@@ -88,11 +88,7 @@ const AllClientLevelOrganisation = () => {
         accessorKey: "code",
         // id: "code", // Ensure unique id
       },
-      {
-        header: "Country",
-        accessorKey: "country",
-        // id: "country", // Ensure unique id
-      },
+      
       
       {
         id: "viewUser",

@@ -34,6 +34,11 @@ export const bidStatusOptions=[
 
 ]
 
+export const vehicleStatus=[
+  {label:"ACTIVE", value:1},
+  {label:"INACTIVE",value:0}
+]
+
 export const DocumentType = [
   { label: "Aadhar", value: "AADHAR" },
   { label: "Pancard", value: "PANCARD" },

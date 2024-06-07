@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import {
   client_level_super_user,
-  super_admin,
+  Super_Admin,
   yardManager,
 } from "./sidebarlist";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -17,24 +17,16 @@ const SideBar = () => {
 
   console.log("user role form sidebar",role);
 
-  // console.log("role from sidebar",role);
-  const [userRole, setUserRole] = useState("superadmin");
-
-  const tokens = useAuthStore.getState().token; // Get token from the Zustand auth store
-
-  // console.log("Token form sidebar",token);
-
   const selectSidebarData = () => {
     switch (role) {
-      case "superadmin":
-        return super_admin;
+      case "SUPER_ADMIN":
+        return Super_Admin;
       case "YARD_MANAGER":
         return yardManager;
 
       case "clientlevelsuperuser":
         return client_level_super_user;
-      default:
-        return super_admin; // Default to user data
+      // Default to user data
     }
   };
 

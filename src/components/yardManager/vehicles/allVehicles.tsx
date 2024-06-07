@@ -1,5 +1,7 @@
+
+
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
 import { Role } from "@/utils/staticData";
 import Link from "next/link";
@@ -14,24 +16,35 @@ import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
+import AddVehicle from "@/components/yardManager/vehicles/addVehicles"
+import { inputStyle, labelStyle } from "@/components/ui/style";
 
-const MangeParkFee = () => {
-  const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
+const AllVehicles = () => {
+ 
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [modalOpen, setModalOpen] = useState(false);
+//   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [vehicleCategory, setAllVehicleCategory] = useState([]);
+  const [Category, setCategory] = useState(null);
+  
 
 
-  const fetchParkFeeData = async () => {
+  const handleModal=()=>setIsModalOpen(!isModalOpen)
+
+
+  const fetchVehicles = async () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/parkfee/?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
+        `/vehicle/?page=1&limit=5&${Category}`
       );
-      console.log("all users", response);
+      console.log('res',response);
+      
+      
       setFilteredData(response?.data?.res);
       setSuccess({
         text: response?.data?.message,
@@ -46,25 +59,50 @@ const MangeParkFee = () => {
     }
   };
 
-  console.log("filteredData from mangeparkfee", filteredData);
+  const FetchAllVehicleCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/Vehicle/cat`);
+      console.log('cat',response);
+      
+      setAllVehicleCategory(response?.data?.vehicleCategory);
+    
+      toast.success("Vehicle categories fetched successfully");
+    } catch (error) {
+      toast.error("Failed to fetch vehicle categories");
+      console.log(error)
+    }
+  }, []);
+
+  const vehicleCategorys = vehicleCategory?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
+  console.log("filteredData ", filteredData);
 
   useEffect(() => {
-    fetchParkFeeData(); // Call fetchData directly inside useEffect
-  }, [roleFilter, page]);
+    fetchVehicles(); 
+    FetchAllVehicleCategory()// Call fetchData directly inside useEffect
+  }, [Category, page]);
 
-  const UsersData = filteredData?.parkFee || [];
+  const UsersData = filteredData?.vehicle || [];
 
   const userColumn = useMemo(
     () => [
 
       {
-        header: "Client Organisation ",
-        accessorKey: "cl_org.cl_org_name",
+        header: "make",
+        accessorKey: "make",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "Vehicle Category  ",
-        accessorKey: "vehicle_category.name",
+        header: "model",
+        accessorKey: "model",
+        // id: "clsup_org_category_name", // Ensure unique id
+      },
+      {
+        header: "Status",
+        accessorKey: "status",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
@@ -72,10 +110,15 @@ const MangeParkFee = () => {
         accessorKey: "yard.yard_name",
         // id: "clsup_org_name", // Ensure unique id
       },
+      {
+        header: "Category ",
+        accessorKey: "vehicle_category.name",
+        // id: "clsup_org_name", // Ensure unique id
+      },
 
       {
-        header: "Park fee per day ",
-        accessorKey: "park_fee_per_day",
+        header: "code",
+        accessorKey: "code",
         // id: "code", // Ensure unique id
       },
       
@@ -91,35 +134,65 @@ const MangeParkFee = () => {
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
+//   const handleModalOpen = () => {
+//     setModalOpen(true);
+//   };
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
+//   const handleModalClose = () => {
+//     setModalOpen(false);
+//   };
+
+const handleCatChange =(e)=>{
+  const value = e.target.value;
+   setCategory(value)
+} 
 
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      Park Fee
+      Vehicles
       </h1>
+
+      <div className="flex flex-col w-40  ml-8">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Select Category
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleCatChange}
+            
+          >
+            <option>Select Category</option>
+            {/* <option value="">ALL STATE</option> */}
+
+            {vehicleCategorys.map((option, index) => (
+              <option key={index} value={option?.label}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+        </div>
       <div className="flex w-full px-8 justify-between">
         
         <div className="flex justify-end w-full">
-          <button
-            // href={`/userManagement/createUser`}
-            onClick={handleModalOpen}
+          <Link
+            href={`/vehicle/addvehicle`}
+            // onClick={handleModal}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
           >  
-            Add Park Fee
-          </button>
-          {modalOpen && (
-            <AddParkFee
-              onClose={handleModalClose}
-              fetchData={fetchParkFeeData}
+            Add Vehicle
+          </Link>
+          {/* {isModalOpen && (
+            <AddVehicle
+              onClose={handleModal}
+              fetchData={fetchVehicles}
             />
-          )}
+          )} */}
         </div>
       </div>
       <div>
@@ -148,7 +221,7 @@ const MangeParkFee = () => {
   );
 };
 
-export default MangeParkFee;
+export default AllVehicles;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -158,7 +231,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/parkfee/${row.original.id}`}
+        href={`/vehicle/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""
