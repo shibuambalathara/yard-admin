@@ -123,10 +123,9 @@ const AddVehicle = () => {
     
     setIsLoading(true);
     const formData = new FormData();
-    const actual_entry_date = new Date(data?.actual_entry_date).toISOString();
+    const actual_entry_date = data?.actual_entry_date ? new Date(data?.actual_entry_date).toISOString() : null;
     console.log("actual entry date", actual_entry_date);
-
-    const mfg_year = new Date(data?.mfg_year).toISOString();
+     const mfg_year =data?.mfg_year ? new Date(data?.mfg_year).toISOString() : null;
     
 
     // Append other form data fields
