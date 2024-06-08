@@ -51,6 +51,7 @@ export const InputField = ({
   type = "text",
   register,
   errors,
+  required=true,
   pattern,
 }) => {
   const handleInputChange = (event) => {
@@ -64,7 +65,7 @@ export const InputField = ({
       <input
         type={type}
         {...register(name, {
-          required: `${label} is required`,
+          required: required && `${label} is required`,
           pattern: {
             value: pattern,
             message: `${label} is invalid`,

@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,21 +11,21 @@ import FileUploadInput, {
   TextArea,
 } from "@/components/ui/fromFields";
 import { formStyle } from "@/components/ui/style";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-import { Carousel } from 'react-responsive-carousel'; 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import { vehicleStatus } from "@/utils/staticData";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 interface ImageData {
   img_type: string;
   img_src: string;
   img_name: string;
-} 
+}
 interface ImageType {
   src: string;
   name: string;
@@ -39,7 +38,7 @@ type Inputs = {
   actual_entry_date: string;
   app_entry_date: string;
   app_exit_date: string;
-  actual_exit_date:string;
+  actual_exit_date: string;
   mfg_year: string;
   make: string;
   model: string;
@@ -63,7 +62,6 @@ type Inputs = {
   OTHER_IMAGE: File[] | null; // Array of File objects representing other images
 };
 
-
 const EditIndividualVehicle = ({ vehicleId }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -73,25 +71,24 @@ const EditIndividualVehicle = ({ vehicleId }) => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
 
-    const [images, setImages] = useState<Record<string, ImageType[]>>({});
-  
-    useEffect(() => {
-      const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>((acc, item) => {
+  const [images, setImages] = useState<Record<string, ImageType[]>>({});
+
+  useEffect(() => {
+    const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>(
+      (acc, item) => {
         if (!acc[item.img_type]) {
           acc[item.img_type] = [];
         }
         acc[item.img_type].push({ src: item.img_src, name: item.img_name });
         return acc;
-      }, {});
-  
-      setImages(categorizedImages);
-    }, [vehicleImage]);
-  
-console.log('images',images);
+      },
+      {}
+    );
 
+    setImages(categorizedImages);
+  }, [vehicleImage]);
 
-  
-
+  // console.log('images',images);
 
   const {
     register,
@@ -103,65 +100,43 @@ console.log('images',images);
   } = useForm<Inputs>();
   const router = useRouter();
 
-
   const sliderSettings = {
     dots: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
-
-
-
 
   const fetchVehicle = async () => {
     setIsLoading(true);
     try {
-        const response = await axiosInstance.get(`/vehicle/${vehicleId?.vehicleId}`);
-        
-    
-         
-       
+      const response = await axiosInstance.get(
+        `/vehicle/${vehicleId?.vehicleId}`
+      );
 
-        const destructuredData = { 
-            ...response?.data?.res,
-            app_entry_date: response?.data?.res?.app_entry_date?.split("T")[0],
-            app_exit_date: response?.data?.res?.app_entry_date?.split("T")[0],
-            mfg_year: response?.data?.res?.mfg_year.split("T")[0],
-            actual_entry_date:response?.data?.res?.actual_entry_date?.split("T")[0],
-            actual_exit_date:response?.data?.res?.actual_exit_date?.split("T")[0],
-        };
+      console.log("fetched data of vechicle", response?.data?.res);
 
-        console.log("data", destructuredData);
-        console.log("vehicle", response);
-        setVehicleCategoryData(response?.data?.res);
-        setVehicleImage(response?.data?.res?.vehicle_img)
-        reset(destructuredData);
+      const destructuredData = {
+        ...response?.data?.res,
+        app_entry_date: response?.data?.res?.app_entry_date?.split("T")[0],
+        app_exit_date: response?.data?.res?.app_entry_date?.split("T")[0],
+        mfg_year: response?.data?.res?.mfg_year.split("T")[0],
+        actual_entry_date:
+          response?.data?.res?.actual_entry_date?.split("T")[0],
+        actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
+      };
 
+      console.log("data", destructuredData);
+      // console.log("vehicle", response);
+      setVehicleCategoryData(response?.data?.res);
+      setVehicleImage(response?.data?.res?.vehicle_img);
+      reset(destructuredData);
     } catch (error) {
-        console.log("error", error);
+      console.log("error", error);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-};
-
- 
-
-  const FetchClientLevelOrgs = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
-      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-
-      //   console.log("reponse of clientlevelorg ", response);
-
-      toast.success("successs");
-    } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
-    }
-  }, []);
-
-  
+  };
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
@@ -169,7 +144,7 @@ console.log('images',images);
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
 
-      console.log("resposne of vehicle category", response);
+      // console.log("resposne of vehicle category", response);
       // reset();
       toast.success("successs");
     } catch (error) {
@@ -181,10 +156,8 @@ console.log('images',images);
   useEffect(() => {
     fetchVehicle();
     FetchAllVehicleCategory();
-    FetchClientLevelOrgs();
   }, []);
 
-  
   const vehicleCategorys = vehicleCategory?.map((item) => ({
     value: item.id,
     label: item.name,
@@ -194,56 +167,51 @@ console.log('images',images);
     value: item.id,
     label: item.cl_org_name,
   }));
- console.log('org',ClientOrganisations);
+  //  console.log('org',ClientOrganisations);
 
+  const editVehicle = useCallback(
+    async (data: Inputs) => {
+     
 
- const editVehicle = useCallback(async (data: Inputs) => {
-  // const app_entry_date = new Date(data?.app_entry_date).toISOString();
-  //   const mfg_year = new Date(data?.mfg_year).toISOString();
-  //   const actual_entry_date = new Date(data?.actual_entry_date).toISOString();
-  //   const actual_exit_date = new Date(data?.actual_exit_date).toISOString();
-    const modifiedData={
-      ...data,
-      app_entry_date: new Date(data?.app_entry_date)?.toISOString(),
-      app_exit_date: new Date(data?.app_entry_date)?.toISOString(),
-      mfg_year:new Date(data?.mfg_year)?.toISOString(),
-      actual_entry_date:new Date(data?.actual_entry_date)?.toISOString(),
-      actual_exit_date:new Date(data?.actual_exit_date)?.toISOString(),
-    }
-    console.log('destructure',modifiedData);
-    
-  try {
-   
-    const response = await axiosInstance.put(`/vehicle/${vehicleId?.vehicleId}`, modifiedData);
-    console.log('res',response);
-    
-   
-    toast.success(response?.data?.message);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    console.log(error);
-    
-  }
-}, [vehicleId?.vehicleId]);
+      console.log("data on submit", data);
+
+      const modifiedData = {
+        ...data,
+        app_entry_date: data?.app_entry_date
+          ? new Date(data?.app_entry_date)?.toISOString()
+          : null,
+        app_exit_date: data?.app_exit_date
+          ? new Date(data?.app_exit_date)?.toISOString()
+          : null,
+        mfg_year: data?.mfg_year
+          ? new Date(data?.mfg_year)?.toISOString()
+          : null,
+        actual_entry_date: data?.actual_entry_date
+          ? new Date(data?.actual_entry_date)?.toISOString()
+          : null,
+        actual_exit_date: data?.actual_exit_date
+          ? new Date(data?.actual_exit_date)?.toISOString()
+          : null,
+      };
+      console.log("destructure", modifiedData);
+
+      try {
+        const response = await axiosInstance.put(
+          `/vehicle/${vehicleId?.vehicleId}`,
+          modifiedData
+        );
+        console.log("res", response);
+
+        toast.success(response?.data?.message);
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+        console.log(error);
+      }
+    },
+    [vehicleId?.vehicleId]
+  );
+
  
-  // const EditClientCategory = async (data: Inputs) => {
-  //   console.log("Data on submit", data);
-
-  //   try {
-  //     // console.log('clientCatId',typeof(clientId?.clientId));
-
-  //     const response = await axiosInstance.put(`/parkfee/${vehicleId?.vehicleId}`, data);
-  //     console.log("Response after sumbit of edit parkfee", response);
-  //     setSuccess({
-  //       text: response?.data?.message,
-  //     });
-  //     // router.push('');
-  //     router.push("/parkfee");
-  //   } catch (error) {
-  //     console.error("Error:", error.response);
-  //     toast.error(error?.response?.data?.message);
-  //   }
-  // };
 
   if (isLoading) {
     return (
@@ -259,20 +227,9 @@ console.log('images',images);
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
           Vehicle Details
         </h2>
-        
-        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6" >
+
+        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
-            <div>
-           < SelectInput
-                label="Select Client Organisation"
-                options={ClientOrganisations}
-                name="cl_org_id"
-                register={register}
-                error={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
             <div>
               <SelectComponent
                 label="Select Category"
@@ -311,6 +268,7 @@ console.log('images',images);
             <InputField
               label="App Exit Date"
               type="date"
+              required={false}
               name="app_exit_date"
               register={register}
               errors={errors}
@@ -318,6 +276,7 @@ console.log('images',images);
             />
             <InputField
               label="Actual Exit Date"
+              required={false}
               type="date"
               name="actual_exit_date"
               register={register}
@@ -374,11 +333,11 @@ console.log('images',images);
               errors={errors}
               pattern
             />
-           
+
             <div>
               <SelectComponent
                 label="Start Condition"
-                name="Start_condition"
+                name="start_condition"
                 options={vehicleStatus}
                 register={register}
                 errors={errors}
@@ -393,7 +352,6 @@ console.log('images',images);
               errors={errors}
               pattern
             />
-             
 
             <InputField
               label="Engine No"
@@ -437,17 +395,18 @@ console.log('images',images);
               register={register}
               errors={errors}
               pattern
-            /> 
-          <div className="justify-self-center">
-            <RadioButtonInput
-              label="RC Available"
-              type="radio"
-              name="rc_available"
-              register={register}
-              error={errors}
-              defaultValue=""
-              placeholder=""
-            /></div>
+            />
+            <div className="justify-self-center">
+              <RadioButtonInput
+                label="RC Available"
+                type="radio"
+                name="rc_available"
+                register={register}
+                error={errors}
+                defaultValue=""
+                placeholder=""
+              />
+            </div>
 
             <InputField
               label="Key Count"
@@ -520,20 +479,38 @@ console.log('images',images);
             </button>
           </div>
         </form>
-        <div  className="grid grid-cols-2 gap-4">
-        {Object.entries(images).map(([imageType, imageList]) => (
-          <div key={imageType} className="border rounded-lg shadow-xl border-black">
-           <h2 className="text-center text-lg font-semibold">{imageType.replace('_', ' ').toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())}s</h2>
-            <Carousel> 
+        <div className="grid grid-cols-2 gap-4">
+          {Object.entries(images).map(([imageType, imageList]) => (
+            <div
+              key={imageType}
+              className="border rounded-lg shadow-xl border-black  "
+            >
+              <h2 className="text-center text-lg font-semibold">
+                {imageType
+                  .replace("_", " ")
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                s
+              </h2>
+              {/* <Carousel>  */}
               {imageList?.map((image, index) => (
-                <div key={index} className="m-2">
-                  <img className="rounded-xl" src={image.src} alt={`${imageType} ${index}`} style={{ width: '70%' }} />
+                <div
+                  key={index}
+                  className="flex justify-center pb-4 items-center"
+                >
+                  <img
+                    className="rounded-xl"
+                    src={image.src}
+                    alt={`${imageType} ${index}`}
+                    style={{ width: "70%" }}
+                  />
                   {/* <p>{image.name}</p> */}
                 </div>
               ))}
-            </Carousel> 
-          </div>
-        ))}</div>
+              {/* </Carousel>  */}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
