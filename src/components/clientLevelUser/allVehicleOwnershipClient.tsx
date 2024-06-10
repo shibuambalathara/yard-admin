@@ -62,7 +62,7 @@ const AllVehicleOwnershipClient = () => {
     try {
         const params = new URLSearchParams({
             page: page.toString(),
-            limit: '5',
+            limit: '10',
 
           });
         //   params?.

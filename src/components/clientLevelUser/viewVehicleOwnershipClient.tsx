@@ -4,9 +4,10 @@ import {
   InputField,
   RadioButtonInput,
   SelectComponent,
+  TextArea
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
-import { vehicleStatus } from "@/utils/staticData";
+import { vehicleStatus,VehicleState } from "@/utils/staticData";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -165,45 +166,35 @@ const ViewVehicleOwnershipClient = ({ ownershipId }) => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Ownership
+          Change Ownership
         </h2>
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
-          <div className="col-span-3  ml-8">
-            <SelectComponent
-              label="Select Client"
-              name="cl_org_id"
-              options={ClientOrganisations}
-              register={register}
-              errors={errors}
-              defaultValue=""
-            />
+        <div className='col-span-3  ml-8'>
+              <SelectComponent
+                label="Select Status"
+                name="status"
+                options={VehicleState}
+                register={register}
+                errors={errors}
+                defaultValue=""
+              />
 
-            <InputField
-              label="Ownership Status"
+             <InputField
+              label="Comment"
               type="text"
-              name="ownership_status"
+              name="comment"
               register={register}
               errors={errors}
               pattern
             />
-          </div>
+            </div>
 
-          <div className="flex justify-center mt-6">
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-            >
-              Submit
-            </button>
-          </div>
-
+            
+            
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center border mt-4 py-4">
-            <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
-              {" "}
-              Vehicle Details
-            </h2>
-
+            <h2 className='text-center text-xl font-semibold text-gray-900 col-span-3'> Vehicle Details</h2>
+     
             <InputField
               label="Loan Number"
               type="text"
@@ -438,9 +429,8 @@ const ViewVehicleOwnershipClient = ({ ownershipId }) => {
               multiple
             /> */}
           </div>
-        </form>
-        <div className="grid grid-cols-2 gap-4">
-          {Object.entries(images).map(([imageType, imageList]) => (
+          <div className="grid grid-cols-4  gap-4 col-span-3">
+        {Object.entries(images).map(([imageType, imageList]) => (
             <div
               key={imageType}
               className="border rounded-lg shadow-xl border-black  "
@@ -467,43 +457,22 @@ const ViewVehicleOwnershipClient = ({ ownershipId }) => {
                   {/* <p>{image.name}</p> */}
                 </div>
               ))}
-
+              
               {/* </Carousel>  */}
             </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {/* {Object.entries(images).map(([imageType, imageList]) => (
-            <div
-              key={imageType}
-              className="border rounded-lg shadow-xl border-black  "
+            
+          ))}</div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
             >
-              <h2 className="text-center text-lg font-semibold">
-                {imageType
-                  .replace("_", " ")
-                  .toLowerCase()
-                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                s
-              </h2>
+              Submit
+            </button>
+          </div>
           
-              {imageList?.map((image, index) => (
-                <div
-                  key={index}
-                  className="flex justify-center pb-4 items-center"
-                >
-                  <img
-                    className="rounded-xl"
-                    src={image.src}
-                    alt={${imageType} ${index}}
-                    style={{ width: "70%" }}
-                  />
-                
-                </div>
-              ))}
-             
-            </div>
-          ))} */}
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const HeaderItems= () => {
   return (
     <div className="flex space-x-3 items-center">
     <div className=" flex space-x-5">
-        <Theme />
+        {/* <Theme /> */}
       </div>
 <UserDetails/>
     </div>
