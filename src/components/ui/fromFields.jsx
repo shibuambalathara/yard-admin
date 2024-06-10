@@ -53,6 +53,7 @@ export const InputField = ({
   errors,
   required=true,
   pattern,
+  disabled=false,
 }) => {
   const handleInputChange = (event) => {
     if (name !== 'email' && name !== 'password' && name !== 'date' && name !== 'number') {
@@ -63,6 +64,7 @@ export const InputField = ({
     <div className="mb-">
       <label  className={`${labelStyle.data}`}>{label}</label>
       <input
+      disabled ={disabled}
         type={type}
         {...register(name, {
           required: required && `${label} is required`,
@@ -254,7 +256,8 @@ export const SelectComponent= ({
   register,
   errors,
   required = false,
-  defaultValue
+  defaultValue,
+  disabled =false,
 }) => {
 // console.log("errors",errors);
 
@@ -264,6 +267,7 @@ export const SelectComponent= ({
         {label}
       </label>
       <select
+        disabled={disabled}
         id={name}
         {...register(name, { required: required && "This field is required" })}
         // className="py-1 px-12 border border-gray-300 rounded"
