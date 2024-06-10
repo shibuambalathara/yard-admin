@@ -22,6 +22,8 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
   const [users, setAllUsers] = useState([]);
   const [category, setAllCategory] = useState([]);
   const [individual, setIndividual] = useState<Inputs | null>(null);
+  const [clientLevelSuperUsers,setClientLevelSuperUsers]=useState([])
+
   type Inputs = {
     user_id: string;
     clsup_org_id: string;
@@ -42,6 +44,34 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
   } = useForm<Inputs>();
     
   const router=useRouter()
+
+  const FetchClientLevelSuperUsers = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/clientorg/client_lvl_super_org`
+      );
+      // setAllUsers(response?.data?.data);
+
+      // console.log("reponse of FetchClientLevelSuperUsers ", response);
+
+      const transformedArray = response?.data?.res?.clientLvlSuperOrg.map(
+        (item) => ({
+          label: item.clsup_org_name,
+          value: item.id,
+        })
+      );
+      setClientLevelSuperUsers(transformedArray)
+      // console.log(
+      //   "transformedArraty form ClientLevelSuperUsers",
+      //   transformedArray
+      // );
+
+      toast.success("successs");
+    } catch (error) {
+      // console.log("error", error);
+      toast.error(`something went wrong`);
+    }
+  }, []);
       
   const FetchClientLevelUsers = useCallback(async () => {
     try {
@@ -112,6 +142,8 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
     FetchIndividualClientLevelOrg();
     FetchClientLevelUsers();
     FetchAllClientCategory();
+   FetchClientLevelSuperUsers() 
+
   }, []);
 
   const AllUsers = users?.map((item) => ({
@@ -165,7 +197,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white p-4 rounded-lg w-full max-w-md">
+    <div className="bg-white p-4 rounded-lg w-full max-w-md h-custom overflow-y-scroll scrollbar-hide">
       {/* <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
@@ -201,7 +233,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
           <div className="mb-">
             <SelectInput
               label="Select Super Organisation "
-              options={AllCategory}
+              options={clientLevelSuperUsers}
               name="clsup_org_id"
               register={register}
               error={errors}
@@ -259,7 +291,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
           </div>
         </div>
 
-        <div className=" w-full text-center p-1 mt-3  space-x-2 flex">
+        <div className=" w-full text-center p-1 mt-3  space-x-2 flex justify-center">
         
           <button
           type="button"

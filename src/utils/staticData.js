@@ -19,6 +19,12 @@ export const AccountStatus = [
   { label: "REJECTED", value: "REJECTED" },
   { label: "APPROVED", value: "APPROVED" },
 ];
+export const VehicleState = [
+  { label: "PENDING", value: "PENDING" },
+  { label: "REJECTED", value: "REJECTED" },
+  { label: "APPROVED", value: "APPROVED" },
+];
+
 
 // export const vehicleCategory=[
 //   { label: "Truck", value: "truck" },

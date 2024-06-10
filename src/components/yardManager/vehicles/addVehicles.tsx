@@ -86,7 +86,7 @@ const AddVehicle = () => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-      toast.success("Client level organizations fetched successfully");
+      // toast.success("Client level organizations fetched successfully");
     } catch (error) {
       toast.error("Failed to fetch client level organizations");
     }
@@ -97,7 +97,7 @@ const AddVehicle = () => {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
       reset();
-      toast.success("Vehicle categories fetched successfully");
+      // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
     }
@@ -152,6 +152,8 @@ const AddVehicle = () => {
     };
     // /   // Create a FormData object
 
+    console.log("dataUpperCase",dataUpperCase);
+    
     // Append each key-value pair to the FormData object
     for (const key in dataUpperCase) {
       formData.append(key, dataUpperCase[key]);
@@ -179,6 +181,9 @@ const AddVehicle = () => {
     appendFiles(data.files.INTERIOR_IMAGE, "INTERIOR_IMAGE");
     appendFiles(data.files.OTHER_IMAGE, "OTHER_IMAGE");
 
+    console.log("formdata",formData);
+    
+
     try {
       console.log("Submitting form data to /vehicle/create");
       const response = await axiosInstance.post("/vehicle/create", formData, {
@@ -188,11 +193,18 @@ const AddVehicle = () => {
         maxBodyLength: Infinity,
       });
       console.log("Response received:", response);
-      toast.success(response?.data?.res?.message);
+      toast.success(response?.data?.message);
       reset()
       router.push('/vehicle')
     } catch (error) {
-      
+      const errorMessages = error?.response?.data?.message;
+      if (Array.isArray(errorMessages)) {
+        errorMessages.forEach((msg) => {
+          toast.error(msg);
+        });
+      } else {
+        toast.error("An unexpected error occurred");
+      }
       console.error("Error occurred:", error);
     } finally {
       setIsLoading(false);
@@ -370,6 +382,7 @@ const AddVehicle = () => {
               pattern
             />
 
+            <div className="">
             <RadioButtonInput
               label="RC Available"
               type="radio"
@@ -379,6 +392,7 @@ const AddVehicle = () => {
               defaultValue=""
               placeholder=""
             />
+            </div>
 
             <InputField
               label="Key Count"

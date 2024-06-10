@@ -1,23 +1,15 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import FileUploadInput, {
-  FormFieldInput,
+import {
   ImageMaping,
   InputField,
   RadioButtonInput,
   SelectComponent,
-  SelectInput,
-  TextArea,
 } from "@/components/ui/fromFields";
-import { formStyle } from "@/components/ui/style";
-
 import axiosInstance from "@/utils/axios";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import Loading from "@/app/(home)/(superAdmin)/loading";
 import { vehicleStatus } from "@/utils/staticData";
-
+import React, { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 interface ImageData {
   img_type: string;
   img_src: string;
@@ -32,10 +24,10 @@ type Inputs = {
   cl_org_id: string;
   vehicle_category_id: string;
   loan_number: string;
-  actual_entry_date: string;
-  app_entry_date: string;
-  app_exit_date: string;
-  actual_exit_date: string;
+  req_date: string;
+  res_by_ins_id: string;
+  res_by_ins_type: string;
+  res_by_user_id: string;
   mfg_year: string;
   make: string;
   model: string;
@@ -50,6 +42,8 @@ type Inputs = {
   board_type: string;
   rc_available: string;
   key_count: string;
+  ownership_status: string;
+  status: string;
   FRONT_IMAGE: File[] | null; // Array of File objects representing front images
   BACK_IMAGE: File[] | null; // Array of File objects representing back images
   RIGHT_IMAGE: File[] | null; // Array of File objects representing right images
@@ -59,16 +53,12 @@ type Inputs = {
   OTHER_IMAGE: File[] | null; // Array of File objects representing other images
 };
 
-const EditIndividualVehicle = ({ vehicleId }) => {
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
-  const [vehiclecategoryData, setVehicleCategoryData] = useState(null);
-  const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+const ViewVehicleOwnershipClient = ({ ownershipId }) => {
+  // console.log("ownershipId id form client level user",ownershipId);
+  
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
-  const [vehicleCategory, setAllVehicleCategory] = useState([]);
-
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
+  const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
 
   useEffect(() => {
     const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>(
@@ -84,9 +74,6 @@ const EditIndividualVehicle = ({ vehicleId }) => {
 
     setImages(categorizedImages);
   }, [vehicleImage]);
-
-  // console.log('images',images);
-
   const {
     register,
     handleSubmit,
@@ -95,109 +82,71 @@ const EditIndividualVehicle = ({ vehicleId }) => {
     setValue,
     reset,
   } = useForm<Inputs>();
-  const router = useRouter();
 
-  const sliderSettings = {
-    dots: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  // console.log(ownershipId);
 
   const fetchVehicle = async () => {
-    setIsLoading(true);
     try {
-      const response = await axiosInstance.get(
-        `/vehicle/${vehicleId?.vehicleId}`
-      );
+      const response = await axiosInstance.get(`/ownership/${ownershipId?.clientLevelvehOwnId}`);
+      console.log("response from clientLevelvehOwnership",response);
 
-      console.log("fetched data of vechicle", response?.data?.res);
+      // console.log("fetched data of vechicle", response?.data?.res);
 
       const destructuredData = {
         ...response?.data?.res,
-        app_entry_date: response?.data?.res?.app_entry_date?.split("T")[0],
-        app_exit_date: response?.data?.res?.app_entry_date?.split("T")[0],
-        mfg_year: response?.data?.res?.mfg_year.split("T")[0],
+        ...response?.data?.res?.vehicle,
+        ownership_status: response?.data?.res?.status,
+        app_entry_date:
+          response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
+        app_exit_date:
+          response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
+        mfg_year: response?.data?.res?.vehicle?.mfg_year.split("T")[0],
         actual_entry_date:
-          response?.data?.res?.actual_entry_date?.split("T")[0],
-        actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
+          response?.data?.res?.vehicle?.actual_entry_date?.split("T")[0],
+        actual_exit_date:
+          response?.data?.res?.vehicle?.actual_exit_date?.split("T")[0],
+        status: response?.data?.res?.vehicle?.status,
       };
 
-      console.log("data", destructuredData);
-      // console.log("vehicle", response);
-      setVehicleCategoryData(response?.data?.res);
-      setVehicleImage(response?.data?.res?.vehicle_img);
+      // console.log("data", destructuredData);
+
+      setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
       reset(destructuredData);
     } catch (error) {
-      console.log("error", error);
+      console.log("error form clientLevelvehOwnId", error);
     } finally {
-      setIsLoading(false);
     }
   };
 
-  const FetchAllVehicleCategory = useCallback(async () => {
+  const FetchClientLevelOrgs = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(`/Vehicle/cat`);
+      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
+      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-      setAllVehicleCategory(response?.data?.vehicleCategory);
+      //   console.log("reponse of clientlevelorg ", response);
 
-      // console.log("resposne of vehicle category", response);
-      // reset();
       toast.success("successs");
     } catch (error) {
-      console.log("error from vehiclecat", error);
-      //   toast.error(error?.me);
+      // console.log("error", error);
+      toast.error("something went wrong");
     }
   }, []);
 
   useEffect(() => {
     fetchVehicle();
-    FetchAllVehicleCategory();
+    FetchClientLevelOrgs();
   }, []);
-
-  const vehicleCategorys = vehicleCategory?.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
-
-  const ClientOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
-  }));
-  //  console.log('org',ClientOrganisations);
 
   const editVehicle = useCallback(
     async (data: Inputs) => {
-     
-
-      console.log("data on submit", data);
-
-      const modifiedData = {
-        ...data,
-        app_entry_date: data?.app_entry_date
-          ? new Date(data?.app_entry_date)?.toISOString()
-          : null,
-        app_exit_date: data?.app_exit_date
-          ? new Date(data?.app_exit_date)?.toISOString()
-          : null,
-        mfg_year: data?.mfg_year
-          ? new Date(data?.mfg_year)?.toISOString()
-          : null,
-        actual_entry_date: data?.actual_entry_date
-          ? new Date(data?.actual_entry_date)?.toISOString()
-          : null,
-        actual_exit_date: data?.actual_exit_date
-          ? new Date(data?.actual_exit_date)?.toISOString()
-          : null,
-      };
-      console.log("destructure", modifiedData);
+      console.log("data on submit", data.cl_org_id);
 
       try {
-        const response = await axiosInstance.put(
-          `/vehicle/${vehicleId?.vehicleId}`,
-          modifiedData
-        );
-        console.log("res", response);
+        const response = await axiosInstance.patch(`
+          /ownership/re_assignment/${ownershipId?.clientLevelvehOwnId},
+         {cl_org_id: data?.cl_org_id}
+        `);
+        // console.log("res", response);
 
         toast.success(response?.data?.message);
       } catch (error) {
@@ -205,38 +154,55 @@ const EditIndividualVehicle = ({ vehicleId }) => {
         console.log(error);
       }
     },
-    [vehicleId?.vehicleId]
+    [ownershipId?.clientLevelvehOwnId]
   );
 
- 
-
-  if (isLoading) {
-    return (
-      <div className="flex w-full h-screen items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
-
+  const ClientOrganisations = clientLevelOrg?.map((item) => ({
+    value: item.id,
+    label: item.cl_org_name,
+  }));
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Details
+          Vehicle Ownership
         </h2>
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
-            <div>
-              <SelectComponent
-                label="Select Category"
-                name="vehicle_category_id"
-                options={vehicleCategorys}
-                register={register}
-                errors={errors}
-                defaultValue=""
-              />
-            </div>
+          <div className="col-span-3  ml-8">
+            <SelectComponent
+              label="Select Client"
+              name="cl_org_id"
+              options={ClientOrganisations}
+              register={register}
+              errors={errors}
+              defaultValue=""
+            />
+
+            <InputField
+              label="Ownership Status"
+              type="text"
+              name="ownership_status"
+              register={register}
+              errors={errors}
+              pattern
+            />
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+            >
+              Submit
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center border mt-4 py-4">
+            <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
+              {" "}
+              Vehicle Details
+            </h2>
 
             <InputField
               label="Loan Number"
@@ -254,12 +220,13 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern
             />
-            <InputField
+            {/* <InputField
               label="App Entry Date"
               type="date"
               name="app_entry_date"
               register={register}
               errors={errors}
+              required={false}
               pattern
             />
             <InputField
@@ -270,7 +237,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-            />
+            /> */}
             <InputField
               label="Actual Exit Date"
               required={false}
@@ -345,6 +312,14 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               label="Registration Number"
               type="text"
               name="reg_number"
+              register={register}
+              errors={errors}
+              pattern
+            />
+            <InputField
+              label="Vehicle Status"
+              type="text"
+              name="status"
               register={register}
               errors={errors}
               pattern
@@ -463,18 +438,6 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               multiple
             /> */}
           </div>
-
-          <div className="mt-6">
-            <ImageMaping images="" />
-          </div>
-          <div className="flex justify-center mt-6">
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-            >
-              Submit
-            </button>
-          </div>
         </form>
         <div className="grid grid-cols-2 gap-4">
           {Object.entries(images).map(([imageType, imageList]) => (
@@ -504,13 +467,46 @@ const EditIndividualVehicle = ({ vehicleId }) => {
                   {/* <p>{image.name}</p> */}
                 </div>
               ))}
+
               {/* </Carousel>  */}
             </div>
           ))}
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {/* {Object.entries(images).map(([imageType, imageList]) => (
+            <div
+              key={imageType}
+              className="border rounded-lg shadow-xl border-black  "
+            >
+              <h2 className="text-center text-lg font-semibold">
+                {imageType
+                  .replace("_", " ")
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                s
+              </h2>
+          
+              {imageList?.map((image, index) => (
+                <div
+                  key={index}
+                  className="flex justify-center pb-4 items-center"
+                >
+                  <img
+                    className="rounded-xl"
+                    src={image.src}
+                    alt={${imageType} ${index}}
+                    style={{ width: "70%" }}
+                  />
+                
+                </div>
+              ))}
+             
+            </div>
+          ))} */}
         </div>
       </div>
     </div>
   );
 };
 
-export default EditIndividualVehicle;
+export default ViewVehicleOwnershipClient;

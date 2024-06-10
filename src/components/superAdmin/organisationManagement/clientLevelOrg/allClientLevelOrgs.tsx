@@ -45,7 +45,7 @@ const AllClientLevelOrganisation = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/clientorg/client_lvl_org?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
+        `/clientorg/client_lvl_org?page=${page}&limit=5&status=1&client_org_level=CLIENT_ORG`
       );
       // console.log("all users", response);
       setFilteredData(response?.data?.res);

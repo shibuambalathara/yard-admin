@@ -175,10 +175,10 @@ export const RadioButtonInput = ({
   ...rest
 }) => {
   return (
-    <div className="flex flex-col space-x-2">
+    <div className="flex flex-col space-x-2 w-72">
       <p className={`${labelStyle.data} ml-1`}>{label}</p>
 
-      <div className="space-x-4 flex items-start justify-start w-96 mt-1 ">
+      <div className="space-x-4 flex items-start justify-start mt-3 w-">
         <label className={`${labelStyle.data}`}>
           <input
             type="radio"
