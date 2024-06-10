@@ -33,16 +33,24 @@ const AllVehicles = () => {
   
 
 
-  const handleModal=()=>setIsModalOpen(!isModalOpen)
+  
 
 
   const fetchVehicles = async () => {
     setIsLoading(true);
-    try {
-      const response = await axiosInstance.get(
-        `/vehicle/?page=1&limit=5&${Category}`
-      );
-      console.log('res',response);
+    
+      try {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: '5',
+        });
+  
+        if (Category) {
+          params.append('vehicle_category_id', Category);
+        }
+  
+        const response = await axiosInstance.get(`/vehicle/?${params.toString()}`);
+        console.log('res', response);
       
       
       setFilteredData(response?.data?.res);
@@ -164,11 +172,11 @@ const handleCatChange =(e)=>{
             onChange={handleCatChange}
             
           >
-            <option>Select Category</option>
-            {/* <option value="">ALL STATE</option> */}
-
+            <option value="">All Category</option>
+           
+           
             {vehicleCategorys.map((option, index) => (
-              <option key={index} value={option?.label}>
+              <option key={index} value={option?.value}>
                 {option?.label}
               </option>
             ))}

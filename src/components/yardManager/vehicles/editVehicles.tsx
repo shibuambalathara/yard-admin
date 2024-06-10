@@ -178,7 +178,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
       const modifiedData = {
         ...data,
         app_entry_date: data?.app_entry_date
-          ? new Date(data?.app_entry_date)?.toISOString()
+          ?new Date(data?.app_entry_date)?.toISOString()
           : null,
         app_exit_date: data?.app_exit_date
           ? new Date(data?.app_exit_date)?.toISOString()
