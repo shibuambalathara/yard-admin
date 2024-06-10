@@ -1,38 +1,104 @@
 
 
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
-import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
-import { RoleSelect } from "@/components/commonComponents/role";
+
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import toast from "react-hot-toast";
 import { FaUserSlash, FaUser, FaRegEye } from "react-icons/fa";
 import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
-import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
+
 import Pagination from "@/components/pagination/pagination";
+import { inputStyle, labelStyle } from "@/components/ui/style";
 
 const AllVehicleOwnerships = () => {
-  const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
+ 
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [vehicleCategory, setAllVehicleCategory] = useState([]);
+  const [Category, setCategory] = useState('');
+
+  const [clientLevelOrg, setClientLevelOrg] = useState([]);
+  const [client, setClient] = useState('');
+
+  //  toast.success(success)
+  // toast.error(error)
+  const FetchClientLevelOrgs = useCallback(async () => {
+    try { 
+      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
+      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
+
+      //   console.log("reponse of clientlevelorg ", response);
+
+      toast.success(response?.data?.message);
+    } catch (error) {
+      // console.log("error", error);
+      toast.error(error?.response?.data?.message);
+    }
+  }, []);
+
+  const FetchAllVehicleCategory = useCallback(async () => {
+    try {
 
 
-  const fetchParkFeeData = async () => {
+      const response = await axiosInstance.get(`/Vehicle/cat`);
+      console.log('cat',response);
+      
+      setAllVehicleCategory(response?.data?.vehicleCategory);
+    
+      toast.success(response?.data?.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      console.log(error)
+    }
+  }, []);
+
+
+  
+  const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
+    value: item.id,
+    label: item.cl_org_name,
+  })); 
+  const vehicleCategorys = vehicleCategory?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
+  console.log("filteredData ", filteredData);
+
+  
+
+  const FetchVehicleOwnershipa = async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get(
-        `/parkfee/?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
-      );
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '5',
+        status:'PENDING'
+      });
+
+      if (Category) {
+        params.append('vehicle_category_id', Category);
+      }
+      if (client) {
+        params.append('cl_org_id', client);
+      }
+
+      const response = await axiosInstance.get(`/ownership/?${params.toString()}`);
+
+      console.log("api",`/ownership/?${params.toString()}`);
+      
+
+      //   `//?page=1&limit=5&client_org_id=${client}&status=PENDING`
+      // );
       console.log("all users", response);
       setFilteredData(response?.data?.res);
       setSuccess({
@@ -48,13 +114,18 @@ const AllVehicleOwnerships = () => {
     }
   };
 
-  console.log("filteredData from mangeparkfee", filteredData);
-
+  console.log("filteredData", filteredData);
+useEffect(()=>{
+  FetchAllVehicleCategory()// Call fetchData directly inside useEffect
+  FetchClientLevelOrgs();
+},[])
   useEffect(() => {
-    fetchParkFeeData(); // Call fetchData directly inside useEffect
-  }, [roleFilter, page]);
+    FetchVehicleOwnershipa(); // Call fetchData directly inside useEffect
+   
+  }, [ page,Category,client]);
 
-  const UsersData = filteredData?.parkFee || [];
+  const UsersData = filteredData?.vehicleOwnership
+  || [];
 
   const userColumn = useMemo(
     () => [
@@ -66,18 +137,34 @@ const AllVehicleOwnerships = () => {
       },
       {
         header: "Vehicle Category  ",
-        accessorKey: "vehicle_category.name",
+        accessorKey: "vehicle.vehicle_category.name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Yard  ",
-        accessorKey: "yard.yard_name",
+        header: "Make ",
+        accessorKey: "vehicle.make",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Model  ",
+        accessorKey: "vehicle.model",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Code  ",
+        accessorKey: "vehicle.code",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      
+      {
+        header: "Yard Name  ",
+        accessorKey: "vehicle.yard.yard_name",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
-        header: "Park fee per day ",
-        accessorKey: "park_fee_per_day",
+        header: "status ",
+        accessorKey: "status",
         // id: "code", // Ensure unique id
       },
       
@@ -93,37 +180,76 @@ const AllVehicleOwnerships = () => {
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
+  
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
-
+ 
+  const handleCatChange =(e)=>{
+    const value = e.target.value;
+     setCategory(value)
+  } 
+  const handleOrgChange =(e)=>{
+    const value = e.target.value;
+    setClient(value)
+  } 
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      Park Fee
+      Vehicle Ownership
       </h1>
-      <div className="flex w-full px-8 justify-between">
-        
-        <div className="flex justify-end w-full">
-          <button
-            // href={`/userManagement/createUser`}
-            onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-          >  
-            Add Park Fee
-          </button>
-          {modalOpen && (
-            <AddParkFee
-              onClose={handleModalClose}
-              fetchData={fetchParkFeeData}
-            />
-          )}
+
+      <div className="flex justify-evenly ">
+      <div className="flex flex-col w-40  ">
+          <label htmlFor="state" className={labelStyle?.data}>
+        Select  Client 
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleOrgChange}
+            
+          >
+           <option value="">All Client</option>
+            {/* <option value="">ALL STATE</option> */}
+
+            {allClientLevelOrganisations.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
         </div>
-      </div>
+
+
+        <div className="flex flex-col w-40  ml-8">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Select Category
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleCatChange}
+            
+          >
+            <option value="">All Category</option>
+            {/* <option value="">ALL STATE</option> */}
+
+            {vehicleCategorys.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+        </div>
+        </div>
+      
       <div>
         {/* {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
@@ -160,7 +286,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/parkfee/${row.original.id}`}
+        href={`/vehicleOwnership/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""
