@@ -9,13 +9,13 @@ import { useRouter } from "next/navigation";
 
 const UserDetails = () => {
   const router = useRouter();
-  const authStore = useAuthStore(); // Explicitly define the type here
-  const user = authStore.user;
-  const token = authStore.token;
-  const role = authStore.role;
+  const {role,user,} = useAuthStore(); // Explicitly define the type here
+  // const user = authStore.user;
+  // const token = authStore.token;
+  // const role = authStore.role;
 
-  const userName = user && user.name;
-  const userRole = user && user.role;
+  // const userName = user && user.name;
+  // const userRole = user && user.role;
 
   // console.log("User from useAuthStore():", userName);
   // console.log("Type of user from useAuthStore():", userRole);
@@ -43,35 +43,30 @@ const UserDetails = () => {
   };
 
   return (
-    <div className="flex border-2 space-x-2 rounded-md px-2 py-2">
-      <FaUserCircle size="2em" />
+    <div className="navbar bg-base-100">
+    <div className="flex-1 flex-col">
+   <p className="font-bold border p-1"> Welcome   {user.name}</p>
+   <p>   {role}</p>
+   
+    </div>
+    <div className="flex-none gap-2">
+      <div className="form-control">
+      </div>
       <div className="dropdown dropdown-end">
-        <button tabIndex={0} className=" flex flex-col avatar">
-          <p className="text-xs font-bold flex  items-center ">
-            {userName}{" "}
-            <span className="pl-2 ">
-              <FaChevronDown />
-            </span>
-          </p>
-          <p className="text-xs">{userRole}</p>
-        </button>
-        <ul
-          tabIndex={0}
-          className="mt-3  shadow menu menu-compact dropdown-content  rounded-md w-52 bg-red-500 text-white"
-        >
-          <>
-            <li>
-              <button className=" font-bold  " onClick={handleLogout}>
-                Logout{" "}
-                <span>
-                  <FiLogOut />
-                </span>
-              </button>
-            </li>
-          </>
+        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+          <div className="w-10 rounded-full">
+            <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          </div>
+        </div>
+        <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded w-52">
+          
+            
+          <li><a>Logout</a></li>
         </ul>
       </div>
     </div>
+  </div>
+  // # Navbar with icon, indicator and dropdown
   );
 };
 

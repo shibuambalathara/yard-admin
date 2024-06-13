@@ -364,44 +364,31 @@ export const yardManager = [
 
 export const clientLevelUser = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/" },
-  // {
-  //   title: "Yard",
-  //   path: "/",
-  //   icon: <GiHomeGarage />,
-  //   submenu: true,
-  //   submenuItems: [
-  //     {
-  //       title: "Yard Details",
-  //       icon: <TbListDetails />,
-  //       path: "/",
-  //     },
-
-  //     {
-  //       title: "Yard Rent Details",
-  //       icon: <TbListDetails />,
-  //       path: "/about",
-  //     },
-  //   ],
-  // },
+  
 
   {
     title: "Vehicle Ownership Requests",
     icon: <ImTruck />,
     path: "/vehicleOwnershipClientOrg",
-    // submenu: true,
-    // submenuItems: [
-    //   {
-    //     title: "Manage Request",
-    //     icon: <MdManageHistory />,
-    //     path: "/login",
-    //   },
 
-    //   {
-    //     title: "Review Request Status",
-    //     icon: <TbStatusChange />,
-    //     path: "/register",
-    //   },
-    // ],
+  },
+  {
+    title: "Vehicle Release",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "vehicle Release",
+        icon: <LiaTruckMovingSolid />,
+        path:"/vehicleRelease",
+      },
+      {
+        title: "initate Release  ",
+        icon: <TfiTruck />,
+        path: "/vehicleRelease/releaseStatus",
+      },
+    ],
   },
   {
     title: "Vehicle Tracking",
@@ -439,24 +426,7 @@ export const clientLevelUser = [
     //   },
     // ],
   },
-  {
-    title: "Vehicle Release",
-    icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Initiate Release",
-        icon: <LiaTruckMovingSolid />,
-        path: "/profile",
-      },
-      {
-        title: "Revert Release  ",
-        icon: <TfiTruck />,
-        path: "/profile",
-      },
-    ],
-  },
+ 
   {
     title: "Dependent User",
     icon: <FaCarOn />,

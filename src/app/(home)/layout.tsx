@@ -50,11 +50,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full ">
+    <html lang="en" className="h-full  ">
       <head></head>
 
       <body
-        className={`${roboto_init.variable} ${Poppins_init.variable} h-full`}
+        className={`${roboto_init.variable} ${Poppins_init.variable} h-full `}
       >
         <div className="flex flex-col h-full ">
           <Header />

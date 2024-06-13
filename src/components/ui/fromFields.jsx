@@ -66,7 +66,7 @@ export const InputField = ({
       <input
       disabled ={disabled}
         type={type}
-        {...register(name, {
+       {...register(name, {
           required: required && `${label} is required`,
           pattern: {
             value: pattern,
