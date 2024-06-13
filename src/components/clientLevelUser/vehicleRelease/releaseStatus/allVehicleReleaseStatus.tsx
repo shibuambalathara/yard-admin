@@ -1,3 +1,5 @@
+
+
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
@@ -16,25 +18,26 @@ import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 
-const AllVehicleOwnershipClient = () => {
+const AllVehicleReleaseStatus = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
-  const [vehicleStatus, setVehicleStatus] = useState('');
+  const [vehicleStatus, setVehicleStatus] = useState("");
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
-  const [Category, setVehiclecat] = useState('');
+  const [Category, setVehiclecat] = useState("");
   const [allyard, setAllYard] = useState([]);
-  const [selectedYard, setSelectedYard] = useState('');
-  const [allVehicleOwnerships,setAllVehicleOwerships]=useState([])
+  const [selectedYard, setSelectedYard] = useState("");
+  const [AllVehicleRelease, setAllVehicleRelease] = useState([]);
+  const [allClientLevelOrg,setAllClientLevelOrg]=useState()
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
-    //   console.log("cat", response);
+      //   console.log("cat", response);
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
-    //   console.log("response of fetchAllVehicle Category", response);
+      //   console.log("response of fetchAllVehicle Category", response);
 
       toast.success("Vehicle categories fetched successfully");
     } catch (error) {
@@ -44,50 +47,36 @@ const AllVehicleOwnershipClient = () => {
     }
   }, []);
 
+ 
+
   const FetchAllYards = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/yard`);
 
-    //   console.log("all yards", response?.data?.res?.yard);
+      //   console.log("all yards", response?.data?.res?.yard);
       setAllYard(response?.data?.res?.yard);
       toast.success("Vehicle categories fetched successfully");
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
     }
   }, []);
-//   const selectedYards = "clwyvn495000dhpvwv9k471r5"; // Replace with a valid Yard ID
-//   const Categorys = "clwspvpu10000bkfqast2i0xw"; // Replace with a valid Vehicle Category ID
-//   const vehicleStatuss = "PENDING";
+
+
+  console.log("allClientLevelOrg",allClientLevelOrg);
+  
+
   const FetchAllVehicleOwnerships = useCallback(async () => {
     try {
-        const params = new URLSearchParams({
-            page: page.toString(),
-            limit: '10',
-
-          });
-        //   params?.
-          if (Category) {
-            params.append('vehicle_category_id',Category);
-          }
-          if (selectedYard) {
-            params.append('yard_id',selectedYard);
-          }
-          if(vehicleStatus){
-            params.append('status',vehicleStatus);
-
-          }
-
-        //   const response = await axiosInstance.get(`/ownership/?${params.toString()}`);
+   
 
       const response = await axiosInstance.get(
-        `ownership/client/?${params.toString()}`
+        `release/owned-vehicles?page=1&limit=5}`
       );
-       
-      setAllVehicleOwerships(response?.data?.res?.vehicleOwnership)
-         
-      // console.log( "api", `ownership/client/?${params.toString()}` );
-      
-      console.log("response of vehicle ownership00001", response);
+      // console.log("resopnse of owned vehicles", response);
+
+      setAllVehicleRelease(response?.data?.res?.vehicles);
+
+    
     } catch (error) {
     } finally {
     }
@@ -99,22 +88,17 @@ const AllVehicleOwnershipClient = () => {
   }));
 
   // console.log("allYardsOptions",allYardsOptions);
-  
 
   const vehicleCategorysOptions = vehicleCategory?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
 
-  // console.log("vehicleCategorysOptions",vehicleCategorysOptions);
-  
-
-  // console.log("selectedDAta", "yard=",selectedYard, "vehiclecat=",Category, vehicleStatus);
-  // console.log("selectedDAta", "yard=",typeof(selectedYard), "vehiclecat=",typeof(Category), typeof(vehicleStatus));
 
 
   useEffect(() => {
     FetchAllVehicleOwnerships();
+    
   }, [selectedYard, Category, vehicleStatus]);
 
   useEffect(() => {
@@ -123,14 +107,12 @@ const AllVehicleOwnershipClient = () => {
     FetchAllYards();
   }, []);
 
-  const UsersData = allVehicleOwnerships || [];
+  const UsersData = AllVehicleRelease || [];
 
-  console.log("allVehicleOwnerships",allVehicleOwnerships);
-  
+
 
   const userColumn = useMemo(
     () => [
-
       {
         header: "Client Organisation ",
         accessorKey: "cl_org.cl_org_name",
@@ -156,29 +138,19 @@ const AllVehicleOwnershipClient = () => {
         accessorKey: "vehicle.code",
         // id: "clsup_org_name", // Ensure unique id
       },
-      
+
       {
         header: "Yard Name  ",
         accessorKey: "vehicle.yard.yard_name",
         // id: "clsup_org_name", // Ensure unique id
       },
-
       {
-        header: "status ",
-        accessorKey: "status",
-        // id: "code", // Ensure unique id
-      },
-      
-      
-      {
-        
         header: "Action",
         cell: ({ row }) => View(row),
       },
     ],
     [filteredData]
   );
-
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
 
@@ -204,11 +176,11 @@ const AllVehicleOwnershipClient = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Vehicle Ownership
+        Instock Vehicles
       </h1>
 
-  <div className="flex w-full space-x-14 borde">
-  <div className="flex flex-col   ml-8">
+      <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
+  <div className="flex flex-col  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -231,7 +203,7 @@ const AllVehicleOwnershipClient = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
       </div>
-      <div className="flex flex-col   ml-8">
+      <div className="flex flex-col   ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Yard
         </label>
@@ -241,7 +213,7 @@ const AllVehicleOwnershipClient = () => {
           defaultValue=""
           onChange={handleYardSelection}
         >
-          <option value="">All Category</option>
+          <option value="">All Yard</option>
           {/* <option value="">ALL STATE</option> */}
 
           {allYardsOptions.map((option, index) => (
@@ -254,7 +226,8 @@ const AllVehicleOwnershipClient = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
       </div>
-      <div className="flex flex-col   ml-8">
+      
+      <div className="flex flex-col  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Status
         </label>
@@ -264,7 +237,7 @@ const AllVehicleOwnershipClient = () => {
           defaultValue=""
           onChange={handleOwnershipStatus}
         >
-          <option value="">All Category</option>
+          <option value="" >select status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
@@ -278,7 +251,6 @@ const AllVehicleOwnershipClient = () => {
                           )} */}
       </div>
   </div>
-      <div className="flex w-full px-8 justify-between"></div>
       <div>
         {/* {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
@@ -286,7 +258,9 @@ const AllVehicleOwnershipClient = () => {
           </div>
         ) : ( */}
         {
-          allVehicleOwnerships && <DataTable data={UsersData} columns={userColumn} />
+          AllVehicleRelease && (
+            <DataTable data={UsersData} columns={userColumn} />
+          )
 
           /* )} */
         }
@@ -300,11 +274,12 @@ const AllVehicleOwnershipClient = () => {
           )}
         </div> */}
       </div>
+     
     </div>
   );
 };
 
-export default AllVehicleOwnershipClient;
+export default AllVehicleReleaseStatus;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
