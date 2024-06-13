@@ -65,6 +65,22 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     reset,
   } = useForm<Inputs>();
 
+
+  useEffect(() => {
+    const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>(
+      (acc, item) => {
+        if (!acc[item.img_type]) {
+          acc[item.img_type] = [];
+        }
+        acc[item.img_type].push({ src: item.img_src, name: item.img_name });
+        return acc;
+      },
+      {}
+    );
+
+    setImages(categorizedImages);
+  }, [vehicleImage]);
+
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get(`/ownership/${ownershipId?.vehicleOwnershipId}`);
@@ -106,6 +122,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
 
   const editVehicle = useCallback(
     async (data: Inputs) => {
+    
+      
       try {
         const response = await axiosInstance.patch(
           `/ownership/re_assignment/${ownershipId?.vehicleOwnershipId}`,
@@ -208,7 +226,9 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
+          
+        </form>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
             <h2 className='text-center text-xl font-semibold text-gray-900 col-span-3'> Vehicle Details</h2>
             <InputField disabled={true}
               label="Loan Number"
@@ -285,6 +305,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
             />
                <div>
               <SelectComponent
+              disabled={true}
                 label="Start Condition"
                 name="start_condition"
                 options={vehicleStatus}
@@ -349,8 +370,40 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               errors={errors}
               pattern
             />
+
+<div className="grid grid-cols-4 gap-4 col-span-3">
+          {Object.entries(images).map(([imageType, imageList]) => (
+            <div
+              key={imageType}
+              className="border rounded-lg shadow-xl border-black  "
+            >
+              <h2 className="text-center text-lg font-semibold">
+                {imageType
+                  .replace("_", " ")
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                s
+              </h2>
+          
+              {imageList?.map((image, index) => (
+                <div
+                  key={index}
+                  className="flex justify-center pb-4 items-center"
+                >
+                  <img
+                    className="rounded-xl"
+                    src={image.src}
+                    alt={`${imageType} ${index}`}
+                    style={{ width: "70%" }}
+                  />
+                
+                </div>
+              ))}
+             
+            </div>
+          ))}
+        </div>
           </div>
-        </form>
       </div>
     </div>
   );

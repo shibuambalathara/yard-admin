@@ -306,22 +306,22 @@ export const yardManager = [
     // ],
   },
   {
-    title: "Waviers",
+    title: "Waiver",
     icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: " Manage Request ",
-        icon: <LiaTruckMovingSolid />,
-        path: "/wavier/managerequest",
-      },
-      {
-        title: "Review Request  ",
-        icon: <TfiTruck />,
-        path: "/wavier/reviewrequest",
-      },
-    ],
+    path : '/waiver '
+    // submenu: true,
+    // submenuItems: [
+    //   {
+    //     title: " Manage Request ",
+    //     icon: <LiaTruckMovingSolid />,
+    //     path: "/wavier/managerequest",
+    //   },
+    //   {
+    //     title: "Review Request  ",
+    //     icon: <TfiTruck />,
+    //     path: "/wavier/reviewrequest",
+    //   },
+    // ],
   },
   {
     title: "Release Vehicles ",
@@ -422,22 +422,22 @@ export const clientLevelUser = [
     ],
   },
   {
-    title: "Waviers",
+    title: "Waiver",
     icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Request Waiver",
-        icon: <LiaTruckMovingSolid />,
-        path: "/profile",
-      },
-      {
-        title: "Review Request Status ",
-        icon: <TfiTruck />,
-        path: "/profile",
-      },
-    ],
+    path : '/waivers'
+    // submenu: true,
+    // submenuItems: [
+    //   {
+    //     title: "Request Waiver",
+    //     icon: <LiaTruckMovingSolid />,
+    //     path: "/profile",
+    //   },
+    //   {
+    //     title: "Review Request Status ",
+    //     icon: <TfiTruck />,
+    //     path: "/profile",
+    //   },
+    // ],
   },
   {
     title: "Vehicle Release",

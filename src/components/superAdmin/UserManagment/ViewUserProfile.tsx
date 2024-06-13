@@ -72,6 +72,7 @@ const ViewFullUserProfile = ({ profileId }) => {
 
       const resetData = {
         ...response?.data?.data,
+       
         document_value: response?.data?.data?.documents?.document_value,
 
         document_type: response?.data?.data?.documents?.document_type,
@@ -111,6 +112,7 @@ const ViewFullUserProfile = ({ profileId }) => {
     const validTo = new Date(data?.account_usage_to).toISOString();
   const modifiedData={
     ...data,
+    name: data?.name?.toUpperCase(),
      account_usage_from:validFrom,
     account_usage_to:validTo
   }
