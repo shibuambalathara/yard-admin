@@ -4,12 +4,13 @@ import {
   InputField,
   RadioButtonInput,
   SelectComponent,
-} from "@/components/ui/fromFields";
-import axiosInstance from "@/utils/axios";
-import { vehicleStatus } from "@/utils/staticData";
+} from "../../../ui/fromFields";
+import axiosInstance from "../../../../utils/axios";
+import { vehicleStatus } from "../../../../utils/staticData";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ImageData {
   img_type: string;
@@ -54,15 +55,15 @@ type Inputs = {
   OTHER_IMAGE: File[] | null;
 };
 
-const InitateIndividualVehcileRelease = ({ ownershipId }) => {
-  // console.log("ownershipId",ownershipId);
+const InitiateInstockVehicle = ({ instockVehicle }) => {
+  // console.log("instockVehicle",instockVehicle);
 
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-
+  const router=useRouter()
   const {
     register,
     handleSubmit,
@@ -90,9 +91,9 @@ const InitateIndividualVehcileRelease = ({ ownershipId }) => {
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get(
-        `/ownership/${ownershipId?.vehicleReleaseId}`
+        `/ownership/${instockVehicle?.instockVehicleId}`
       );
-      console.log("vehicleReleaseId reponse", response);
+      console.log("individual instockVehicleIreponse", response);
 
       const destructuredData = {
         ...response?.data?.res,
@@ -124,7 +125,7 @@ const InitateIndividualVehcileRelease = ({ ownershipId }) => {
   }, []);
 
   const InitateVehcileRelease = async () => {
-    const vehicleReleaseId = ownershipId?.vehicleReleaseId;
+    const vehicleReleaseId = instockVehicle?.instockVehicleId;
    const data = {
       vehicle_ownership_id: vehicleReleaseId,
     };
@@ -136,8 +137,10 @@ const InitateIndividualVehcileRelease = ({ ownershipId }) => {
 try {
       const response = await axiosInstance.post("/release/initiate", data);
       toast.success(response?.data?.message)
+      router.push('/vehicles/instockVehicles')
       console.log("reposnse of post mehtod", response);
     } catch (error) {
+      toast.error(error?.response?.data?.message)
       console.log("error of post mehtod", error);
     }
   };
@@ -149,12 +152,13 @@ try {
           Initate Release
         </h2>
 
+       <div className="w-full  flex justify-end"> 
         <button
           onClick={InitateVehcileRelease}
-          className="border p-2 text-white bg-green-400"
+          className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
         >
           Initate Vehicle Release
-        </button>
+        </button></div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
           <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
@@ -355,4 +359,4 @@ try {
   );
 };
 
-export default InitateIndividualVehcileRelease;
+export default InitiateInstockVehicle;

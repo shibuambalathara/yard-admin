@@ -373,20 +373,30 @@ export const clientLevelUser = [
 
   },
   {
-    title: "Vehicle Release",
+    title: "Vehicles",
     icon: <FaCarOn />,
 
     submenu: true,
     submenuItems: [
       {
-        title: "vehicle Release",
+        title: "Instock Vehicles",
         icon: <LiaTruckMovingSolid />,
-        path:"/vehicleRelease",
+        path:"/vehicles/instockVehicles",
       },
       {
-        title: "initate Release  ",
+        title: "Initiated Vehicles  ",
         icon: <TfiTruck />,
-        path: "/vehicleRelease/releaseStatus",
+        path: "/vehicles/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles  ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/vehicles/releasedVehicles",
+      },
+      {
+        title: "Cancelled Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehicles/cancelledVehicles",
       },
     ],
   },

@@ -1,7 +1,10 @@
+
+
+
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role, VehicleState } from "@/utils/staticData";
+import { Role, ReleaseStatus } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -16,7 +19,7 @@ import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 
-const AllvehicleRelease = () => {
+const AllReleasedVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,24 +29,32 @@ const AllvehicleRelease = () => {
   const [Category, setVehiclecat] = useState("");
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState("");
-  const [AllVehicleRelease, setAllVehicleRelease] = useState([]);
+  const [vehicleRelease, setvehicleRelease] = useState([]);
+  const [allClientLevelOrg,setAllClientLevelOrg]=useState()
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
+      //   console.log("cat", response);
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
+      //   console.log("response of fetchAllVehicle Category", response);
 
       toast.success("Vehicle categories fetched successfully");
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
+      // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
+      // console.log("response of fetchAllVehicle Category error", error);
     }
   }, []);
+
+ 
 
   const FetchAllYards = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/yard`);
 
+      //   console.log("all yards", response?.data?.res?.yard);
       setAllYard(response?.data?.res?.yard);
       toast.success("Vehicle categories fetched successfully");
     } catch (error) {
@@ -51,11 +62,16 @@ const AllvehicleRelease = () => {
     }
   }, []);
 
-  const FetchAllVehicleRelease = useCallback(async () => {
+
+  console.log("allClientLevelOrg",allClientLevelOrg);
+  
+
+  const FetchAllVehicleOwnerships = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '5',
+        limit: '10',
+        status:"RELEASED"
 
       });
     //   params?.
@@ -65,19 +81,16 @@ const AllvehicleRelease = () => {
       if (selectedYard) {
         params.append('yard_id',selectedYard);
       }
-      if(vehicleStatus){
-        params.append('status',vehicleStatus);
-
-      }
+     
 
       const response = await axiosInstance.get(
-        `release/owned_instock_vehicle?${params.toString()}`
+        `release/client?${params.toString()}`
       );
-      console.log("response of owned vehicles", response);
+      console.log("resopnse of allreleasedVEhicles", response);
 
-      setAllVehicleRelease(response?.data?.res?.vehicles);
+      setvehicleRelease(response?.data?.res?.vehicleReleaseData);
 
-      console.log("response of vehicle ownership00001", response);
+    
     } catch (error) {
     } finally {
     }
@@ -88,55 +101,67 @@ const AllvehicleRelease = () => {
     label: item?.yard_name,
   }));
 
+  // console.log("allYardsOptions",allYardsOptions);
+
   const vehicleCategorysOptions = vehicleCategory?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
 
+
+
   useEffect(() => {
-    FetchAllVehicleRelease();
+    FetchAllVehicleOwnerships();
+    
   }, [selectedYard, Category, vehicleStatus]);
 
   useEffect(() => {
     FetchAllVehicleCategory();
+
     FetchAllYards();
   }, []);
 
-  const UsersData = AllVehicleRelease || [];
+  const UsersData = vehicleRelease || [];
 
-  // console.log("allVehicleOwnerships", AllVehicleRelease);
+
 
   const userColumn = useMemo(
     () => [
       {
         header: "Client Organisation ",
-        accessorKey: "cl_org.cl_org_name",
+        accessorKey: "vehicle_ownership.cl_org.cl_org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "Vehicle Category  ",
-        accessorKey: "vehicle.vehicle_category.name",
+        accessorKey: "vehicle_ownership.vehicle.vehicle_category.name",
         // id: "clsup_org_name", // Ensure unique id
       },
+      
       {
         header: "Make ",
-        accessorKey: "vehicle.make",
+        accessorKey: "vehicle_ownership.vehicle.make",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Model  ",
-        accessorKey: "vehicle.model",
+        accessorKey: "vehicle_ownership.vehicle.model",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Code  ",
-        accessorKey: "vehicle.code",
+        accessorKey: "vehicle_ownership.vehicle.code",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Status  ",
+        accessorKey: "status",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "Yard Name  ",
-        accessorKey: "vehicle.yard.yard_name",
+        accessorKey: "vehicle_ownership.vehicle.yard.yard_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
@@ -149,7 +174,13 @@ const AllvehicleRelease = () => {
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
 
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
   const handleCategorySelect = (e) => {
     const value = e.target.value;
     setVehiclecat(value);
@@ -158,15 +189,18 @@ const AllvehicleRelease = () => {
     const value = e.target.value;
     setSelectedYard(value);
   };
-  
+  const handleOwnershipStatus = (e) => {
+    const value = e.target.value;
+    setVehicleStatus(value);
+  };
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Instock Vehicles
+      All  Released  Vehicles
       </h1>
 
-      <div className="flex w-full space-x-14 borde">
-  <div className="flex flex-col   ml-8">
+      <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
+  <div className="flex flex-col  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -189,7 +223,7 @@ const AllvehicleRelease = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
       </div>
-      <div className="flex flex-col   ml-8">
+      <div className="flex flex-col   ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Yard
         </label>
@@ -199,7 +233,7 @@ const AllvehicleRelease = () => {
           defaultValue=""
           onChange={handleYardSelection}
         >
-          <option value="">All Category</option>
+          <option value="">All Yard</option>
           {/* <option value="">ALL STATE</option> */}
 
           {allYardsOptions.map((option, index) => (
@@ -213,7 +247,7 @@ const AllvehicleRelease = () => {
                           )} */}
       </div>
       
-     
+      
   </div>
       <div>
         {/* {isLoading ? (
@@ -222,7 +256,7 @@ const AllvehicleRelease = () => {
           </div>
         ) : ( */}
         {
-          AllVehicleRelease && (
+          vehicleRelease && (
             <DataTable data={UsersData} columns={userColumn} />
           )
 
@@ -238,11 +272,12 @@ const AllvehicleRelease = () => {
           )}
         </div> */}
       </div>
+     
     </div>
   );
 };
 
-export default AllvehicleRelease;
+export default AllReleasedVehicles;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -252,7 +287,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicleRelease/${row.original.id}`}
+        href={`/vehicles/initiatedVehicles/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

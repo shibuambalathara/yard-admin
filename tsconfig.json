@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ui/fromFields.jsx", "src/components/addVehicle", "src/components/auth/loginUsingOtp.jsx", "src/app/(home)/(superAdmin)/userManagement/[profileId]", "src/components/DataFetch/DataFetch.js", "src/components/tables/dataTable.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ui/fromFields.jsx", "src/components/addVehicle", "src/components/auth/loginUsingOtp.jsx", "src/app/(home)/(superAdmin)/userManagement/[profileId]", "src/components/DataFetch/DataFetch.js", "src/components/tables/dataTable.jsx", "src/components/clientLevelUser/vehicles/instockVehicles/initiateInstockVehicle.tsx"],
   "exclude": ["node_modules"]
 }

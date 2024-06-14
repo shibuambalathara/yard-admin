@@ -10,6 +10,7 @@ import { VehicleState, vehicleStatus } from "@/utils/staticData";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ImageData {
   img_type: string;
@@ -66,7 +67,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
   const [formDatas, setFormData] = useState<MyInterface>();
-
+ const router=useRouter()
   const {
     register,
     handleSubmit,
@@ -142,7 +143,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     fetchVehicle();
   }, []);
 
-  const editVehicle = useCallback(
+  const confirmOwnership = useCallback(
     async (data: MyInterface) => {
       console.log("123", data);
 
@@ -152,6 +153,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           console.log("response of edit ownership",response);
           
         toast.success(response?.data?.message);
+        handleModalClose()
+        router.push('/vehicleOwnershipClientOrg')
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);
@@ -191,7 +194,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           Confirm Ownership
         </button>}
         {modalOpen && (
-          <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
+          <form onSubmit={handleSubmit(confirmOwnership)} className="mt-8 space-y-6">
             <div className="self-end justify-self-end mb-1 flex gap-5">
               <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
@@ -214,7 +217,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                   </button>
                   <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1">
                     <div className="flex justify-between">
-                      <h1 className="font-bold">Change Ownership</h1>
+                      <h1 className="font-bold">Confirm Ownership</h1>
                       <p className="cursor-pointer" onClick={handleModalClose}>
                         x
                       </p>

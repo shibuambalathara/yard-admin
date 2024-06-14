@@ -25,6 +25,12 @@ export const VehicleState = [
   { label: "APPROVED", value: "APPROVED" },
 ];
 
+export const ReleaseStatus=[
+  
+  { label: "INITIATED", value: "INITIATED" },
+  { label: "CANCELLED", value: "CANCELLED" }
+]
+
 
 // export const vehicleCategory=[
 //   { label: "Truck", value: "truck" },

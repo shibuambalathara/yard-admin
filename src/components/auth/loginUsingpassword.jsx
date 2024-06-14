@@ -56,13 +56,15 @@ const LogInPassword = () => {
         password: password
       });
       
+      console.log("log from login",response);
       // console.log('User FROM API RESPONSE', response.data);
   
       // If API call is successful, register user, set token, and redirect
       const user = {
-        name:response.data.user.name ,
-        email: response.data.user.email, // Use the email from the form data
-        role: response.data.user.role
+        name:response?.data?.user?.name ,
+        email: response?.data?.user?.email, // Use the email from the form data
+        role: response?.data?.user?.role,
+        organisation:response?.user?.organisation
       };
       const authToken = response.data.user.accessToken;
       // console.log("TOKEN FROM API RESPONSE",authToken);
@@ -73,7 +75,7 @@ const LogInPassword = () => {
       setSuccess({
         text: "You have been successfully logged in.",
     });
-      router.push('/');
+      // router.push('/');
     } catch (error) {
       console.error('ERROR FROM fetching users:', error.response.data.message);
       setLoginError(error.response.data.message);
