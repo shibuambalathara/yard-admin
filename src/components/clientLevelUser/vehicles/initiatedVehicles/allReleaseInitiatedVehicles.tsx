@@ -3,7 +3,7 @@
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role, VehicleState } from "@/utils/staticData";
+import { Role, ReleaseStatus } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -17,8 +17,9 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import { log } from "util";
 
-const AllVehicleReleaseStatus = () => {
+const AllReleaseInitiatedVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,7 +29,7 @@ const AllVehicleReleaseStatus = () => {
   const [Category, setVehiclecat] = useState("");
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState("");
-  const [AllVehicleRelease, setAllVehicleRelease] = useState([]);
+  const [vehicleInitiated, setVehicleInitiated] = useState([]);
   const [allClientLevelOrg,setAllClientLevelOrg]=useState()
 
   const FetchAllVehicleCategory = useCallback(async () => {
@@ -67,14 +68,26 @@ const AllVehicleReleaseStatus = () => {
 
   const FetchAllVehicleOwnerships = useCallback(async () => {
     try {
-   
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '10',
+        status :"INITIATED"
+      });
+    //   params?.
+      if (Category) {
+        params.append('vehicle_category_id',Category);
+      }
+      if (selectedYard) {
+        params.append('yard_id',selectedYard);
+      }
+      
 
       const response = await axiosInstance.get(
-        `release/owned-vehicles?page=1&limit=5}`
+        `release/client?${params.toString()}`
       );
-      // console.log("resopnse of owned vehicles", response);
+      console.log("resopnse of  INITIATED VEHCIES", response);
 
-      setAllVehicleRelease(response?.data?.res?.vehicles);
+      setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
 
     
     } catch (error) {
@@ -107,7 +120,10 @@ const AllVehicleReleaseStatus = () => {
     FetchAllYards();
   }, []);
 
-  const UsersData = AllVehicleRelease || [];
+  console.log("vehicleInitiated",vehicleInitiated);
+  
+
+  const UsersData = vehicleInitiated || [];
 
 
 
@@ -115,33 +131,39 @@ const AllVehicleReleaseStatus = () => {
     () => [
       {
         header: "Client Organisation ",
-        accessorKey: "cl_org.cl_org_name",
+        accessorKey: "vehicle_ownership.cl_org.cl_org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "Vehicle Category  ",
-        accessorKey: "vehicle.vehicle_category.name",
+        accessorKey: "vehicle_ownership.vehicle.vehicle_category.name",
         // id: "clsup_org_name", // Ensure unique id
       },
+      
       {
         header: "Make ",
-        accessorKey: "vehicle.make",
+        accessorKey: "vehicle_ownership.vehicle.make",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Model  ",
-        accessorKey: "vehicle.model",
+        accessorKey: "vehicle_ownership.vehicle.model",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Code  ",
-        accessorKey: "vehicle.code",
+        accessorKey: "vehicle_ownership.vehicle.code",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Status  ",
+        accessorKey: "status",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "Yard Name  ",
-        accessorKey: "vehicle.yard.yard_name",
+        accessorKey: "vehicle_ownership.vehicle.yard.yard_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
@@ -240,7 +262,7 @@ const AllVehicleReleaseStatus = () => {
           <option value="" >select status</option>
           {/* <option value="">ALL STATE</option> */}
 
-          {VehicleState.map((option, index) => (
+          {ReleaseStatus.map((option, index) => (
             <option key={index} value={option?.value}>
               {option?.label}
             </option>
@@ -258,7 +280,7 @@ const AllVehicleReleaseStatus = () => {
           </div>
         ) : ( */}
         {
-          AllVehicleRelease && (
+          vehicleInitiated && (
             <DataTable data={UsersData} columns={userColumn} />
           )
 
@@ -279,7 +301,7 @@ const AllVehicleReleaseStatus = () => {
   );
 };
 
-export default AllVehicleReleaseStatus;
+export default AllReleaseInitiatedVehicles;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -289,7 +311,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicleOwnershipClientOrg/${row.original.id}`}
+        href={`/vehicles/initiatedVehicles/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

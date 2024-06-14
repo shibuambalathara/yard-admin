@@ -1,5 +1,3 @@
-
-
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
@@ -8,31 +6,30 @@ import axiosInstance from "@/utils/axios";
 
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import toast from "react-hot-toast";
-import { FaUserSlash, FaUser, FaRegEye } from "react-icons/fa";
-import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
-import { GrFormView } from "react-icons/gr";
+import {VehicleState} from "@/utils/staticData"
 import { MdOutlineViewHeadline } from "react-icons/md";
 
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 
 const AllVehicleOwnerships = () => {
- 
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
-  const [Category, setCategory] = useState('');
-
+  const [Category, setCategory] = useState("");
+  const [allyard, setAllYard] = useState([]);
+  const [selectedYard, setSelectedYard] = useState("");
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
-  const [client, setClient] = useState('');
+  const [client, setClient] = useState("");
+  const [ownershipStatus,setOwnerShipStatus]=useState("")
 
   //  toast.success(success)
   // toast.error(error)
   const FetchClientLevelOrgs = useCallback(async () => {
-    try { 
+    try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
@@ -47,26 +44,24 @@ const AllVehicleOwnerships = () => {
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
-
-
       const response = await axiosInstance.get(`/Vehicle/cat`);
-      console.log('cat',response);
-      
+      console.log("cat", response);
+
       setAllVehicleCategory(response?.data?.vehicleCategory);
-    
+
       toast.success(response?.data?.message);
     } catch (error) {
       toast.error(error?.response?.data?.message);
-      console.log(error)
+      console.log(error);
     }
   }, []);
 
 
-  
+
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
     label: item.cl_org_name,
-  })); 
+  }));
   const vehicleCategorys = vehicleCategory?.map((item) => ({
     value: item.id,
     label: item.name,
@@ -74,28 +69,32 @@ const AllVehicleOwnerships = () => {
 
   console.log("filteredData ", filteredData);
 
-  
-
-  const FetchVehicleOwnershipa = async () => {
+  const FetchVehicleOwnership = async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '5',
-        status:'PENDING'
+        limit: "5",
       });
 
+
       if (Category) {
-        params.append('vehicle_category_id', Category);
+        params.append("vehicle_category_id", Category);
       }
       if (client) {
-        params.append('cl_org_id', client);
+        params.append("cl_org_id", client);
       }
 
-      const response = await axiosInstance.get(`/ownership/?${params.toString()}`);
+      if(ownershipStatus){
+        params.append("status",ownershipStatus);
 
-      console.log("api",`/ownership/?${params.toString()}`);
-      
+      }
+
+      const response = await axiosInstance.get(
+        `/ownership/?${params.toString()}`
+      );
+
+      console.log("api", `/ownership/?${params.toString()}`);
 
       //   `//?page=1&limit=5&client_org_id=${client}&status=PENDING`
       // );
@@ -115,21 +114,19 @@ const AllVehicleOwnerships = () => {
   };
 
   console.log("filteredData", filteredData);
-useEffect(()=>{
-  FetchAllVehicleCategory()// Call fetchData directly inside useEffect
-  FetchClientLevelOrgs();
-},[])
   useEffect(() => {
-    FetchVehicleOwnershipa(); // Call fetchData directly inside useEffect
-   
-  }, [ page,Category,client]);
+    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
+    FetchClientLevelOrgs();
 
-  const UsersData = filteredData?.vehicleOwnership
-  || [];
+  }, []);
+  useEffect(() => {
+    FetchVehicleOwnership(); // Call fetchData directly inside useEffect
+  }, [page, Category, client,ownershipStatus]);
+
+  const UsersData = filteredData?.vehicleOwnership || [];
 
   const userColumn = useMemo(
     () => [
-
       {
         header: "Client Organisation ",
         accessorKey: "cl_org.cl_org_name",
@@ -155,7 +152,7 @@ useEffect(()=>{
         accessorKey: "vehicle.code",
         // id: "clsup_org_name", // Ensure unique id
       },
-      
+
       {
         header: "Yard Name  ",
         accessorKey: "vehicle.yard.yard_name",
@@ -167,10 +164,8 @@ useEffect(()=>{
         accessorKey: "status",
         // id: "code", // Ensure unique id
       },
-      
-      
+
       {
-        
         header: "Action",
         cell: ({ row }) => View(row),
       },
@@ -179,37 +174,49 @@ useEffect(()=>{
   );
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
+  const allYardsOptions = allyard?.map((item) => ({
+    value: item?.id,
+    label: item?.yard_name,
+  }));
 
-  
 
- 
-  const handleCatChange =(e)=>{
+
+  const handleCatChange = (e) => {
     const value = e.target.value;
-     setCategory(value)
-  } 
-  const handleOrgChange =(e)=>{
+    setCategory(value);
+  };
+  const handleOrgChange = (e) => {
     const value = e.target.value;
-    setClient(value)
-  } 
+    setClient(value);
+  };
+
+  const handleStatus=(e)=>{
+
+    const value = e.target.value;
+
+    console.log("value from ownership fo yardmanager",value);
+    
+
+    setOwnerShipStatus(value)
+  }
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      Vehicle Ownership
+        Vehicle Ownership
       </h1>
 
-      <div className="flex justify-evenly ">
-      <div className="flex flex-col w-40  ">
+      <div className=" grid grid-cols-3 place-items-center  ">
+        <div className="flex flex-col   ">
           <label htmlFor="state" className={labelStyle?.data}>
-        Select  Client 
+            Select Client
           </label>
           <select
             id="state"
             className={inputStyle?.data}
             defaultValue=""
             onChange={handleOrgChange}
-            
           >
-           <option value="">All Client</option>
+            <option value="">All Client</option>
             {/* <option value="">ALL STATE</option> */}
 
             {allClientLevelOrganisations.map((option, index) => (
@@ -223,8 +230,9 @@ useEffect(()=>{
                           )} */}
         </div>
 
+       
 
-        <div className="flex flex-col w-40  ml-8">
+        <div className="flex flex-col ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -233,7 +241,6 @@ useEffect(()=>{
             className={inputStyle?.data}
             defaultValue=""
             onChange={handleCatChange}
-            
           >
             <option value="">All Category</option>
             {/* <option value="">ALL STATE</option> */}
@@ -248,8 +255,31 @@ useEffect(()=>{
               <p className="text-red-500">State is required</p>
                           )} */}
         </div>
-        </div>
-      
+        <div className="flex flex-col  ">
+        <label htmlFor="state" className={labelStyle?.data}>
+          Status
+        </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleStatus}
+        >
+          <option value="">select status</option>
+          {/* <option value="">ALL STATE</option> */}
+
+          {VehicleState.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+        {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+      </div>
+      </div>
+
       <div>
         {/* {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
@@ -271,7 +301,6 @@ useEffect(()=>{
           )}
         </div> */}
       </div>
-      
     </div>
   );
 };

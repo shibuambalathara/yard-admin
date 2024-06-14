@@ -10,6 +10,7 @@ interface User {
     contact?: string;
     designation: string;
     role: string;
+    organisation:string;
 }
 
 // Define the AuthState interface
@@ -18,6 +19,8 @@ interface AuthState {
     isAuthenticated: boolean;
     token: string | null;
     role: string | null;
+  
+
 }
 
 // Define the AuthActions interface

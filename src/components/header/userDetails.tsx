@@ -68,11 +68,79 @@ const UserDetails = () => {
                 </span>
               </button>
             </li>
+            <li>
+              <button className=" font-bold  " onClick={handleLogout}>
+                Logout{" "}
+                <span>
+                  <FiLogOut />
+                </span>
+              </button>
+            </li>
+            <li>
+              <button className=" font-bold  " onClick={handleLogout}>
+                Logout{" "}
+                <span>
+                  <FiLogOut />
+                </span>
+              </button>
+            </li>
           </>
         </ul>
       </div>
     </div>
+
+
+
+
   );
 };
 
 export default UserDetails;
+
+<>
+{/* <div className="flex border-2 space-x-2 rounded-md px-2 py-2">
+<FaUserCircle size="2em" />
+<div className="dropdown dropdown-end">
+  <button
+    tabIndex={0}
+    className="flex flex-col avatar"
+    onClick={toggleDropdown}
+  >
+    <p className="text-xs font-bold flex items-center">
+      {userName}
+      <span className="pl-2">
+        <FaChevronDown />
+      </span>
+    </p>
+    <p className="text-xs">{userRole}</p>
+  </button>
+  {isDropdownOpen && (
+    <ul
+      tabIndex={0}
+      className="mt-3 shadow menu menu-compact dropdown-content rounded-md w-52 bg-gray-100 text-black"
+    >
+      <>
+        
+        <li>
+          <a href="#profile" className="font-bold">
+            Profile
+          </a>
+        </li>
+        <li>
+          <a href="#settings" className="font-bold">
+            Settings
+          </a>
+        </li>
+        <li>
+          <button className="font-bold" onClick={handleLogout}>
+            Logout{" "}
+            <span>
+              <FiLogOut />
+            </span>
+          </button>
+        </li>
+      </>
+    </ul>
+  )}
+</div>
+</div> */}</>

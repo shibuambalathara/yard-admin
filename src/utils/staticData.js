@@ -25,10 +25,17 @@ export const VehicleState = [
   { label: "APPROVED", value: "APPROVED" },
 ];
 
-export const WaiverStatus = [
-  { label: "PENDING", value: "PENDING" },
-  { label: "CANCELLED", value: "CANCELLED" },
-];         
+export const ReleaseStatus=[
+  
+  { label: "INITIATED", value: "INITIATED" },
+  { label: "CANCELLED", value: "CANCELLED" }
+]
+
+export const WaiverStatus=[
+  
+  { label: "INITIATED", value: "INITIATED" },
+  { label: "CANCELLED", value: "CANCELLED" }
+]
 
 
 // export const vehicleCategory=[
