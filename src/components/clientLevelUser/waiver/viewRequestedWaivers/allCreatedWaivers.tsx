@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect, useCallback } from 'react';
 import axiosInstance from '@/utils/axios';
 import {
@@ -9,36 +10,48 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import IndeterminateCheckbox from './IndeterminateCheckbox';
+
 import { MdOutlineViewHeadline } from 'react-icons/md';
 import Link from 'next/link';
-import Pagination from '../pagination/pagination';
+
 import { PiSortAscendingLight, PiSortDescendingLight } from 'react-icons/pi';
 import { TbSelector } from 'react-icons/tb';
 import { log } from 'console';
 import { CiSearch } from 'react-icons/ci';
-import AddWaiver from '../clientLevelUser/waiver/addWaiver';
+
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
-import { inputStyle, labelStyle } from '../ui/style';
+import IndeterminateCheckbox from '@/components/tables/IndeterminateCheckbox';
+import { inputStyle, labelStyle } from '@/components/ui/style';
+import Pagination from '@/components/pagination/pagination';
+
 
 type User = {
-  cl_org: {
-    code: string;
-    cl_org_name: string;
-  };
+  fee_per_day:number;
+  status:string;
   id: string;
-  vehicle: {
-    code: string;
-    make: string;
-    model: string;
-    yard: { yard_name: string };
-    status: string;
-    vehicle_category: { name: string };
-  };
+  waiver:{code:string}
+  vehicle_ownership:{
+    cl_org: {
+      code: string;
+      cl_org_name: string;
+    };
+    
+    vehicle: {
+      code: string;
+      make: string;
+      model: string;
+      yard: { yard_name: string };
+      status: string;
+      vehicle_category: { name: string };
+    };
+    
+
+  }
+  
 };
 
-const SelectionTable = () => {
+const  AllCreatedWaivers= () => {
   const [sorting, setSorting] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
   const [globalFilter, setGlobalFilter] = useState('');
@@ -120,8 +133,8 @@ const SelectionTable = () => {
         params.append('vehicle_category_id', vehicleCategoryFilter);
       }
 
-      const response = await axiosInstance.get(`/waiver/vehicle?${params.toString()}`);
-      setData(response?.data?.res?.ownerships || []);
+      const response = await axiosInstance.get(`/waiver/client?${params.toString()}`);
+      setData(response?.data?.res?.waiverVehicles || []);
       setPageCount(response?.data?.res?.totalCount || null);
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
@@ -170,54 +183,59 @@ const SelectionTable = () => {
         ),
       },
       {
-        accessorKey: 'vehicle.code',
+        accessorKey: 'vehicle_ownership.vehicle.code',
         header: 'Vehicle Code',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'vehicle.make',
+        accessorKey: 'waiver.code',
+        header: 'waiver Code',
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: 'vehicle_ownership.vehicle.make',
         header: 'Make',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'vehicle.model',
+        accessorKey: 'vehicle_ownership.vehicle.model',
         header: 'Model',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'vehicle.yard.yard_name',
+        accessorKey: 'vehicle_ownership.vehicle.yard.yard_name',
         header: 'Yard Name',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'vehicle.status',
+        accessorKey: 'status',
         header: 'Status',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'vehicle.vehicle_category.name',
+        accessorKey: 'vehicle_ownership.vehicle.vehicle_category.name',
         header: 'Category',
         cell: (info) => info.getValue(),
       },
-      // {
-      //   id: 'view',
-      //   header: 'Action',
-      //   cell: ({ row }) => (
-      //     <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-      //       <p>
-      //         <MdOutlineViewHeadline />
-      //       </p>
-      //       <Link
-      //         href={`/waivers/${row.original.id}`}
-      //         target="_blank"
-      //         rel="noopener noreferrer"
-      //         className=""
-      //       >
-      //         View
-      //       </Link>
-      //     </div>
-      //   ),
-      // },
+      {
+        id: 'view',
+        header: 'Action',
+        cell: ({ row }) => (
+          <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+            <p>
+              <MdOutlineViewHeadline />
+            </p>
+            <Link
+              href={`/waivers/viewCreatedWaivers/${row.original.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className=""
+            >
+              View
+            </Link>
+          </div>
+        ),
+      },
     ],
     [selectedRowIds]
   );
@@ -294,7 +312,7 @@ const SelectionTable = () => {
         </div>
       </div>
       
-        <div className="flex h-12 mt-4 ">
+        {/* <div className="flex h-12 mt-4 ">
           <button
             onClick={handleModalOpen}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
@@ -302,7 +320,7 @@ const SelectionTable = () => {
             Assign Waiver
           </button>
           {modalOpen && <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds}  />}
-        </div>
+        </div> */}
       
       </div>
      
@@ -381,4 +399,5 @@ const SelectionTable = () => {
   );
 };
 
-export default SelectionTable;
+export default AllCreatedWaivers
+

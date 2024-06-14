@@ -27,7 +27,6 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Initially set to true to show loading spinner
-  const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const router = useRouter();
 
   const {
@@ -53,21 +52,7 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
     }
   }, [success, error]);
 
-  const FetchClientLevelOrgs = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/clientorg/client_lvl_org`
-      );
-      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-    //   console.log("reponse of clientlevelorg ", response);
-
-      toast.success("successs");
-    } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`); 
-    }
-  }, []);
 
   const AddVehicleCategory = async (data: Inputs) => {
     setIsLoading(true);
@@ -96,14 +81,10 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
       toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
-
+       
     }
   };
-  const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name
-    ,
-  }));
+ 
   // if (isLoading) {
   //   return (
   //     <div className="flex items-center justify-center border-2 h-full w-full">
@@ -132,7 +113,7 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
           </svg>
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Add Category</h1>
+          <h1 className=" font-bold  ">Assign Waiver</h1>
           <p className=" cursor-pointer"
            onClick={onClose}
            >
@@ -140,12 +121,10 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
           </p>
         </div>
         <form
-          className={`${formStyle.data}`}
+          className={` flex flex-col items-center border rounded-xl py-8`}
           onSubmit={handleSubmit(AddVehicleCategory)}
         >
-          <div className="w-full  text-center uppercase font-bold">
-            <h1>Add Vehicle Category</h1>
-          </div>
+        
 
           {/* <div className="mb-">
           <SelectComponent
@@ -180,7 +159,7 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
             </div>
             <div className="mb-">
               <InputField
-                label="reason"
+                label="Reason"
                 type="zstring"
                 name="reason"
                 register={register}
@@ -189,12 +168,12 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
               />
             </div> 
 
-          <div className="w-full">
+          <div className="w-32 mt-4">
             <button
               type="submit"
               className="bg-[#333333] text-white px-4 py-1 w-full"
             >
-              Add
+              Assign
             </button>
           </div>
         </form>

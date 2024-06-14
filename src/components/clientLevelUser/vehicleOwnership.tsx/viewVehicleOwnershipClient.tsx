@@ -54,7 +54,7 @@ type Inputs = {
   OTHER_IMAGE: File[] | null;
 };
 
-interface MyInterface {
+interface   MyInterface {
   status: string;
   comment: string;
 }
@@ -145,7 +145,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const editVehicle = useCallback(
     async (data: MyInterface) => {
       console.log("123", data);
-
+      
       try {
         const response = await axiosInstance.patch(
           `/ownership/status/${ownershipId?.clientLevelvehOwnId}`,data);
