@@ -3,7 +3,7 @@ import EditIndividualWavier from '@/components/yardManager/waiver/EditIndividual
 
 const ViewIndividualWaiver = () => {
   return (
-    <div>ViewIndividualWaiver</div>
+    <div><EditIndividualWavier/></div>
   )
 }
 

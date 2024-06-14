@@ -1,4 +1,4 @@
-import AllWaiver from '@/components/clientLevelUser/waiver/allWaiver';
+import AllWaiver from '@/components/clientLevelUser/waiver/eligibleWaivers';
 import React from 'react'
 
 const ViewWaiver = () => {

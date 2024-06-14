@@ -421,20 +421,20 @@ export const clientLevelUser = [
   {
     title: "Waiver",
     icon: <FaCarOn />,
-    path : '/waivers'
-    // submenu: true,
-    // submenuItems: [
-    //   {
-    //     title: "Request Waiver",
-    //     icon: <LiaTruckMovingSolid />,
-    //     path: "/profile",
-    //   },
-    //   {
-    //     title: "Review Request Status ",
-    //     icon: <TfiTruck />,
-    //     path: "/profile",
-    //   },
-    // ],
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Eligible for Waiver",
+        icon: <LiaTruckMovingSolid />,
+        path: "/waivers",
+      },
+      {
+        title: "View Created Waiver ",
+        icon: <TfiTruck />,
+        path: "/waivers/viewCreatedWaivers",
+      },
+    ],
   },
  
   {

@@ -31,6 +31,12 @@ export const ReleaseStatus=[
   { label: "CANCELLED", value: "CANCELLED" }
 ]
 
+export const WaiverStatus=[
+  
+  { label: "INITIATED", value: "INITIATED" },
+  { label: "CANCELLED", value: "CANCELLED" }
+]
+
 
 // export const vehicleCategory=[
 //   { label: "Truck", value: "truck" },
