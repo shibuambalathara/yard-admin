@@ -1,7 +1,3 @@
-
-
-
-
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
@@ -19,8 +15,9 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import { log } from "util";
 
-const AllCancelledVehicles = () => {
+const AllInitiatedVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,8 +27,8 @@ const AllCancelledVehicles = () => {
   const [Category, setVehiclecat] = useState("");
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState("");
-  const [cancelledVehicles, setCancelledVehicles] = useState([]);
-  const [allClientLevelOrg,setAllClientLevelOrg]=useState()
+  const [vehicleInitiated, setVehicleInitiated] = useState([]);
+  const [allClientLevelOrg, setAllClientLevelOrg] = useState();
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
@@ -49,49 +46,43 @@ const AllCancelledVehicles = () => {
     }
   }, []);
 
- 
-
-  const FetchAllYards = useCallback(async () => {
+  const FetchClientLevelOrgs = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(`/yard`);
+      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
+      setAllClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-      //   console.log("all yards", response?.data?.res?.yard);
-      setAllYard(response?.data?.res?.yard);
-      // toast.success("Vehicle categories fetched successfully");
+      //   console.log("reponse of clientlevelorg ", response);
+
+      toast.success("successs");
     } catch (error) {
-      toast.error("Failed to fetch all yards");
+      // console.log("error", error);
+      toast.error(`something went wrong`);
     }
   }, []);
 
-
-  console.log("allClientLevelOrg",allClientLevelOrg);
-  
+  console.log("allClientLevelOrg", allClientLevelOrg);
 
   const FetchAllVehicleOwnerships = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '10',
-        status:"CANCELLED"
-
+        limit: "10",
+        status: "INITIATED",
       });
-    //   params?.
+      //   params?.
       if (Category) {
-        params.append('vehicle_category_id',Category);
+        params.append("vehicle_category_id", Category);
       }
       if (selectedYard) {
-        params.append('yard_id',selectedYard);
+        params.append("cl_org_id", selectedYard);
       }
-      
 
       const response = await axiosInstance.get(
-        `release/client?${params.toString()}`
+        `release?${params.toString()}`
       );
-      console.log("resopnse of cancelled  status", response);
+      console.log("resopnse of  INITIATED VEHCIES", response);
 
-      setCancelledVehicles(response?.data?.res?.vehicleReleaseData);
-
-    
+      setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
     } finally {
     }
@@ -109,22 +100,18 @@ const AllCancelledVehicles = () => {
     label: item.name,
   }));
 
-
-
   useEffect(() => {
     FetchAllVehicleOwnerships();
-    
   }, [selectedYard, Category, vehicleStatus]);
 
   useEffect(() => {
     FetchAllVehicleCategory();
-
-    FetchAllYards();
+    FetchClientLevelOrgs();
   }, []);
 
-  const UsersData = cancelledVehicles || [];
+  console.log("vehicleInitiated", vehicleInitiated);
 
-
+  const UsersData = vehicleInitiated || [];
 
   const userColumn = useMemo(
     () => [
@@ -138,7 +125,7 @@ const AllCancelledVehicles = () => {
         accessorKey: "vehicle_ownership.vehicle.vehicle_category.name",
         // id: "clsup_org_name", // Ensure unique id
       },
-      
+
       {
         header: "Make ",
         accessorKey: "vehicle_ownership.vehicle.make",
@@ -197,59 +184,79 @@ const AllCancelledVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        All Cancelled Vehicles  
+       All Release Initiated Vehicles
       </h1>
 
       <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
-  <div className="flex flex-col  ">
-        <label htmlFor="state" className={labelStyle?.data}>
-          Select Category
-        </label>
-        <select
-          id="state"
-          className={inputStyle?.data}
-          defaultValue=""
-          onChange={handleCategorySelect}
-        >
-          <option value="">All Category</option>
-          {/* <option value="">ALL STATE</option> */}
+        <div className="flex flex-col  ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Select Category
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleCategorySelect}
+          >
+            <option value="">All Category</option>
+            {/* <option value="">ALL STATE</option> */}
 
-          {vehicleCategorysOptions.map((option, index) => (
-            <option key={index} value={option?.value}>
-              {option?.label}
-            </option>
-          ))}
-        </select>
-        {/* {errors.state && (
+            {vehicleCategorysOptions.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          {/* {errors.state && (
               <p className="text-red-500">State is required</p>
                           )} */}
-      </div>
-      <div className="flex flex-col   ">
-        <label htmlFor="state" className={labelStyle?.data}>
-          Select Yard
-        </label>
-        <select
-          id="state"
-          className={inputStyle?.data}
-          defaultValue=""
-          onChange={handleYardSelection}
-        >
-          <option value="">All Yard</option>
-          {/* <option value="">ALL STATE</option> */}
+        </div>
+        <div className="flex flex-col   ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Select Yard
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleYardSelection}
+          >
+            <option value="">All Yard</option>
+            {/* <option value="">ALL STATE</option> */}
 
-          {allYardsOptions.map((option, index) => (
-            <option key={index} value={option?.value}>
-              {option?.label}
-            </option>
-          ))}
-        </select>
-        {/* {errors.state && (
+            {allYardsOptions.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          {/* {errors.state && (
               <p className="text-red-500">State is required</p>
                           )} */}
+        </div>
+
+        {/* <div className="flex flex-col  ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Status
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleOwnershipStatus}
+          >
+            <option value="">select status</option>
+           
+
+            {ReleaseStatus.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          
+        </div> */}
       </div>
-      
-      
-  </div>
       <div>
         {/* {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
@@ -257,9 +264,9 @@ const AllCancelledVehicles = () => {
           </div>
         ) : ( */}
         {
-          // cancelledVehicles && (
+          vehicleInitiated && (
             <DataTable data={UsersData} columns={userColumn} />
-          // )
+          )
 
           /* )} */
         }
@@ -273,12 +280,11 @@ const AllCancelledVehicles = () => {
           )}
         </div> */}
       </div>
-     
     </div>
   );
 };
 
-export default AllCancelledVehicles;
+export default AllInitiatedVehicles;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -288,7 +294,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicles/initiatedVehicles/${row.original.id}`}
+        href={`/releasevehicle/initiatedVehicles/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

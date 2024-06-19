@@ -10,6 +10,7 @@ import {
 import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import { inputStyle, labelStyle, loginInputStyle } from "@/components/ui/style";
 const CreateUser = () => {
   type Inputs = {
@@ -41,6 +42,7 @@ const CreateUser = () => {
     formState: { errors, isDirty, isSubmitting, isValid },
   } = useForm<Inputs>();
 
+  const router=useRouter()
   const onSubmit = useCallback(async (data: Inputs) => {
     console.log("data from createUser", data);
 
@@ -73,6 +75,7 @@ const CreateUser = () => {
       );
       console.log("response", response);
       toast.success(response?.data?.message || "success");
+      router.push("/userManagement")
       reset();
     } catch (error) {
       toast.error(error?.response?.data?.message || "something went wrong");

@@ -3,6 +3,8 @@ import { InputField, SelectComponent, SelectInput } from "@/components/ui/fromFi
 import axiosInstance from "@/utils/axios";
 import { states } from "@/utils/staticData";
 import { useState, useEffect, useCallback } from "react";
+import { Cities } from "@/utils/cities";
+
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
@@ -12,6 +14,18 @@ import {
   loginInputStyle,
 } from "../../../../components/ui/style";
 import { log } from "console";
+type Inputs = {
+  yard_name: string;
+  id: string;
+  field_executive_name: string;
+  field_executive_contact: number;
+  city: string;
+  state: string;
+  postal_code: number;
+  land_mark: string;
+  street_name: string;
+  user: string;
+};
 
 const EdityardDataYard = ({ yardId }) => {
   const [yardData, setYardData] = useState(null);
@@ -19,23 +33,11 @@ const EdityardDataYard = ({ yardId }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [selectState, setSelectState] = useState("");
-  const [filterDistricts, setFilterDistricts] = useState([]);
+  const [filtercitys, setFiltercitys] = useState([]);
   const [Users, setUsers] = useState([]);
-  const upperStates = states.map((value) => value.state.toUpperCase());
+  const [uniqueStates, setUniqueStates] = useState([]);
 
-  type Inputs = {
-    yard_name: string;
-    id: string;
-    field_executive_name: string;
-    field_executive_contact: number;
-    district: string;
-    state: string;
-    postal_code: number;
-    land_mark: string;
-    street_name: string;
-    user: string;
-  };
-
+ 
   const {
     register,
     handleSubmit,
@@ -44,6 +46,17 @@ const EdityardDataYard = ({ yardId }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  useEffect(() => {
+    // Extract unique state names from Cities array
+    const uniqueStates = Cities.reduce((acc, current) => {
+      if (!acc.includes(current.state)) {
+        acc.push(current.state);
+      }
+      return acc;
+    }, []);
+
+    setUniqueStates(uniqueStates);
+  }, []); // Only run once on component mount
   const FetchUsers = useCallback(async () => {
     try {
       const response = await axiosInstance.get(
@@ -92,10 +105,10 @@ const EdityardDataYard = ({ yardId }) => {
 
   useEffect(() => {
     if (selectState) {
-      const stateData = states.find(
+      const stateData = Cities.filter(
         (state) => state.state === selectState
       );
-      setFilterDistricts(stateData?.districts.map((value) => value));
+      setFiltercitys(stateData?.map((value) => value?.city));
     }
   }, [selectState]);
 
@@ -104,7 +117,7 @@ const EdityardDataYard = ({ yardId }) => {
       ...data,
       yard_name: data?.yard_name.toUpperCase(),
       field_executive_name: data?.field_executive_name?.toUpperCase(),
-      district: data?.district,
+      city: data?.city,
     };
 
     try {
@@ -120,7 +133,7 @@ const EdityardDataYard = ({ yardId }) => {
     const selectedState = e.target.value;
     setSelectState(selectedState);
       
-    setValue("district", '')
+    setValue("city", '')
   };
 
   const AllUsers = Users?.map((item) => ({
@@ -190,7 +203,7 @@ const EdityardDataYard = ({ yardId }) => {
           <SelectChange
             label="State"
             name="state"
-            options={states.map(state => ({ value: state.state, label: state.state }))}
+            options={uniqueStates}
             register={register}
             errors={errors}
             required={true}
@@ -198,9 +211,9 @@ const EdityardDataYard = ({ yardId }) => {
             handleChange={handleStateChange}
           />
           <SelectChange
-            label="District"
-            name="district"
-            options={filterDistricts.map(district => ({ value: district, label: district }))}
+            label="city"
+            name="city"
+            options={filtercitys.map(city => ({ value: city, label: city }))}
             register={register}
             errors={errors}
             required={true}

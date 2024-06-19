@@ -68,7 +68,7 @@ const UserDetails = () => {
                 </span>
               </button>
             </li>
-            <li>
+            {/* <li>
               <button className=" font-bold  " onClick={handleLogout}>
                 Logout{" "}
                 <span>
@@ -83,7 +83,7 @@ const UserDetails = () => {
                   <FiLogOut />
                 </span>
               </button>
-            </li>
+            </li> */}
           </>
         </ul>
       </div>

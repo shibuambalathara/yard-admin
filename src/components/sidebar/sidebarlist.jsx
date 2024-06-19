@@ -240,9 +240,9 @@ export const Super_Admin = [
         path: "/organisationManagement/clientLevelSubOrg",
       },
       {
-        title: "Yard  Management  ",
+        title: "Yard  Organisation  ",
         icon: <HiBuildingOffice2 />,
-        path: "/organisationManagement//yardManagement",
+        path: "/organisationManagement/yardManagement",
       },
     ],
   },
@@ -262,48 +262,36 @@ export const yardManager = [
     icon: <ImTruck />,
     path:"/vehicle",
 
-    // submenuItems: [
-    //   {
-    //     title: "Add Vehicle",
-    //     icon: <MdManageHistory />,
-    //     path: "/vehicle/addvehicle",
-    //   },
-
-    //   {
-    //     title: "Manage Vehicle",
-    //     icon: <TbStatusChange />,
-    //     path: "/vehicle/managevehicle",
-    //   },
-    //   {
-    //     title: "Manage Reject Request",
-    //     icon: <TbStatusChange />,
-    //     path: "/vehicle/managerequestreject",
-    //   },
-    // ],
+    
   },
   {
     title: "vehicle Ownership",
     icon: <ImTruck />,
     path:"/vehicleOwnership",
     
-    // submenuItems: [
-    //   {
-    //     title: "Add Vehicle",
-    //     icon: <MdManageHistory />,
-    //     path: "/vehicle/addvehicle",
-    //   },
+    
+  },
+  {
+    title: "vehicle Release",
+    icon: <ImTruck />,
+    submenu: true,
+    submenuItems: [
+      
 
-    //   {
-    //     title: "Manage Vehicle",
-    //     icon: <TbStatusChange />,
-    //     path: "/vehicle/managevehicle",
-    //   },
-    //   {
-    //     title: "Manage Reject Request",
-    //     icon: <TbStatusChange />,
-    //     path: "/vehicle/managerequestreject",
-    //   },
-    // ],
+      {
+        title: "Initiated Vehicles",
+        icon: <TbStatusChange />,
+        path: "/releasevehicle/initiatedVehicles",
+
+      },
+      {
+        title: "Released Vehicles",
+        icon: <MdManageHistory />,
+        path: "/releasevehicle/releasedVehicles",
+
+      },
+      
+    ],
   },
   {
     title: "Waiver",

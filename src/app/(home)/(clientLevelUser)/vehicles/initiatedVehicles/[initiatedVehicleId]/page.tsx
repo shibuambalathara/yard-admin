@@ -1,8 +1,8 @@
 import React from 'react'
-
-const IndividualInitiatedVehicle = () => {
+import IndividualReleaseStatus from "@/components/clientLevelUser/vehicles/initiatedVehicles/individualReleaseInitatedVehicles"
+const IndividualInitiatedVehicle = ({params}:{params:{releaseId:string}}) => {
   return (
-    <div>IndividualInitiatedVehicle</div>
+    <div><IndividualReleaseStatus releaseId={params}/></div>
   )
 }
 

@@ -11,7 +11,8 @@ import toast from "react-hot-toast";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateClientLevelOrg from "@/components/superAdmin/organisationManagement/clientLevelOrg/addClientLevelOrgs";
 import Pagination from "@/components/pagination/pagination";
-import { Country, State, states } from "@//utils/staticData";
+import {  states,cities } from "@//utils/staticData";
+import {Cities} from "@/utils/cities"
 import CreateYard from "./createYard";
 import {
   formStyle,
@@ -30,19 +31,33 @@ const AllYards = () => {
   const [filterDistricts, setFilterDistricts] = useState([]);
   const [selectDistrict, setSelectDistrict] = useState("");
   const stateDropdownRef = useRef(null);
+  const [stateAndCities,setAllStatesAndCities]=useState([])
+  const [uniqueStates, setUniqueStates] = useState([]);
+
   const handleModalClose = () => {
     setModalOpen(false);
   };
   const handleModalOpen = () => {
     setModalOpen(true);
   };
+  useEffect(() => {
+    // Extract unique state names from Cities array
+    const uniqueStates = Cities.reduce((acc, current) => {
+      if (!acc.includes(current.state)) {
+        acc.push(current.state);
+      }
+      return acc;
+    }, []);
+
+    setUniqueStates(uniqueStates);
+  }, []); // Only run once on component mount
 
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
       const response = await axiosInstance.get(
-        `/yard?page=1&limit=10&country=INDIA&state=${selectedState}&district=${selectDistrict}`
+        `/yard?page=1&limit=10&country=INDIA&state=${selectedState}&city=${selectDistrict}`
       );
       // console.log("all users", response?.data?.res?.yard);
       setFilteredData(response?.data?.res?.yard);
@@ -77,8 +92,8 @@ const AllYards = () => {
         accessorKey: "state",
       },
       {
-        header: "district",
-        accessorKey: "district",
+        header: "City",
+        accessorKey: "city",
       },
       {
         header: "Code",
@@ -94,33 +109,34 @@ const AllYards = () => {
     [filteredData]
   );
 
+  
+// console.log("uniqueStates",uniqueStates);
+
+
+
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
     // console.log("selectedState from handle change",selectedState);
 
     setSelectedState(selectedState);
-    const stateData = states.find((state) => state.state === selectedState);
+    const stateData = Cities.filter((item) => item.state === selectedState);
     console.log("selected state from state array", stateData);
 
     !selectedState && setFilterDistricts([]);
 
-    stateData ? setFilterDistricts(stateData.districts) : [];
+    stateData ? setFilterDistricts(stateData?.map((item)=>item?.city)) : [];
     setSelectDistrict("");
   };
+
+  console.log("filtered districts",filterDistricts);
+  
 
   const handleDistricChange = (e) => {
     setSelectDistrict(e.target.value);
   };
 
-  // const handleReset =()=>{
-  //   setSelectedState("");
-  //   setSelectDistrict("");
-  //   setFilterDistricts([]);
-  //   fetchData();
-  //   if (stateDropdownRef.current) {
-  //     stateDropdownRef.current.value = '';
-  //   }
-  // }
+ 
+
 
   return (
     <div className="mt-8  ">
@@ -143,9 +159,9 @@ const AllYards = () => {
             <option>Select State</option>
             <option value="">ALL STATE</option>
 
-            {states.map((option, index) => (
-              <option key={index} value={option.state}>
-                {option.state}
+            {uniqueStates.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
               </option>
             ))}
           </select>
@@ -165,9 +181,9 @@ const AllYards = () => {
             onChange={handleDistricChange}
           >
             <option value="" disabled hidden>
-              Select District
+              Select City
             </option>
-            {filterDistricts.map((option, index) => (
+            {filterDistricts?.map((option, index) => (
               <option key={index} value={option}>
                 {option}
               </option>

@@ -203,7 +203,7 @@ const AddVehicle = () => {
           toast.error(msg);
         });
       } else {
-        toast.error("An unexpected error occurred");
+        toast.error(error?.response?.data?.message);
       }
       console.error("Error occurred:", error);
     } finally {
@@ -355,14 +355,7 @@ const AddVehicle = () => {
               errors={errors}
               pattern
             />
-            <InputField
-              label="Board Type"
-              type="text"
-              name="board_type"
-              register={register}
-              errors={errors}
-              pattern
-            />
+            
 
             <InputField
               label="Odometer"

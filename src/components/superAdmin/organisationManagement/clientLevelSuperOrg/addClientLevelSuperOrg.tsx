@@ -99,12 +99,12 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
       );
 
       console.log("response after superOrgCreae", response);
-      toast.success("superOrgCreated");
+      toast.success(response?.data?.message);
       fetchData();
       onClose();
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`error in creating superOrg`);
+      console.log("error", error);
+      toast.error(error?.response?.data?.message);
     }
 
     // Handle form submission

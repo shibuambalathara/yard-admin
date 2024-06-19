@@ -31,7 +31,7 @@ const AllInstockVehicles = () => {
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
 
-      toast.success("Vehicle categories fetched successfully");
+      // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
     }
@@ -44,7 +44,7 @@ const AllInstockVehicles = () => {
       setAllYard(response?.data?.res?.yard);
       toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      // toast.error("Failed to fetch vehicle categories");
     }
   }, []);
 

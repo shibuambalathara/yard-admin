@@ -2,6 +2,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useCallback } from "react";
 import { Country, State, states } from "@//utils/staticData";
+import { Cities } from "@/utils/cities";
 import { SelectComponent, InputField } from "@/components/ui/fromFields";
 import React from "react";
 import axiosInstance from "@/utils/axios";
@@ -13,27 +14,28 @@ import {
   labelStyle,
   loginInputStyle,
 } from "../../../../components/ui/style";
+
+type Inputs = {
+  yard_name: string;
+  user_id: string;
+  field_executive_name: string;
+  field_executive_contact: number;
+
+  country: string;
+  state: string;
+  city: string;
+  postal_code: number;
+  streetName: string;
+  streetNumber: string;
+  landMark: string;
+};
 import { SelectChange } from "./editIndividualYard";
 const CreateYard = ({ onClose, fetchYard }) => {
   const [Users, setUsers] = useState([]);
   const [category, setAllCategory] = useState([]);
   const [selectedState, setSelectedState] = useState("");
-  const [filterDistricts, setFilterDistricts] = useState([]);
-
-  type Inputs = {
-    yard_name: string;
-    user_id: string;
-    field_executive_name: string;
-    field_executive_contact: number;
-
-    country: string;
-    state: string;
-    district: string;
-    postal_code: number;
-    streetName: string;
-    streetNumber: string;
-    landMark: string;
-  };
+  const [filterCity, setFilterCity] = useState([]);
+  const [uniqueStates, setUniqueStates] = useState([]);
 
   const {
     register,
@@ -41,6 +43,18 @@ const CreateYard = ({ onClose, fetchYard }) => {
     reset,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    // Extract unique state names from Cities array
+    const uniqueStates = Cities.reduce((acc, current) => {
+      if (!acc.includes(current.state)) {
+        acc.push(current.state);
+      }
+      return acc;
+    }, []);
+
+    setUniqueStates(uniqueStates);
+  }, []); // Only run once on component mount
 
   const FetchUsers = useCallback(async () => {
     try {
@@ -69,13 +83,20 @@ const CreateYard = ({ onClose, fetchYard }) => {
 
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
+    // console.log("selectedState from handle change",selectedState);
+
     setSelectedState(selectedState);
-    const stateData = states.find(
-      (state) => state.state.toUpperCase() === selectedState
-    );
-    setFilterDistricts(stateData ? stateData.districts : []);
+    const stateData = Cities.filter((item) => item.state === selectedState);
+    console.log("selected state from state array", stateData);
+
+    !selectedState && setFilterCity([]);
+
+    stateData ? setFilterCity(stateData?.map((item)=>item?.city)) : [];
+    
   };
-  const handleDistrictChange =()=>{}
+
+  console.log("filtered districts",filterCity);
+  
 
   const createYard = useCallback(async (data: Inputs) => {
     console.log("create from cientSuperorg", data);
@@ -83,7 +104,7 @@ const CreateYard = ({ onClose, fetchYard }) => {
       ...data,
       yard_name: data?.yard_name?.toUpperCase(),
       field_executive_name: data?.field_executive_name?.toUpperCase(),
-      district: data?.district,
+      city: data?.city,
     };
 
     try {
@@ -169,75 +190,16 @@ const CreateYard = ({ onClose, fetchYard }) => {
                 pattern=""
               />
             </div>
-            <div className="mb-">
-              <InputField
-                label="Postal Code"
-                type="text"
-                name="postal_code"
-                register={register}
-                errors={errors}
-                pattern=""
-              />
-            </div>
-            <div className="mb-">
-              <InputField
-                label="Street Name"
-                type="text"
-                name="street_name"
-                register={register}
-                errors={errors}
-                pattern=""
-              />
-            </div>
-            <div className="mb-">
-              <InputField
-                label="Land Mark"
-                type="text"
-                name="land_mark"
-                register={register}
-                errors={errors}
-                pattern=""
-              />
-            </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label="Selec super organisation"
-                options={clientLevelSuperUsers}
-                name="clsup_org_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
+            
+         
+            
 
-            <div className="mb-">
-              <SelectComponent
-                label=" Select Country"
-                options={Country}
-                name="country"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label=" Select State"
-                options={State}
-                name="state"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-                
-              />
-            </div>  */}
-           <SelectChange
+            
+            
+            <SelectChange
               label="State"
               name="state"
-              options={states.map(state => ({ value: state.state, label: state.state }))}
+              options={uniqueStates}
               register={register}
               errors={errors}
               required={true}
@@ -245,14 +207,13 @@ const CreateYard = ({ onClose, fetchYard }) => {
               handleChange={handleStateChange}
             />
             <SelectChange
-              label="District"
-              name="district"
-              options={filterDistricts}
+              label="City"
+              name="city"
+              options={filterCity}
               register={register}
               errors={errors}
               required={true}
               defaultValue=""
-              
             />
             {/* <div className="mb-">
               <SelectComponent
@@ -288,7 +249,3 @@ const CreateYard = ({ onClose, fetchYard }) => {
 };
 
 export default CreateYard;
-
-
-
-

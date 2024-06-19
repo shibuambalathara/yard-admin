@@ -11,6 +11,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import ConfirmationModal from "@/components/modals/confirmOwnership/confirmOwnership";
 
 interface ImageData {
   img_type: string;
@@ -63,7 +64,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-  const router=useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -91,7 +92,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get(
-        `/ownership/${instockVehicle?.instockVehicleId}`
+        `/release/owned_instock_vehicle/${instockVehicle?.instockVehicleId}`
       );
       console.log("individual instockVehicleIreponse", response);
 
@@ -112,10 +113,10 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
       };
       setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
       reset(destructuredData);
-
-      // Set the isSelectDisabled state based on ownership_status
-      // setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === 'pending');
+      toast.success(response.data.message);
     } catch (error) {
+      toast.error(error?.response?.data?.message);
+
       console.log("error", error);
     }
   };
@@ -126,24 +127,38 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
 
   const InitateVehcileRelease = async () => {
     const vehicleReleaseId = instockVehicle?.instockVehicleId;
-   const data = {
+    const data = {
       vehicle_ownership_id: vehicleReleaseId,
     };
-     console.log("data", data);
-   if (!vehicleReleaseId) {
+    console.log("data", data);
+    if (!vehicleReleaseId) {
       console.log("vehicleReleaseId is undefined or null");
       return;
     }
-try {
+    try {
       const response = await axiosInstance.post("/release/initiate", data);
-      toast.success(response?.data?.message)
-      router.push('/vehicles/instockVehicles')
+      toast.success(response?.data?.message);
+      router.push("/vehicles/instockVehicles");
       console.log("reposnse of post mehtod", response);
     } catch (error) {
-      toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
       console.log("error of post mehtod", error);
     }
   };
+
+  const handleInitiateClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleConfirmRelease = async () => {
+    setModalOpen(false);
+    await InitateVehcileRelease();
+  };
+
+  const handleCancelRelease = () => {
+    setModalOpen(false);
+  };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
@@ -152,13 +167,14 @@ try {
           Initate Release
         </h2>
 
-       <div className="w-full  flex justify-end"> 
-        <button
-          onClick={InitateVehcileRelease}
-          className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
-        >
-          Initate Vehicle Release
-        </button></div>
+        <div className="w-full  flex justify-end">
+          <button
+            onClick={handleInitiateClick}
+            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
+          >
+            Initate Vehicle Release
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
           <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
@@ -354,6 +370,12 @@ try {
             </div>
           ))}
         </div>
+        <ConfirmationModal
+          isOpen={modalOpen}
+          onCancel={handleCancelRelease}
+          onConfirm={handleConfirmRelease}
+          text=""
+        />
       </div>
     </div>
   );

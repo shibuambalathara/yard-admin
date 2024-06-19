@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import { Role, AccountStatus } from "@/utils/staticData";
 
+
 type Inputs = {
   name: string;
   email: string;
@@ -44,7 +45,7 @@ const ViewFullProfile = ({ profileId }) => {
   const [userData, setUserData] = useState(null); // State to store fetched user data
   const [isLoading, setIsLoading] = useState(true);
   const [initialData, setInitialData] = useState<Inputs | null>(null); // Store initial values
-
+ const router =useRouter()
   const {
     register,
     handleSubmit,
@@ -123,27 +124,17 @@ const ViewFullProfile = ({ profileId }) => {
       designation: data?.designation?.toUpperCase(),
     };
 
-    // console.log("MODIFIEDdATA", modifiedData);
-
-    // const editedData: Partial<Inputs> = {};
-    // if (initialData) {
-    //   for (const field in data) {
-    //     if (modifiedData[field] !== initialData[field]) {
-    //       editedData[field] = modifiedData[field];
-    //       console.log("editing loop", editedData[field]);
-    //     }
-    //   }
-    // }
-
-    // console.log("user edited data senting to back", modifiedData);
+ 
 
     try {
       const response = await axiosInstance.put(
         `/account/user/${profileId.profileId}`,
         modifiedData
       );
-      // console.log("UPDATE RESPONSE FROM VEIW SINGLEUSER", response);
+      console.log("UPDATE RESPONSE FROM VEIW SINGLEUSER", response);
       setUserData(response.data.res);
+      router.push("/accountVerificationRequest")
+      toast.success(response?.data?.message)
     } catch (error) {
       console.log("error", error);
     } finally {
