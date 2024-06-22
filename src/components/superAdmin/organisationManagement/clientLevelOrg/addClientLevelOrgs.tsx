@@ -159,13 +159,13 @@ const CreateClientLevelOrganisation = ({ onClose, fetchData }) => {
           </svg>
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Create super ORG</h1>
+          <h1 className=" font-bold  ">Create Organisation</h1>
           <p className=" cursor-pointer" onClick={onClose}>
             x
           </p>
         </div>
         <form onSubmit={handleSubmit(createClientLevelOrganisation)} className="  border-gray-200 ">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border h-form-Modal scrollbar-hide overflow-y-scroll ">
             <div className="mb-">
               <InputField
                 label=" Organisation Name"

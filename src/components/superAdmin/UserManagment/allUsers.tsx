@@ -47,7 +47,7 @@ const UserManagement = () => {
         `/user/users?page=${page}&limit=5&status=1&role=${roleFilter}`
       );
       console.log("all users", response);
-      setFilteredData(response.data);
+      setFilteredData(response.data?.res);
       setSuccess({
         text: response?.data?.message,
       });
@@ -67,7 +67,7 @@ const UserManagement = () => {
     fetchData(); // Call fetchData directly inside useEffect
   }, [roleFilter, page]);
 
-  const UsersData = filteredData?.data?.users || [];
+  const UsersData = filteredData?.users || [];
 
   const userColumn = useMemo(
     () => [

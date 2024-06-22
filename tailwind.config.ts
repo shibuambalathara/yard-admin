@@ -16,7 +16,8 @@ const config: Config = {
       //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       // },
       height: {
-        'custom': '37rem', // Set your custom height value here
+        'custom': '37rem',
+        'form-Modal':'25rem', // Set your custom height value here
       },
 
       fontFamily:{

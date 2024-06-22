@@ -19,6 +19,13 @@ export const AccountStatus = [
   { label: "REJECTED", value: "REJECTED" },
   { label: "APPROVED", value: "APPROVED" },
 ];
+
+export const demo=[
+  { label: "DEMO1", value: "DEMO1" },
+  { label: "DEMO2", value: "DEMO2" },
+  { label: "DEMO3", value: "DEMO3" },
+];
+
 export const VehicleState = [
   { label: "PENDING", value: "PENDING" },
   { label: "REJECTED", value: "REJECTED" },
@@ -45,12 +52,7 @@ export const WaiverStatus=[
 //   { label: "Three wheeler", value: "client_level_user" },
 
 // ]
-export const bidStatusOptions=[
-  { label: "insurance", value: "insurance" },
-  { label: "individual", value: "individual" },
-  { label: "individual", value: "individual" },
 
-]
 
 export const vehicleStatus=[
   {label:"YES", value:1},
