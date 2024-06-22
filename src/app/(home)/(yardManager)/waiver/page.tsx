@@ -1,10 +1,11 @@
-import CreateWaiver from '@/components/yardManager/waiver/createWaiver'
+
+import AllWaivers from '@/components/yardManager/waiver/allWaivers'
 import React from 'react'
 
 const Waivers = () => {
   return (
     <div>
-        <CreateWaiver onClose={''}/>
+        <AllWaivers />
     </div>
   )
 }

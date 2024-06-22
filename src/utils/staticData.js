@@ -40,7 +40,7 @@ export const ReleaseStatus=[
 
 export const WaiverStatus=[
   
-  { label: "INITIATED", value: "INITIATED" },
+  { label: "PENDING", value: "PENDING" },
   { label: "CANCELLED", value: "CANCELLED" }
 ]
 

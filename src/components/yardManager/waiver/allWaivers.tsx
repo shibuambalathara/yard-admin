@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useState, useEffect, useCallback } from 'react';
 import axiosInstance from '@/utils/axios';
 import {
@@ -16,6 +16,7 @@ import Link from 'next/link';
 
 import { PiSortAscendingLight, PiSortDescendingLight } from 'react-icons/pi';
 import { TbSelector } from 'react-icons/tb';
+import { log } from 'console';
 import { CiSearch } from 'react-icons/ci';
 
 import toast from 'react-hot-toast';
@@ -25,28 +26,32 @@ import { inputStyle, labelStyle } from '@/components/ui/style';
 import Pagination from '@/components/pagination/pagination';
 import { VehicleState } from '@/utils/staticData';
 
+
 type User = {
-  fee_per_day: number;
-  status: string;
+  fee_per_day:number;
+  status:string;
   id: string;
-  waiver: { code: string };
-  vehicle_ownership: {
+  waiver:{code:string}
+  vehicle_ownership:{
     cl_org: {
       code: string;
       cl_org_name: string;
     };
+    
     vehicle: {
       code: string;
       make: string;
       model: string;
-      yard: { yard_name: string };
       status: string;
       vehicle_category: { name: string };
     };
-  };
+    
+
+  }
+  
 };
 
-const AllCreatedWaivers = () => {
+const  AllWaivers= () => {
   const [sorting, setSorting] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
   const [globalFilter, setGlobalFilter] = useState('');
@@ -54,12 +59,10 @@ const AllCreatedWaivers = () => {
   const [pageCount, setPageCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [pages, setPages] = useState(1);
-  const [modalOpen, setModalOpen] = useState(false);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [yardData, setYardData] = useState([]);
-  const [yardFilter, setYardFilter] = useState('');
-  const [vehicleCategoryFilter, setVehicleCategoryFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [vehicleCategoryFilter, setVehicleCategoryFilter] = useState('');
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [client, setClient] = useState("");
   const {
@@ -80,26 +83,49 @@ const AllCreatedWaivers = () => {
     }
   }, []);
 
-  const fetchYard = useCallback(async () => {
+//   const fetchYard = async () => {
+//     try {
+//       const response = await axiosInstance.get(`/yard`);
+//       setYardData(response?.data?.res?.yard);
+//       toast.success(response?.data?.message);
+//     } catch (error) {
+//       toast.error(error?.response?.data?.message);
+//       console.error("Error fetching data:", error);
+//     }
+//   };
+const FetchClientLevelOrgs = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(`/yard`);
-      setYardData(response?.data?.res?.yard);
+      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
+      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
+
+      //   console.log("reponse of clientlevelorg ", response);
+
       toast.success(response?.data?.message);
     } catch (error) {
+      // console.log("error", error);
       toast.error(error?.response?.data?.message);
-      console.error("Error fetching data:", error);
     }
   }, []);
 
-  // const FetchClientLevelOrgs = useCallback(async () => {
-  //   try {
-  //     const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
-  //     setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-  //     toast.success(response?.data?.message);
-  //   } catch (error) {
-  //     toast.error(error?.response?.data?.message);
-  //   }
-  // }, []);
+  useEffect(() => {
+    FetchAllVehicleCategory();
+    FetchClientLevelOrgs(); // Call fetchData directly inside useEffect
+  }, []);
+
+  const vehicleCategoryOptions = vehicleCategory?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
+ 
+  const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
+    value: item.id,
+    label: item.cl_org_name,
+  }));
+
+  
+
+  console.log(selectedRowIds);
 
   const fetchData = useCallback(async () => {
     try {
@@ -107,24 +133,19 @@ const AllCreatedWaivers = () => {
         page: pages.toString(),
         limit: '5',
       });
-
-      if (yardFilter) {
-        params.append('yard_id', yardFilter);
+      
+      if (statusFilter) {
+        params.append('status', statusFilter);
       }
 
       if (vehicleCategoryFilter) {
         params.append('vehicle_category_id', vehicleCategoryFilter);
       }
-
-      // if (client) {
-      //   params.append('client_id', client);
-      // }
-
-      if (statusFilter) {
-        params.append('status', statusFilter);
+      if (client) {
+        params.append("cl_org_id", client);
       }
 
-      const response = await axiosInstance.get(`/waiver/client?${params.toString()}`);
+      const response = await axiosInstance.get(`/waiver?${params.toString()}`);
       setData(response?.data?.res?.waiverVehicles || []);
       setPageCount(response?.data?.res?.totalCount || null);
       console.log("response of vehicle ownership00001", response);
@@ -133,17 +154,11 @@ const AllCreatedWaivers = () => {
     } finally {
       setLoading(false);
     }
-  }, [pages, yardFilter, vehicleCategoryFilter, client, statusFilter]);
-
-  useEffect(() => {
-   
-    fetchYard();
-    FetchAllVehicleCategory();
-  }, [ fetchYard, FetchAllVehicleCategory]);
+  }, [pages, statusFilter, vehicleCategoryFilter,client]);
 
   useEffect(() => {
     fetchData();
-  }, [pages, yardFilter, vehicleCategoryFilter, client, statusFilter, fetchData]);
+  }, [pages, fetchData]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {
@@ -199,11 +214,11 @@ const AllCreatedWaivers = () => {
         header: 'Model',
         cell: (info) => info.getValue(),
       },
-      {
-        accessorKey: 'vehicle_ownership.vehicle.yard.yard_name',
-        header: 'Yard Name',
-        cell: (info) => info.getValue(),
-      },
+    //   {
+    //     accessorKey: 'vehicle_ownership.vehicle.yard.yard_name',
+    //     header: 'Yard Name',
+    //     cell: (info) => info.getValue(),
+    //   },
       {
         accessorKey: 'status',
         header: 'Status',
@@ -223,7 +238,7 @@ const AllCreatedWaivers = () => {
               <MdOutlineViewHeadline />
             </p>
             <Link
-              href={`/waivers/viewCreatedWaivers/${row.original.id}`}
+              href={`/waiver/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className=""
@@ -252,106 +267,103 @@ const AllCreatedWaivers = () => {
     onGlobalFilterChange: setGlobalFilter,
   });
 
-  const handleYardChange = (e) => {
-    setYardFilter(e.target.value);
+  const handlestatusChange = (e) => {
+    setStatusFilter(e.target.value);
   };
 
   const handleVehicleCategoryChange = (e) => {
     setVehicleCategoryFilter(e.target.value);
   };
-
-  const handlestatusChange = (e) => {
-    setStatusFilter(e.target.value);
-  };
-
   const handleOrgChange = (e) => {
-    setClient(e.target.value);
+    const value = e.target.value;
+    setClient(value);
   };
+
+  console.log(statusFilter);
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-3 pl-6 pt-5 items-center">
-        <div className="mb-">
-          <div className="flex flex-col w-24">
-            <label htmlFor="yard" className={labelStyle?.data}>
-              Select Yard
-            </label>
-            <select
-              id="yard"
-              className={inputStyle?.data}
-              defaultValue=""
-              onChange={handleYardChange}
-            >
-              <option value="">ALL Yards</option>
-              {yardData.map((option, index) => (
-                <option key={index} value={option.id}>
-                  {option.yard_name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="mb-">
-          <div className="flex flex-col ">
-            <label htmlFor="vehicleCategory" className={labelStyle?.data}>
-              Select Vehicle Category
-            </label>
-            <select
-              id="vehicleCategory"
-              className={inputStyle?.data}
-              defaultValue=""
-              onChange={handleVehicleCategoryChange}
-            >
-              <option value="">ALL Vehicle Categories</option>
-              {vehicleCategory.map((option, index) => (
-                <option key={index} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* <div className="flex flex-col">
-          <label htmlFor="client" className={labelStyle?.data}>
+      <div className='grid grid-cols-3 pl-6 pt-5 items-center'>
+      <div className="flex flex-col   ">
+          <label htmlFor="state" className={labelStyle?.data}>
             Select Client
           </label>
           <select
-            id="client"
+            id="state"
             className={inputStyle?.data}
             defaultValue=""
             onChange={handleOrgChange}
           >
-            <option value="">All Clients</option>
-            {clientLevelOrg.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.client_org_name}
+            <option value="">All Client</option>
+            {/* <option value="">ALL STATE</option> */}
+
+            {allClientLevelOrganisations.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
               </option>
             ))}
           </select>
-        </div> */}
+          {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+        </div>
 
-        <div className="mb-">
-          <div className="flex flex-col w-24">
-            <label htmlFor="status" className={labelStyle?.data}>
-              Status
-            </label>
-            <select
-              id="status"
-              className={inputStyle?.data}
-              defaultValue=""
-              onChange={handlestatusChange}
-            >
-              <option value="">Status</option>
-              { VehicleState.map((item,index) => (
-                <option key={index} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
+      <div className="mb-">
+        <div className="flex flex-col w-24">
+          <label htmlFor="yard" className={labelStyle?.data}>
+            status
+          </label>
+          <select
+            id="status"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handlestatusChange}
+          >
+            
+            <option value="">status</option>
+            {VehicleState.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+         
         </div>
       </div>
+      <div className="mb-">
+        <div className="flex flex-col ">
+          <label htmlFor="vehicleCategory" className={labelStyle?.data}>
+            Select Vehicle Category
+          </label>
+          <select
+            id="vehicleCategory"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleVehicleCategoryChange}
+          >
+           
+            <option value="">ALL Vehicle Categories</option>
+            {vehicleCategoryOptions.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      
+        {/* <div className="flex h-12 mt-4 ">
+          <button
+            onClick={handleModalOpen}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Assign Waiver
+          </button>
+          {modalOpen && <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds}  />}
+        </div> */}
+      
+      </div>
+     
       {loading ? (
         <div className="flex w-full h-screen items-center justify-center">Loading...</div>
       ) : (
@@ -372,15 +384,11 @@ const AllCreatedWaivers = () => {
           </div>
           <div className="mt-2 ring-1 w-full h-fit ring-gray-300 rounded-lg overflow-auto">
             <table className="min-w-full divide-y divide-gray-300 relative">
-              <thead className="bg-gray-700 rounded-lg">
+              <thead className='bg-gray-700 rounded-lg'>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id} className="divide-x divide-gray-500">
+                  <tr key={headerGroup.id} className='divide-x divide-gray-500'>
                     {headerGroup.headers.map((header) => (
-                      <th
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        className="py-3.5 uppercase pl-1 pr-1 text-sm font-semibold text-gray-100 text-left sm:pl-2"
-                      >
+                      <th key={header.id} colSpan={header.colSpan} className="py-3.5 uppercase pl-1 pr-1 text-sm font-semibold text-gray-100 text-left sm:pl-2">
                         {header.isPlaceholder ? null : (
                           <div className="flex items-center">
                             {flexRender(header?.column?.columnDef?.header, header.getContext())}
@@ -402,17 +410,11 @@ const AllCreatedWaivers = () => {
                   </tr>
                 ))}
               </thead>
-              <tbody className="text-black space-x-8">
+              <tbody className='text-black space-x-8'>
                 {table.getRowModel().rows.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50"
-                  >
+                  <tr key={row.id} className='divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50'>
                     {row.getVisibleCells().map((cell) => (
-                      <td
-                        key={cell.id}
-                        className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
-                      >
+                      <td key={cell.id} className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -423,13 +425,20 @@ const AllCreatedWaivers = () => {
           </div>
           <div className="w-full text-center">
             {pageCount && (
-              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} />
+              <Pagination
+                page={pages}
+                setPage={setPages}
+                totalDataCount={pageCount}
+              />
             )}
           </div>
         </div>
       )}
+      
     </div>
   );
 };
 
-export default AllCreatedWaivers;
+export default AllWaivers
+
+
