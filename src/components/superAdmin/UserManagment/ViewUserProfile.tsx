@@ -13,6 +13,7 @@ import { Role, DocumentType } from "@/utils/staticData";
 import axiosInstance from "@/utils/axios";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   name: string;
@@ -133,9 +134,11 @@ const ViewFullUserProfile = ({ profileId }) => {
 
       const response = await axiosInstance.put(`/user/${profileId.profileId}`, editedData);
       console.log("response of updating user",response);
+      toast.success(response?.data?.message)
       
     } catch (error) {
       console.error("Error updating user data", error);
+      toast.error(error?.data?.response?.message)
     }
   };
 

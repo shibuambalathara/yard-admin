@@ -113,7 +113,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
         `clientorg/client_lvl_org/${clientOrgId?.clientLevelOrgId}`
       );
 
-    //   console.log("fetch  data of cl_lvl__org", response);
+      console.log("fetch  data of cl_lvl__org", response);
 
       const destructuredData = {
         ...response?.data?.res,
