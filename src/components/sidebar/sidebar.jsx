@@ -5,7 +5,8 @@ import {
   client_level_super_user,
   Super_Admin,
   yardManager,
-  clientLevelUser
+  clientLevelUser,
+  clientLevelSuperUser
 } from "./sidebarlist";
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -26,8 +27,8 @@ const SideBar = () => {
         return yardManager;
       case "CLIENT_LEVEL_USER":
         return clientLevelUser;
-      case "clientlevelsuperuser":
-        return client_level_super_user;
+      case "CLIENT_LEVEL_SUPER_USER":
+        return clientLevelSuperUser;
       // Default to user data
     }
   };

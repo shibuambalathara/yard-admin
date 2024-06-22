@@ -1,9 +1,10 @@
+import EditWaivers from '@/components/yardManager/waiver/editWaivers'
 import React from 'react'
-import EditIndividualWavier from '@/components/yardManager/waiver/EditIndividualWavier'
 
-const ViewIndividualWaiver = () => {
+
+const ViewIndividualWaiver = ({params}:{params:{waiverVehicleId:string}}) => {
   return (
-    <div><EditIndividualWavier/></div>
+    <div><EditWaivers waiverVehicleId={params}/></div>
   )
 }
 

@@ -507,3 +507,162 @@ export const clientLevelUser = [
     path: "/report-bug",
   },
 ];
+
+export const clientLevelSuperUser = [
+  { title: "Super users dash", icon: <MdDashboard />, path: "/" },
+  
+
+  {
+    title: "Vehicle Ownership Requests",
+    icon: <ImTruck />,
+    path: "/vehicleSuperOwnership",
+
+  },
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Instock Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path:"/vehicles/instockVehicles",
+      },
+      {
+        title: "Initiated Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehicles/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles  ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/vehicles/releasedVehicles",
+      },
+      {
+        title: "Cancelled Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehicles/cancelledVehicles",
+      },
+    ],
+  },
+  {
+    title: "Vehicle Tracking",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "View Inbound Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "View Outbound Vehicles",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <FaCarOn />,
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Eligible for Waiver",
+        icon: <LiaTruckMovingSolid />,
+        path: "/waivers",
+      },
+      {
+        title: "View Created Waiver ",
+        icon: <TfiTruck />,
+        path: "/waivers/viewCreatedWaivers",
+      },
+    ],
+  },
+ 
+  {
+    title: "Dependent User",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Create Client User ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Create Client Sub User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Associated Client Management ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Client Level Org ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Sub Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "Un-Associated Creation  ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Yard ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "View Un-Associated Creation ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "User Management",
+    icon: <MdOutlineAddIcCall />,
+    path: "/support",
+  },
+  {
+    title: "Linked Client Management",
+    icon: <FaHandsHelping />,
+    path: "/report-bug",
+  },
+];
+
