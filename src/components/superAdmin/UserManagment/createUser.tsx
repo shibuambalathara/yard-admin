@@ -1,11 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useCallback } from "react";
-import { Role, DocumentType } from "../../../utils/staticData";
+import { Role, DocumentType,SuperUserChildren } from "../../../utils/staticData";
 import {
   FormFieldInput,
   InputField,
   SelectComponent,
+  FileUploadInput
 } from "@/components/ui/fromFields";
 import React from "react";
 import axiosInstance from "@/utils/axios";
@@ -87,17 +88,15 @@ const CreateUser = () => {
 
   return (
     // <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white p-4 rounded-lg w-full  border justify-center items-center h-">
-      <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b  pb-1">
-        <h1 className=" font-bold  ">Create User</h1>
-        {/* <p className=" cursor-pointer" onClick={onClose}>x</p> */}
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+      <div className="flex justify-between items-center border-b pb-4 mb-6">
+        <h1 className="text-2xl font-bold text-gray-700">Create User</h1>
+        {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="  border-gray-200  w-full h-custom overflow-scroll scrollbar-hide"
-      >
-        <div className="max-w-7xl mx-auto grid grid-cols-2 gap-2 justify-center place-items-center p-2 border ">
-          <div className="mb-">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="col-span-1">
             <InputField
               label="Name"
               type="text"
@@ -107,17 +106,17 @@ const CreateUser = () => {
               errors={errors}
             />
           </div>
-          <div className="w">
+          <div className="col-span-1">
             <InputField
               name="email"
               label="Email"
               type="email"
               register={register}
               errors={errors}
-              pattern={/^\S+@\S+$/i} // Add pattern validation
+              pattern={/^\S+@\S+$/i}
             />
           </div>
-          <div className="mb-">
+          <div className="col-span-1">
             <InputField
               name="contact"
               label="Contact"
@@ -127,24 +126,7 @@ const CreateUser = () => {
               pattern={/^\d{10}$/}
             />
           </div>
-
-          <div className="mb-">
-            {/* <label htmlFor="mySelect" className={labelStyle.data}>
-              Select an Role:
-            </label>
-            <select
-              id="mySelect"
-              {...register("role", { required: true })}
-              className={`${inputStyle.data}`}
-            >
-              <option value="">--Please choose an option--</option>
-              {Role?.map((option, index) => (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {errors.role && <p className="text-red-500">Role Required</p>} */}
+          <div className="col-span-1">
             <SelectComponent
               label="Select a Role"
               name="role"
@@ -155,7 +137,7 @@ const CreateUser = () => {
               defaultValue=""
             />
           </div>
-          <div className="mb-">
+          <div className="col-span-1">
             <InputField
               label="Designation"
               type="text"
@@ -165,7 +147,7 @@ const CreateUser = () => {
               pattern=""
             />
           </div>
-          <div className="mb-">
+          <div className="col-span-1">
             <InputField
               label="Password"
               type="password"
@@ -175,7 +157,7 @@ const CreateUser = () => {
               pattern=""
             />
           </div>
-          <div className="mb-">
+          <div className="col-span-1">
             <FormFieldInput
               label="Account Valid From"
               type="date"
@@ -187,7 +169,7 @@ const CreateUser = () => {
               defaultValue=""
             />
           </div>
-          <div className="mb-">
+          <div className="col-span-1">
             <FormFieldInput
               label="Account Valid To"
               type="date"
@@ -199,7 +181,7 @@ const CreateUser = () => {
               defaultValue=""
             />
           </div>
-          <div className="mb-">
+          <div className="col-span-1">
             <InputField
               label="Document Name"
               type="text"
@@ -209,28 +191,7 @@ const CreateUser = () => {
               pattern=""
             />
           </div>
-          <div className="mb-">
-            {/* <div className="mb-4">
-              <label htmlFor="mySelect" className={labelStyle.data}>
-                Select an Document type:
-              </label>
-              <select
-                id="mySelect"
-                {...register("document_type", { required: true })}
-                className={`${inputStyle.data}`}
-              >
-                <option value="">--Please choose an option--</option>
-                {DocumentType?.map((option, index) => (
-                  <option key={index} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              {errors.role && (
-                <p className="text-red-500">Document type Required</p>
-              )}
-        
-            </div> */}
+          <div className="col-span-1">
             <SelectComponent
               label="Select a Document Type"
               name="document_type"
@@ -241,32 +202,39 @@ const CreateUser = () => {
               defaultValue=""
             />
           </div>
-          <div className="">
+          <div className="col-span-2 w-72">
             <label className="block font-bold mb-2" htmlFor="document_value">
               Document Value
             </label>
             <input
               id="document_value"
               type="file"
-              className="py-1 px-12 border border-gray-300 rounded"
+              className="py-2 px-4 border border-gray-300 rounded-lg w-full"
               {...register("document_value", { required: true })}
             />
             {errors.document_value && (
               <p className="text-red-500">Document Value is required</p>
             )}
           </div>
+           {/* <FileUploadInput
+                label=" Document Values"
+                name="document_value" 
+                register={register}
+                accept="image/*"
+                
+              /> */}
         </div>
-
-        <div className=" w-full text-center p-1 mt-3">
+        <div className="w-full text-center pt-4">
           <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-10 w-40 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
           >
             Submit
           </button>
         </div>
       </form>
     </div>
+  </div>
     // </div>
   );
 };

@@ -547,21 +547,46 @@ export const clientLevelSuperUser = [
     ],
   },
   {
-    title: "Vehicle Tracking",
+    title: "User Management",
     icon: <FaCarOn />,
+    path: "/userCreation",
 
+    // submenu: true,
+    // submenuItems: [
+    //   {
+    //     title: "View Inbound Vehicles",
+    //     icon: <LiaTruckMovingSolid />,
+    //     path: "/profile",
+    //   },
+    //   {
+    //     title: "View Outbound Vehicles",
+    //     icon: <TfiTruck />,
+    //     path: "/profile",
+    //   },
+    // ],
+  },
+
+  {
+    title: "Organisation Management",
+    icon: <FaCarOn />,
+   
     submenu: true,
     submenuItems: [
       {
-        title: "View Inbound Vehicles",
+        title: "client level Org",
         icon: <LiaTruckMovingSolid />,
-        path: "/profile",
+        path: "/superUserOrgManagement",
       },
       {
-        title: "View Outbound Vehicles",
-        icon: <TfiTruck />,
-        path: "/profile",
-      },
+        title: "client level sub Org",
+        icon: <LiaTruckMovingSolid />,
+        path: "/superUserOrgManagement/subOrganisation",
+      }
+      // {
+      //   title: "View Created Waiver ",
+      //   icon: <TfiTruck />,
+      //   path: "/waivers/viewCreatedWaivers",
+      // },
     ],
   },
   {

@@ -154,7 +154,7 @@ const AccountVerificationRequests = () => {
       </div>
       <div className="flex flex-col">
   {/* Conditionally render DataTable if there are users */}
-  {filteredData?.data?.totalCount > 1 ? (
+  {filteredData?.data?.totalCount > 0 ? (
     <>
       <DataTable data={UsersData} columns={UsersColumn} />
       <div className="w-full text-center">

@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { inputStyle } from "@/components/ui/style";
 import Select from "react-select";
 import { Controller } from "react-hook-form";
-import {FetchAllClientCategory,FetchClientLevelOrgs,FetchClientLevelSubUsers,FetchVehicleCategory} from "@/utils/commonApi/commonApi"
 
 interface ClOrg {
   code: string;
@@ -44,8 +43,13 @@ interface User {
 }
 
 interface VehicleCategory {
-  id?: string;
-  name?: string;
+  name: string;
+}
+
+interface VehCat {
+  id: string;
+  vehicle_category: string;
+  vehicle_category_id: string;
   label: string;
   value: string;
 }
@@ -60,22 +64,24 @@ interface ApiResponse {
   id: string;
   user: User;
   user_id: string;
-  vehicle_category_id: VehicleCategory[];
-  veh_cat:[]
+  veh_cat: VehCat[];
 }
 
 const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
-  console.log("subOrgId", subOrgId);
+  // console.log("subOrgId", subOrgId);
 
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
   const [clientLevelSubUsers, setClientLevelSubUsers] = useState([]);
-  const [clientLevelOrg, setClientLevelOrg] = useState([]);
+  const [clientLevelSuperUsers, setClientLevelSuperUsers] = useState([]);
   const [category, setAllCategory] = useState([]);
+  const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [allVehicleCategory, setAllVehicleCategory] = useState([]);
-  const [clientLevelSubOrg, setAllClientLevelSubOrg] = useState<ApiResponse | null>(null);
-  const [options, setOptions] = useState<VehicleCategory[]>([]);
-  const [defaultValues, setDefaultValues] = useState<VehicleCategory[]>([]);
-  
+  const [clientLevelSubOrg, setAllClientLevelSubOrg] =
+    useState<ApiResponse | null>();
+  const [options, setOptions] = useState([]);
+  const [defaultValues, setDefaultValues] = useState<VehCat[]>([]);
   const {
     register,
     handleSubmit,
@@ -83,43 +89,95 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     control,
     formState: { errors },
   } = useForm<ApiResponse>();
- 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [
-          clientLevelOrgData,
-          vehicleCategoryData,
-          clientLevelSubUsersData,
-          clientCategoryData,
-        ] = await Promise.all([
-          FetchClientLevelOrgs(),
-          FetchVehicleCategory(),
-          FetchClientLevelSubUsers(),
-          FetchAllClientCategory(),
-        ]);
-  
-        setClientLevelOrg(clientLevelOrgData);
-        setAllVehicleCategory(vehicleCategoryData);
-        setClientLevelSubUsers(clientLevelSubUsersData);
-        setAllCategory(clientCategoryData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        toast.error("Error fetching data");
-      }
-    };
-  
-    fetchData();
-  }, [subOrgId]);
-  
+  const FetchClientLevelOrgs = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
+      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-// console.log("clientLevelOrgData",clientLevelOrg);
-// console.log("vehicleCategoryData",allVehicleCategory);
-// console.log("clientLevelSubUsersData",clientLevelSubUsers);
-// console.log("clientCategoryData",category);
+      // console.log("reponse of clientlevelorg ", response);
 
+      toast.success(response?.data?.message);
+    } catch (error) {
+      // console.log("error", error);
+      toast.error(error?.response?.data?.message);
+    }
+  }, []);
 
+  const FetchVehicleCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/vehicle/cat`);
+      setAllVehicleCategory(response?.data?.vehicleCategory);
+
+      console.log("reponse of vehiclecat ", response);
+
+      toast.success(response?.data?.message);
+    } catch (error) {
+      // console.log("error", error);
+      toast.error(error?.response?.data?.message);
+    }
+  }, []);
+
+  // console.log("allVehicleCategory", allVehicleCategory);
+
+  const FetchClientLevelSubUsers = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/user/users/assignment?role=CLIENT_LEVEL_SUB_USER`
+      );
+      setClientLevelSubUsers(response?.data?.data);
+
+      // console.log("reponse of clientLevelSubUsers ", response);
+
+      // toast.success("successs");
+    } catch (error) {
+      // console.log("error", error);
+      toast.error(`something went wrong`);
+    }
+  }, []);
+
+  const FetchAllClientCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`clientorg/cat/`);
+
+      setAllCategory(response?.data?.clientCategory);
+
+      // console.log("resposne of FetchAllClientCategory",response);
+      reset();
+      // toast.success("successs");
+    } catch (error) {
+      // console.log("error", error);
+      toast.error(`something went wrong`);
+    }
+  }, []);
+
+  // const FetchIndividualClientLevelSubOrg = useCallback(async () => {
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/clientorg/client_lvl_sub_org/${subOrgId?.subOrgId}`
+  //     );
+  //     setAllClientLevelSubOrg(response?.data?.res);
+
+  //     console.log("reponse of individual clientlevelsuborg ", response);
+  //     const destructuredData={
+  //       ...response?.data?.res,
+  //       clsub_org_name:clientLevelSubOrg?.clsub_org_name,
+  //       cl_org:clientLevelSubOrg?.cl_org?.cl_org_name,
+  //       clsub_org_category:clientLevelSubOrg?.clsub_org_category?.name,
+  //      user:clientLevelSubOrg?.user?.name
+
+  //     }
+
+  //     console.log("destructuredData",destructuredData);
+
+  //     reset(destructuredData);
+
+  //     toast.success(response?.data?.message);
+  //   } catch (error) {
+  //     // console.log("error", error);
+  //     toast.error(error?.response?.data?.message);
+  //   }
+  // }, []);
 
   // const FetchIndividualClientLevelSubOrg =
     
@@ -197,13 +255,14 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   
       console.log("Fetched Data:", fetchedData);
   
-      const vehCatOptions: VehicleCategory[] = fetchedData?.vehicleCatIdWithName?.map((cat) => ({
-        id: cat.id,
-        name: cat.name,
-        label: cat.name,
-        value: cat.id,
+      const vehCatOptions: VehCat[] = fetchedData?.veh_cat.map((cat) => ({
+        id: cat?.id,
+        vehicle_category: cat?.vehicle_category?.name,
+        vehicle_category_id: cat?.vehicle_category_id,
+        label: cat?.vehicle_category?.name,
+        value: cat?.vehicle_category_id,
       }));
-  
+      
       setOptions(vehCatOptions);
       setDefaultValues(vehCatOptions);
   
@@ -215,11 +274,9 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
         code: fetchedData?.code,
         id: fetchedData?.id,
         user_id: fetchedData?.user_id,
-        vehicleCatIdWithName: vehCatOptions
+        veh_cat: vehCatOptions,
       };
   
-      console.log("destructeddata",destructuredData);
-      
       reset(destructuredData);
   
       toast.success(response?.data?.message);
@@ -229,31 +286,32 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     }
   };
   
-  
  
 
-
+  // console.log("clientLevelSubOrg",clientLevelSubOrg);
 
   useEffect(() => {
-     FetchIndividualClientLevelSubOrg();
-  }, [subOrgId]);
+    FetchClientLevelOrgs();
+    FetchAllClientCategory();
+    FetchClientLevelSubUsers();
+    FetchVehicleCategory();
+    FetchIndividualClientLevelSubOrg();
+  }, []);
 
-
+  // console.log("options", options);
+  console.log("defaultVals", defaultValues);
 
   const allSubUsers = clientLevelSubUsers?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
 
+  // console.log("ALL USERS", allSubUsers);
 
-
-  const allClientCategory = category
-  ?.filter((item) => item.name === "BANK")
-  .map((item) => ({
+  const allClientCategory = category?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
-  
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
@@ -264,14 +322,13 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     label: item.name,
   }));
 
-
- 
+  console.log("options001", allVehicleCategory);
 
   let result = allSubUsers.filter(
     (item) => item?.value == clientLevelSubOrg?.user_id
   );
 
-  
+  // console.log("results",result);
 
   if (result.length === 0) {
     // The individual.user_id is not present in AllUsers, so we push a new item
@@ -288,7 +345,6 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     });
     //   console.log("Updated AllUsers", AllUsers);
   }
-
   function updateArray(array1, array2, key) {
     // Create a Set of keys from array1
     let set1 = new Set(array1.map(item => item[key]));
@@ -302,20 +358,26 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     return array1;
 }
 
+let array1Updated = updateArray(allVehicleCategorys, defaultValues, 'value');
 
+console.log("array1Updated",array1Updated);
+
+
+  // let uniquesData=defaultValues?.filter((item)=>item?.value !== )
+
+
+  // console.log("default values",clientLevelSubOrg?.veh_cat);
 
   const onSubmit = async (data: ApiResponse) => {
     console.log("data for submit", data)
-  
-    const submittingData = {
-      ...data,
-      // cl_org_name: data?.cl_org_name?.toUpperCase(),
-    };
-    console.log("modified data for submit", submittingData);
+    // const submittingData = {
+    //   ...data,
+    //   // cl_org_name: data?.cl_org_name?.toUpperCase(),
+    // };
+    // console.log("modified data for submit", submittingData);
     // try {
     //   const response = await axiosInstance.put(
-    //     `clientorg/client_lvl_sub_org/${subOrgId?.subOrgId
-    //     }`,
+    //     `clientorg/client_lvl_org/${subOrgId?.clientLevelOrgId}`,
     //     submittingData
     //   );
     //   console.log("response after sumbit of cl_lvl_org", response);
@@ -324,7 +386,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     //   console.log("error", error);
     //   toast.error(error?.response?.data?.message);
     // }
-      // Handle form submission
+    //   // Handle form submission
   };
 
   return (
@@ -362,24 +424,23 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
             <div className="p-4 w-80">
   <div className="flex flex-col w-full">
     <label htmlFor="">Auction Allowed States</label>
-    {/* <Controller
+    <Controller
       name="veh_cat"
       control={control}
       defaultValue={defaultValues}
       render={({ field }) => (
         <Select
-          className={`${inputStyle.data}`}   
-          options={allVehicleCategorys}
+          className={`${inputStyle.data}`}
+          options={array1Updated}
           {...field}
           isMulti
-          getOptionValue={(option) => option.value} 
-          getOptionLabel={(option) => option.label}
+          getOptionValue={(option) => option.value} // value is vehicle_category_id
+          getOptionLabel={(option) => option.label} // label is vehicle_category name
         />
       )}
-    /> */}
+    />
   </div>
 </div>
-
 
 
             <div>

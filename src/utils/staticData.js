@@ -14,13 +14,25 @@ export const Role = [
   { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
 ];
 
+export const SuperUserChildren = [
+  { label: "Yard Manager", value: "YARD_MANAGER" },
+  { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
+  { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
+];
+
 export const AccountStatus = [
   { label: "PENDING", value: "PENDING" },
   { label: "REJECTED", value: "REJECTED" },
   { label: "APPROVED", value: "APPROVED" },
 ];
 
-export const demo=[
+export const UserStatus=[
+  { label: "ACTIVE", value: 0},
+  { label: "INACTIVE", value: 0},
+  ,
+]
+
+export const demo = [
   { label: "DEMO1", value: "DEMO1" },
   { label: "DEMO2", value: "DEMO2" },
   { label: "DEMO3", value: "DEMO3" },
@@ -32,46 +44,38 @@ export const VehicleState = [
   { label: "APPROVED", value: "APPROVED" },
 ];
 
-export const ReleaseStatus=[
-  
+export const ReleaseStatus = [
   { label: "INITIATED", value: "INITIATED" },
-  { label: "CANCELLED", value: "CANCELLED" }
-]
+  { label: "CANCELLED", value: "CANCELLED" },
+];
 
-export const WaiverStatus=[
-  
+export const WaiverStatus = [
   { label: "PENDING", value: "PENDING" },
-  { label: "CANCELLED", value: "CANCELLED" }
-]
+  { label: "CANCELLED", value: "CANCELLED" },
+];
 
-
-// export const vehicleCategory=[
-//   { label: "Truck", value: "truck" },
-//   { label: "CV", value: "cv" },
-//   { label: "Four wheeler", value: "client_level_super_user" },
-//   { label: "Three wheeler", value: "client_level_user" },
-
-// ]
-
-
-export const vehicleStatus=[
-  {label:"YES", value:1},
-  {label:"NO",value:0}
-]
+export const vehicleStatus = [
+  { label: "YES", value: 1 },
+  { label: "NO", value: 0 },
+];
 
 export const DocumentType = [
   { label: "Aadhar", value: "AADHAR" },
   { label: "Pancard", value: "PANCARD" },
 ];
 
-export const paymentStatus=[
+export const paymentStatus = [
   { label: "SUCCESS", value: "SUCCESS" },
   { label: "FAILED", value: "FAILED" },
   { label: "PENDING", value: "PENDING" },
 ];
 
-export const Country = [{ label: "INDIA", value: "INDIA" }];
+export const superUserStatus=[
+  { label: "ACTIVE", value: 1 },
+  { label: "INACTIVE", value: 0 },
+]
 
+export const Country = [{ label: "INDIA", value: "INDIA" }];
 
 export const State = [
   { label: "ANDHRA PRADESH", value: "ANDHRA PRADESH" },
@@ -120,8 +124,8 @@ export const states = [
       "VISAKHAPATNAM",
       "VIZIANAGARAM",
       "WEST GODAVARI",
-      "YSR KADAPA"
-    ]
+      "YSR KADAPA",
+    ],
   },
   {
     state: "ARUNACHAL PRADESH",
@@ -146,8 +150,8 @@ export const states = [
       "NAMSAI",
       "CHANGLANG",
       "TIRAP",
-      "LONGDING"
-    ]
+      "LONGDING",
+    ],
   },
   {
     state: "ASSAM",
@@ -184,8 +188,8 @@ export const states = [
       "SOUTH SALMARA-MANKACHAR",
       "TINSUKIA",
       "UDALGURI",
-      "WEST KARBI ANGLONG"
-    ]
+      "WEST KARBI ANGLONG",
+    ],
   },
   {
     state: "BIHAR",
@@ -227,12 +231,12 @@ export const states = [
       "SIWAN",
       "SUPAUL",
       "VAISHALI",
-      "WEST CHAMPARAN"
-    ]
+      "WEST CHAMPARAN",
+    ],
   },
   {
     state: "CHANDIGARH (UT)",
-    districts: ["CHANDIGARH"]
+    districts: ["CHANDIGARH"],
   },
   {
     state: "CHHATTISGARH",
@@ -263,16 +267,16 @@ export const states = [
       "RAJNANDGAON",
       "SUKMA",
       "SURAJPUR",
-      "SURGUJA"
-    ]
+      "SURGUJA",
+    ],
   },
   {
     state: "DADRA AND NAGAR HAVELI (UT)",
-    districts: ["DADRA AND NAGAR HAVELI"]
+    districts: ["DADRA AND NAGAR HAVELI"],
   },
   {
     state: "DAMAN AND DIU (UT)",
-    districts: ["DAMAN", "DIU"]
+    districts: ["DAMAN", "DIU"],
   },
   {
     state: "DELHI (NCT)",
@@ -287,12 +291,12 @@ export const states = [
       "SOUTH DELHI",
       "SOUTH EAST DELHI",
       "SOUTH WEST DELHI",
-      "WEST DELHI"
-    ]
+      "WEST DELHI",
+    ],
   },
   {
     state: "GOA",
-    districts: ["NORTH GOA", "SOUTH GOA"]
+    districts: ["NORTH GOA", "SOUTH GOA"],
   },
   {
     state: "GUJARAT",
@@ -329,8 +333,8 @@ export const states = [
       "SURENDRANAGAR",
       "TAPI (VYARA)",
       "VADODARA",
-      "VALSAD"
-    ]
+      "VALSAD",
+    ],
   },
   {
     state: "HARYANA",
@@ -356,8 +360,8 @@ export const states = [
       "ROHTAK",
       "SIRSA",
       "SONIPAT",
-      "YAMUNANAGAR"
-    ]
+      "YAMUNANAGAR",
+    ],
   },
   {
     state: "HIMACHAL PRADESH",
@@ -373,8 +377,8 @@ export const states = [
       "SHIMLA",
       "SIRMAUR (SIRMOUR)",
       "SOLAN",
-      "UNA"
-    ]
+      "UNA",
+    ],
   },
   {
     state: "JAMMU AND KASHMIR",
@@ -400,8 +404,8 @@ export const states = [
       "SAMBA",
       "SHOPIAN",
       "SRINAGAR",
-      "UDHAMPUR"
-    ]
+      "UDHAMPUR",
+    ],
   },
   {
     state: "JHARKHAND",
@@ -429,8 +433,8 @@ export const states = [
       "SAHEBGANJ",
       "SARAIKELA-KHARSAWAN",
       "SIMDEGA",
-      "WEST SINGHBHUM"
-    ]
+      "WEST SINGHBHUM",
+    ],
   },
   {
     state: "KARNATAKA",
@@ -468,8 +472,8 @@ export const states = [
       "TUMKUR",
       "UDUPI",
       "UTTARA KANNADA (KARWAR)",
-      "YADGIR"
-    ]
+      "YADGIR",
+    ],
   },
   {
     state: "KERALA",
@@ -487,16 +491,26 @@ export const states = [
       "PATHANAMTHITTA",
       "THIRUVANANTHAPURAM",
       "THRISSUR",
-      "WAYANAD"
-    ]
+      "WAYANAD",
+    ],
   },
   {
     state: "LADAKH (UT)",
-    districts: ["KARGIL", "LEH"]
+    districts: ["KARGIL", "LEH"],
   },
   {
     state: "LAKSHADWEEP (UT)",
-    districts: ["AGATTI", "AMINI", "ANDROTH", "BITHRA", "CHETLAT", "KADAMATH", "KAVARATTI", "KILTHAN", "MINICOY"]
+    districts: [
+      "AGATTI",
+      "AMINI",
+      "ANDROTH",
+      "BITHRA",
+      "CHETLAT",
+      "KADAMATH",
+      "KAVARATTI",
+      "KILTHAN",
+      "MINICOY",
+    ],
   },
   {
     state: "MADHYA PRADESH",
@@ -551,8 +565,8 @@ export const states = [
       "TIKAMGARH",
       "UJJAIN",
       "UMARIA",
-      "VIDISHA"
-    ]
+      "VIDISHA",
+    ],
   },
   {
     state: "MAHARASHTRA",
@@ -592,8 +606,8 @@ export const states = [
       "THANE",
       "WARDHA",
       "WASHIM",
-      "YAVATMAL"
-    ]
+      "YAVATMAL",
+    ],
   },
   {
     state: "MANIPUR",
@@ -614,8 +628,8 @@ export const states = [
       "TAMENGLONG",
       "TENGNOUPAL",
       "THOUBAL",
-      "UKHRUL"
-    ]
+      "UKHRUL",
+    ],
   },
   {
     state: "MEGHALAYA",
@@ -630,8 +644,8 @@ export const states = [
       "SOUTH WEST KHASI HILLS",
       "WEST GARO HILLS",
       "WEST JAINTIA HILLS",
-      "WEST KHASI HILLS"
-    ]
+      "WEST KHASI HILLS",
+    ],
   },
   {
     state: "MIZORAM",
@@ -643,8 +657,8 @@ export const states = [
       "LUNGLEI",
       "MAMIT",
       "SAIHA",
-      "SERCHHIP"
-    ]
+      "SERCHHIP",
+    ],
   },
   {
     state: "NAGALAND",
@@ -659,8 +673,8 @@ export const states = [
       "PHEK",
       "TUENSANG",
       "WOKHA",
-      "ZUNHEBOTO"
-    ]
+      "ZUNHEBOTO",
+    ],
   },
   {
     state: "ODISHA",
@@ -694,12 +708,12 @@ export const states = [
       "RAYAGADA",
       "SAMBALPUR",
       "SONEPUR",
-      "SUNDARGARH"
-    ]
+      "SUNDARGARH",
+    ],
   },
   {
     state: "PUDUCHERRY (UT)",
-    districts: ["KARAIKAL", "MAHE", "PUDUCHERRY", "YANAM"]
+    districts: ["KARAIKAL", "MAHE", "PUDUCHERRY", "YANAM"],
   },
   {
     state: "PUNJAB",
@@ -725,8 +739,8 @@ export const states = [
       "RUPNAGAR",
       "SANGRUR",
       "SAS NAGAR (MOHALI)",
-      "TARN TARAN"
-    ]
+      "TARN TARAN",
+    ],
   },
   {
     state: "RAJASTHAN",
@@ -763,12 +777,12 @@ export const states = [
       "SIROHI",
       "SRI GANGANAGAR",
       "TONK",
-      "UDAIPUR"
-    ]
+      "UDAIPUR",
+    ],
   },
   {
     state: "SIKKIM",
-    districts: ["EAST SIKKIM", "NORTH SIKKIM", "SOUTH SIKKIM", "WEST SIKKIM"]
+    districts: ["EAST SIKKIM", "NORTH SIKKIM", "SOUTH SIKKIM", "WEST SIKKIM"],
   },
   {
     state: "TAMIL NADU",
@@ -804,8 +818,8 @@ export const states = [
       "TIRUVARUR",
       "VELLORE",
       "VILLUPURAM",
-      "VIRUDHUNAGAR"
-    ]
+      "VIRUDHUNAGAR",
+    ],
   },
   {
     state: "TELANGANA",
@@ -840,8 +854,8 @@ export const states = [
       "WANAPARTHY",
       "WARANGAL (RURAL)",
       "WARANGAL (URBAN)",
-      "YADADRI BHUVANAGIRI"
-    ]
+      "YADADRI BHUVANAGIRI",
+    ],
   },
   {
     state: "TRIPURA",
@@ -853,8 +867,8 @@ export const states = [
       "SEPAHIJALA",
       "SOUTH TRIPURA",
       "UNAKOTI",
-      "WEST TRIPURA"
-    ]
+      "WEST TRIPURA",
+    ],
   },
   {
     state: "UTTAR PRADESH",
@@ -932,8 +946,8 @@ export const states = [
       "SONBHADRA",
       "SULTANPUR",
       "UNNAO",
-      "VARANASI"
-    ]
+      "VARANASI",
+    ],
   },
   {
     state: "UTTARAKHAND",
@@ -950,8 +964,8 @@ export const states = [
       "RUDRAPRAYAG",
       "TEHRI GARHWAL",
       "UDHAM SINGH NAGAR",
-      "UTTARKASHI"
-    ]
+      "UTTARKASHI",
+    ],
   },
   {
     state: "WEST BENGAL",
@@ -978,770 +992,750 @@ export const states = [
       "PURBA MEDINIPUR (EAST MIDNAPORE)",
       "PURULIA",
       "SOUTH 24 PARGANAS",
-      "UTTAR DINAJPUR (NORTH DINAJPUR)"
-    ]
-  }
-]
-
+      "UTTAR DINAJPUR (NORTH DINAJPUR)",
+    ],
+  },
+];
 
 export const cities = [
   {
     city: "KOLHAPUR",
-    state: "MAHARASHTRA"
+    state: "MAHARASHTRA",
   },
   {
     city: "PORT BLAIR",
-    state: "ANDAMAN & NICOBAR ISLANDS"
+    state: "ANDAMAN & NICOBAR ISLANDS",
   },
   {
     city: "ADILABAD",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "ADONI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "AMADALAVALASA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "AMALAPURAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "ANAKAPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "ANANTAPUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BADEPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BANGANAPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BAPATLA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BELLAMPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BETHAMCHERLA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BHADRACHALAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BHAINSA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BHIMUNIPATNAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BHIMAVARAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BHONGIR",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "BOBBILI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "BODHAN",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "CHILAKALURIPET",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "CHIRALA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "CHITTOOR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "CUDDAPAH",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "DEVARAKONDA",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "DHARMAVARAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "ELURU",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "FAROOQNAGAR",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "GADWAL",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "GOOTY",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "GUDIVADA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "GUDUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "GUNTAKAL",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "GUNTUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "HANUMAN JUNCTION",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "HINDUPUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "HYDERABAD",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "ICHHAPURAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "JAGGAIAHPET",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "JAGTIAL",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "JAMMALAMADUGU",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
-
-
-
-
-
-
-
-
 
   {
     city: "JANGAON",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KADAPA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KADIRI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KAGAZNAGAR",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KAKINADA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KALYANDURG",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KAMAREDDY",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KANDUKUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KARIMNAGAR",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KAVALI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KHAMMAM",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KORATLA",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KOTHAGUDEM",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "KOTHAPETA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KOVVUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KURNOOL",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "KYATHAMPALLE",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MACHERLA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "MACHILIPATNAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "MADANAPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "MAHABUBNAGAR",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MANCHERIAL",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MANDAMARRI",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MANDAPETA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "MANUGURU",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MARKAPUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "MEDAK",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MIRYALAGUDA",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "MOGALTHUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NAGARI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NAGARKURNOOL",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "NANDYAL",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NARASAPUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NARASARAOPET",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NARAYANPET",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "NARSIPATNAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NELLORE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NIDADAVOLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "NIRMAL",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "NIZAMABAD",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "NUZVID",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "ONGOLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PALACOLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PALASA-KASIBUGGA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PALWANCHA",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "PARVATHIPURAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PEDANA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PEDDAPURAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PITHAPURAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PONDUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PONNUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PRODDATUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PUNGANUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "PUTTUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "RAJAHMUNDRY",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "RAJAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "RAMACHANDRAPURAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "RAMAGUNDAM",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "RAYACHOTI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "RAYADURG",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "RENIGUNTA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "REPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
-
-
-
-
-
-
-
 
   {
     city: "SADASIVPET",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "SALUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "SAMALKOT",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "SANGAREDDY",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "SATTENAPALLE",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "SIDDIPET",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "SINGAPUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "SIRCILLA",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "SRIKAKULAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "SRIKALAHASTI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "SURYAPET",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "TADEPALLIGUDEM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "TADIPATRI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "TANDUR",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "TANUKU",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "TENALI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "TIRUPATI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "TUNI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "URAVAKONDA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "VENKATAGIRI",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "VIKARABAD",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "VIJAYAWADA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "VINUKONDA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "VISAKHAPATNAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "VIZIANAGARAM",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "WANAPARTHY",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "WARANGAL",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "YELLANDU",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "YEMMIGANUR",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "YERRAGUNTLA",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "ZAHEERABAD",
-    state: "TELANGANA"
+    state: "TELANGANA",
   },
   {
     city: "RAJAMPET",
-    state: "ANDHRA PRADESH"
+    state: "ANDHRA PRADESH",
   },
   {
     city: "ALONG",
-    state: "ARUNACHAL PRADESH"
+    state: "ARUNACHAL PRADESH",
   },
   {
     city: "BOMDILA",
-    state: "ARUNACHAL PRADESH"
+    state: "ARUNACHAL PRADESH",
   },
   {
     city: "ITANAGAR",
-    state: "ARUNACHAL PRADESH"
+    state: "ARUNACHAL PRADESH",
   },
   {
     city: "NAHARLAGUN",
-    state: "ARUNACHAL PRADESH"
+    state: "ARUNACHAL PRADESH",
   },
   {
     city: "PASIGHAT",
-    state: "ARUNACHAL PRADESH"
+    state: "ARUNACHAL PRADESH",
   },
   {
     city: "ABHAYAPURI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "AMGURI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "ANANDNAGAR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "BARPETA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "BARPETA ROAD",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "BILASIPARA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "BONGAIGAON",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "DHEKIAJULI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "DHUBRI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "DIBRUGARH",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "DIGBOI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "DIPHU",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "DISPUR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "GAURIPUR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "GOALPARA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "GOLAGHAT",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "GUWAHATI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "HAFLONG",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "HAILAKANDI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "HOJAI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "JORHAT",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "KARIMGANJ",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "KOKRAJHAR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "LANKA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "LUMDING",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "MANGALDOI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "MANKACHAR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "MARGHERITA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "MARIANI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "MARIGAON",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "NAGAON",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "NALBARI",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "NORTH LAKHIMPUR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "RANGIYA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "SIBSAGAR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "SILAPATHAR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "SILCHAR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "TEZPUR",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "TINSUKIA",
-    state: "ASSAM"
+    state: "ASSAM",
   },
   {
     city: "AMARPUR",
-    state: "BIHAR"
+    state: "BIHAR",
   },
   {
     city: "ARARIA",
-    state: "BIHAR"
+    state: "BIHAR",
   },
   {
     city: "ARERAJ",
-    state: "BIHAR"
+    state: "BIHAR",
   },
   {
     city: "ARRAH",
-    state: "BIHAR"
+    state: "BIHAR",
   },
   {
     city: "ASARGANJ",
-    state: "BIHAR"
+    state: "BIHAR",
   },
-
-
-
-
 
   {
     city: "Aurangabad",
@@ -2084,10 +2078,6 @@ export const cities = [
     city: "Samastipur",
     state: "Bihar",
   },
-
-
-
-
 
   {
     city: "Sasaram",
@@ -2586,11 +2576,6 @@ export const cities = [
     city: "Surat",
     state: "Gujarat",
   },
-
-
-
-
-
 
   {
     city: "Talaja",
@@ -3307,16 +3292,6 @@ export const cities = [
     state: "Karnataka",
   },
 
-
-
-
-
-
-
-
-
-
-
   {
     city: "Mudalgi",
     state: "Karnataka",
@@ -3827,14 +3802,6 @@ export const cities = [
     city: "Fatehabad",
     state: "Madhya Pradesh",
   },
-
-
-
-
-
-
-
-
 
   {
     city: "Gwalior",
@@ -5119,14 +5086,6 @@ export const cities = [
     state: "Punjab",
   },
 
-
-
-
-
-
-
-
-
   {
     city: "Mohali",
     state: "Punjab",
@@ -5280,17 +5239,6 @@ export const cities = [
     state: "Rajasthan",
   },
 
-
-
-
-
-
-
-
-
-
-
-
   {
     city: "Jaipur",
     state: "Rajasthan",
@@ -5384,16 +5332,6 @@ export const cities = [
     state: "Rajasthan",
   },
 
-
-
-
-
-
-
-
-
-
-
   {
     city: "Nawalgarh",
     state: "Rajasthan",
@@ -5478,20 +5416,6 @@ export const cities = [
     city: "Rajgarh (Alwar)",
     state: "Rajasthan",
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   {
     city: "Rajgarh (Churu)",
@@ -5598,14 +5522,6 @@ export const cities = [
     state: "Rajasthan",
   },
 
-
-
-
-
-
-
-
-
   {
     city: "Todabhim",
     state: "Rajasthan",
@@ -5634,7 +5550,7 @@ export const cities = [
     city: "Gangtok",
     state: "Sikkim",
   },
- 
+
   {
     city: "Arakkonam",
     state: "Tamil Nadu",
@@ -5715,12 +5631,6 @@ export const cities = [
     city: "Madurai",
     state: "Tamil Nadu",
   },
-
-
-
-
-
-
 
   {
     city: "Nagapattinam",
@@ -6023,12 +5933,6 @@ export const cities = [
     state: "Tamil Nadu",
   },
 
-
-
-
-
-
-
   {
     city: "Tirunelveli",
     state: "Tamil Nadu",
@@ -6185,12 +6089,6 @@ export const cities = [
     city: "Agra",
     state: "Uttar Pradesh",
   },
-
-
-
-
-
-
 
   {
     city: "Aligarh",
@@ -6364,18 +6262,6 @@ export const cities = [
     city: "Nautanwa",
     state: "Uttar Pradesh",
   },
-
-
-
-
-
-
-
-
-
-
-
-
 
   {
     city: "Nawabganj",
@@ -6618,12 +6504,6 @@ export const cities = [
     state: "Uttar Pradesh",
   },
 
-
-
-
-
-
-
   {
     city: "Sitapur",
     state: "Uttar Pradesh",
@@ -6752,16 +6632,6 @@ export const cities = [
     city: "Mussoorie",
     state: "Uttarakhand",
   },
-
-
-
-
-
-
-
-
-
-
 
   {
     city: "Nagla",
@@ -7024,6 +6894,3 @@ export const cities = [
     state: "Tamil Nadu",
   },
 ];
-
-
-
