@@ -11,11 +11,13 @@ import toast from "react-hot-toast";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
+import NoVehicleMessage from "@/components/commonComponents/noVehicle/noVehicle";
 
 const AllSuperVehicleOwnership = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [clientSelection, setClientSelection] = useState(false);
   const [isLoading, setIsLoading] = useState(true); 
   const [vehicleStatus, setVehicleStatus] = useState('');
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
@@ -25,22 +27,23 @@ const AllSuperVehicleOwnership = () => {
   const [allVehicleOwnerships, setAllVehicleOwerships] = useState([]);
   const [children, setChildren] = useState([]);
   const [client, setClient] = useState('');
-
+  const [roleFilter, setRoleFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const fetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      toast.error(error?.response?.data?.message);
     }
   }, []);
 
   const fetchChildren = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/all/children`);
-      setChildren(response?.data?.res?.cl_org);
+      const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
+      setChildren(response?.data?.res?.clientLvlOrg);
     } catch (error) {
-      toast.error("Failed to fetch children");
+      toast.error(error?.response?.data?.message);
     }
   }, []);
 
@@ -49,12 +52,15 @@ const AllSuperVehicleOwnership = () => {
       const response = await axiosInstance.get(`/yard`);
       setAllYard(response?.data?.res?.yard);
     } catch (error) {
-      toast.error("Failed to fetch yards");
+      toast.error(error?.response?.data?.message);
     }
   }, []);
 
   const fetchAllVehicleOwnerships = useCallback(async () => {
-    setIsLoading(true);
+    
+    if (!client) {
+      return;
+    }
     try {
       const params = new URLSearchParams({ page: page.toString(), limit: '10',cl_org_id:client });
 
@@ -62,16 +68,18 @@ const AllSuperVehicleOwnership = () => {
       if (Category) params.append('vehicle_category_id', Category);
       if (selectedYard) params.append('yard_id', selectedYard);
       if (vehicleStatus) params.append('status', vehicleStatus);
-
+        
       const response = await axiosInstance.get(`ownership/client/?${params.toString()}`);
       setAllVehicleOwerships(response?.data?.res?.vehicleOwnership);
-      toast.success("Failed to fetch vehicle ownerships");
+      setFilteredData(response.data);
+      
+        
     } catch (error) {
-      toast.error(" fetch vehicle ownerships");
+      toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
     }
-  }, [page, Category, selectedYard, vehicleStatus, client]);
+  }, [page, Category, selectedYard, vehicleStatus, client,filteredData]);
 
   const superClientOptions = children.map(item => ({
     value: item.id,
@@ -87,7 +95,7 @@ const AllSuperVehicleOwnership = () => {
     value: item.id,
     label: item.name,
   }));
-
+  
   useEffect(() => {
     fetchAllVehicleCategory();
     fetchChildren();
@@ -111,20 +119,26 @@ const AllSuperVehicleOwnership = () => {
 
   const handleCategorySelect = (e) => setVehiclecat(e.target.value);
   const handleYardSelection = (e) => setSelectedYard(e.target.value);
-  const handleOwnershipStatus = (e) => setVehicleStatus(e.target.value);
-  const handleClient = (e) => setClient(e.target.value); 
-
+  const handleOwnershipStatus = (e) =>{ setVehicleStatus(e.target.value)
+    setStatusFilter(e.target.value)
+    ;}
+  const handleClient = (e) =>{
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setClient(e.target.value);
+    setRoleFilter(selectedOption.text)
+    setClientSelection(true) }
+    
  console.log(client);
  
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">Vehicle Ownership</h1>
-      <div className="flex w-full space-x-14">
+      <div className="grid grid-cols-2">
         <div className="flex flex-col ml-8">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>
          
           <select id="client" className={inputStyle.data} onChange={handleClient}>
-          <option value="">All Categories</option>
+          <option value="">Select Client</option>
             {superClientOptions.map((option, index) => (
               <option key={index} value={option.value}>{option.label}</option>
             ))}
@@ -160,11 +174,15 @@ const AllSuperVehicleOwnership = () => {
       </div>
       <div className="flex w-full px-8 justify-between"></div>
       <div>
-        {isLoading ? (
+      {filteredData?.res?.totalCount > 0 ? (
+        isLoading ? (
           <div className="flex w-full h-screen items-center justify-center"><Loading /></div>
         ) : (
           <DataTable data={allVehicleOwnerships} columns={userColumns} />
-        )}
+        )
+        ):
+        (
+        <NoVehicleMessage typeFilter='vehicles' roleFilter={roleFilter} statusFilter={statusFilter}/>)}
       </div>
     </div>
   );
