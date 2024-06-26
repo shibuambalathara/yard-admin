@@ -4,13 +4,14 @@ import {
   InputField,
   RadioButtonInput,
   SelectComponent,
-} from "@/components/ui/fromFields";
-import axiosInstance from "@/utils/axios";
-import { AccountStatus, vehicleStatus } from "@/utils/staticData";
-import { comment } from "postcss";
+} from "../../../ui/fromFields";
+import axiosInstance from "../../../../utils/axios";
+import { vehicleStatus } from "../../../../utils/staticData";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import ConfirmationModal from "@/components/modals/confirmOwnership/confirmOwnership";
 
 interface ImageData {
   img_type: string;
@@ -46,7 +47,6 @@ type Inputs = {
   key_count: string;
   ownership_status: string;
   status: string;
-  comment: string;
   FRONT_IMAGE: File[] | null;
   BACK_IMAGE: File[] | null;
   RIGHT_IMAGE: File[] | null;
@@ -56,13 +56,15 @@ type Inputs = {
   OTHER_IMAGE: File[] | null;
 };
 
-const EditVehicleOwnership = ({ ownershipId }) => {
+const InitiateInstockVehicle = ({ instockVehicle }) => {
+  // console.log("instockVehicle",instockVehicle);
+
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -90,14 +92,13 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get(
-        `/ownership/${ownershipId?.vehicleOwnershipId}`
+        `/release/owned_instock_vehicle/${instockVehicle?.instockVehicleId}`
       );
-      console.log(response);
+      console.log("individual instockVehicleIreponse", response);
 
       const destructuredData = {
         ...response?.data?.res,
         ...response?.data?.res?.vehicle,
-        comments: response?.data?.res?.comment,
         ownership_status: response?.data?.res?.status,
         app_entry_date:
           response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
@@ -112,140 +113,72 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       };
       setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
       reset(destructuredData);
-
-      // Set the isSelectDisabled state based on ownership_status
-      setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === "pending");
+      toast.success(response.data.message);
     } catch (error) {
+      toast.error(error?.response?.data?.message);
+
       console.log("error", error);
     }
   };
 
-  const FetchClientLevelOrgs = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
-      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-      toast.success("successs");
-    } catch (error) {
-      toast.error(`something went wrong`);
-    }
-  }, []);
-
   useEffect(() => {
     fetchVehicle();
-    FetchClientLevelOrgs();
   }, []);
 
-  const editVehicle = useCallback(
-    async (data: Inputs) => {
-      const modifiedData = {status: data?.ownership_status, comment: data?.comment?.toString()}
-      try {
-        const response = await axiosInstance.patch(
-          `/ownership/status/${ownershipId?.vehicleOwnershipId}`,
-          modifiedData
-        );
-        console.log('patch', modifiedData);
-        
-        toast.success(response?.data?.message);
-        setModalOpen(false); // Close the modal on successful update
-      } catch (error) {
-        toast.error(error?.response?.data?.message);
-        console.log(error);
-      }
-    },
-    [ownershipId?.vehicleOwnershipId]
-  );
+  const InitateVehcileRelease = async () => {
+    const vehicleReleaseId = instockVehicle?.instockVehicleId;
+    const data = {
+      vehicle_ownership_id: vehicleReleaseId,
+    };
+    console.log("data", data);
+    if (!vehicleReleaseId) {
+      console.log("vehicleReleaseId is undefined or null");
+      return;
+    }
+    try {
+      const response = await axiosInstance.post("/release/initiate", data);
+      toast.success(response?.data?.message);
+      router.push("/vehiclesSuperOrg/instockVehicles");
+      console.log("reposnse of post mehtod", response);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      console.log("error of post mehtod", error);
+    }
+  };
 
-  const ClientOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
-  }));
+  const handleInitiateClick = () => {
+    setModalOpen(true);
+  };
 
-  const handleModalClose = () => {
+  const handleConfirmRelease = async () => {
+    setModalOpen(false);
+    await InitateVehcileRelease();
+  };
+
+  const handleCancelRelease = () => {
     setModalOpen(false);
   };
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Ownership
+          Initate Release
         </h2>
 
-        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
-          <div className="self-end justify-self-end mb-1 flex gap-5">
-            <button
-              type="button"
-              onClick={handleModalOpen}
-              className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
-            >
-              Confirm Ownership
-            </button>
-            {modalOpen && (
-              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                  <button
-                    onClick={handleModalClose}
-                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                  </button>
-                  <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-                    <div className="flex justify-between">
-                      <h1 className="font-bold">Confirm Ownership</h1>
-                      <p className="cursor-pointer" onClick={handleModalClose}>
-                        x
-                      </p>
-                    </div>
-                    <div>
-                    <SelectComponent
-                        label="Ownership Status"
-                        name="ownership_status"
-                        options={AccountStatus}
-                        register={register}
-                        errors={errors}
-                        defaultValue=""
-                        
-                      />
-                     
-                      <InputField
-                        label="Comment"
-                        type="text"
-                        name="comment"
-                        register={register}
-                        errors={errors}
-                        pattern
-                      />
-                      <div className="flex justify-center mt-6">
-                        <button
-                          type="submit"
-                          className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </form>
+        <div className="w-full  flex justify-end">
+          <button
+            onClick={handleInitiateClick}
+            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
+          >
+            Initate Vehicle Release
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
           <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
+            {" "}
             Vehicle Details
           </h2>
           <InputField
@@ -332,7 +265,6 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           />
           <div>
             <SelectComponent
-              disabled={true}
               label="Start Condition"
               name="start_condition"
               options={vehicleStatus}
@@ -404,41 +336,49 @@ const EditVehicleOwnership = ({ ownershipId }) => {
             errors={errors}
             pattern
           />
-
-          <div className="grid grid-cols-4 gap-4 col-span-3">
-            {Object.entries(images).map(([imageType, imageList]) => (
-              <div
-                key={imageType}
-                className="border rounded-lg shadow-xl border-black"
-              >
-                <h2 className="text-center text-lg font-semibold">
-                  {imageType
-                    .replace("_", " ")
-                    .toLowerCase()
-                    .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  s
-                </h2>
-
-                {imageList?.map((image, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-center pb-4 items-center"
-                  >
-                    <img
-                      className="rounded-xl"
-                      src={image.src}
-                      alt={`${imageType} ${index}`}
-                      style={{ width: "70%" }}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
         </div>
+        <h2 className="text-center text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          Vehicle Images
+        </h2>
+
+        <div className="grid grid-cols-4 gap-4 col-span-3">
+          {Object.entries(images).map(([imageType, imageList]) => (
+            <div
+              key={imageType}
+              className="border rounded-lg shadow-xl border-black"
+            >
+              <h2 className="text-center text-lg font-semibold">
+                {imageType
+                  .replace("_", " ")
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                s
+              </h2>
+              {imageList?.map((image, index) => (
+                <div
+                  key={index}
+                  className="flex justify-center pb-4 items-center"
+                >
+                  <img
+                    className="rounded-xl"
+                    src={image.src}
+                    alt={`${imageType} ${index}`}
+                    style={{ width: "70%" }}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <ConfirmationModal
+          isOpen={modalOpen}
+          onCancel={handleCancelRelease}
+          onConfirm={handleConfirmRelease}
+          text=""
+        />
       </div>
     </div>
   );
 };
 
-export default EditVehicleOwnership;
+export default InitiateInstockVehicle;

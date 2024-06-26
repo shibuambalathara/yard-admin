@@ -1,3 +1,4 @@
+
 "use client";
 import {
   ImageMaping,
@@ -11,6 +12,8 @@ import { comment } from "postcss";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 
 interface ImageData {
   img_type: string;
@@ -62,7 +65,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-
+  const router=useRouter()
+  
   const {
     register,
     handleSubmit,
@@ -90,7 +94,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get(
-        `/ownership/${ownershipId?.vehicleOwnershipId}`
+        `/ownership/${ownershipId?.clientLevelvehOwnId}`
       );
       console.log(response);
 
@@ -120,19 +124,11 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     }
   };
 
-  const FetchClientLevelOrgs = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
-      setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-      toast.success("successs");
-    } catch (error) {
-      toast.error(`something went wrong`);
-    }
-  }, []);
+ 
 
   useEffect(() => {
     fetchVehicle();
-    FetchClientLevelOrgs();
+  
   }, []);
 
   const editVehicle = useCallback(
@@ -140,19 +136,20 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       const modifiedData = {status: data?.ownership_status, comment: data?.comment?.toString()}
       try {
         const response = await axiosInstance.patch(
-          `/ownership/status/${ownershipId?.vehicleOwnershipId}`,
+          `/ownership/status/${ownershipId?.clientLevelvehOwnId}`,
           modifiedData
         );
         console.log('patch', modifiedData);
         
         toast.success(response?.data?.message);
         setModalOpen(false); // Close the modal on successful update
+        router.push('/vehicleOwnershipClientOrg')
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);
       }
     },
-    [ownershipId?.vehicleOwnershipId]
+    [ownershipId?.clientLevelvehOwnId]
   );
 
   const ClientOrganisations = clientLevelOrg?.map((item) => ({
@@ -171,7 +168,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+        <h2 className="te xt-center text-2xl font-extrabold text-gray-900">
           Vehicle Ownership
         </h2>
 

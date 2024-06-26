@@ -527,22 +527,22 @@ export const clientLevelSuperUser = [
       {
         title: "Instock Vehicles",
         icon: <LiaTruckMovingSolid />,
-        path:"/vehicles/instockVehicles",
+        path:"/vehiclesSuperOrg/instockVehicles",
       },
       {
         title: "Initiated Vehicles  ",
         icon: <TfiTruck />,
-        path: "/vehicles/initiatedVehicles",
+        path: "/vehiclesSuperOrg/initiatedVehicles",
       },
       {
         title: "Released Vehicles  ",
         icon: <LiaTruckMovingSolid />,
-        path: "/vehicles/releasedVehicles",
+        path: "/vehiclesSuperOrg/releasedVehicles",
       },
       {
         title: "Cancelled Vehicles  ",
         icon: <TfiTruck />,
-        path: "/vehicles/cancelledVehicles",
+        path: "/vehiclesSuperOrg/cancelledVehicles",
       },
     ],
   },
@@ -573,12 +573,169 @@ export const clientLevelSuperUser = [
       {
         title: "Eligible for Waiver",
         icon: <LiaTruckMovingSolid />,
-        path: "/waivers",
+        path: "/superWaiver",
       },
       {
         title: "View Created Waiver ",
         icon: <TfiTruck />,
-        path: "/waivers/viewCreatedWaivers",
+        path: "/superWaiver/viewCreatedWaivers",
+      },
+    ],
+  },
+ 
+  {
+    title: "Dependent User",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Create Client User ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Create Client Sub User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Associated Client Management ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Client Level Org ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Sub Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "Un-Associated Creation  ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Yard ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "View Un-Associated Creation ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "User Management",
+    icon: <MdOutlineAddIcCall />,
+    path: "/support",
+  },
+  {
+    title: "Linked Client Management",
+    icon: <FaHandsHelping />,
+    path: "/report-bug",
+  },
+];
+export const clientLevelSubUser = [
+  { title: "Super users dash", icon: <MdDashboard />, path: "/" },
+  
+
+  {
+    title: "Vehicle Ownership Requests",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+
+  },
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Instock Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path:"/vehiclesSuperOrg/instockVehicles",
+      },
+      {
+        title: "Initiated Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehiclesSuperOrg/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles  ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/vehiclesSuperOrg/releasedVehicles",
+      },
+      {
+        title: "Cancelled Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehiclesSuperOrg/cancelledVehicles",
+      },
+    ],
+  },
+  {
+    title: "Vehicle Tracking",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "View Inbound Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "View Outbound Vehicles",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <FaCarOn />,
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Eligible for Waiver",
+        icon: <LiaTruckMovingSolid />,
+        path: "/superWaiver",
+      },
+      {
+        title: "View Created Waiver ",
+        icon: <TfiTruck />,
+        path: "/superWaiver/viewCreatedWaivers",
       },
     ],
   },
