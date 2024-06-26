@@ -50,6 +50,8 @@ type Inputs = {
 };
 
 const EditVehicleOwnership = ({ ownershipId }) => {
+  console.log("ownership",ownershipId);
+  
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
@@ -83,7 +85,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
 
   const fetchVehicle = async () => {
     try {
-      const response = await axiosInstance.get(`/ownership/${ownershipId?.vehicleOwnershipId}`);
+      const response = await axiosInstance.get(`/ownership/${ownershipId?.clientLevelvehOwnId}`);
       const destructuredData = {
         ...response?.data?.res,
         ...response?.data?.res?.vehicle,
@@ -126,7 +128,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       
       try {
         const response = await axiosInstance.patch(
-          `/ownership/re_assignment/${ownershipId?.vehicleOwnershipId}`,
+          `/ownership/re_assignment/${ownershipId?.clientLevelvehOwnId}`,
           { cl_org_id: data?.cl_org_id }
         );
         toast.success(response?.data?.message);
@@ -155,7 +157,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Ownership
+          Vehicle Ownership 
         </h2>
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">

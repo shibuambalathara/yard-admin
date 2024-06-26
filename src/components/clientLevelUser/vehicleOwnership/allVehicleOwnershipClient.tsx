@@ -204,7 +204,7 @@ const AllVehicleOwnershipClient = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Vehicle Ownership
+        Vehicle Ownership 
       </h1>
 
   <div className="flex w-full space-x-14 borde">

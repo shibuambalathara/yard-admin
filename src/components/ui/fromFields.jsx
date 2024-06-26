@@ -21,8 +21,16 @@ export const FormFieldInput = ({
 
   ...rest
 }) => {
-  // console.log('defaultValue', defaultValue);
-
+  const handleInputChange = (event) => {
+    if (
+      name !== "email" &&
+      name !== "password" &&
+      name !== "date" &&
+      name !== "number"
+    ) {
+      event.target.value = event.target.value.toUpperCase();
+    }
+  };
   return (
     <div className="flex flex-col h-fit ">
       <label className={`${labelStyle.data}`} htmlFor={name}>
@@ -32,8 +40,9 @@ export const FormFieldInput = ({
         type={type}
         defaultValue={defaultValue}
         {...register(name, rest)}
-        className={`${inputStyle.data} ${name === `name` && `uppercase`}`}
+        className={`${inputStyle.data}`}
         placeholder={placeholder}
+        onChange={handleInputChange}
       />
 
       {error && <p className="text-red-500">{`${label} Required`}</p>}
@@ -50,6 +59,7 @@ export const InputField = ({
   required = true,
   pattern,
   disabled = false,
+  placeholder=""
 }) => {
   const handleInputChange = (event) => {
     if (
@@ -63,6 +73,8 @@ export const InputField = ({
   };
   return (
     <div className="mb-">
+      {/* export const labelStyle={data:`text-gray-800 text-sm font-semibold leading-tight tracking-normal `} */}
+
       <label className={`${labelStyle.data}`}>{label}</label>
       <input
         disabled={disabled}
@@ -75,8 +87,11 @@ export const InputField = ({
           },
         })}
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        // export const inputStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded border `}
+
         className={`${inputStyle.data} ${name === `name` && `uppercase`}`}
         onChange={handleInputChange}
+        placeholder={placeholder}
       />
       {errors[name] && (
         <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
@@ -253,6 +268,7 @@ export const SelectComponent = ({
   required = false,
   defaultValue,
   disabled = false,
+  placeholder=""
 }) => {
   // console.log("errors",errors);
 
@@ -266,16 +282,16 @@ export const SelectComponent = ({
         id={name}
         {...register(name, { required: required && "This field is required" })}
         // className="py-1 px-12 border border-gray-300 rounded"
-        className={inputStyle.data}
+        className={inputStyle?.data}
         defaultValue={defaultValue}
       >
         <option value="" disabled hidden>
-          {label}
+          {label ? label : placeholder}
         </option>
         {options &&
           options?.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
+            <option key={index} value={option?.value}>
+              {option?.label}
             </option>
           ))}
       </select>
@@ -405,7 +421,7 @@ export const FileUploadInput = ({
   name,
   register,
   accept,
-  multiple,
+  
 }) => {
   return (
     <div>
@@ -415,7 +431,7 @@ export const FileUploadInput = ({
         name={name}
         type="file"
         accept={accept}
-        multiple={multiple}
+        
         className={`${inputStyle.data} `}
         {...register(name)}
       />
@@ -475,7 +491,7 @@ export const CustomMultiSelect = ({
   return (
     <div className="flex flex-col w-full ">
       <label className={labelStyle.data}>
-        {label || "Select Vehicle Category"}
+        {label}
       </label>
       <Controller
         name={name}

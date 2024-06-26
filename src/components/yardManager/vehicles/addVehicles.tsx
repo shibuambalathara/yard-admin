@@ -400,49 +400,49 @@ const AddVehicle = () => {
               name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+            
             />
             <FileUploadInput
               label="Back Images"
               name="files.BACK_IMAGE" // Accessing BACK_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+           
             />
             <FileUploadInput
               label="Right Images"
               name="files.RIGHT_IMAGE" // Accessing RIGHT_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+             
             />
             <FileUploadInput
               label="Left Images"
               name="files.LEFT_IMAGE" // Accessing LEFT_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+            
             />
             <FileUploadInput
               label="Odometer Images"
               name="files.ODOMETER_IMAGE" // Accessing ODOMETER_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+             
             />
             <FileUploadInput
               label="Interior Images"
               name="files.INTERIOR_IMAGE" // Accessing INTERIOR_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="Other Images"
               name="files.OTHER_IMAGE" // Accessing OTHER_IMAGE from files
               register={register}
               accept="image/*"
-              multiple
+              
             />
           </div>
 

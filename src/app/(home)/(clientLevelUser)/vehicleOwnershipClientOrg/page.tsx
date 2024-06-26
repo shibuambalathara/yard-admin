@@ -1,5 +1,5 @@
 import React from 'react'
-import AllVehicleOwnershipClient from '@/components/clientLevelUser/vehicleOwnership.tsx/allVehicleOwnershipClient'
+import AllVehicleOwnershipClient from '@/components/clientLevelUser/vehicleOwnership/allVehicleOwnershipClient'
 
 const ViewAllVehicleOwerships = () => {
   return (
