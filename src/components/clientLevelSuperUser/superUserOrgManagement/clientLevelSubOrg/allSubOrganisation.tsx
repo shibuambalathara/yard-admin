@@ -13,6 +13,7 @@ import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateClientLevelSubOrg from "@/components/clientLevelSuperUser/superUserOrgManagement/clientLevelSubOrg/addSubOrganisation";
+import EditClientLevelSubOrg from "@/components/clientLevelSuperUser/superUserOrgManagement/clientLevelSubOrg/editSubOrganisation";
 import Pagination from "@/components/pagination/pagination";
 import {AccountStatus} from "@/utils/staticData"
 
@@ -126,7 +127,11 @@ const AllClientLevelSubOrganisation = () => {
       {
         id: "viewUser",
         header: "View User",
-        cell: ({ row }) => View(row),
+        cell: ({ row }) => (
+          <div className="flex justify-center relative z-10">
+            <View row={row} onEditClick={handleEditClick} />
+          </div>
+        ),
       },
     ],
     [filteredData]
@@ -183,14 +188,24 @@ const AllClientLevelSubOrganisation = () => {
 <div className="">
 {/* {editModalOpen && (
       <div className="relative border ">
-        <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
-        <div className=" w-full   max-w-sm z-20 ">
-          <EditIndividualOrg userId={selectedUserId} onClose={handleEditModalClose} fetchData={fetchSubOrganisation} />
+        <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50 border  border-green-500 ">
+        <div className=" w-full   max-w-6xl z-20 border border-red-500 ">
+          <EditClientLevelSubOrg subOrgId={selectedUserId} onClose={handleEditModalClose} fetchData={fetchSubOrganisation} />
           
         </div>
       </div>
       </div>
     )} */}
+    {editModalOpen && (
+        <div className="relative border ">
+          <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
+          <div className=" w-full   max-w-2xl z-20 ">
+            <EditClientLevelSubOrg subOrgId={selectedUserId} onClose={handleEditModalClose} fetchData={fetchSubOrganisation} />
+            
+          </div>
+        </div>
+        </div>
+      )}
 <div>
       <DataTable data={allSuborganisation} columns={userColumn} />
     </div>
@@ -202,21 +217,32 @@ const AllClientLevelSubOrganisation = () => {
 
 export default AllClientLevelSubOrganisation;
 
-const View = (row) => {
+const View = ({ row, onEditClick }) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <Link
-        href={`/organisationManagement/clientLevelSubOrg/${row.original.id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
-        View
-      </Link>
-    </div>
+    // <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    //   <p>
+    //     <MdOutlineViewHeadline />
+    //   </p>
+    //   <Link
+    //     href={`/superUserOrgManagement/subOrganisation/${row.original.id}`}
+    //     target="_blank"
+    //     rel="noopener noreferrer"
+    //     className=""
+    //   >
+    //     View
+    //   </Link>
+    // </div>
+    <div className="flex justify-center items-center  py-1 px-3 space-x-1 text-white rounded-md z-[-10]">
+        <p>
+          <MdOutlineViewHeadline />
+        </p>
+        <button
+          onClick={() => onEditClick(row.original.id)}
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+        >
+          View User
+        </button>
+      </div>
   );
 };

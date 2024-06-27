@@ -1,7 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { FormFieldInput, SelectInput, ImageMaping ,AccountVerificatioSelect} from "../../ui/fromFields";
+import {
+  FormFieldInput,
+  SelectInput,
+  ImageMaping,
+  AccountVerificatioSelect,
+} from "../../ui/fromFields";
 import { formStyle } from "../../ui/style";
 import Link from "next/link";
 import img1 from "../../../../public/aadhar.jpg";
@@ -66,14 +71,14 @@ const ViewFullUserProfile = ({ profileId }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `http://13.232.152.20/api/v1/yms/user/${profileId.profileId}`
+        `user/fetch/${profileId.profileId}`
       );
 
       console.log("response", response);
 
       const resetData = {
         ...response?.data?.data,
-       
+
         document_value: response?.data?.data?.documents?.document_value,
 
         document_type: response?.data?.data?.documents?.document_type,
@@ -82,21 +87,21 @@ const ViewFullUserProfile = ({ profileId }) => {
         account_usage_to: response?.data?.data?.account_usage_to.split("T")[0], // Extract only the date part
       };
 
-      console.log('resetData',resetData);
-      
+      console.log("resetData", resetData);
+
       setSuccess({
         text: response?.data?.message,
       });
       setInitialData(resetData); // Store the initial data
       reset(resetData);
     } catch (error) {
-      console.log('resetData',initialData);
+      console.log("resetData", initialData);
 
       console.log("error", error);
       setError({
         text: error?.response?.data?.message,
       });
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -107,17 +112,17 @@ const ViewFullUserProfile = ({ profileId }) => {
 
   const onSubmit = async (data: Inputs) => {
     console.log("ENETERED IN USER UPDATE");
-    
+
     console.log("Data on submit:", data);
     const validFrom = new Date(data?.account_usage_from).toISOString();
     const validTo = new Date(data?.account_usage_to).toISOString();
-  const modifiedData={
-    ...data,
-    name: data?.name?.toUpperCase(),
-     account_usage_from:validFrom,
-    account_usage_to:validTo
-  }
-    
+    const modifiedData = {
+      ...data,
+      name: data?.name?.toUpperCase(),
+      account_usage_from: validFrom,
+      account_usage_to: validTo,
+    };
+
     try {
       const editedData: Partial<Inputs> = {};
       if (initialData) {
@@ -129,16 +134,17 @@ const ViewFullUserProfile = ({ profileId }) => {
         }
       }
 
-      console.log('editedData',editedData);
-      
+      console.log("editedData", editedData);
 
-      const response = await axiosInstance.put(`/user/${profileId.profileId}`, editedData);
-      console.log("response of updating user",response);
-      toast.success(response?.data?.message)
-      
+      const response = await axiosInstance.put(
+        `/user/update/${profileId.profileId}`,
+        editedData
+      );
+      console.log("response of updating user", response);
+      toast.success(response?.data?.message);
     } catch (error) {
       console.error("Error updating user data", error);
-      toast.error(error?.data?.response?.message)
+      toast.error(error?.data?.response?.message);
     }
   };
 
@@ -150,7 +156,6 @@ const ViewFullUserProfile = ({ profileId }) => {
     );
   }
 
-
   return (
     <div className="   w-full p-6 ">
       <h1 className="w-full uppercase border text-center text-lg font-semibold">
@@ -158,7 +163,7 @@ const ViewFullUserProfile = ({ profileId }) => {
       </h1>
       <div className="  w-full h-custom border  overflow-scroll scrollbar-hide ">
         <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
-          <div className="max-w-7xl mx-auto grid grid-cols-2 gap-6 justify-center place-items-center p-2 border ">
+          <div className="max-w-6xl mx-auto grid grid-cols-2 gap-6 justify-center place-items-center p-2 ">
             <div className="mb-">
               <FormFieldInput
                 label="Name"

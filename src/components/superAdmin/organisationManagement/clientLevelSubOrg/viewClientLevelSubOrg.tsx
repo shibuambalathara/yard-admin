@@ -16,7 +16,12 @@ import { useRouter } from "next/navigation";
 import { inputStyle } from "@/components/ui/style";
 import Select from "react-select";
 import { Controller } from "react-hook-form";
-import {FetchAllClientCategory,FetchClientLevelOrgs,FetchClientLevelSubUsers,FetchVehicleCategory} from "@/utils/commonApi/commonApi"
+import {
+  FetchAllClientCategory,
+  FetchClientLevelOrgs,
+  FetchClientLevelSubUsers,
+  FetchVehicleCategory,
+} from "@/utils/commonApi/commonApi";
 
 interface ClOrg {
   code: string;
@@ -44,10 +49,9 @@ interface User {
 }
 
 interface VehicleCategory {
-  id?: string;
-  name?: string;
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
+  
 }
 
 interface ApiResponse {
@@ -60,22 +64,30 @@ interface ApiResponse {
   id: string;
   user: User;
   user_id: string;
-  vehicle_category_id: VehicleCategory[];
-  veh_cat:[]
+  vehicleCatIdWithName: VehicleCategory[];
+  veh_cat: string[];
 }
+
+// type Inputs = {
+//   user_id: string;
+//   cl_org_id: string;
+//   veh_cat: [];
+//   clsub_org_name: string;
+//   clsub_org_category_id: string;
+// };
 
 const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   console.log("subOrgId", subOrgId);
-
 
   const [clientLevelSubUsers, setClientLevelSubUsers] = useState([]);
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [category, setAllCategory] = useState([]);
   const [allVehicleCategory, setAllVehicleCategory] = useState([]);
-  const [clientLevelSubOrg, setAllClientLevelSubOrg] = useState<ApiResponse | null>(null);
+  const [clientLevelSubOrg, setAllClientLevelSubOrg] =
+    useState<ApiResponse | null>(null);
   const [options, setOptions] = useState<VehicleCategory[]>([]);
-  const [defaultValues, setDefaultValues] = useState<VehicleCategory[]>([]);
-  
+  const [defaultValues, setDefaultValues] =useState<VehicleCategory[]>([]);
+
   const {
     register,
     handleSubmit,
@@ -83,7 +95,6 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     control,
     formState: { errors },
   } = useForm<ApiResponse>();
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,7 +110,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
           FetchClientLevelSubUsers(),
           FetchAllClientCategory(),
         ]);
-  
+
         setClientLevelOrg(clientLevelOrgData);
         setAllVehicleCategory(vehicleCategoryData);
         setClientLevelSubUsers(clientLevelSubUsersData);
@@ -109,20 +120,17 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
         toast.error("Error fetching data");
       }
     };
-  
+
     fetchData();
   }, [subOrgId]);
-  
 
-// console.log("clientLevelOrgData",clientLevelOrg);
-// console.log("vehicleCategoryData",allVehicleCategory);
-// console.log("clientLevelSubUsersData",clientLevelSubUsers);
-// console.log("clientCategoryData",category);
-
-
+  // console.log("clientLevelOrgData",clientLevelOrg);
+  // console.log("vehicleCategoryData",allVehicleCategory);
+  // console.log("clientLevelSubUsersData",clientLevelSubUsers);
+  // console.log("clientCategoryData",category);
 
   // const FetchIndividualClientLevelSubOrg =
-    
+
   //   async () => {
   //     try {
   //       const response = await axiosInstance.get(
@@ -189,24 +197,25 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
       const response = await axiosInstance.get(
         `/clientorg/client_lvl_sub_org/${subOrgId?.subOrgId}`
       );
-  
+
       console.log("API Response:", response);
-  
+
       const fetchedData = response?.data?.res;
       setAllClientLevelSubOrg(response?.data?.res);
-  
+
       console.log("Fetched Data:", fetchedData);
-  
-      const vehCatOptions: VehicleCategory[] = fetchedData?.vehicleCatIdWithName?.map((cat) => ({
-        id: cat.id,
-        name: cat.name,
-        label: cat.name,
-        value: cat.id,
-      }));
-  
-      setOptions(vehCatOptions);
+
+      const vehCatOptions: VehicleCategory[] =
+        fetchedData?.vehicleCatIdWithName?.map((cat) => ({
+          value: cat.id,
+          
+          label: cat.name,
+          
+        }));
+
+      
       setDefaultValues(vehCatOptions);
-  
+
       const destructuredData = {
         cl_org_name: fetchedData?.cl_org?.cl_org_name,
         cl_org_id: fetchedData?.cl_org_id,
@@ -215,63 +224,55 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
         code: fetchedData?.code,
         id: fetchedData?.id,
         user_id: fetchedData?.user_id,
-        vehicleCatIdWithName: vehCatOptions
+        vehicleCatIdWithName: vehCatOptions,
       };
-  
-      console.log("destructeddata",destructuredData);
-      
+
+      console.log("destructeddata", destructuredData);
+
       reset(destructuredData);
-  
+
       toast.success(response?.data?.message);
     } catch (error) {
       console.error("Error fetching individual client level sub org:", error);
       toast.error(error?.response?.data?.message);
     }
   };
-  
-  
- 
+
 
 
 
   useEffect(() => {
-     FetchIndividualClientLevelSubOrg();
+    FetchIndividualClientLevelSubOrg();
   }, [subOrgId]);
-
-
 
   const allSubUsers = clientLevelSubUsers?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
 
-
-
   const allClientCategory = category
-  ?.filter((item) => item.name === "BANK")
-  .map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
-  
+    ?.filter((item) => item.name === "BANK")
+    .map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
     label: item.cl_org_name,
   }));
   const allVehicleCategorys = allVehicleCategory?.map((item) => ({
-    value: item.id,
-    label: item.name,
+    id: item.id,
+    name: item.name,
   }));
 
-
- 
+  console.log("allVehicleCategory",allVehicleCategory);
+  console.log("allVehicleCategorysssss",allVehicleCategorys);
+  
 
   let result = allSubUsers.filter(
     (item) => item?.value == clientLevelSubOrg?.user_id
   );
-
-  
 
   if (result.length === 0) {
     // The individual.user_id is not present in AllUsers, so we push a new item
@@ -291,40 +292,39 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
 
   function updateArray(array1, array2, key) {
     // Create a Set of keys from array1
-    let set1 = new Set(array1.map(item => item[key]));
+    let set1 = new Set(array1.map((item) => item[key]));
 
     // Filter array2 to find objects whose key is missing in array1
-    let missingElements = array2.filter(item => !set1.has(item[key]));
+    let missingElements = array2.filter((item) => !set1.has(item[key]));
 
     // Add missing elements to array1
     array1.push(...missingElements);
 
     return array1;
-}
-
-
+  }
 
   const onSubmit = async (data: ApiResponse) => {
-    console.log("data for submit", data)
-  
+    console.log("data for submit", data);
+
     const submittingData = {
       ...data,
+      veh_cat: data?.vehicleCatIdWithName?.map((item)=>item?.value)
       // cl_org_name: data?.cl_org_name?.toUpperCase(),
     };
     console.log("modified data for submit", submittingData);
-    // try {
-    //   const response = await axiosInstance.put(
-    //     `clientorg/client_lvl_sub_org/${subOrgId?.subOrgId
-    //     }`,
-    //     submittingData
-    //   );
-    //   console.log("response after sumbit of cl_lvl_org", response);
-    //   toast.success(response?.data?.message);
-    // } catch (error) {
-    //   console.log("error", error);
-    //   toast.error(error?.response?.data?.message);
-    // }
-      // Handle form submission
+    try {
+      const response = await axiosInstance.put(
+        `clientorg/client_lvl_sub_org/${subOrgId?.subOrgId
+        }`,
+        submittingData
+      );
+      console.log("response after sumbit of cl_lvl_org", response);
+      toast.success(response?.data?.message);
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error?.response?.data?.message);
+    }
+    // Handle form submission
   };
 
   return (
@@ -360,26 +360,64 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
               />
             </div>
             <div className="p-4 w-80">
+            <div className="p-4 w-80">
   <div className="flex flex-col w-full">
     <label htmlFor="">Auction Allowed States</label>
     {/* <Controller
       name="veh_cat"
       control={control}
-      defaultValue={defaultValues}
+      defaultValue={defaultValues?.map((item)=>)}
       render={({ field }) => (
         <Select
-          className={`${inputStyle.data}`}   
-          options={allVehicleCategorys}
+          className={`${inputStyle.data}`}
+          options={allVehicleCategory.map((item) => ({
+            value: item.id,
+            label: item.name,
+          }))}
           {...field}
           isMulti
-          getOptionValue={(option) => option.value} 
+          getOptionValue={(option) => option.value}
           getOptionLabel={(option) => option.label}
-        />
-      )}
-    /> */}
+          onChange={(selectedOptions) => {
+            const selectedValues = selectedOptions.map(option => option.value);
+            field.onChange(selectedValues);
+          }}
+          value={allVehicleCategory
+            .filter(option => field.value.includes(option.id))
+            .map(option => ({
+              value: option.id,
+              label: option.name,
+            }))}
+        /> */}
+
+<Controller
+                  name="vehicleCatIdWithName"
+                  control={control}
+                  defaultValue={defaultValues.map((state) => ({
+                    label: state.label,
+                    value: state.value,
+                  }))}
+                  render={({ field }) => (
+                    <Select
+               
+                      
+                      options={allVehicleCategory.map((state) => ({
+                        label: state.name,
+                        value: state.id,
+                      }))}
+                      {...field}
+                      isMulti
+                      getOptionValue={(option) => option.value}
+                      getOptionLabel={(option) => option.label}
+                    />
+                  )}
+                />
+
+     
   </div>
 </div>
 
+</div>
 
 
             <div>

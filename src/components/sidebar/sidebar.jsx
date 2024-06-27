@@ -16,9 +16,9 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import useAuthStore from "../../store/useAuthStore";
 
 const SideBar = () => {
-  const { user,token,role } = useAuthStore();
+  const { user,token,role, } = useAuthStore();
 
-  // console.log("user role form sidebar0000001",role);
+  console.log("user name form sidebar0000001",user);
   // console.log("1234566789");
   const selectSidebarData = () => {
     switch (role) {

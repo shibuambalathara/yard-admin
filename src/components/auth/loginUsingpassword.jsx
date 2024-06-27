@@ -64,8 +64,10 @@ const LogInPassword = () => {
         name:response?.data?.user?.name ,
         email: response?.data?.user?.email, // Use the email from the form data
         role: response?.data?.user?.role,
-        organisation:response?.user?.organisation
+        organisation:response?.data?.user?.clientLvlSuperOrgName
       };
+console.log("user form api",user);
+
       const authToken = response.data.user.accessToken;
       // console.log("TOKEN FROM API RESPONSE",authToken);
       const role = response.data.user.role;
@@ -75,12 +77,13 @@ const LogInPassword = () => {
       setSuccess({
         text: "You have been successfully logged in.",
     });
-      // router.push('/');
+      router.push('/');
+      // window.onload()
     } catch (error) {
       console.error('ERROR FROM fetching users:', error.response.data.message);
-      setLoginError(error.response.data.message);
+      setLoginError(error?.response?.data?.message);
       setError({
-        text: "Invalid username or password.",
+        text: error?.response?.data?.message,
     });
 
 
