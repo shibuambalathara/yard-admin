@@ -1,9 +1,12 @@
+import IndividualReleaseInitiated from '@/components/clientLevelUser/vehicles/releasedVehicles/individualReleaseInitatedVehicles'
 import React from 'react'
 // import IndividualReleaseStatus from '@/components/clientLevelUser/vehicleRelease/releaseStatus/individualReleaseStatus'
 
-const IndividualVehicleReleaseStatus = () => {
+const IndividualVehicleReleaseStatus = ({params}:{params:{releaseId:string}}) => {
   return (
-    <div>KKKK</div>
+    <div>
+    <IndividualReleaseInitiated releaseId={params} />
+      </div>
   )
 }
 

@@ -183,7 +183,7 @@ const AllReleaseInitiatedVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Instock Vehicles
+        All released Vehicles
       </h1>
 
       <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">

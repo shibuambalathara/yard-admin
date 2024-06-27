@@ -247,7 +247,29 @@ const AllCancelledVehicles = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
       </div>
-      
+      <div className="flex flex-col  ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Status
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleOwnershipStatus}
+          >
+            <option value="">Select Status</option>
+            {/* <option value="">ALL STATE</option> */}
+
+            {ReleaseStatus.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+        </div>
       
   </div>
       <div>
@@ -288,7 +310,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicles/initiatedVehicles/${row.original.id}`}
+        href={`/vehicles/cancelledVehicles/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

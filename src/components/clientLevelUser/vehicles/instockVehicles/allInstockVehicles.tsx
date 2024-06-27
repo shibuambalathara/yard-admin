@@ -159,7 +159,7 @@ const AllInstockVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Instock Vehicles
+       All Instock Vehicles
       </h1>
 
       <div className="flex w-full space-x-14 borde">

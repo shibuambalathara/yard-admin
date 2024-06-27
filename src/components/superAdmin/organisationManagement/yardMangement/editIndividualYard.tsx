@@ -4,7 +4,7 @@ import axiosInstance from "@/utils/axios";
 import { states } from "@/utils/staticData";
 import { useState, useEffect, useCallback } from "react";
 import { Cities } from "@/utils/cities";
-
+import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
@@ -37,7 +37,7 @@ const EdityardDataYard = ({ yardId }) => {
   const [Users, setUsers] = useState([]);
   const [uniqueStates, setUniqueStates] = useState([]);
 
- 
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -124,6 +124,7 @@ const EdityardDataYard = ({ yardId }) => {
       const id = yardId?.yardId;
       const response = await axiosInstance.put(`/yard/${id}`, modifiedData);
       toast.success(response?.data?.message);
+      router.push("/organisationManagement/yardManagement")
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

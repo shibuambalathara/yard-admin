@@ -199,6 +199,7 @@ const ViewClientLevelSuperOrg = ({ profileId }) => {
         );
         console.log("response after superOrgCreae", response);
         toast.success(response?.data?.message);
+        router.push("/organisationManagement/clientLevelSuperOrg")
       } catch (error) {
         console.log("error", error);
         toast.error(error?.response?.data?.message);
