@@ -6,11 +6,12 @@ import {
   SelectComponent,
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
-import { VehicleState, vehicleStatus } from "@/utils/staticData";
+import { AccountStatus, vehicleStatus } from "@/utils/staticData";
+import { useRouter } from "next/navigation";
+import { comment } from "postcss";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 interface ImageData {
   img_type: string;
@@ -36,7 +37,7 @@ type Inputs = {
   variant: string;
   colour: string;
   condition: string;
-  start_condition: string;
+  Start_condition: string;
   reg_number: string;
   eng_number: string;
   chasis_number: string;
@@ -46,6 +47,7 @@ type Inputs = {
   key_count: string;
   ownership_status: string;
   status: string;
+  comment: string;
   FRONT_IMAGE: File[] | null;
   BACK_IMAGE: File[] | null;
   RIGHT_IMAGE: File[] | null;
@@ -55,19 +57,14 @@ type Inputs = {
   OTHER_IMAGE: File[] | null;
 };
 
-interface   MyInterface {
-  status: string;
-  comment: string;
-}
-
 const EditVehicleOwnership = ({ ownershipId }) => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-  const [formDatas, setFormData] = useState<MyInterface>();
- const router=useRouter()
+ console.log(ownershipId);
+ const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -75,7 +72,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     formState: { errors },
     setValue,
     reset,
-  } = useForm<MyInterface>();
+  } = useForm<Inputs>();
 
   useEffect(() => {
     const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>(
@@ -97,21 +94,12 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       const response = await axiosInstance.get(
         `/ownership/${ownershipId?.clientLevelvehOwnId}`
       );
+      console.log(response);
 
-      console.log("response of vehicle ownership", response);
-      const formData={
-        status:response?.data?.res?.status,
-        comment:response?.data?.res?.comment
-      }
-      setFormData(formData);
-
-      reset(formData)
-      console.log("formDAta from fetch vehicle",formData);
-      
-      
       const destructuredData = {
         ...response?.data?.res,
         ...response?.data?.res?.vehicle,
+        comments: response?.data?.res?.comment,
         ownership_status: response?.data?.res?.status,
         app_entry_date:
           response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
@@ -124,54 +112,44 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           response?.data?.res?.vehicle?.actual_exit_date?.split("T")[0],
         status: response?.data?.res?.vehicle?.status,
       };
-
       setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
-      // reset(destructuredData);
+      reset(destructuredData);
 
       // Set the isSelectDisabled state based on ownership_status
-      setIsSelectDisabled(
-        response?.data?.res?.status.toLowerCase() === "pending"
-      );
+      setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === "pending");
     } catch (error) {
       console.log("error", error);
     }
   };
 
-  console.log("formData", formDatas);
-
+ 
   useEffect(() => {
     fetchVehicle();
-  }, []);
+ 
+  }, [ownershipId?.clientLevelvehOwnId]);
 
-  const confirmOwnership = useCallback(
-    async (data: MyInterface) => {
-      console.log("123", data);
-      
+  const editVehicle = useCallback(
+    async (data: Inputs) => {
+      const modifiedData = {status: data?.ownership_status, comment: data?.comment?.toString()}
       try {
         const response = await axiosInstance.patch(
-          `/ownership/status/${ownershipId?.clientLevelvehOwnId}`,data);
-          console.log("response of edit ownership",response);
-          
+          `/ownership/status/${ownershipId?.clientLevelvehOwnId}`,
+          modifiedData
+        );
+        console.log('patch', modifiedData);
+        
         toast.success(response?.data?.message);
-        handleModalClose()
-        router.push('/vehicleOwnershipClientOrg')
+        router.push("/waivers/viewCreatedWaivers")
+        setModalOpen(false); // Close the modal on successful update
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);
       }
     },
-
-    []
+    [ownershipId?.clientLevelvehOwnId]
   );
 
-  const result = () => {
-    console.log("test text");
-  };
-
-  const ClientOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
-  }));
+ 
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -184,22 +162,23 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900 ">
-          Vehicle Ownership  
-        </h2> 
-        {formDatas?.status==="PENDING" && <button
-          onClick={handleModalOpen}
-          className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
-        >
-          Confirm Ownership
-        </button>}
-        {modalOpen && (
-          <form onSubmit={handleSubmit(confirmOwnership)} className="mt-8 space-y-6">
-            <div className="self-end justify-self-end mb-1 flex gap-5">
+        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+          Vehicle Ownership
+        </h2>
+
+        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
+          <div className="self-end justify-self-end mb-1 flex gap-5">
+            <button
+              type="button"
+              onClick={handleModalOpen}
+              className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
+            >
+              Confirm Ownership
+            </button>
+            {modalOpen && (
               <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                   <button
-                    type="button"
                     onClick={handleModalClose}
                     className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
                   >
@@ -223,16 +202,18 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                       </p>
                     </div>
                     <div>
-                      <SelectComponent
-                        label="Select status"
-                        name="status"
-                        options={VehicleState}
+                    <SelectComponent
+                        label="Ownership Status"
+                        name="ownership_status"
+                        options={AccountStatus}
                         register={register}
                         errors={errors}
                         defaultValue=""
+                        
                       />
+                     
                       <InputField
-                        label="comment"
+                        label="Comment"
                         type="text"
                         name="comment"
                         register={register}
@@ -251,88 +232,169 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
-        )}
-        <div className="max-w-7xl mx-auto p-6">
-          <h2 className="text-center text-2xl font-semibold text-gray-900 mb-6">
+            )}
+          </div>
+        </form>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
+          <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
             Vehicle Details
           </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Loan Number</p>
-              <p className="text-gray-900">afdsasdfawefw</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Actual Entry Date</p>
-              <p className="text-gray-900">2024-01-26</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Actual Exit Date</p>
-              <p className="text-gray-900">N/A</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Manufacturing Date</p>
-              <p className="text-gray-900">2024-03-26</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Make</p>
-              <p className="text-gray-900">BMW</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Model</p>
-              <p className="text-gray-900">M5 COMPETITION</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Variant</p>
-              <p className="text-gray-900">SPORT</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Colour</p>
-              <p className="text-gray-900">GREEN</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Condition</p>
-              <p className="text-gray-900">GOOD</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Start Condition</p>
-              <p className="text-gray-900">0</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Register Number</p>
-              <p className="text-gray-900">KL03AC7317</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Engine Number</p>
-              <p className="text-gray-900">uiejf38u13eh</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Chasis Number</p>
-              <p className="text-gray-900">uiejf38u13eh</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Odometer</p>
-              <p className="text-gray-900">N/A</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Board Type</p>
-              <p className="text-gray-900">YELLOW</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">RC Available</p>
-              <p className="text-gray-900">YES</p>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-6">
-              <p className="text-gray-700 font-semibold">Key Count</p>
-              <p className="text-gray-900">1</p>
-            </div>
+          <InputField
+            disabled={true}
+            label="Loan Number"
+            type="text"
+            name="loan_number"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Actual Entry Date"
+            type="date"
+            name="actual_entry_date"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Actual Exit Date"
+            required={false}
+            type="date"
+            name="actual_exit_date"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Manufacturing Date"
+            type="date"
+            name="mfg_year"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Make"
+            type="text"
+            name="make"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Model"
+            type="text"
+            name="model"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Variant"
+            type="text"
+            name="variant"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Colour"
+            type="text"
+            name="colour"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Condition"
+            type="text"
+            name="condition"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <div>
+            <SelectComponent
+              disabled={true}
+              label="Start Condition"
+              name="start_condition"
+              options={vehicleStatus}
+              register={register}
+              errors={errors}
+              defaultValue=""
+            />
           </div>
-
-          <h2 className="text-center text-2xl font-semibold text-gray-900 mt-12 mb-6">
-            Vehicle Images
-          </h2>
+          <InputField
+            disabled={true}
+            label="Register Number"
+            type="text"
+            name="reg_number"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Engine Number"
+            type="text"
+            name="eng_number"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Chasis Number"
+            type="text"
+            name="chasis_number"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Odometer"
+            type="text"
+            name="odometer"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Board Type"
+            type="text"
+            name="board_type"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="RC Available"
+            type="text"
+            name="rc_available"
+            register={register}
+            errors={errors}
+            pattern
+          />
+          <InputField
+            disabled={true}
+            label="Key Count"
+            type="text"
+            name="key_count"
+            register={register}
+            errors={errors}
+            pattern
+          />
 
           <div className="grid grid-cols-4 gap-4 col-span-3">
             {Object.entries(images).map(([imageType, imageList]) => (
@@ -347,6 +409,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
                   s
                 </h2>
+
                 {imageList?.map((image, index) => (
                   <div
                     key={index}

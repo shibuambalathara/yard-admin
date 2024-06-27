@@ -200,6 +200,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
         console.log("res", response);
 
         toast.success(response?.data?.message);
+        router.push("/vehicle")
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);

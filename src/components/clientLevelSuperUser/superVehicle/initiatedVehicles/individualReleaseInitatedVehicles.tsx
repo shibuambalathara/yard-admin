@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { inputStyle } from "@/components/ui/style"
 import Spinner from '@/components/commonComponents/spinner/spinner';
-
+import { ReleaseDetails, VehicleDetails, VehicleOwnerships, YardDetails } from '@/components/commonComponents/detailTabs/detailTabs';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 type CLOrg = {
   code: string;
   cl_org_name: string;
@@ -62,7 +63,9 @@ type ResponseData = {
 const IndividualReleaseInitiated = ({ releaseId }) => {
   const [vehicleData, setVehicleData] = useState<Res | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
   const router = useRouter();
 
   const fetchVehicle = async () => {
@@ -110,6 +113,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
     setModalOpen(false);
   };
 
+
   if (!vehicleData) {
     return (
       <div className="flex w-full h-screen items-center justify-center">
@@ -117,15 +121,17 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
       </div>
     );
   }
-
-  const { vehicle_ownership, curr_days_in_yard, curr_total_park_fee, curr_total_waiver_park_fee, status_changed_at } = vehicleData;
-  const { yard } = vehicle_ownership.vehicle;
+  const tabs = {
+    "Yard Details": <YardDetails vehicle={vehicleData} />,
+    "Vehicle Details": <VehicleDetails vehicle={vehicleData} />,
+    "Vehicle ownership": <VehicleOwnerships vehicle={vehicleData} />,
+   
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">Initiate Release</h2>
-
         <div className="w-full flex justify-end">
           <button
             onClick={handleInitiateClick}
@@ -134,29 +140,47 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
             CANCEL VEHICLE RELEASE
           </button>
         </div>
-        <div>
-          <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">Yard Details</h2>
-          <div className="border grid grid-cols-1 md:grid-cols-2 gap-3 px-8 mt-4 py-4">
-            <div>
-              <label className="font-semibold">Yard Name:</label>
-              <p className=''>{yard?.yard_name}</p>
+        <section>
+          <div>
+            {/* <div className="mb-4 text-xl font-semibold text-gray-900">
+              Vehicle Details
+            </div> */}
+            <div className="w-full mt-4  overflow-y-scroll h-96">
+              <TabGroup>
+                <TabList className="flex justify-between space-x-1 rounded-xl">
+                  {Object.keys(tabs).map((tab) => (
+                    <Tab
+                      key={tab}
+                      className={({ selected }) =>
+                        classNames(
+                          "w-full px-1 rounded-lg py-2.5 text-sm font-medium leading-5 bg-gray-200",
+                          "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none",
+                          selected
+                            ? "bg-blue-900 text-black shadow"
+                            : "text-[#787777] hover:text-gray-900"
+                        )
+                      }
+                    >
+                      {tab}
+                    </Tab>
+                  ))}
+                </TabList>
+                <TabPanels className="mt-4">
+                  {Object.values(tabs).map((tabContent, index) => (
+                    <TabPanel
+                      key={index}
+                      className={"rounded-xl bg-white focus:outline-none"}
+                    >
+                      {tabContent}
+                    </TabPanel>
+                  ))}
+                </TabPanels>
+              </TabGroup>
             </div>
-            <div>
-              <label className="font-semibold">Current Days In Yard:</label>
-              <p>{curr_days_in_yard}</p>
-            </div>
-            <div>
-              <label className="font-semibold">Total Park Fee:</label>
-              <p>{curr_total_park_fee}</p>
-            </div>
-            <div>
-              <label className="font-semibold">Total Waiver Park Fee:</label>
-              <p>{curr_total_waiver_park_fee ?? 'N/A'}</p>
-            </div>
-          </div>
-        </div>
-        
 
+            
+          </div>
+        </section>
         <ConfirmationModal
           isOpen={modalOpen}
           onCancel={handleCancelRelease}

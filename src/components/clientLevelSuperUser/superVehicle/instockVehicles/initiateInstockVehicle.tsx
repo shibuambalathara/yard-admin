@@ -64,6 +64,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
+  
   const router = useRouter();
   const {
     register,

@@ -5,7 +5,7 @@ import { vehicleStatus } from '@/utils/staticData';
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-
+import { useRouter } from 'next/navigation';
 interface ImageData {
   img_type: string;
   img_src: string;
@@ -57,7 +57,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -132,6 +132,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           { cl_org_id: data?.cl_org_id }
         );
         toast.success(response?.data?.message);
+        router.push("/vehicleOwnership")
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);

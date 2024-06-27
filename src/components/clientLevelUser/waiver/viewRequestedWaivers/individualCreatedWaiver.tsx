@@ -6,11 +6,12 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { formStyle, inputStyle, labelStyle, loginInputStyle } from "../../../../components/ui/style";
+import { useRouter } from "next/navigation";
 
 const IndividualCreatedWaiver = ({ waiverId }) => {
   const [waiverData, setWaiverData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const router = useRouter();
 
   type Inputs = {
     comment: string;
@@ -79,6 +80,7 @@ const IndividualCreatedWaiver = ({ waiverId }) => {
       
       
       toast.success(response?.data?.message);
+      router.push("/waivers/viewCreatedWaivers")
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

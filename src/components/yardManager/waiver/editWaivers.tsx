@@ -3,6 +3,7 @@ import { InputField, SelectComponent, SelectInput } from "@/components/ui/fromFi
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import axiosInstance from "@/utils/axios";
 import { AccountStatus, WaiverStatus } from "@/utils/staticData";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -12,7 +13,7 @@ const EditWaivers = ({ waiverVehicleId }) => {
   const [waiverData, setWaiverData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 console.log('h',waiverVehicleId);
-
+const router = useRouter();
 
   type Inputs = {
     comment: string;
@@ -80,6 +81,7 @@ console.log('h',waiverVehicleId);
       
       
       toast.success(response?.data?.message);
+      router.push("/waiver")
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

@@ -188,6 +188,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
             );
             console.log("response after sumbit of cl_lvl_org", response);
             toast.success(response?.data?.message);
+            router.push("/organisationManagement/clientLevelOrg")
           } catch (error) {
             console.log("error", error);
             toast.error(error?.response?.data?.message);

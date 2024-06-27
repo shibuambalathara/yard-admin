@@ -194,7 +194,7 @@ const AllInstockVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Instock Vehicles
+        All Instock Vehicles
       </h1>
 
       <div className="grid grid-cols-3 w-full space-x-14 borde mt-4">
