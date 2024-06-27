@@ -15,7 +15,7 @@ const Dashboard = () => {
             return "YARD MANAGER";
           case "CLIENT_LEVEL_USER":
             return "CLIENT LEVEL USER";
-          case "clientlevelsuperuser":
+          case "CLIENT_LEVEL_SUPER_USER":
             return "CLIENT LEVEL SUPER USER";
         //   Default to user data
         }
@@ -24,7 +24,7 @@ const Dashboard = () => {
       const UserLogedIn=selectSidebarData()
 
   return (
-    <div>  WELCOME TO {UserLogedIn} DASHBOARD </div>
+    <div>  WELCOME TO <span className='font-bold'>{UserLogedIn}</span> DASHBOARD </div>
   )
 }
 

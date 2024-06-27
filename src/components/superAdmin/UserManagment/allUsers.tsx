@@ -173,7 +173,7 @@ const UserManagement = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
-        User Management
+        User Management  
       </h1>
       <div className="flex w-full px-8 justify-between">
         <div className="">
