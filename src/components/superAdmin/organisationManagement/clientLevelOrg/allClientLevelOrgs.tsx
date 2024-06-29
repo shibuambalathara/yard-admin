@@ -19,6 +19,8 @@ const AllClientLevelOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
+
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
@@ -45,7 +47,7 @@ const AllClientLevelOrganisation = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/clientorg/client_lvl_org?page=${page}&limit=5&status=1&client_org_level=CLIENT_ORG`
+        `/clientorg/client_lvl_org?page=${page}&limit=${limit}&status=1&client_org_level=CLIENT_ORG`
       );
       // console.log("all users", response);
       setFilteredData(response?.data?.res);
@@ -99,7 +101,7 @@ const AllClientLevelOrganisation = () => {
     [filteredData]
   );
 
-  // console.log("filetered data from clientLevelSuperOrg",filteredData);
+  console.log("filetered data from clientLevelOrg",filteredData);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -151,6 +153,7 @@ const AllClientLevelOrganisation = () => {
               page={page}
               setPage={setPage}
               totalDataCount={filteredData?.totalCount}
+              limit={limit}
             />
           )}
         </div>

@@ -118,7 +118,7 @@ const CreateUser = ({ onClose,fetchData }:any) => {
                 error={errors.name}
                 defaultValue=""
                 required
-                placeholder="Enter your  name"
+                placeholder="Enter your name"
              
               />
             </div>
@@ -198,7 +198,7 @@ const CreateUser = ({ onClose,fetchData }:any) => {
                 register={register}
                 errors={errors}
                 defaultValue=""
-                placeholder="select role"
+                placeholder="Select Role"
               />
             </div>
             </div>

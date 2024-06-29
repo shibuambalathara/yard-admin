@@ -23,6 +23,8 @@ import {
 const AllYards = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
+
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
@@ -57,10 +59,10 @@ const AllYards = () => {
 
     try {
       const response = await axiosInstance.get(
-        `/yard?page=1&limit=10&country=INDIA&state=${selectedState}&city=${selectDistrict}`
+        `/yard?page=${page}&limit=${limit}&country=INDIA&state=${selectedState}&city=${selectDistrict}`
       );
-      // console.log("all users", response?.data?.res?.yard);
-      setFilteredData(response?.data?.res?.yard);
+      console.log("all yards", response);
+      setFilteredData(response?.data?.res);
 
       setSuccess({
         text: response?.data?.message,
@@ -79,7 +81,7 @@ const AllYards = () => {
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
   }, [selectedState, selectDistrict]);
-  const UsersData = filteredData || [];
+  const UsersData = filteredData?.yard || [];
 
   const userColumn = useMemo(
     () => [
@@ -110,7 +112,7 @@ const AllYards = () => {
   );
 
   
-// console.log("uniqueStates",uniqueStates);
+console.log("filteredData subOrg",filteredData);
 
 
 
@@ -214,7 +216,27 @@ const AllYards = () => {
         </div>
       </div>
 
-      {filteredData && <DataTable data={UsersData} columns={userColumn} />}
+      {filteredData && 
+
+      <>
+            <DataTable data={UsersData} columns={userColumn} />
+            <div className="w-full text-center">
+          {filteredData?.totalCount && (
+            <Pagination
+              page={page}
+              setPage={setPage}
+              totalDataCount={filteredData?.totalCount}
+              limit={limit}
+            />
+          )}
+        </div>
+
+      </>
+
+
+      
+      }
+
     </div>
   );
 };

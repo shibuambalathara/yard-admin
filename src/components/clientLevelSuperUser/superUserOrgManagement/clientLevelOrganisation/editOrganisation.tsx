@@ -212,7 +212,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
               register={register}
               errors={errors}
               pattern=""
-              placeholder="Enter organisation"
+              placeholder="Enter Organisation"
             />
 
             <div className="mb-">
@@ -247,7 +247,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="select category"
+                placeholder="Select Category"
               />
             </div>
             {/* <div className="mb-">
@@ -281,7 +281,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
                   errors={errors}
                   required={true}
                   defaultValue=""
-                  placeholder="select state"
+                  placeholder="Select State"
                 />
               </div>
             </div>

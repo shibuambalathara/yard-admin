@@ -30,6 +30,7 @@ const AllVehicles = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setCategory] = useState(null);
+  const [limit,setLimit]=useState(6)
   
 
 
@@ -42,7 +43,7 @@ const AllVehicles = () => {
       try {
         const params = new URLSearchParams({
           page: page.toString(),
-          limit: '5',
+          limit: limit?.toString(),
         });
   
         if (Category) {
@@ -214,15 +215,16 @@ const handleCatChange =(e)=>{
 
           /* )} */
         }
-        {/* <div className="w-full text-center">
+        <div className="w-full text-center">
           {filteredData?.totalCount && (
             <Pagination
               page={page}
               setPage={setPage}
               totalDataCount={filteredData?.totalCount}
+              limit={limit}
             />
           )}
-        </div> */}
+        </div>
       </div>
       
     </div>

@@ -45,7 +45,7 @@ const router = useRouter();
 
     try {
       const response = await axiosInstance.get(`/waiver/${waiverVehicleId?.waiverId}`);
-      console.log(response);
+      console.log("response for individual waiver",response);
 
       const destructuredData = { 
         ...response?.data?.res,
