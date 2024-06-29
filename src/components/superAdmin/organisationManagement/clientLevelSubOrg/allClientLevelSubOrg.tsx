@@ -23,6 +23,8 @@ const AllClientLevelSubOrganisation = () => {
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [limit,setLimit]=useState(5)
+
 
   useEffect(() => {
     if (success) {
@@ -46,7 +48,7 @@ const AllClientLevelSubOrganisation = () => {
     try {
         const params = new URLSearchParams({
             page: page.toString(),
-            limit: "10",
+            limit: limit.toString(),
             status: "INITIATED",
           });
           //   params?.
@@ -137,7 +139,7 @@ const AllClientLevelSubOrganisation = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      client Level Organisation
+      client Level Sub Organisation
       </h1>
       <div className="flex w-full px-8 justify-between">
         <div className="">
@@ -176,6 +178,7 @@ const AllClientLevelSubOrganisation = () => {
               page={page}
               setPage={setPage}
               totalDataCount={filteredData?.totalCount}
+              limit={limit}
             />
           )}
         </div>

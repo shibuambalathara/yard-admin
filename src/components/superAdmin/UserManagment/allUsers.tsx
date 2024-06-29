@@ -12,16 +12,19 @@ import { FaUserSlash ,FaUser,FaRegEye } from "react-icons/fa";
 import { FaUserLargeSlash,FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
+import Pagination from "@/components/pagination/pagination";
+
 
 
 const UserManagement = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
-  const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
 
   useEffect(() => {
     if (success) {
@@ -44,7 +47,7 @@ const UserManagement = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/user/users?page=${page}&limit=5&status=1&role=${roleFilter}`
+        `/user/users?page=${page}&limit=${limit}&status=1&role=${roleFilter}`
       );
       console.log("all users", response);
       setFilteredData(response.data?.res);
@@ -162,13 +165,8 @@ const UserManagement = () => {
   };
 
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
+
 
   return (
     <div className="w-full">
@@ -196,8 +194,21 @@ const UserManagement = () => {
             <Loading />
           </div>
         ) : ( */}
-       {   filteredData && <DataTable data={UsersData} columns={userColumn} />
-        /* )} */}
+       {   filteredData && 
+       <>
+        <DataTable data={UsersData} columns={userColumn} />
+       <div className="w-full text-center">
+       {filteredData?.totalCount && (
+         <Pagination
+           page={page}
+           setPage={setPage}
+           limit={limit}
+           totalDataCount={filteredData?.totalCount}
+         />
+       )}
+     </div>
+       </>
+      }
       </div>
     </div>
   );

@@ -6,20 +6,16 @@ import {
   SelectInput,
   ImageMaping,
   TextArea,
-  AccountVerificatioSelect
 } from "../../ui/fromFields";
-import { formStyle } from "../../ui/style";
-import Link from "next/link";
+import { formStyle, inputStyle,divStyle } from "../../ui/style";
 import img1 from "../../../../public/aadhar.jpg";
 import img2 from "../../../../public/aadhar.jpg";
 import img3 from "../../../../public/aadhar.jpg";
-import img4 from "../../../../public/aadhar.jpg";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
-import { Role, AccountStatus } from "@/utils/staticData";
-
+import { Role } from "@/utils/staticData";
 
 type Inputs = {
   name: string;
@@ -27,7 +23,7 @@ type Inputs = {
   contact: number;
   role: string;
   designation: string;
-  account_verification: string; // Assuming accountVerification is a string
+  account_verification: string;
   account_usage_from: Date;
   account_usage_to: Date;
   rejection_cmnt: string;
@@ -37,15 +33,17 @@ type Inputs = {
     image: string;
   };
 };
-const images = [img1, img2, img3]; // Array containing imported images
+const images = [img1, img2, img3];
 
 const ViewFullProfile = ({ profileId }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const [userData, setUserData] = useState(null); // State to store fetched user data
+  const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [initialData, setInitialData] = useState<Inputs | null>(null); // Store initial values
- const router =useRouter()
+  const [initialData, setInitialData] = useState<Inputs | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -71,7 +69,6 @@ const ViewFullProfile = ({ profileId }) => {
       }, 2000);
     }
   }, [success, error]);
-  // console.log("profileid", profileId);
 
   const FetchUserDate = async () => {
     setIsLoading(true);
@@ -79,7 +76,6 @@ const ViewFullProfile = ({ profileId }) => {
       const response = await axiosInstance.get(
         `/account/user/${profileId.profileId}`
       );
-      // console.log("RESPONSE FROM VEIW SINGLEUSER", response?.data?.res);
       setUserData(response.data.res);
       const modifiedData = {
         ...response?.data?.res,
@@ -89,10 +85,8 @@ const ViewFullProfile = ({ profileId }) => {
         account_usage_to: response?.data?.res?.account_usage_to?.split("T")[0],
       };
 
-      // console.log("modifiedDAta", modifiedData?.account_verification);
-
       reset(modifiedData);
-      setInitialData(modifiedData); // Store the initial data
+      setInitialData(modifiedData);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -104,43 +98,58 @@ const ViewFullProfile = ({ profileId }) => {
     FetchUserDate();
   }, [profileId.profileId]);
 
-  // console.log("initialData", initialData);
-  const currentAccountVerification = watch("account_verification");
-
-  // console.log("currentAccountVerification",currentAccountVerification);
-  // console.log("initialData?.account_verification",initialData?.account_verification);
-  
-
   const handleUserUpdate = async (data: Inputs) => {
-    // console.log("data on submit", data);
-    const validFrom = data?.account_usage_from ? new Date(data.account_usage_from).toISOString() : null;
-    const validTo = data?.account_usage_to ? new Date(data.account_usage_to).toISOString() : null;
+    console.log("Data",data);
+    
+    // const validFrom = data?.account_usage_from
+    //   ? new Date(data.account_usage_from).toISOString()
+    //   : null;
+    // const validTo = data?.account_usage_to
+    //   ? new Date(data.account_usage_to).toISOString()
+    //   : null;
 
-    const modifiedData = {
-      ...data,
-      name: data?.name?.toUpperCase(),
-      account_usage_from: validFrom,
-      account_usage_to: validTo,
-      designation: data?.designation?.toUpperCase(),
-    };
+    // const modifiedData = {
+    //   ...data,
+    //   name: data?.name?.toUpperCase(),
+    //   account_usage_from: validFrom,
+    //   account_usage_to: validTo,
+    //   designation: data?.designation?.toUpperCase(),
+    // };
 
- 
+    // try {
+    //   const response = await axiosInstance.put(
+    //     `/account/user/${profileId.profileId}`,
+    //     modifiedData
+    //   );
+    //   setUserData(response.data.res);
+    //   router.push("/accountVerificationRequest");
+    //   toast.success(response?.data?.message);
+    // } catch (error) {
+    //   console.log("error", error);
+    //   toast.error(error?.response?.data?.message[0]);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+  };
 
-    try {
-      const response = await axiosInstance.put(
-        `/account/user/${profileId.profileId}`,
-        modifiedData
-      );
-      console.log("UPDATE RESPONSE FROM VEIW SINGLEUSER", response);
-      setUserData(response.data.res);
-      router.push("/accountVerificationRequest")
-      toast.success(response?.data?.message)
-    } catch (error) {
-      console.log("error", error);
-      toast.error(error?.response?.data?.message[0])
-    } finally {
-      setIsLoading(false);
+  const handleApproveClick = () => {
+    setModalType("APPROVE");
+    setIsModalOpen(true);
+  };
+
+  const handleRejectClick = () => {
+    setModalType("REJECT");
+    setIsModalOpen(true);
+  };
+
+  const handleModalSubmit = (data: Inputs) => {
+    if (modalType === "APPROVE") {
+      setValue("account_verification", "APPROVED");
+    } else if (modalType === "REJECT") {
+      setValue("account_verification", "REJECTED");
     }
+    handleSubmit(handleUserUpdate)();
+    setIsModalOpen(false);
   };
 
   if (isLoading) {
@@ -151,16 +160,18 @@ const ViewFullProfile = ({ profileId }) => {
     );
   }
 
+  const currentAccountVerification = watch("account_verification");
+
   return (
-    <div className="  h-full w-full p-6">
+    <div className="h-full w-full p-6">
       <h1 className="w-full uppercase border text-center text-lg font-semibold">
         {userData?.name}
       </h1>
-      <div className="  w-full ">
+      <div className="w-full">
         <form
           onSubmit={handleSubmit(handleUserUpdate)}
           action=""
-          className="border scrollbar-hide grid grid-cols-2 w-full  h-[600px] content-start gap-y-8 overflow-y-scroll  p-4 justify-items-center"
+          className="border scrollbar-hide grid grid-cols-2 w-full h-[600px] content-start gap-y-8 overflow-y-scroll p-4 justify-items-center"
         >
           <FormFieldInput
             label="Name"
@@ -212,68 +223,111 @@ const ViewFullProfile = ({ profileId }) => {
             required
           />
 
-          <AccountVerificatioSelect
-            label="Account Verification"
-            options={AccountStatus}
-            name="account_verification"
-            register={register}
-            error={errors.account_verification}
-            defaultValue=""
-            required
-            currentAccountVerification={currentAccountVerification}
-          />
-          {currentAccountVerification == "APPROVED" && (
-            <>
-              <FormFieldInput
-                label="Valid From"
-                type="date"
-                name="account_usage_from"
-                register={register}
-                error={errors.account_usage_from}
-                defaultValue=""
-                required
-                placeholder=""
-              />
-              <FormFieldInput
-                label="valid To"
-                type="date"
-                name="account_usage_to"
-                register={register}
-                error={errors.account_usage_to}
-                defaultValue=""
-                required
-                placeholder=" "
-              />
-            </>
-          )}
+          <div className="  space-y-2  col-span-1 ">
+          <div className={`${divStyle?.data} text-center justify-center ` }>
+            <button
+              type="button"
+              onClick={handleApproveClick}
+              className="bg-green-500 text-white px-4 py-2 border w-40 rounded-md border-none "
+            >
+              Approve
+            </button>
+           </div>
 
-{currentAccountVerification == "REJECTED" && (
-            <TextArea
-              label="Rejection Comment"
-              type="number"
-              name="rejection_cmnt"
-              register={register}
-              error={errors.rejection_cmnt}
-              defaultValue=""
-              required
-              placeholder="Rejection Reason "
-            />
-          )}
+           <div className={`${divStyle?.data} justify-center`}>
+          <button
+              type="button"
+              onClick={handleRejectClick}
+              className="bg-red-500 text-white px-4 py-2 border w-40 rounded-md"
+            >
+              Reject
+            </button>
+          </div>
+          </div>
 
-          <div className="col-span-2 border ">
-            {" "}
+          <div className="col-span-2 border">
             <ImageMaping images={images} />
           </div>
-          <div className="w-full col-span-2 flex justify-center   ">
+          {/* <div className="w-full col-span-2 flex justify-center">
             <button
               type="submit"
               className="bg-[#333333] text-white px-4 py-1 w-60"
             >
               Submit
             </button>
-          </div>
+          </div> */}
         </form>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-md w-1/3 border flex flex-col justify-center items-center">
+            <h2 className="text-xl font-semibold mb-4">
+              {modalType === "APPROVE" ? "Approve Account" : "Reject Account"}
+            </h2>
+            <form
+              onSubmit={handleSubmit(handleModalSubmit)}
+            >
+              {modalType === "APPROVE" && (
+                <>
+                  <FormFieldInput
+                    label="Valid From"
+                    type="date"
+                    name="account_usage_from"
+                    register={register}
+                    error={errors.account_usage_from}
+                    defaultValue=""
+                    required
+                    placeholder=""
+                  />
+                  <FormFieldInput
+                    label="Valid To"
+                    type="date"
+                    name="account_usage_to"
+                    register={register}
+                    error={errors.account_usage_to}
+                    defaultValue=""
+                    required
+                    placeholder=" "
+                  />
+                </>
+              )}
+
+              {modalType === "REJECT" && (
+                <TextArea
+                  label="Rejection Comment"
+                  type="text"
+                  name="rejection_cmnt"
+                  register={register}
+                  error={errors.rejection_cmnt}
+                  defaultValue=""
+                  required
+                  placeholder="Rejection Reason "
+                />
+              )}
+              <div className="flex justify-center mt-4 ">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="bg-gray-500 text-white px-4 py-2 mr-2 rounded-md"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className={`${
+                    modalType === "APPROVE"
+                      ? "bg-green-500"
+                      : "bg-red-500"
+                  } text-white px-4 py-2 rounded-md`}
+                >
+                  {modalType === "APPROVE" ? "Approve" : "Reject"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

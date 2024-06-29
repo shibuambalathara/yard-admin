@@ -6,5 +6,6 @@ export const loginInputStyle={data:`py-1 px-4 block w-full shadow-sm border bord
 export const vehicleFormStyle={data:` border  h-96  shadow-xl grid grid-cols-1   gap-y-5 gap-x-6  my-2 p-10`}
 export const buttonStyle={data:` text-white px-4 py-1 rounded`}
 export const resetPasswordForm={data:`flex flex-col justify-center items-center  space-y-2  w-full mt-2 p-10`}
+export const divStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none  font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded  `}
 
 

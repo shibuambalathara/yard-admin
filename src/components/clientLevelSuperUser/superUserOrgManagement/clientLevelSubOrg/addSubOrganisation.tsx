@@ -211,7 +211,7 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchData }) => {
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Selec user"
+                placeholder="Select User"
               />
             </div>
 

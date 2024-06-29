@@ -17,6 +17,7 @@ const AccountVerificationRequests = () => {
   const [statusFilter, setStatusFilter] = useState("PENDING");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -40,9 +41,9 @@ const AccountVerificationRequests = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/account/users?page=${page}&limit=10&accountVerification=${statusFilter}&role=${roleFilter}`
+        `/account/users?page=${page}&limit=${limit}&accountVerification=${statusFilter}&role=${roleFilter}`
       );
-      console.log("response of acc",response);
+      console.log("response of account",response);
       
       setFilteredData(response.data);
       setSuccess({
@@ -58,7 +59,7 @@ const AccountVerificationRequests = () => {
     }
   };
 
-  console.log("filteredData",filteredData);
+  // console.log("filteredData",filteredData);
   
 
   useEffect(() => {
@@ -162,6 +163,7 @@ const AccountVerificationRequests = () => {
           <Pagination
             page={page}
             setPage={setPage}
+            limit={limit}
             totalDataCount={filteredData?.data?.totalCount}
           />
         )}
