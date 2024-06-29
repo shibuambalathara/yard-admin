@@ -25,6 +25,7 @@ import IndeterminateCheckbox from '@/components/tables/IndeterminateCheckbox';
 import { inputStyle, labelStyle } from '@/components/ui/style';
 import Pagination from '@/components/pagination/pagination';
 import { VehicleState } from '@/utils/staticData';
+import EditWaivers from './editWaivers';
 
 
 type User = {
@@ -65,6 +66,8 @@ const  AllWaivers= () => {
   const [vehicleCategoryFilter, setVehicleCategoryFilter] = useState('');
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [client, setClient] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -76,7 +79,7 @@ const  AllWaivers= () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
-      toast.success(response?.data?.message);
+     
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log(error);
@@ -100,7 +103,7 @@ const FetchClientLevelOrgs = useCallback(async () => {
 
       //   console.log("reponse of clientlevelorg ", response);
 
-      toast.success(response?.data?.message);
+      
     } catch (error) {
       // console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -122,8 +125,14 @@ const FetchClientLevelOrgs = useCallback(async () => {
     value: item.id,
     label: item.cl_org_name,
   }));
-
-  
+  const handleEditClick = (userId) => {
+    setSelectedUserId(userId);
+    setEditModalOpen(true);
+  };
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    // setSelectedUserId(null);
+  };
 
   console.log(selectedRowIds);
 
@@ -233,19 +242,18 @@ const FetchClientLevelOrgs = useCallback(async () => {
         id: 'view',
         header: 'Action',
         cell: ({ row }) => (
-          <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+          <button onClick={() => handleEditClick(row.original.id)} className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
             <p>
               <MdOutlineViewHeadline />
             </p>
-            <Link
-              href={`/waiver/${row.original.id}`}
-              target="_blank"
+            <p
               rel="noopener noreferrer"
               className=""
+              
             >
               View
-            </Link>
-          </div>
+            </p>
+          </button>
         ),
       },
     ],
@@ -283,6 +291,9 @@ const FetchClientLevelOrgs = useCallback(async () => {
 
   return (
     <div className="w-full">
+      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      waiver
+      </h1>
       <div className='grid grid-cols-3 pl-6 pt-5 items-center'>
       <div className="flex flex-col   ">
           <label htmlFor="state" className={labelStyle?.data}>
@@ -368,6 +379,14 @@ const FetchClientLevelOrgs = useCallback(async () => {
         <div className="flex w-full h-screen items-center justify-center">Loading...</div>
       ) : (
         <div className="w-full p-5">
+           {editModalOpen && (
+        <div className="relative border ">
+        <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
+        <div className=" w-full   max-w-sm z-20 ">
+        <EditWaivers userId={selectedUserId} onClose={handleEditModalClose}/>
+          </div></div></div>
+      
+    )}
           <div className="mt-0.5">
             <div className="relative rounded-md shadow-sm max-w-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

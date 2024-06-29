@@ -165,7 +165,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
 
       reset(destructuredData);
 
-      toast.success(response?.data?.message);
+     
     } catch (error) {
       console.error("Error fetching individual client level sub org:", error);
       toast.error(error?.response?.data?.message);

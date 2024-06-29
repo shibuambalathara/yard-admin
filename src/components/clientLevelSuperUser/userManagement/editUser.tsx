@@ -82,9 +82,6 @@ const EditIndividualUser = ({ userId, onClose,fetchData }) => {
         contact: parseInt(phoneNumber),
       };
 
-      setSuccess({
-        text: response?.data?.message,
-      });
       setInitialData(resetData); // Store the initial data
       reset(resetData);
     } catch (error) {

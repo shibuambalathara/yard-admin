@@ -20,14 +20,14 @@ type Inputs = {
   park_fee_per_day: string;
 };
 
-const EditParkFeeIndividual = ({ parkId }) => {
+const EditParkFeeIndividual = ({ userId,onClose }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [clientcategoryData, SetClientCategoryData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
-  console.log("parkId ", parkId);
+  console.log("userId ", userId);
 
   const {
     register,
@@ -42,7 +42,7 @@ const EditParkFeeIndividual = ({ parkId }) => {
   const FetchIndividualParkFee = async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get(`/parkfee/${parkId?.parkId}`);
+      const response = await axiosInstance.get(`/parkfee/${userId}`);
 
       console.log("RESPONSE FOR INDIVIDAULA parkfee", response);
       SetClientCategoryData(response?.data?.res);
@@ -63,7 +63,7 @@ const EditParkFeeIndividual = ({ parkId }) => {
 
       //   console.log("reponse of clientlevelorg ", response);
 
-      toast.success("successs");
+     
     } catch (error) {
       // console.log("error", error);
       toast.error(`something went wrong`);
@@ -80,7 +80,7 @@ const EditParkFeeIndividual = ({ parkId }) => {
 
       console.log("resposne of vehicle category", response);
       reset();
-      toast.success("successs");
+    
     } catch (error) {
       console.log("error from vehiclecat", error);
       //   toast.error(error?.me);
@@ -113,57 +113,49 @@ const EditParkFeeIndividual = ({ parkId }) => {
     try {
       // console.log('clientCatId',typeof(clientId?.clientId));
 
-      const response = await axiosInstance.put(`/parkfee/${parkId?.parkId}`, data);
+      const response = await axiosInstance.put(`/parkfee/${userId}`, data);
       console.log("Response after sumbit of edit parkfee", response);
       setSuccess({
         text: response?.data?.message,
       });
-      // router.push('');
-      router.push("/parkfee");
+      onClose()
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex w-full h-screen items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
+  
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-4 rounded-lg w-full max-w-md">
-        <button
-          // onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
+      <div className="  rounded-lg w-full max-w-md">
+      
+        
+        <form
+          onSubmit={handleSubmit(EditClientCategory)}
+          className=""
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
+          <div className=" mx-auto grid bg-white grid-cols-1 relative gap-x-8 gap-y-4 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8 ">
+          <button
+        className="absolute top-0 p-2 right-0 text-gray-400 hover:text-gray-600 transition duration-200"
+        onClick={() => onClose()}
+      >
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-        <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Add Park Fee</h1>
-          {/* <p className=" cursor-pointer" onClick={onClose}>
-          x
-        </p> */}
-        </div>
-        <form
-          onSubmit={handleSubmit(EditClientCategory)}
-          className="  border-gray-200 "
-        >
-          <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
             <div className="mb-">
               <InputField
                 label="park Fee Per Day"
@@ -200,12 +192,10 @@ const EditParkFeeIndividual = ({ parkId }) => {
                 defaultValue=""
               />
             </div>
-          </div>
-
-          <div className=" w-full text-center p-1 mt-3  space-x-2">
+            <div className=" w-full text-center p-1 mt-3  space-x-2">
             <button
               type="button"
-              onClick={() => window.close()}
+              onClick={() =>onClose()}
               className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
@@ -217,6 +207,9 @@ const EditParkFeeIndividual = ({ parkId }) => {
               Submit
             </button>
           </div>
+          </div>
+
+         
         </form>
       </div>
     </div>

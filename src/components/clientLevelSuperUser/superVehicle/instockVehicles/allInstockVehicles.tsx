@@ -66,7 +66,6 @@ const AllInstockVehicles = () => {
       const response = await axiosInstance.get(`/yard`);
 
       setAllYard(response?.data?.res?.yard);
-      toast.success("Vehicle categories fetched successfully");
     } catch (error) {
       // toast.error("Failed to fetch vehicle categories");
     }
@@ -96,7 +95,7 @@ const AllInstockVehicles = () => {
       const response = await axiosInstance.get(
         `release/owned_instock_vehicle?${params.toString()}`
       );
-      console.log("response of allinstock vehicles", response);
+     
 
       setAllVehicleRelease(response?.data?.res?.vehicles);
       setFilteredData(response?.data?.res?.totalCount);

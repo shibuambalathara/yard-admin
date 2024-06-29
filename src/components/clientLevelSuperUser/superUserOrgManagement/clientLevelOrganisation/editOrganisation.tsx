@@ -97,7 +97,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
       // console.log("Form values after reset:", getValues());
      
 
-      toast.success("fetched clientlevelsuper orgs");
+      
     } catch (error) {
       // console.log("error", error);
       toast.error(`error in creating superOrg`);

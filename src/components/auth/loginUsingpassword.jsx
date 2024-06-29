@@ -48,11 +48,11 @@ const LogInPassword = () => {
     try {
       // console.log("handleLogin", data);
   
-      const { email, password } = data; // Extract email and password from form data
+      const { contact, password } = data; // Extract email and password from form data
   
       // Send user credentials to the server
       const response = await axiosInstance.post('/auth/login', {
-        email: email,
+        contact: `+91${contact}`,
         password: password
       });
       
@@ -64,7 +64,8 @@ const LogInPassword = () => {
         name:response?.data?.user?.name ,
         email: response?.data?.user?.email, // Use the email from the form data
         role: response?.data?.user?.role,
-        organisation:response?.data?.user?.clientLvlSuperOrgName
+        organisation:response?.data?.user?.orgName,
+        Type:response?.data?.user?.orgType
       };
 console.log("user form api",user);
 
@@ -78,7 +79,7 @@ console.log("user form api",user);
         text: "You have been successfully logged in.",
     });
       router.push('/');
-      // window.onload()
+      // wi ndow.onload()
     } catch (error) {
       console.error('ERROR FROM fetching users:', error.response.data.message);
       setLoginError(error?.response?.data?.message);
@@ -109,10 +110,10 @@ console.log("user form api",user);
           >
             <FormFieldInputLoginInput
               label=""
-              type="email"
-              name="email"
+              type="number"
+              name="contact"
               register={register}
-              error={errors.email}
+              error={errors.contact}
               defaultValue=""
               required
               placeholder="Your Email"

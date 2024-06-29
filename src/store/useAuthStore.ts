@@ -11,6 +11,7 @@ interface User {
     designation: string;
     role: string;
     organisation:string;
+    Type:string;
 }
 
 // Define the AuthState interface

@@ -43,7 +43,6 @@ const CreateUser = ({ onClose,fetchData }:any) => {
 
   useEffect(() => {
     if (success) {
-      toast.success(success.text ? success.text : "Success");
       setTimeout(() => {
         setSuccess(null);
       }, 2000);

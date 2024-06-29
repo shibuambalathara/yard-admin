@@ -124,7 +124,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-      toast.success("successs");
+     
     } catch (error) {
       toast.error(`something went wrong`);
     }

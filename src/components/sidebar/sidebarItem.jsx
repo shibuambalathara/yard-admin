@@ -33,7 +33,7 @@
   
     return (
       <div
-        className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
+        className={`bg-gray-800  h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
           open ? "w-85" : "w-16"
         }`}
       >
@@ -44,7 +44,7 @@
           onClick={() => setOpen(!open)}
         />
 
-        <ul className="pt-8  pl-6 h-full space-y-5">
+        <ul className="pt-8 bg-gray-800 pl-6 space-y-5">
           {item && item?.map((menu, index) => (
             <React.Fragment key={index}>
               <li

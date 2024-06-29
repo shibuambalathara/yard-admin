@@ -35,7 +35,7 @@ const AllClientLevelSubOrganisation = () => {
 
   useEffect(() => {
     if (success) {
-      toast.success(success.text ? success.text : "Success");
+      
       setTimeout(() => {
         setSuccess(null);
       }, 2000);
@@ -70,9 +70,7 @@ const AllClientLevelSubOrganisation = () => {
       );
       console.log("all sub org", response);
       setFilteredData(response?.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+     
     } catch (error) {
       setError({
         text: error?.response?.data?.message,

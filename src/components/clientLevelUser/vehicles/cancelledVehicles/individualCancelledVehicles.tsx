@@ -115,7 +115,7 @@ const IndividualRelease = ({ cancelledId }) => {
   }, []);
 
   const initiateVehicleRelease = async () => {
-    console.log("AFHADKLFHASDKFASKDFHAKSDFH");
+  
     
     const vehicleReleaseId = cancelledId?.cancelledVehicleId;
  

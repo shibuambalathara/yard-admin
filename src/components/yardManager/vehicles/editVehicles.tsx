@@ -143,7 +143,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
 
       // console.log("resposne of vehicle category", response);
       // reset();
-      toast.success("successs");
+  
     } catch (error) {
       console.log("error from vehiclecat", error);
       //   toast.error(error?.me);
@@ -414,55 +414,55 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern
             />
-            {/* <FileUploadInput
+            <FileUploadInput
               label="Front Images"
               name="FRONT_IMAGE"
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="Back Images"
               name="BACK_IMAGE"
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="Right Images"
               name="RIGHT_IMAGE"
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="left Images"
               name="LEFT_IMAGE"
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="Odometer Images"
               name="ODOMETER_IMAGE"
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="Interior Images"
               name="INTERIOR_IMAGE"
               register={register}
               accept="image/*"
-              multiple
+              
             />
             <FileUploadInput
               label="Other Images"
               name="OTHER_IMAGE"
               register={register}
               accept="image/*"
-              multiple
-            /> */}
+              
+            />
           </div>
 
           <div className="mt-6">

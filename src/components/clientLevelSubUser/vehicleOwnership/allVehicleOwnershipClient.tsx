@@ -36,7 +36,7 @@ const AllVehicleOwnershipClient = () => {
 
     //   console.log("all yards", response?.data?.res?.yard);
       setAllYard(response?.data?.res?.yard);
-      toast.success("Vehicle categories fetched successfully");
+     
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

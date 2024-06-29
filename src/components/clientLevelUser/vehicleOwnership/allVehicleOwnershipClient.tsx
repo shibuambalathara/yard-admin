@@ -36,7 +36,7 @@ const AllVehicleOwnershipClient = () => {
       setAllVehicleCategory(response?.data?.vehicleCategory);
     //   console.log("response of fetchAllVehicle Category", response);
 
-      toast.success("Vehicle categories fetched successfully");
+      
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
       // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
@@ -50,7 +50,7 @@ const AllVehicleOwnershipClient = () => {
 
     //   console.log("all yards", response?.data?.res?.yard);
       setAllYard(response?.data?.res?.yard);
-      toast.success("Vehicle categories fetched successfully");
+     
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
     }
@@ -125,7 +125,7 @@ const AllVehicleOwnershipClient = () => {
 
   const UsersData = allVehicleOwnerships || [];
 
-  console.log("allVehicleOwnerships",allVehicleOwnerships);
+  
   
 
   const userColumn = useMemo(

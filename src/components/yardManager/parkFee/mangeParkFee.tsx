@@ -14,6 +14,7 @@ import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
+import EditParkFeeIndividual from "./editParkFee";
 
 const MangeParkFee = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
@@ -23,8 +24,8 @@ const MangeParkFee = () => {
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-
-
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const fetchParkFeeData = async () => {
     setIsLoading(true);
     try {
@@ -33,9 +34,6 @@ const MangeParkFee = () => {
       );
       console.log("all users", response);
       setFilteredData(response?.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
     } catch (error) {
       setError({
         text: error?.response?.data?.message,
@@ -83,7 +81,20 @@ const MangeParkFee = () => {
       {
         
         header: "Action",
-        cell: ({ row }) => View(row),
+        cell: ({ row }) => (
+          <button onClick={() => handleEditClick(row.original.id)} className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+            <p>
+              <MdOutlineViewHeadline />
+            </p>
+            <p
+              rel="noopener noreferrer"
+              className=""
+              
+            >
+              View
+            </p>
+          </button>
+        ),
       },
     ],
     [filteredData]
@@ -98,7 +109,14 @@ const MangeParkFee = () => {
   const handleModalClose = () => {
     setModalOpen(false);
   };
-
+  const handleEditClick = (userId) => {
+    setSelectedUserId(userId);
+    setEditModalOpen(true);
+  };
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    // setSelectedUserId(null);
+  };
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
@@ -122,6 +140,14 @@ const MangeParkFee = () => {
           )}
         </div>
       </div>
+      {editModalOpen && (
+        <div className="relative border ">
+        <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
+        <div className=" w-full   max-w-sm z-20 ">
+        <EditParkFeeIndividual userId={selectedUserId} onClose={handleEditModalClose}/>
+          </div></div></div>
+      
+    )}
       <div>
         {/* {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
@@ -150,21 +176,3 @@ const MangeParkFee = () => {
 
 export default MangeParkFee;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
-  return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <Link
-        href={`/parkfee/${row.original.id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
-        View
-      </Link>
-    </div>
-  );
-};

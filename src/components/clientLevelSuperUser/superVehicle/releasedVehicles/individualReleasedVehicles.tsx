@@ -126,7 +126,6 @@ const IndividualReleasedVehicle = ({ releaseId }) => {
       const response = await axiosInstance.get<ResponseData>(
         `/release/${releaseId?.releasedVehicleId}`
       );
-      console.log("individual released vehicles", response);
       setVehicleData(response.data.res);
     } catch (error) {
       console.error("error", error);
@@ -168,9 +167,6 @@ console.log("ilnut datas",data);
       }
       
       const response=await axiosInstance.patch(`/release/${releaseId?.releasedVehicleId}`,modifiedData)
-      console.log("response from initiate vehicle release",response);
-      
-      toast.success(response?.data?.message)
       setFormModalOpen(false)
       router.push("/releasevehicle/releasedVehicles")
       router.back();
