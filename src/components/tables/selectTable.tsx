@@ -73,7 +73,7 @@ const SelectionTable = () => {
     try {
       const response = await axiosInstance.get(`/yard`);
       setYardData(response?.data?.res?.yard);
-      toast.success(response?.data?.message);
+     
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);

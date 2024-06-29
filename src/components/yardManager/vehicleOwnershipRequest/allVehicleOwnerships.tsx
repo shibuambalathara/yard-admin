@@ -35,7 +35,7 @@ const AllVehicleOwnerships = () => {
 
       //   console.log("reponse of clientlevelorg ", response);
 
-      toast.success(response?.data?.message);
+      
     } catch (error) {
       // console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -49,7 +49,7 @@ const AllVehicleOwnerships = () => {
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
 
-      toast.success(response?.data?.message);
+     
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log(error);
@@ -100,9 +100,7 @@ const AllVehicleOwnerships = () => {
       // );
       console.log("all users", response);
       setFilteredData(response?.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+     
     } catch (error) {
       setError({
         text: error?.response?.data?.message,

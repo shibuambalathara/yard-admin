@@ -51,7 +51,7 @@ const IndividualSuperWaiver = ({ waiverId }) => {
 
       reset(destructuredData);
 
-      toast.success(response?.data?.message);
+     
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);

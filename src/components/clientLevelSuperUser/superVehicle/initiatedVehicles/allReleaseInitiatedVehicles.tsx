@@ -136,9 +136,6 @@ const AllReleaseInitiatedVehicles = () => {
 
     FetchAllYards();
   }, []);
-
-  console.log("vehicleInitiated", vehicleInitiated);
-
   const UsersData = vehicleInitiated || [];
 
   const userColumn = useMemo(

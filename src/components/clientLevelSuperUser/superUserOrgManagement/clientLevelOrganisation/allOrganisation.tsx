@@ -32,7 +32,7 @@ const AllOrganisation = () => {
 
   useEffect(() => {
     if (success) {
-      toast.success(success.text ? success.text : "Success");
+      
       setTimeout(() => {
         setSuccess(null);
       }, 2000);
@@ -55,9 +55,7 @@ const AllOrganisation = () => {
       );
       console.log("all ORGS", response);
       setFilteredData(response?.data?.res)
-      setSuccess({
-        text: response?.data?.message,
-      });
+      
     } catch (error) {
       setError({
         text: error?.response?.data?.message,

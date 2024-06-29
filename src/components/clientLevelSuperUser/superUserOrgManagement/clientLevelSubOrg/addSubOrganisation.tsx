@@ -57,7 +57,7 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchData }) => {
 
       console.log("reponse of vehiclecat ", response);
 
-      toast.success(response?.data?.message);
+     
     } catch (error) {
       // console.log("error", error);
       toast.error(error?.response?.data?.message);

@@ -9,10 +9,10 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 
-const EditWaivers = ({ waiverVehicleId }) => {
+const EditWaivers = ({ userId,onClose }) => {
   const [waiverData, setWaiverData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-console.log('h',waiverVehicleId);
+console.log('h',userId);
 const router = useRouter();
 
   type Inputs = {
@@ -44,8 +44,8 @@ const router = useRouter();
     setIsLoading(true);
 
     try {
-      const response = await axiosInstance.get(`/waiver/${waiverVehicleId?.waiverId}`);
-      console.log("response for individual waiver",response);
+      const response = await axiosInstance.get(`/waiver/${userId}`);
+      console.log(response);
 
       const destructuredData = { 
         ...response?.data?.res,
@@ -54,7 +54,7 @@ const router = useRouter();
 
       reset(destructuredData);
 
-      toast.success(response?.data?.message);
+    
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);
@@ -65,9 +65,9 @@ const router = useRouter();
 
   useEffect(() => {
     fetchData();
-  }, [waiverVehicleId]);
+  }, [userId]);
 
-  const editWaiver = useCallback(async (data: Inputs) => {
+  const  editWaiver = useCallback(async (data: Inputs) => {
     const modifiedData = {
       reason: data?.reason?.toUpperCase(),
       status: data?.status?.toUpperCase(),
@@ -76,28 +76,46 @@ const router = useRouter();
     try {
     
      
-      const response = await axiosInstance.patch(`/waiver/status/${waiverVehicleId?.waiverId}`, modifiedData);
+      const response = await axiosInstance.patch(`/waiver/status/${userId}`, modifiedData);
       console.log('res,',response);
       
       
       toast.success(response?.data?.message);
-      router.push("/waiver")
+      onClose()
+
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <div className="bg-white p-4 rounded-lg w-full">
+    <div className=" p-4 rounded-lg w-full">
       <div className="flex w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1 justify-center">
-        <h1 className="font-bold text-center">View Waiver</h1>
+        
       </div>
-      <form onSubmit={handleSubmit(editWaiver)} className="border-gray-200 mt-14">
-        <div className="mx-auto grid grid-cols-2 gap-x-8 gap-y-10 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
+      <form onSubmit={handleSubmit(editWaiver)} className="border-gray-200 mt-14  ">
+        <div className="mx-auto grid bg-white grid-cols-1 relative gap-x-8 gap-y-4 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
+        <button
+          className="absolute top-0 p-2 right-0 text-gray-400 hover:text-gray-600 transition duration-200"
+          onClick={() => onClose()}
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
           <div>
             <SelectInput
               label="status"
@@ -111,6 +129,7 @@ const router = useRouter();
             />
           </div>
           <div>
+
             <InputField
               label="Reason"
               type="text"
@@ -120,9 +139,17 @@ const router = useRouter();
               pattern=""
             />
           </div>
-         
-        </div>
-        <div className="w-full text-center p-1 space-x-2 mt-6">
+          <div>
+            <InputField
+              label="Fee Per Day"
+              type="text"
+              name="fee_per_day"
+              register={register}
+              errors={errors}
+              pattern=""
+            />
+          </div>
+          <div className="w-full text-center p-1 space-x-2 mt-6">
           <button
             type="button"
             // onClick={() => reset(waiverData)}
@@ -137,6 +164,8 @@ const router = useRouter();
             Submit
           </button>
         </div>
+        </div>
+        
       </form>
       {/* <div>
         <div>

@@ -3,7 +3,7 @@
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role } from "@/utils/staticData";
+import { Role, VehicleState } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -30,6 +30,8 @@ const AllVehicles = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setCategory] = useState(null);
+
+  const [vehicleStatus, setVehicleStatus] = useState('');
   const [limit,setLimit]=useState(6)
   
 
@@ -45,19 +47,22 @@ const AllVehicles = () => {
           page: page.toString(),
           limit: limit?.toString(),
         });
-  
+           
         if (Category) {
           params.append('vehicle_category_id', Category);
         }
-  
+       
+        if(vehicleStatus){
+          params.append('status',vehicleStatus);
+
+        }
+
         const response = await axiosInstance.get(`/vehicle/?${params.toString()}`);
         console.log('res', response);
       
       
       setFilteredData(response?.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+      
     } catch (error) {
       setError({
         text: error?.response?.data?.message,
@@ -75,7 +80,7 @@ const AllVehicles = () => {
       
       setAllVehicleCategory(response?.data?.vehicleCategory);
     
-      toast.success("Vehicle categories fetched successfully");
+      
     } catch (error) {
       toast.error("Failed to fetch vehicle categories");
       console.log(error)
@@ -87,12 +92,11 @@ const AllVehicles = () => {
     label: item.name,
   }));
 
-  console.log("filteredData ", filteredData);
 
   useEffect(() => {
     fetchVehicles(); 
     FetchAllVehicleCategory()// Call fetchData directly inside useEffect
-  }, [Category, page]);
+  }, [Category, page,vehicleStatus]);
 
   const UsersData = filteredData?.vehicle || [];
 
@@ -155,6 +159,10 @@ const handleCatChange =(e)=>{
   const value = e.target.value;
    setCategory(value)
 } 
+const handleOwnershipStatus = (e) => {
+  const value = e.target.value;
+  setVehicleStatus(value);
+};
 
   return (
     <div className="w-full">
@@ -186,6 +194,9 @@ const handleCatChange =(e)=>{
               <p className="text-red-500">State is required</p>
                           )} */}
         </div>
+        
+      
+
       <div className="flex w-full px-8 justify-between">
         
         <div className="flex justify-end w-full">

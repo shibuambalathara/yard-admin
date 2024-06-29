@@ -95,8 +95,6 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
       const response = await axiosInstance.get(
         `/release/owned_instock_vehicle/${instockVehicle?.instockVehicleId}`
       );
-      console.log("individual instockVehicleIreponse", response);
-
       const destructuredData = {
         ...response?.data?.res,
         ...response?.data?.res?.vehicle,
@@ -114,7 +112,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
       };
       setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
       reset(destructuredData);
-      toast.success(response.data.message);
+      
     } catch (error) {
       toast.error(error?.response?.data?.message);
 

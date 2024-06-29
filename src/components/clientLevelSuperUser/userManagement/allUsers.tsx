@@ -31,7 +31,6 @@ const UserManagement = () => {
 
   useEffect(() => {
     if (success) {
-      toast.success(success.text ? success.text : "Success");
       setTimeout(() => {
         setSuccess(null);
       }, 2000);
@@ -54,9 +53,7 @@ const UserManagement = () => {
       );
       console.log("all users created by super user", response);
       setFilteredData(response.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+     
     } catch (error) {
       setError({
         text: error?.response?.data?.message,

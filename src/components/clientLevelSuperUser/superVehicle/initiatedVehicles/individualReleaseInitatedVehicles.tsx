@@ -71,7 +71,6 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get<ResponseData>(`/release/${releaseId?.initiatedVehicleId}`);
-      console.log("individual initiated vehicles", response);
       setVehicleData(response?.data?.res);
     } catch (error) {
       console.log("error", error);
@@ -91,9 +90,8 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
     }
     try {
       const response = await axiosInstance.patch(`/release/client/cancel_req/${releaseId?.initiatedVehicleId}`);
-      toast.success(response.data.message);
+      toast.success(response?.data?.message)
       router.push("/vehiclesSuperOrg/initiatedVehicles");
-      console.log("response of post method", response);
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log("error of post method", error);

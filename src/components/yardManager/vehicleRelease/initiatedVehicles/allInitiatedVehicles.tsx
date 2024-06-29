@@ -53,7 +53,7 @@ const AllInitiatedVehicles = () => {
 
       //   console.log("reponse of clientlevelorg ", response);
 
-      toast.success("successs");
+     
     } catch (error) {
       // console.log("error", error);
       toast.error(`something went wrong`);
