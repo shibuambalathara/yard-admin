@@ -15,6 +15,10 @@ const config: Config = {
       //   "gradient-conic":
       //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       // },
+      height: {
+        'custom': '37rem',
+        'form-Modal':'25rem', // Set your custom height value here
+      },
 
       fontFamily:{
         roboto:['var(--font-roboto)'],

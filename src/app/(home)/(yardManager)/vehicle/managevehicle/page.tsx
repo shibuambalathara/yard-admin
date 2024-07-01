@@ -4,8 +4,8 @@ import { useMemo } from "react";
 
 import data from "@/components/tables/mockData.json";
 import DataTable from "@/components/tables/dataTable";
-import { SelectInput } from "@/components/ui/fromFields";
-import { bidStatusOptions } from "../../../../../utils/staticData";
+// import { SelectInput } from "@/components/ui/fromFields";
+import { AccountStatus } from "../../../../../utils/staticData";
 
 const ManageVehicle = () => {
   const movies = useMemo(() => data, []);
@@ -41,7 +41,7 @@ const ManageVehicle = () => {
           <option disabled value="">select a client</option>
 
             {/* Render each option based on bidStatusOptions data */}
-            {bidStatusOptions.map((option, index) => (
+            {AccountStatus.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
               </option>

@@ -1,22 +1,28 @@
 // axiosInterceptorInstance.js
 
 import axios from 'axios';
+import useAuthStore from '@/store/useAuthStore';
 
 const axiosInstance = axios.create({
 //   baseURL: 'https://your-api-base-url.com/', // Replace with your API base URL
-  baseURL: 'http://13.232.152.20/api/v1/yms/',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  // baseURL: 'http://localhost:7000',
   headers: {
     'Content-Type': 'application/json', // Default headers
   }, // Replace with your API base URL
 });
+
+console.log("env",process.env.NEXT_PUBLIC_API_URL);
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     // Modify the request config here (add headers, authentication tokens)
 
-    const accessToken = JSON.parse(localStorage.getItem("token"));
+    // const accessToken = JSON.parse(localStorage.getItem("token"));
+    const accessToken = useAuthStore.getState().token;
 
+    // console.log("access token form axios",accessToken);
 
     // If token is present, add it to request's Authorization Header
     // If token is present, add it to request's Authorization Header

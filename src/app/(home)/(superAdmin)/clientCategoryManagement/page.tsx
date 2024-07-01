@@ -1,9 +1,10 @@
 import React from 'react'
+import ClientCategoryManagement from '@/components/superAdmin/clientCategoryManagement/allCategory'
 
-const ClientCategoryManagement = () => {
+const AllClientCateory = () => {
   return (
-    <div>ClientCategoryManagement</div>
+    <div><ClientCategoryManagement/></div>
   )
 }
 
-export default ClientCategoryManagement
+export default AllClientCateory

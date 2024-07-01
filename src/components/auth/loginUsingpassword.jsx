@@ -46,38 +46,45 @@ const LogInPassword = () => {
   // console.log("register",registering);
   const handleLogin = async(data) => {
     try {
-      console.log("handleLogin", data);
+      // console.log("handleLogin", data);
   
-      const { email, password } = data; // Extract email and password from form data
+      const { contact, password } = data; // Extract email and password from form data
   
       // Send user credentials to the server
       const response = await axiosInstance.post('/auth/login', {
-        email: email,
+        contact: `+91${contact}`,
         password: password
       });
       
-      console.log('User FROM API RESPONSE', response.data);
+      console.log("log from login",response);
+      // console.log('User FROM API RESPONSE', response.data);
   
       // If API call is successful, register user, set token, and redirect
       const user = {
-        name:response.data.user.name ,
-        email: response.data.user.email, // Use the email from the form data
-        role: response.data.user.role
+        name:response?.data?.user?.name ,
+        email: response?.data?.user?.email, // Use the email from the form data
+        role: response?.data?.user?.role,
+        organisation:response?.data?.user?.orgName,
+        Type:response?.data?.user?.orgType
       };
+console.log("user form api",user);
+
       const authToken = response.data.user.accessToken;
-      console.log("TOKEN FROM API RESPONSE",authToken);
+      // console.log("TOKEN FROM API RESPONSE",authToken);
       const role = response.data.user.role;
+      localStorage.setItem('token',authToken)
       registering(user, authToken, role);
       Cookies.set('authToken', authToken);
       setSuccess({
         text: "You have been successfully logged in.",
     });
       router.push('/');
+      // wi ndow.onload()
     } catch (error) {
       console.error('ERROR FROM fetching users:', error.response.data.message);
-      setLoginError(error.response.data.message);
+      setLoginError(error?.response?.data?.message);
       setError({
-        text: "Invalid username or password.",
+        text: error?.response?.data?.message,
     });
 
 
@@ -103,13 +110,13 @@ const LogInPassword = () => {
           >
             <FormFieldInputLoginInput
               label=""
-              type="email"
-              name="email"
+              type="number"
+              name="contact"
               register={register}
-              error={errors.email}
+              error={errors.contact}
               defaultValue=""
               required
-              placeholder="Your Email"
+              placeholder="Enter You contact"
             />
             <FormFieldInputLoginInput
               label=""

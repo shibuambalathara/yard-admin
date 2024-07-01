@@ -1,5 +1,3 @@
-
-
 import { RiAdminFill } from "react-icons/ri";
 import {
   MdDashboard,
@@ -16,8 +14,7 @@ import { TbListDetails, TbStatusChange } from "react-icons/tb";
 import { FaCarOn, FaUsersViewfinder } from "react-icons/fa6";
 import { TfiTruck } from "react-icons/tfi";
 import { LiaTruckMovingSolid } from "react-icons/lia";
-import { VscDebugDisconnect } from "react-icons/vsc";
-import { TfiViewListAlt } from "react-icons/tfi";
+import { HiBuildingOffice2 } from "react-icons/hi2";
 
 export const client_level_super_user = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/" },
@@ -75,7 +72,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -94,7 +90,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -113,7 +108,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -137,7 +131,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
   {
@@ -161,7 +154,6 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
 
@@ -186,12 +178,9 @@ export const client_level_super_user = [
         icon: <TfiTruck />,
         path: "/profile",
       },
-      
     ],
   },
-  
-  
-  
+
   {
     title: "User Management",
     icon: <MdOutlineAddIcCall />,
@@ -204,344 +193,58 @@ export const client_level_super_user = [
   },
 ];
 
-
-export const super_admin = [
-    { title: "Dashboard", icon: <MdDashboard />, path: "/adminDashboard" },
-    {
-        title: "Account Verification Requests ",
-        icon: <RiAccountPinBoxFill />,
-        path: "/accountVerificationRequest",
-      },
-    
-    {
-        title: "Vehicle Category Management ",
-        icon: <ImTruck />,
-        path: "/vehicleCategoryManagement",
-    
-      // submenu: true,
-      // submenuItems: [
-      //   {
-      //       title: "Manage Category ",
-      //       icon: <MdManageHistory />,
-    
-      //       path: "/",
-      //     },
-    
-  
-        
-      // ],
-    },
-  
-    {
-        title: "Client Category Management ",
-        icon: <FaUsers />,
-      submenu: true,
-      submenuItems: [
-        {
-            title: "Manage Category ",
-            icon: <MdManageHistory />,
-            path: "/",
-          },
-    
-  
-        
-      ],
-    },
-   
-    {
-        title: "User Management",
-        icon: <FaUserCircle />,
-        path: "/userManagement",
-      },
-      {
-        title: "Organisation Management ",
-        icon: <CgOrganisation />,
-        path: "/",
-      },
-      {
-        title: "Link Accounts  ",
-    icon: <FaLink />,
-
-      submenu: true,
-      submenuItems: [
-        {
-            title: "Connect Client Level Super User",
-            icon: <VscDebugDisconnect />,
-            path: "/",
-          },
-          {
-            title: "View Connections",
-            icon: <FaUsersViewfinder />,
-            path: "/",
-          },
-    
-  
-        
-      ],
-    },
-  ];
-
-
-// export const super_admin = [
-//   {
-//     title: "Dashboard",
-//     icon: <MdDashboard />,
-//     path: "/",
-//   },
-//   {
-//     title: "Account Verification Requests ",
-//     icon: <RiAccountPinBoxFill />,
-//     path: "/",
-//   },
-//   {
-//     title: "Vehicle Category Management ",
-//     icon: <ImTruck />,
-
-//     childrens: [
-//       {
-//         title: "Manage Category ",
-//         icon: <MdManageHistory />,
-
-//         path: "/",
-//       },
-//     ],
-//   },
-//   {
-//     title: "Client Category Management ",
-//     icon: <FaUsers />,
-//     childrens: [
-//       {
-//         title: "Manage Category ",
-//         icon: <MdManageHistory />,
-//         path: "/",
-//       },
-//     ],
-//   },
-//   {
-//     title: "User Management",
-//     icon: <FaUserCircle />,
-//     path: "/",
-//   },
-//   {
-//     title: "Organisation Management ",
-//     icon: <CgOrganisation />,
-//     path: "/",
-//   },
-//   {
-//     title: "Link Accounts  ",
-//     icon: <FaLink />,
-//     childrens: [
-//       {
-//         title: "Connect Client Level Super User",
-//         icon: <VscDebugDisconnect />,
-//         path: "/",
-//       },
-//       {
-//         title: "View Connections",
-//         icon: <FaUsersViewfinder />,
-//         path: "/",
-//       },
-//     ],
-//   },
-// ];
-
-// export const client_level_super_user = [
-//   {
-//     title: "Dashboard",
-//     icon: <MdDashboard />,
-//     path: "/table",
-//   },
-//   {
-//     title: "Yard",
-//     icon: <GiHomeGarage />,
-//     childrens: [
-//       {
-//         title: "Yard Details",
-//         icon: <TbListDetails />,
-//         path: "/",
-//       },
-//       {
-//         title: "Yard Rent Details",
-//         icon: <TbListDetails />,
-//         path: "/about",
-//       },
-//     ],
-//   },
-//   {
-//     title: "Vehicle Ownership Requests",
-//     icon: <ImTruck />,
-//     childrens: [
-//       {
-//         title: "Manage Request",
-//         icon: <MdManageHistory />,
-//         path: "/login",
-//       },
-//       {
-//         title: "Review Request Status",
-//         icon: <TbStatusChange />,
-//         path: "/register",
-//       },
-//     ],
-//   },
-//   {
-//     title: "Vehicle Tracking",
-//     icon: <FaCarOn />,
-//     childrens: [
-//       {
-//         title: "View Inbound Vehicles",
-//         icon: <LiaTruckMovingSolid />,
-//         path: "/profile",
-//       },
-//       {
-//         title: "View Outbound Vehicles",
-//         icon: <TfiTruck />,
-//         path: "/profile",
-//       },
-//     ],
-//   },
-
-//   {
-//     title: "contact",
-//     icon: <MdOutlineAddIcCall />,
-//     path: "/support",
-//   },
-//   {
-//     title: "Help",
-//     icon: <FaHandsHelping />,
-//     path: "/report-bug",
-//   },
-// ];
-
-
-
-
-export const admin = [
+export const Super_Admin = [
+  { title: "Dashboard", icon: <MdDashboard />, path: "/adminDashboard" },
   {
-    title: "ADMIN",
+    title: "Account Verification Requests ",
+    icon: <RiAccountPinBoxFill />,
+    path: "/accountVerificationRequest",
+  },
+
+  {
+    title: "Vehicle Category Management ",
+    icon: <ImTruck />,
+    path: "/vehicleCategoryManagement",
+  },
+
+  {
+    title: "Client Category Management ",
+    icon: <FaUsers />,
+    path: "/clientCategoryManagement",
+  },
+
+  {
+    title: "User Management",
+    icon: <FaUserCircle />,
+    path: "/userManagement",
   },
   {
-    title: "user1",
-    icon: "",
-    childrens: [
+    title: "Organisation Management ",
+    icon: <CgOrganisation />,
+    // path: "/",
+    submenu: true,
+    submenuItems: [
       {
-        title: "Home",
-        icon: "@",
-        path: "/",
+        title: "Client level super organisation  ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/clientLevelSuperOrg",
       },
       {
-        title: "About",
-        icon: "@",
-        path: "/about",
+        title: "Client level Organisation   ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/clientLevelOrg",
       },
       {
-        title: "Contact",
-        icon: "@",
-        childrens: [
-          {
-            title: "Facebook",
-            icon: "@",
-          },
-          {
-            title: "Twitter",
-            icon: "@",
-          },
-          {
-            title: "Instagram",
-            icon: "@",
-          },
-        ],
+        title: "Client level sub Organisation    ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/clientLevelSubOrg",
       },
       {
-        title: "FAQ",
-        icon: "@",
+        title: "Yard  Organisation  ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/yardManagement",
       },
     ],
-  },
-  {
-    title: "user2",
-    icon: "@",
-    childrens: [
-      {
-        title: "Login",
-        path: "/login",
-      },
-      {
-        title: "Register",
-        path: "/register",
-      },
-      {
-        title: "Forgot Password",
-        path: "/forgot-password",
-      },
-      {
-        title: "Reset Password",
-        path: "/reset-password",
-      },
-    ],
-  },
-  {
-    title: "user3",
-    icon: "@",
-    childrens: [
-      {
-        title: "Profile",
-        path: "/profile",
-      },
-      {
-        title: "Settings",
-        childrens: [
-          {
-            title: "Account",
-            path: "/settings/account",
-          },
-          {
-            title: "Billing",
-            childrens: [
-              {
-                title: "Payment",
-                path: "/settings/billing/payment",
-              },
-              {
-                title: "Subscription",
-                path: "/settings/billing/subscription",
-              },
-            ],
-          },
-          {
-            title: "Notifications",
-            path: "/settings/notifications",
-          },
-        ],
-      },
-      {
-        title: "Logout",
-        path: "/logout",
-      },
-    ],
-  },
-  {
-    title: "user4",
-    icon: "@",
-    childrens: [
-      {
-        title: "Search",
-        path: "/search",
-      },
-      {
-        title: "History",
-        path: "/history",
-      },
-    ],
-  },
-  {
-    title: "Support",
-    icon: "@",
-    path: "/support",
-  },
-  {
-    title: "Report Bug",
-    icon: "@",
-    path: "/report-bug",
   },
 ];
 
@@ -549,66 +252,64 @@ export const yardManager = [
   { title: "Dashboard", icon: <MdDashboard />, path: "/yardDashboard" },
   {
     title: "Park Fee",
-   
-    icon: <GiHomeGarage />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Add Park Fee",
-        icon: <TbListDetails />,
-        path: "/parkfee/addParkFee",
-      },
+    path: "/parkfee",
 
-      {
-        title: "Manage Park Fee",
-        icon: <TbListDetails />,
-        path: "/parkfee/manageparkfee",
-      },
-    ],
+    icon: <GiHomeGarage />,
   },
 
   {
     title: "Vehicles",
     icon: <ImTruck />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Add Vehicle",
-        icon: <MdManageHistory />,
-        path: "/vehicle/addvehicle",
-      },
+    path:"/vehicle",
 
-      {
-        title: "Manage Vehicle",
-        icon: <TbStatusChange />,
-        path: "/vehicle/managevehicle",
-      },
-      {
-        title: "Manage Reject Request",
-        icon: <TbStatusChange />,
-        path: "/vehicle/managerequestreject",
-      },
-    ],
+    
   },
-  
   {
-    title: "Waviers",
-    icon: <FaCarOn />,
-
+    title: "vehicle Ownership",
+    icon: <ImTruck />,
+    path:"/vehicleOwnership",
+    
+    
+  },
+  {
+    title: "vehicle Release",
+    icon: <ImTruck />,
     submenu: true,
     submenuItems: [
+      
+
       {
-        title: " Manage Request ",
-        icon: <LiaTruckMovingSolid />,
-        path: "/wavier/managerequest",
+        title: "Initiated Vehicles",
+        icon: <TbStatusChange />,
+        path: "/releasevehicle/initiatedVehicles",
+
       },
       {
-        title: "Review Request  ",
-        icon: <TfiTruck />,
-        path: "/wavier/reviewrequest",
+        title: "Released Vehicles",
+        icon: <MdManageHistory />,
+        path: "/releasevehicle/releasedVehicles",
+
       },
       
     ],
+  },
+  {
+    title: "Waiver",
+    icon: <FaCarOn />,
+    path : '/waiver '
+    // submenu: true,
+    // submenuItems: [
+    //   {
+    //     title: " Manage Request ",
+    //     icon: <LiaTruckMovingSolid />,
+    //     path: "/wavier/managerequest",
+    //   },
+    //   {
+    //     title: "Review Request  ",
+    //     icon: <TfiTruck />,
+    //     path: "/wavier/reviewrequest",
+    //   },
+    // ],
   },
   {
     title: "Release Vehicles ",
@@ -626,7 +327,6 @@ export const yardManager = [
         icon: <TfiTruck />,
         path: "/releasevehicle/releaseHistory",
       },
-      
     ],
   },
   {
@@ -645,9 +345,506 @@ export const yardManager = [
         icon: <TfiTruck />,
         path: "/createIndependentUser/createAClient",
       },
-      
+    ],
+  },
+];
+
+
+export const clientLevelUser = [
+  { title: "Dashboard", icon: <MdDashboard />, path: "/" },
+  
+
+  {
+    title: "Vehicle Ownership Requests",
+    icon: <ImTruck />,
+    path: "/vehicleOwnershipClientOrg",
+
+  },
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Instock Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path:"/vehicles/instockVehicles",
+      },
+      {
+        title: "Initiated Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehicles/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles  ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/vehicles/releasedVehicles",
+      },
+      {
+        title: "Cancelled Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehicles/cancelledVehicles",
+      },
+    ],
+  },
+  {
+    title: "Vehicle Tracking",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "View Inbound Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "View Outbound Vehicles",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <FaCarOn />,
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Eligible for Waiver",
+        icon: <LiaTruckMovingSolid />,
+        path: "/waivers",
+      },
+      {
+        title: "View Created Waiver ",
+        icon: <TfiTruck />,
+        path: "/waivers/viewCreatedWaivers",
+      },
+    ],
+  },
+ 
+  {
+    title: "Dependent User",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Create Client User ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Create Client Sub User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Associated Client Management ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Client Level Org ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Sub Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
     ],
   },
 
+  {
+    title: "Un-Associated Creation  ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Yard ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "View Un-Associated Creation ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "User Management",
+    icon: <MdOutlineAddIcCall />,
+    path: "/support",
+  },
+  {
+    title: "Linked Client Management",
+    icon: <FaHandsHelping />,
+    path: "/report-bug",
+  },
+];
+
+export const clientLevelSuperUser = [
+  { title: "Super users dash", icon: <MdDashboard />, path: "/" },
+  
+
+  {
+    title: "Vehicle Ownership Requests",
+    icon: <ImTruck />,
+    path: "/vehicleSuperOwnership",
+
+  },
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Instock Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path:"/vehiclesSuperOrg/instockVehicles",
+      },
+      {
+        title: "Initiated Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehiclesSuperOrg/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles  ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/vehiclesSuperOrg/releasedVehicles",
+      },
+      {
+        title: "Cancelled Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehiclesSuperOrg/cancelledVehicles",
+      },
+    ],
+  },
+  {
+    title: "User Management",
+    icon: <FaCarOn />,
+    path: "/userCreation",
+
+    // submenu: true,
+    // submenuItems: [
+    //   {
+    //     title: "View Inbound Vehicles",
+    //     icon: <LiaTruckMovingSolid />,
+    //     path: "/profile",
+    //   },
+    //   {
+    //     title: "View Outbound Vehicles",
+    //     icon: <TfiTruck />,
+    //     path: "/profile",
+    //   },
+    // ],
+  },
+
+  {
+    title: "Organisation Management",
+    icon: <FaCarOn />,
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "client level Org",
+        icon: <LiaTruckMovingSolid />,
+        path: "/superUserOrgManagement",
+      },
+      {
+        title: "client level sub Org",
+        icon: <LiaTruckMovingSolid />,
+        path: "/superUserOrgManagement/subOrganisation",
+      }
+      // {
+      //   title: "View Created Waiver ",
+      //   icon: <TfiTruck />,
+      //   path: "/waivers/viewCreatedWaivers",
+      // },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <FaCarOn />,
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Eligible for Waiver",
+        icon: <LiaTruckMovingSolid />,
+        path: "/superWaiver",
+      },
+      {
+        title: "View Created Waiver ",
+        icon: <TfiTruck />,
+        path: "/superWaiver/viewCreatedWaivers",
+      },
+    ],
+  },
+ 
+  {
+    title: "Dependent User",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Create Client User ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Create Client Sub User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Associated Client Management ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Client Level Org ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Sub Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "Un-Associated Creation  ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Yard ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "View Un-Associated Creation ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "User Management",
+    icon: <MdOutlineAddIcCall />,
+    path: "/support",
+  },
+  {
+    title: "Linked Client Management",
+    icon: <FaHandsHelping />,
+    path: "/report-bug",
+  },
+];
+export const clientLevelSubUser = [
+  { title: "Super users dash", icon: <MdDashboard />, path: "/" },
+  
+
+  {
+    title: "Vehicle Ownership Requests",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+
+  },
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Instock Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path:"/vehiclesSuperOrg/instockVehicles",
+      },
+      {
+        title: "Initiated Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehiclesSuperOrg/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles  ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/vehiclesSuperOrg/releasedVehicles",
+      },
+      {
+        title: "Cancelled Vehicles  ",
+        icon: <TfiTruck />,
+        path: "/vehiclesSuperOrg/cancelledVehicles",
+      },
+    ],
+  },
+  {
+    title: "Vehicle Tracking",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "View Inbound Vehicles",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "View Outbound Vehicles",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <FaCarOn />,
+   
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Eligible for Waiver",
+        icon: <LiaTruckMovingSolid />,
+        path: "/superWaiver",
+      },
+      {
+        title: "View Created Waiver ",
+        icon: <TfiTruck />,
+        path: "/superWaiver/viewCreatedWaivers",
+      },
+    ],
+  },
+ 
+  {
+    title: "Dependent User",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Create Client User ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Create Client Sub User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+  {
+    title: "Associated Client Management ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Client Level Org ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Sub Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "Manage User  ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "Un-Associated Creation  ",
+    icon: <FaCarOn />,
+
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Yard ",
+        icon: <LiaTruckMovingSolid />,
+        path: "/profile",
+      },
+      {
+        title: "Client Level Org   ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+      {
+        title: "View Un-Associated Creation ",
+        icon: <TfiTruck />,
+        path: "/profile",
+      },
+    ],
+  },
+
+  {
+    title: "User Management",
+    icon: <MdOutlineAddIcCall />,
+    path: "/support",
+  },
+  {
+    title: "Linked Client Management",
+    icon: <FaHandsHelping />,
+    path: "/report-bug",
+  },
 ];
 

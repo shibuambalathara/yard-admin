@@ -7,10 +7,12 @@ const Header = () => {
   
 
   return (
-    <div className="w-full    px-2 shadow-lg flex items-center justify-between ">
-      <h4 className="font-serif font-bold">AutoBse Yard</h4>
-
-      <HeaderItems />
+    <div className="w-full p-2  shadow-lg flex items-center justify-between ">
+<div className="w-full  flex justify-between items-center  ">
+<h4 className="font-poppins font-bold uppercase  text-center  my-auto w-85 h-full tracking-wider text-black">AutoBse Yard Mangement</h4>
+<HeaderItems />
+</div>
+      
     </div>
   );
 };

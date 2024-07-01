@@ -1,11 +1,11 @@
 "use client";
-
+import { useEffect,useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormFieldInput, SelectInput,FormFieldPassword } from "../ui/fromFields";
 import { formStyle } from "../ui/style";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from 'next/navigation';
-
+import toast from "react-hot-toast";
 import React from "react";
 import Link from "next/link";
 type Inputs = {
@@ -18,6 +18,8 @@ type Inputs = {
   confirmPassword:string;
 };
 const UserRegistration = () => {
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   const {
@@ -26,55 +28,59 @@ const UserRegistration = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    if (success) {
+        toast.success(success.text ? success.text : "Success");
+        setTimeout(() => {
+            setSuccess(null);
+        }, 2000);
+    }
+    if (error) {
+        toast.error(
+            error.text ? error.text : "Something went wrong. Please contact support"
+        );
+        setTimeout(() => {
+            setError(null);
+        }, 2000);
+    }
+}, [success, error]);
+
   const bidStatusOptions = [
    
     { label: "Yard Manager", value: "YARD_MANAGER" },
     
     { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
-    // { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
-    // { label: "Client Level Super User", value: "CLIENT_LEVEL_SUPER_USER" },
-    // { label: "Super Admin", value: "SUPER_ADMIN" },
+
     
   ];
 
   const password = watch('password');
-  // const onSubmit =async (data) => {
-    
-    
-  //   try {
-  //     console.log("ONSUBMIT", data);
-  //   const {name,email,contact,designation ,role,password}=data
-
-  //   console.log("data from user registration",name,email,contact,designation,role,password);
-  //     const response = await axiosInstance.post('/user/signup', {
-  //       name,email,contact,designation,role,password
-  //     });
-
-      
-  //   } catch (error) {
-  //     console.log(error);
-      
-      
-  //   }
-
-
-  // }
+  
   const onSubmit = async (data: Inputs) => {
     try {
-      console.log("ONSUBMIT", data);
+      // console.log("ONSUBMIT", data);
       
       // Modify the contact number to include "91" prefix
       const modifiedData = {
         ...data,
-        contact: `+91${data.contact}`
+        contact: `+91${data.contact}`,
+        name:data?.name.toUpperCase()
+
       };
 
       const response = await axiosInstance.post('/user/signup', modifiedData);
-      console.log("Response:", response);
+      // console.log("Response:", response);
+      setSuccess({
+        text: "Registration Success.",
+    });
       router.push('/login');
 
     } catch (error) {
       console.error("Error:", error.response);
+      toast.error(error?.response?.data?.message)
+      
+
     }
   };
 
@@ -130,8 +136,9 @@ const UserRegistration = () => {
           defaultValue="Select  Role"
           options={bidStatusOptions}
           register={register}
-          error={errors.role}
-          required
+          error={errors}                             
+          required={true}
+          data=""
         />
         <FormFieldPassword
           label=""

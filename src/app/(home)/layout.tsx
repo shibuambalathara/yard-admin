@@ -7,6 +7,8 @@ import SideBar from "@/components/sidebar/sidebar";
 import Login from "../(auth)/login/page";
 import { useRouter } from "next/navigation";
 import "../globals.css";
+import { Toaster } from "react-hot-toast";
+import ToastProvider from "@/utils/ToastProvider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,15 +50,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full  ">
       <head></head>
 
-      <body className={`${roboto_init.variable} ${Poppins_init.variable} h-screen `}>
-        <div className="flex flex-col h-full  ">
+      <body
+        className={`${roboto_init.variable} ${Poppins_init.variable} h-full `}
+      >
+        <div className="flex flex-col h-full ">
           <Header />
           <div className="flex flex-1 h-full">
             <SideBar />
-            <div className="flex-1 h-full">{children}</div>
+            <div className="flex-1 min-h-full overflow-y-scroll scrollbar-hide">
+              <ToastProvider>
+              {children}
+              </ToastProvider>
+            
+              
+            </div>
           </div>
         </div>
       </body>

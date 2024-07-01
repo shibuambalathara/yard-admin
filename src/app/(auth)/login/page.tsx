@@ -16,8 +16,11 @@ const Login = () => {
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+  console.log('apiURl',apiUrl);
+  
 
-  console.log("envVariable",apiUrl);
+
+  // console.log("envVariable",apiUrl);
   
 
   return (
