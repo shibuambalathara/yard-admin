@@ -17,7 +17,7 @@ const Dashboard = () => {
     // console.log("org form home",organisation,);
     // // console.log("userOrganistion",userOrganisation);
 
-    if(user?.organisation==null){
+    if( user?.role !=="SUPER_ADMIN" &&  user?.organisation==null){
       return<UnAssginedUser username={user?.name} />
     }
 
