@@ -33,16 +33,13 @@ const AllReleaseInitiatedVehicles = () => {
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
-      //   console.log("cat", response);
+  
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
-      //   console.log("response of fetchAllVehicle Category", response);
 
-      // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
-      // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
-      // console.log("response of fetchAllVehicle Category error", error);
+     
+      console.log("response of fetchAllVehicle Category error", error);
     }
   }, []);
 
@@ -54,7 +51,8 @@ const AllReleaseInitiatedVehicles = () => {
       setAllYard(response?.data?.res?.yard);
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch all yards");
+     console.log("error",error);
+     
     }
   }, []);
 
@@ -82,6 +80,8 @@ const AllReleaseInitiatedVehicles = () => {
 
       setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus]);

@@ -40,9 +40,9 @@ const AllInitiatedVehicles = () => {
 
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      // toast.error("Failed to fetch vehicle categories");
       // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
-      // console.log("response of fetchAllVehicle Category error", error);
+      console.log("response of fetchAllVehicle Category error", error);
     }
   }, []);
 
@@ -55,8 +55,8 @@ const AllInitiatedVehicles = () => {
 
      
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 
@@ -84,6 +84,8 @@ const AllInitiatedVehicles = () => {
 
       setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus]);

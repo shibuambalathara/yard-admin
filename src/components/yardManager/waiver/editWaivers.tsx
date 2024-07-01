@@ -56,7 +56,7 @@ const router = useRouter();
 
     
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);

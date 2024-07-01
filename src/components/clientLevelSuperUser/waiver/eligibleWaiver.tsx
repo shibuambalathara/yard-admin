@@ -74,7 +74,9 @@ const SelectionTable = () => {
       const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
       setChildren(response?.data?.res?.clientLvlOrg);
     } catch (error) {
-      toast.error("Failed to fetch children");
+      console.log("error",error);
+      
+      // toast.error("Failed to fetch children");
     }
   }, []);
   
@@ -95,7 +97,7 @@ const SelectionTable = () => {
       setAllVehicleCategory(response?.data?.vehicleCategory);
       toast.success(response?.data?.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
       console.log(error);
     }
   }, []);
@@ -106,7 +108,7 @@ const SelectionTable = () => {
       setYardData(response?.data?.res?.yard);
      
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);
     }
   };

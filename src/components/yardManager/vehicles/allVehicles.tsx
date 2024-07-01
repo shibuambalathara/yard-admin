@@ -82,7 +82,7 @@ const AllVehicles = () => {
     
       
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      // toast.error("Failed to fetch vehicle categories");
       console.log(error)
     }
   }, []);

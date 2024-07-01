@@ -38,12 +38,12 @@ const AllVehicleOwnershipClient = () => {
       setAllYard(response?.data?.res?.yard);
      
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
+      console.log("error",error);
+      
     }
   }, []);
-//   const selectedYards = "clwyvn495000dhpvwv9k471r5"; // Replace with a valid Yard ID
-//   const Categorys = "clwspvpu10000bkfqast2i0xw"; // Replace with a valid Vehicle Category ID
-//   const vehicleStatuss = "PENDING";
+
   const FetchAllVehicleOwnerships = useCallback(async () => {
    
     try {
@@ -74,6 +74,8 @@ const AllVehicleOwnershipClient = () => {
       
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus]);

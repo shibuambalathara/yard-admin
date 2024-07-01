@@ -52,12 +52,12 @@ const AllReleasedVehicles = () => {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
       setAllClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-      //   console.log("reponse of clientlevelorg ", response);
+        console.log("reponse of clientlevelorg ", response);
 
       toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 
@@ -85,6 +85,8 @@ const AllReleasedVehicles = () => {
 
       setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus]);

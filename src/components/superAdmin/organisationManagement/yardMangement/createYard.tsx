@@ -65,10 +65,10 @@ const CreateYard = ({ onClose, fetchYard }) => {
 
       // console.log("reponse of Users ", response);
 
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 

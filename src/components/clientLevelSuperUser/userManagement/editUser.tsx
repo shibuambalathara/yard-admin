@@ -88,9 +88,7 @@ const EditIndividualUser = ({ userId, onClose,fetchData }) => {
       // console.log("resetData", initialData);
 
       console.log("error", error);
-      setError({
-        text: error?.response?.data?.message,
-      });
+    
     } finally {
       setIsLoading(false);
     }

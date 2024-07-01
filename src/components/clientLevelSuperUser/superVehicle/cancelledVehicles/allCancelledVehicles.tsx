@@ -43,7 +43,9 @@ const AllCancelledVehicles = () => {
       );
       setChildren(response?.data?.res?.clientLvlOrg);
     } catch (error) {
-      toast.error("Failed to fetch children");
+      // toast.error("Failed to fetch children");
+      console.log("error",error);
+      
     }
   }, []);
   useEffect(() => {
@@ -64,9 +66,9 @@ const AllCancelledVehicles = () => {
 
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      // toast.error("Failed to fetch vehicle categories");
       // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
-      // console.log("response of fetchAllVehicle Category error", error);
+      console.log("response of fetchAllVehicle Category error", error);
     }
   }, []);
 
@@ -77,7 +79,9 @@ const AllCancelledVehicles = () => {
       setAllYard(response?.data?.res?.yard);
      
     } catch (error) {
-      toast.error("Failed to fetch all yards");
+      console.log("error FetchAllYards",error);
+    
+      // toast.error("Failed to fetch all yards");
     }
   }, []);
 
@@ -110,6 +114,8 @@ const AllCancelledVehicles = () => {
       setCancelledVehicles(response?.data?.res?.vehicleReleaseData);
       setFilteredData(response?.data?.res?.totalCount);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus, client]);

@@ -75,8 +75,8 @@ const AllCreatedWaivers = () => {
       setAllVehicleCategory(response?.data?.vehicleCategory);
       toast.success(response?.data?.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
-      console.log(error);
+      // toast.error(error?.response?.data?.message);
+      console.log("error",error);
     }
   }, []);
 
@@ -86,20 +86,12 @@ const AllCreatedWaivers = () => {
       setYardData(response?.data?.res?.yard);
       toast.success(response?.data?.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);
     }
   }, []);
 
-  // const FetchClientLevelOrgs = useCallback(async () => {
-  //   try {
-  //     const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
-  //     setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-  //     toast.success(response?.data?.message);
-  //   } catch (error) {
-  //     toast.error(error?.response?.data?.message);
-  //   }
-  // }, []);
+
 
   const fetchData = useCallback(async () => {
     try {

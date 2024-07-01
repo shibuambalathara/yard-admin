@@ -49,12 +49,10 @@ const VehicleCategoryManagement = () => {
     try {
       const response = await axiosInstance.get(`/vehicle/cat`);
       setCategory(response?.data?.vehicleCategory);
-      setSuccess({
-        text: response?.data?.message,
-      });
+    
     } catch (error) {
       console.log("error from vehiclecat", error);
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
     }

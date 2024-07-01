@@ -1,11 +1,25 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import useAuthStore from "../../store/useAuthStore";
+import UnAssginedUser from "@/components/commonComponents/unAssignedUser/unAssignedUser"
 
 
 const Dashboard = () => {
+  // const [userOrganisation, setUserOrganisation]=useState(null)
     const { user,token,role } = useAuthStore();
+    console.log("user form home page",user);
+
+    // const {organisation}=user
+    // // setUserOrganisation(organisation)
+    // // const {name}=user
+
+    // console.log("org form home",organisation,);
+    // // console.log("userOrganistion",userOrganisation);
+
+    if(user?.organisation==null){
+      return<UnAssginedUser username={user?.name} />
+    }
 
     const selectSidebarData = () => {
         switch (role) {
@@ -22,6 +36,8 @@ const Dashboard = () => {
       };
     
       const UserLogedIn=selectSidebarData()
+
+   
 
   return (
     <div>  WELCOME TO <span className='font-bold'>{UserLogedIn}</span> DASHBOARD </div>

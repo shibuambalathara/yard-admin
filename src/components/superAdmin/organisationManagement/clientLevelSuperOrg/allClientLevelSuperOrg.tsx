@@ -51,13 +51,9 @@ const AllClientLevelSuperOrganisation = () => {
       );
       console.log("all users", response);
       setFilteredData(response?.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+  
     } catch (error) {
-      setError({
-        text: error?.response?.data?.message,
-      });
+    
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);

@@ -43,7 +43,8 @@ export const FetchClientLevelOrgs = async () => {
     // toast.success(response?.data?.message);
     return data; // Return the fetched data
   } catch (error) {
-    toast.error(error?.response?.data?.message);
+    console.log("error FetchClientLevelOrgs",error);
+    // toast.error(error?.response?.data?.message);
     return []; // Return an empty array or appropriate fallback
   }
 }
@@ -51,11 +52,14 @@ export const FetchClientLevelOrgs = async () => {
 export const FetchVehicleCategory = async () => {
   try {
     const response = await axiosInstance.get(`/vehicle/cat`);
+    // console.log("respose of vehicle category",response);
     const data = response?.data?.vehicleCategory;
     // toast.success(response?.data?.message);
     return data; // Return the fetched data
   } catch (error) {
-    toast.error(error?.response?.data?.message);
+    console.log("error FetchVehicleCategory",error);
+
+    // toast.error(error?.response?.data?.message);
     return []; // Return an empty array or appropriate fallback
   }
 }
@@ -66,7 +70,9 @@ export const FetchClientLevelSubUsers = async () => {
     const data = response?.data?.data;
     return data; // Return the fetched data
   } catch (error) {
-    toast.error(error?.response?.data?.message);
+    console.log("error FetchClientLevelSubUsers",error);
+
+    // toast.error(error?.response?.data?.message);
     return []; // Return an empty array or appropriate fallback
   }
 };
@@ -78,7 +84,8 @@ export const FetchAllClientCategory = async () => {
     // reset();
     return data; // Return the fetched data
   } catch (error) {
-    toast.error(error?.response?.data?.message);
+    console.log("error FetchClientLevelSubUsers",error);
+    // toast.error(error?.response?.data?.message);
     return []; // Return an empty array or appropriate fallback
   }
 }

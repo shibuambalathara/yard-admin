@@ -55,9 +55,7 @@ const UserManagement = () => {
       setFilteredData(response.data?.res);
      
     } catch (error) {
-      setError({
-        text: error?.response?.data?.message,
-      });
+      
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);

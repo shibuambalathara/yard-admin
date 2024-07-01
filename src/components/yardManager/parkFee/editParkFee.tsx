@@ -48,7 +48,7 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
       SetClientCategoryData(response?.data?.res);
       reset(response?.data?.res);
     } catch (error) {
-      // console.log("error", error);
+      console.log("error", error);
     } finally {
       setIsLoading(false);
     }
@@ -65,8 +65,8 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
 
      
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 

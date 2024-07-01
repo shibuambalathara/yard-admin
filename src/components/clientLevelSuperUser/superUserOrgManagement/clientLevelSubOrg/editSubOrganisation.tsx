@@ -168,7 +168,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
      
     } catch (error) {
       console.error("Error fetching individual client level sub org:", error);
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
     }
   };
 

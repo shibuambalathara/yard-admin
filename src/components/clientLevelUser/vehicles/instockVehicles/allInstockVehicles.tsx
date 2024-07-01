@@ -11,11 +11,12 @@ import toast from "react-hot-toast";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
-import { inputStyle, labelStyle } from "@/components/ui/style";
+import { inputStyle, labelStyle } from "@/components/ui/style";  
 
 const AllInstockVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [vehicleStatus, setVehicleStatus] = useState("");
@@ -23,17 +24,22 @@ const AllInstockVehicles = () => {
   const [Category, setVehiclecat] = useState("");
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState("");
-  const [AllVehicleRelease, setAllVehicleRelease] = useState([]);
+  const [allInstockVehicles, setAllInstockVehicles] = useState(null);
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
 
+      console.log("response form vehicle cat of all instock",response);
+      
+
       setAllVehicleCategory(response?.data?.vehicleCategory);
 
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      // toast.error("Failed to fetch vehicle categories");
+      console.log("error",error);
+      
     }
   }, []);
 
@@ -44,15 +50,17 @@ const AllInstockVehicles = () => {
       setAllYard(response?.data?.res?.yard);
       toast.success("Vehicle categories fetched successfully");
     } catch (error) {
+      console.log("error",error);
+      
       // toast.error("Failed to fetch vehicle categories");
     }
   }, []);
 
-  const FetchAllVehicleRelease = useCallback(async () => {
+  const FetchallInstockVehicles = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '5',
+        limit: limit.toString(),
 
       });
     //   params?.
@@ -72,7 +80,7 @@ const AllInstockVehicles = () => {
       );
       console.log("response of allinstock vehicles", response);
 
-      setAllVehicleRelease(response?.data?.res?.vehicles);
+      setAllInstockVehicles(response?.data?.res);
 
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
@@ -91,7 +99,7 @@ const AllInstockVehicles = () => {
   }));
 
   useEffect(() => {
-    FetchAllVehicleRelease();
+    FetchallInstockVehicles();
   }, [selectedYard, Category, vehicleStatus]);
 
   useEffect(() => {
@@ -99,9 +107,9 @@ const AllInstockVehicles = () => {
     FetchAllYards();
   }, []);
 
-  const UsersData = AllVehicleRelease || [];
+  const UsersData = allInstockVehicles?.vehicles || [];
 
-  // console.log("allVehicleOwnerships", AllVehicleRelease);
+  console.log("allVehicleOwnerships", allInstockVehicles?.totalCount);
 
   const userColumn = useMemo(
     () => [
@@ -141,7 +149,7 @@ const AllInstockVehicles = () => {
         cell: ({ row }) => View(row),
       },
     ],
-    [filteredData]
+    [allInstockVehicles?.vehicles]
   );
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
@@ -219,21 +227,22 @@ const AllInstockVehicles = () => {
           </div>
         ) : ( */}
         {
-          AllVehicleRelease && (
+          allInstockVehicles?.vehicles && (
             <DataTable data={UsersData} columns={userColumn} />
           )
 
           /* )} */
         }
-        {/* <div className="w-full text-center">
-          {filteredData?.totalCount && (
+        <div className="w-full text-center">
+          {allInstockVehicles?.totalCount && (
             <Pagination
               page={page}
               setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
+              limit={limit}
+              totalDataCount={allInstockVehicles?.totalCount}
             />
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

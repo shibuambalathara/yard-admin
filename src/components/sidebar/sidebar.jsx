@@ -18,7 +18,7 @@ import useAuthStore from "../../store/useAuthStore";
 const SideBar = () => {
   const { user,token,role, } = useAuthStore();
 
-  console.log("user  form sidebar",user);
+  // console.log("user  form sidebar",user);
   // console.log("1234566789");
   const selectSidebarData = () => {
     switch (role) {
