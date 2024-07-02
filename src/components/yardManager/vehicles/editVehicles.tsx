@@ -23,12 +23,14 @@ interface ImageData {
   img_src: string;
   img_name: string;
   id: string;
+  updated_at: string
 }
 
 interface ImageType {
   src: string;
   image_type: string;
   id: string;
+  updated_at: string,
 }
 
 type Inputs = {
@@ -82,6 +84,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
           id: item.id,
           image_type: item.img_type,
           src: item.img_src,
+          updated_at: item.updated_at,
         });
         return acc;
       },
@@ -132,7 +135,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(`/Vehicle/cat`);
+      const response = await axiosInstance.get(`/vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
     } catch (error) {
       console.log("error from vehiclecat", error);
@@ -201,11 +204,11 @@ const EditIndividualVehicle = ({ vehicleId }) => {
           : null,
       };
 
-      // Object.entries(modifiedData).forEach(([key, value]) => {
-      //   if (key !== "vehicle_img" && value !== undefined) {
-      //     formData.append(key, value);
-      //   }
-      // });
+      Object.entries(modifiedData).forEach(([key, value]) => {
+        if (key !== "vehicle_img" && value !== undefined) {
+          formData.append(key, value);
+        }
+      });
 
       try {
         const response = await axiosInstance.put(
@@ -218,7 +221,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
             maxBodyLength: Infinity,
           }
         );
-
+        fetchVehicle();
         toast.success(response?.data?.message);
       } catch (error) {
         toast.error(error?.response?.data?.message);
@@ -505,7 +508,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
                 <div key={index} className="flex flex-col items-center pb-4">
                   <img
                     className="rounded-xl mb-2"
-                    src={image?.src}
+                    src={`${image?.src}?v=${image.updated_at}`}
                     alt={`${imageType} ${index}`}
                     style={{ width: "70%" }}
                   />
