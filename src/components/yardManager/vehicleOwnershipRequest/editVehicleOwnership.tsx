@@ -85,7 +85,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
 
   const fetchVehicle = async () => {
     try {
-      const response = await axiosInstance.get(`/ownership/${ownershipId?.clientLevelvehOwnId}`);
+      const response = await axiosInstance.get(`/ownership/${ownershipId?.vehicleOwnershipId}`);
       const destructuredData = {
         ...response?.data?.res,
         ...response?.data?.res?.vehicle,
@@ -99,7 +99,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       };
       setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
       reset(destructuredData);
-
+         console.log(response);
+         
       // Set the isSelectDisabled state based on ownership_status
       setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === 'pending');
     } catch (error) {
@@ -128,7 +129,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       
       try {
         const response = await axiosInstance.patch(
-          `/ownership/re_assignment/${ownershipId?.clientLevelvehOwnId}`,
+          `/ownership/re_assignment/${ownershipId?.vehicleOwnershipId}`,
           { cl_org_id: data?.cl_org_id }
         );
         toast.success(response?.data?.message);
@@ -334,7 +335,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               pattern
             />
             <InputField disabled={true}
-              label="Chasis Number"
+              label="Chassis Number"
               type="text"
               name="chasis_number"
               register={register}
