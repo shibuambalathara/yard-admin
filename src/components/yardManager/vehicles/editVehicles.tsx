@@ -22,11 +22,15 @@ interface ImageData {
   img_type: string;
   img_src: string;
   img_name: string;
+  id: string;
 }
+
 interface ImageType {
   src: string;
-  name: string;
+  image_type: string;
+  id: string;
 }
+
 type Inputs = {
   yard_id: string;
   cl_org_id: string;
@@ -42,7 +46,7 @@ type Inputs = {
   variant: string;
   colour: string;
   condition: string;
-  Start_condition: string;
+  start_condition: string;
   reg_number: string;
   eng_number: string;
   chasis_number: string;
@@ -50,13 +54,10 @@ type Inputs = {
   board_type: string;
   rc_available: string;
   key_count: string;
-  FRONT_IMAGE: File[] | null; // Array of File objects representing front images
-  BACK_IMAGE: File[] | null; // Array of File objects representing back images
-  RIGHT_IMAGE: File[] | null; // Array of File objects representing right images
-  LEFT_IMAGE: File[] | null; // Array of File objects representing left images
-  ODOMETER_IMAGE: File[] | null; // Array of File objects representing odometer images
-  INTERIOR_IMAGE: File[] | null; // Array of File objects representing interior images
-  OTHER_IMAGE: File[] | null; // Array of File objects representing other images
+};
+
+type FileInputs = {
+  [key: string]: FileList;
 };
 
 const EditIndividualVehicle = ({ vehicleId }) => {
@@ -67,6 +68,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
+  const [uploadImages, setUploadImages] = useState<FileInputs>({});
 
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
 
@@ -76,7 +78,11 @@ const EditIndividualVehicle = ({ vehicleId }) => {
         if (!acc[item.img_type]) {
           acc[item.img_type] = [];
         }
-        acc[item.img_type].push({ src: item.img_src, name: item.img_name });
+        acc[item.img_type].push({
+          id: item.id,
+          image_type: item.img_type,
+          src: item.img_src,
+        });
         return acc;
       },
       {}
@@ -85,8 +91,8 @@ const EditIndividualVehicle = ({ vehicleId }) => {
     setImages(categorizedImages);
   }, [vehicleImage]);
 
-  // console.log('images',images);
-
+  console.log(vehicleImage);
+  
   const {
     register,
     handleSubmit,
@@ -97,13 +103,6 @@ const EditIndividualVehicle = ({ vehicleId }) => {
   } = useForm<Inputs>();
   const router = useRouter();
 
-  const sliderSettings = {
-    dots: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
   const fetchVehicle = async () => {
     setIsLoading(true);
     try {
@@ -111,20 +110,16 @@ const EditIndividualVehicle = ({ vehicleId }) => {
         `/vehicle/${vehicleId?.vehicleId}`
       );
 
-      console.log("fetched data of vechicle", response?.data?.res);
-
       const destructuredData = {
         ...response?.data?.res,
         app_entry_date: response?.data?.res?.app_entry_date?.split("T")[0],
-        app_exit_date: response?.data?.res?.app_entry_date?.split("T")[0],
+        app_exit_date: response?.data?.res?.app_exit_date?.split("T")[0],
         mfg_year: response?.data?.res?.mfg_year.split("T")[0],
         actual_entry_date:
           response?.data?.res?.actual_entry_date?.split("T")[0],
         actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
       };
 
-      console.log("data", destructuredData);
-      // console.log("vehicle", response);
       setVehicleCategoryData(response?.data?.res);
       setVehicleImage(response?.data?.res?.vehicle_img);
       reset(destructuredData);
@@ -138,15 +133,9 @@ const EditIndividualVehicle = ({ vehicleId }) => {
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
-
       setAllVehicleCategory(response?.data?.vehicleCategory);
-
-      // console.log("resposne of vehicle category", response);
-      // reset();
-  
     } catch (error) {
       console.log("error from vehiclecat", error);
-      //   toast.error(error?.me);
     }
   }, []);
 
@@ -164,8 +153,80 @@ const EditIndividualVehicle = ({ vehicleId }) => {
     value: item.id,
     label: item.cl_org_name,
   }));
-  //  console.log('org',ClientOrganisations);
 
+  const handleImageUpload = (event, imageType) => {
+    const selectedFiles = event.target.files;
+    setUploadImages((prevImages) => ({
+      ...prevImages,
+      [imageType]: selectedFiles,
+    }));
+  };
+
+  const editImage= useCallback(
+    async (data: Inputs) => {
+      const formData = new FormData();
+
+      const vehicleImgArray = Object.entries(uploadImages).flatMap(
+        ([imageType, files]) => {
+          return Array.from(files).map((file, index) => ({
+            id: images[imageType]?.[index]?.id || "",
+            img_type: imageType,
+            img_src: images[imageType]?.[index]?.src || "",
+            file: file,
+          }));
+        }
+      );
+
+      vehicleImgArray.forEach((img, index) => {
+        formData.append(`vehicle_img[${index}][id]`, img?.id);
+        formData.append(`vehicle_img[${index}][img_type]`, img?.img_type);
+        formData.append(`vehicle_img[${index}][img_src]`, img?.img_src);
+        formData.append(`vehicle_img[${index}][file]`, img.file);
+      });
+
+      const modifiedData = {
+        ...data,
+        app_entry_date: data?.app_entry_date
+          ? new Date(data?.app_entry_date)?.toISOString()
+          : null,
+        app_exit_date: data?.app_exit_date
+          ? new Date(data?.app_exit_date)?.toISOString()
+          : null,
+        mfg_year: data?.mfg_year ? new Date(data?.mfg_year)?.toISOString() : null,
+        actual_entry_date: data?.actual_entry_date
+          ? new Date(data?.actual_entry_date)?.toISOString()
+          : null,
+        actual_exit_date: data?.actual_exit_date
+          ? new Date(data?.actual_exit_date)?.toISOString()
+          : null,
+      };
+
+      // Object.entries(modifiedData).forEach(([key, value]) => {
+      //   if (key !== "vehicle_img" && value !== undefined) {
+      //     formData.append(key, value);
+      //   }
+      // });
+
+      try {
+        const response = await axiosInstance.put(
+          `/vehicle/${vehicleId?.vehicleId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            maxBodyLength: Infinity,
+          }
+        );
+
+        toast.success(response?.data?.message);
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+        console.log(error);
+      }
+    },
+    [vehicleId?.vehicleId, uploadImages, images]
+  );
   const editVehicle = useCallback(
     async (data: Inputs) => {
      
@@ -194,7 +255,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
 
       try {
         const response = await axiosInstance.put(
-          `/vehicle/${vehicleId?.vehicleId}`,
+         `/vehicle/${vehicleId?.vehicleId}`,
           modifiedData
         );
         console.log("res", response);
@@ -208,9 +269,6 @@ const EditIndividualVehicle = ({ vehicleId }) => {
     },
     [vehicleId?.vehicleId]
   );
-
- 
-
   if (isLoading) {
     return (
       <div className="flex w-full h-screen items-center justify-center">
@@ -248,7 +306,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               pattern
             />
             <InputField
-              label="Actuall Entry Date"
+              label="Actual Entry Date"
               type="date"
               name="actual_entry_date"
               register={register}
@@ -414,74 +472,27 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern
             />
-            <FileUploadInput
-              label="Front Images"
-              name="FRONT_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
-            <FileUploadInput
-              label="Back Images"
-              name="BACK_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
-            <FileUploadInput
-              label="Right Images"
-              name="RIGHT_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
-            <FileUploadInput
-              label="left Images"
-              name="LEFT_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
-            <FileUploadInput
-              label="Odometer Images"
-              name="ODOMETER_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
-            <FileUploadInput
-              label="Interior Images"
-              name="INTERIOR_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
-            <FileUploadInput
-              label="Other Images"
-              name="OTHER_IMAGE"
-              register={register}
-              accept="image/*"
-              
-            />
           </div>
 
-          <div className="mt-6">
-            <ImageMaping images="" />
-          </div>
-          <div className="flex justify-center mt-6">
+         
+          {/* <div className="flex justify-center mt-6">
             <button
               type="submit"
               className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
             >
               Submit
             </button>
-          </div>
+          </div> */}
         </form>
+        <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
         <div className="grid grid-cols-2 gap-4">
+        {/* <div className="mt-6">
+            <ImageMaping images="" />
+          </div> */}
           {Object.entries(images).map(([imageType, imageList]) => (
             <div
               key={imageType}
-              className="border rounded-lg shadow-xl border-black  "
+              className="border rounded-lg shadow-xl border-black"
             >
               <h2 className="text-center text-lg font-semibold">
                 {imageType
@@ -490,25 +501,30 @@ const EditIndividualVehicle = ({ vehicleId }) => {
                   .replace(/\b(\w)/g, (s) => s.toUpperCase())}
                 s
               </h2>
-              {/* <Carousel>  */}
               {imageList?.map((image, index) => (
-                <div
-                  key={index}
-                  className="flex justify-center pb-4 items-center"
-                >
+                <div key={index} className="flex flex-col items-center pb-4">
                   <img
-                    className="rounded-xl"
-                    src={image.src}
+                    className="rounded-xl mb-2"
+                    src={image?.src}
                     alt={`${imageType} ${index}`}
                     style={{ width: "70%" }}
                   />
-                  {/* <p>{image.name}</p> */}
+                  <input
+                    type="file"
+                    onChange={(e) => handleImageUpload(e, imageType)}
+                  />
                 </div>
               ))}
-              {/* </Carousel>  */}
             </div>
           ))}
         </div>
+        <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+            >
+              Submit
+            </button>
+        </form>
       </div>
     </div>
   );

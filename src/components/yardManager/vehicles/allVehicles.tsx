@@ -152,7 +152,7 @@ const AllVehicles = () => {
 //   };
 
 //   const handleModalClose = () => {
-//     setModalOpen(false);
+//     setModalOpen(false);  
 //   };
 
 const handleCatChange =(e)=>{
