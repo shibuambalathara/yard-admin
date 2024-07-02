@@ -199,7 +199,7 @@ const AddVehicle = () => {
       console.log("Response received:", response);
       toast.success(response?.data?.message);
       reset()
-      router.push('/vehicle')
+      // router.push('/vehicle')
     } catch (error) {
       const errorMessages = error?.response?.data?.message;
       if (Array.isArray(errorMessages)) {
