@@ -96,7 +96,7 @@ const UserManagement = () => {
         id: "viewUser",
         header: "View User",
         cell: ({ row }) => (
-          <div className="flex justify-center relative z-10">
+          <div className="">
             <View row={row} onEditClick={handleEditClick} />
           </div>
         ),
@@ -126,7 +126,7 @@ const UserManagement = () => {
   console.log("user status",accountStatus);
   
   return (
-    <div className="w-full">
+    <div className="w-full h-screen">
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
         User Management
       </h1>
@@ -157,15 +157,16 @@ const UserManagement = () => {
       </div>
   <div className="">
   {editModalOpen && (
-        <div className="relative">
-          <div className=" mt-20 absolute top-0 right-0 w-full h-full flex items-center justify-end p-4  z-50 border border-black">
-          <div className=" w-full  p-4 max-w-2xl z-20">
-            <EditIndividualUser userId={selectedUserId} onClose={handleEditModalClose} fetchData={fetchAllUsers} />
-            
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+            {/* <div className="w-full max-w-2xl p-4 bg-white rounded-lg"> */}
+              <EditIndividualUser
+                userId={selectedUserId}
+                onClose={handleEditModalClose}
+                fetchData={fetchAllUsers}
+              />
+            {/* </div> */}
           </div>
-        </div>
-        </div>
-      )}
+        )}
   <div>
         <DataTable data={UsersData} columns={userColumn} />
       </div>
@@ -179,16 +180,19 @@ export default UserManagement;
 
 const View = ({ row, onEditClick }) => {
   return (
-    <div className="flex justify-center items-center  py-1 px-3 space-x-1 text-white rounded-md z-[-10]">
+    <div className="flex justify-center items-center    space-x-2 bg-gray-700 rounded-md  text-white">
+      {/* <div className="flex flex-col justify-center items-center bg-red-500"> */}
       <p>
         <MdOutlineViewHeadline />
       </p>
       <button
         onClick={() => onEditClick(row.original.id)}
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+        className=" "
       >
-        View User
+       
+              View User
       </button>
+      {/* </div> */}
     </div>
   );
 };
