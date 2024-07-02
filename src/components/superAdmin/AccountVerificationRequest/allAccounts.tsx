@@ -50,9 +50,7 @@ const AccountVerificationRequests = () => {
         text: response?.data?.message,
       });
     } catch (error) {
-      setError({
-        text: error?.response?.data?.message,
-      });
+    
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);

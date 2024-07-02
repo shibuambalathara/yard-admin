@@ -116,7 +116,7 @@ console.log("user form api",user);
               error={errors.contact}
               defaultValue=""
               required
-              placeholder="Your Email"
+              placeholder="Enter You contact"
             />
             <FormFieldInputLoginInput
               label=""

@@ -42,10 +42,10 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
 
       // console.log("reponse of FetchClientLevelSuperUsers ",response);
 
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 
@@ -57,10 +57,10 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
 
       // console.log("resposne of FetchAllClientCategory",response);
       reset();
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 

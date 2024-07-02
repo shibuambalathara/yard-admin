@@ -105,8 +105,8 @@ const FetchClientLevelOrgs = useCallback(async () => {
 
       
     } catch (error) {
-      // console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      console.log("error", error);
+      // toast.error(error?.response?.data?.message);
     }
   }, []);
 

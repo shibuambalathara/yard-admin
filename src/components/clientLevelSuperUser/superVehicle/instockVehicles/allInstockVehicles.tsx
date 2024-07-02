@@ -57,7 +57,9 @@ const AllInstockVehicles = () => {
 
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      console.log("error",error);
+      
+      // toast.error("Failed to fetch vehicle categories");
     }
   }, []);
 
@@ -67,6 +69,8 @@ const AllInstockVehicles = () => {
 
       setAllYard(response?.data?.res?.yard);
     } catch (error) {
+      console.log("error",error);
+      
       // toast.error("Failed to fetch vehicle categories");
     }
   }, []);
@@ -101,6 +105,8 @@ const AllInstockVehicles = () => {
       setFilteredData(response?.data?.res?.totalCount);
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus, client]);

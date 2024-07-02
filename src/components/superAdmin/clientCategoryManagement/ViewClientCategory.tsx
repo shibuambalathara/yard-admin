@@ -62,7 +62,7 @@ const ViewClientCategory = ({ clientId }) => {
       SetClientCategoryData(response?.data?.clientCategory);
       reset(response?.data?.clientCategory);
     } catch (error) {
-      // console.log("error", error);
+      console.log("error", error);
     }finally{
       setIsLoading(false)
     }

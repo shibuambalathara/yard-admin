@@ -126,7 +126,9 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
      
     } catch (error) {
-      toast.error(`something went wrong`);
+      console.log("error",error);
+      
+      // toast.error(`something went wrong`);
     }
   }, []);
 

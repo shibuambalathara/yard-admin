@@ -43,10 +43,10 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
 
       // console.log("reponse of clientlevelorg ", response);
 
-      toast.success(response?.data?.message);
+      // toast.success(response?.data?.message);
     } catch (error) {
-      // console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      console.log("error", error);
+      // toast.error(error?.response?.data?.message);
     }
   }, []);
 
@@ -57,10 +57,10 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
 
       console.log("reponse of vehiclecat ", response);
 
-      toast.success(response?.data?.message);
+      // toast.success(response?.data?.message);
     } catch (error) {
-      // console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      console.log("error", error);
+      // toast.error(error?.response?.data?.message);
     }
   }, []);
 
@@ -77,8 +77,8 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
 
       // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 
@@ -92,8 +92,8 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
       reset();
       // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 

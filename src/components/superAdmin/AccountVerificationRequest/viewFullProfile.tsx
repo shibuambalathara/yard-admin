@@ -101,35 +101,35 @@ const ViewFullProfile = ({ profileId }) => {
   const handleUserUpdate = async (data: Inputs) => {
     console.log("Data",data);
     
-    // const validFrom = data?.account_usage_from
-    //   ? new Date(data.account_usage_from).toISOString()
-    //   : null;
-    // const validTo = data?.account_usage_to
-    //   ? new Date(data.account_usage_to).toISOString()
-    //   : null;
+    const validFrom = data?.account_usage_from
+      ? new Date(data.account_usage_from).toISOString()
+      : null;
+    const validTo = data?.account_usage_to
+      ? new Date(data.account_usage_to).toISOString()
+      : null;
 
-    // const modifiedData = {
-    //   ...data,
-    //   name: data?.name?.toUpperCase(),
-    //   account_usage_from: validFrom,
-    //   account_usage_to: validTo,
-    //   designation: data?.designation?.toUpperCase(),
-    // };
+    const modifiedData = {
+      ...data,
+      name: data?.name?.toUpperCase(),
+      account_usage_from: validFrom,
+      account_usage_to: validTo,
+      designation: data?.designation?.toUpperCase(),
+    };
 
-    // try {
-    //   const response = await axiosInstance.put(
-    //     `/account/user/${profileId.profileId}`,
-    //     modifiedData
-    //   );
-    //   setUserData(response.data.res);
-    //   router.push("/accountVerificationRequest");
-    //   toast.success(response?.data?.message);
-    // } catch (error) {
-    //   console.log("error", error);
-    //   toast.error(error?.response?.data?.message[0]);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      const response = await axiosInstance.put(
+        `/account/user/${profileId.profileId}`,
+        modifiedData
+      );
+      setUserData(response.data.res);
+      router.push("/accountVerificationRequest");
+      toast.success(response?.data?.message);
+    } catch (error) {
+      console.log("error", error);
+      // toast.error(error?.response?.data?.message[0]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleApproveClick = () => {

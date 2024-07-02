@@ -66,10 +66,10 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
       //   transformedArray
       // );
 
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
       
@@ -83,10 +83,10 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
 
     //   console.log("reponse of FetchClientLevelUsers007 ", response);
 
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 
@@ -100,10 +100,10 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
 
       // console.log("resposne of FetchAllClientCategory",response);
       reset();
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`);
+      console.log("error", error);
+      // toast.error(`something went wrong`);
     }
   }, []);
 
@@ -131,10 +131,10 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
 
       // console.log("Form values after reset:", getValues());
 
-      toast.success("fetched clientlevelsuper orgs");
+      // toast.success("fetched clientlevelsuper orgs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`error in creating superOrg`);
+      console.log("error", error);
+      // toast.error(`error in creating superOrg`);
     }
   }, []);
 

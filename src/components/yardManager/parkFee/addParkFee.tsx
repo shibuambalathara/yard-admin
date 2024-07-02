@@ -42,8 +42,8 @@ const AddParkFee = ({ onClose, fetchData }) => {
 
       toast.success("successs");
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`something went wrong`); 
+      console.log("error", error);
+      // toast.error(`something went wrong`); 
     }
   }, []);
 
@@ -58,7 +58,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
 
       console.log("resposne of vehicle category",response);
       reset();
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
       console.log("error from vehiclecat", error);
     //   toast.error(error?.me);
@@ -102,7 +102,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
       onClose()
     } catch (error) {
       console.log("error", error);
-    //   toast.error(error);
+      toast.error(error?.response?.data?.message);
     }
     // Handle form submission
   },[])

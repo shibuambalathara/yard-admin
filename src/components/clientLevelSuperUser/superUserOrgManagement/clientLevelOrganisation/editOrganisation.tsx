@@ -99,8 +99,8 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
 
       
     } catch (error) {
-      // console.log("error", error);
-      toast.error(`error in creating superOrg`);
+      console.log("error", error);
+      // toast.error(`error in creating superOrg`);
     }
   }, []);
 

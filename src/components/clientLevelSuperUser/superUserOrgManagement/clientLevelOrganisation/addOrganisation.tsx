@@ -33,69 +33,7 @@ const CreateClientLevelOrganisation = ({ onClose, fetchData }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const FetchClientLevelSuperUsers = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/clientorg/client_lvl_super_org`
-      );
-      // setAllUsers(response?.data?.data);
 
-      console.log("reponse of FetchClientLevelSuperUsers ", response);
-
-      const transformedArray = response?.data?.res?.clientLvlSuperOrg.map(
-        (item) => ({
-          label: item.clsup_org_name,
-          value: item.id,
-        })
-      );
-      setClientLevelSuperUsers(transformedArray)
-      // console.log(
-      //   "transformedArraty form ClientLevelSuperUsers",
-      //   transformedArray
-      // );
-
-    //   toast.success("successs");
-    } catch (error) {
-      // console.log("error", error);
-    //   toast.error(`something went wrong`);
-    }
-  }, []);
-
-  // console.log('setClientLevelSuperUser',clientLevelSuperUsers);
-  
-
-  const FetchClientLevelOrgs = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/user/users/assignment?role=CLIENT_LEVEL_USER`
-      );
-      setClientLevelUsers(response?.data?.data);
-
-      console.log("reponse of clientlevelusers ", response);
-
-    //   toast.success("successs");
-    } catch (error) {
-      // console.log("error", error);
-    //   toast.error(`something went wrong`);
-    }
-  }, []);
-
-//   const FetchAllClientCategory = useCallback(async () => {
-//     try {
-//       const response = await axiosInstance.get(`clientorg/cat/`);
-
-//       setAllCategory(response?.data?.clientCategory);
-
-//       console.log("resposne of FetchAllClientCategory",response);
-//     //   reset();
-//     //   toast.success("successs");
-//     } catch (error) {
-//       // console.log("error", error);
-//     //   toast.error(`something went wrong`);
-//     }
-//   }, []);
-
- 
 useEffect(() => {
     const fetchData = async () => {
       try {

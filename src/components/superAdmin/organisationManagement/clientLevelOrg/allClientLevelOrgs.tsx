@@ -117,9 +117,9 @@ const AllClientLevelOrganisation = () => {
       client Level Organisation
       </h1>
       <div className="flex w-full px-8 justify-between">
-        <div className="">
+        {/* <div className="">
           <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
-        </div>
+        </div> */}
         <div className="self-end">
           <button
             // href={`/userManagement/createUser`}

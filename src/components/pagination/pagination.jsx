@@ -6,7 +6,7 @@ const Pagination = (props) => {
   const [totalPages, setTotalPage] = useState();
   const [value, setValue] = useState();
 
-  console.log("props", props);
+  // console.log("props", props);
 
   useEffect(() => {
     let totalPage = Math.ceil(props?.totalDataCount / props?.limit);
@@ -15,11 +15,11 @@ const Pagination = (props) => {
 
   const handlePagination = (value) => {
     let convertedValue=parseInt(value)
-    console.log("value pf page form pagination", value);
+    // console.log("value pf page form pagination", value);
     convertedValue > 0 && props?.setPage(convertedValue);
   };
 
-  console.log("page", props?.page);
+  // console.log("page", props?.page);
   const handleLastPage = () => {
     console.log(
       "props?.totalDataCount",

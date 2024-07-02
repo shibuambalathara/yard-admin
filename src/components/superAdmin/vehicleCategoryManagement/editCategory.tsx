@@ -54,12 +54,10 @@ const ViewVehicleCategory = ({ categoryId }) => {
       console.log("RESPONSE FOR INDIVIDUAL VEHCAT", response);
       setCategoryData(response?.data?.vehicleCategory);
       reset(response?.data?.vehicleCategory);
-      setSuccess({
-        text: response?.data?.message,
-      });
+    
     } catch (error) {
       console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
     }

@@ -19,6 +19,7 @@ import { inputStyle, labelStyle } from "@/components/ui/style";
 const AllVehicleOwnershipClient = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [vehicleStatus, setVehicleStatus] = useState('');
@@ -26,21 +27,22 @@ const AllVehicleOwnershipClient = () => {
   const [Category, setVehiclecat] = useState('');
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState('');
-  const [allVehicleOwnerships,setAllVehicleOwerships]=useState([])
+  const [allVehicleOwnerships,setAllVehicleOwerships]=useState(null)
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
-    //   console.log("cat", response);
+   
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
-    //   console.log("response of fetchAllVehicle Category", response);
+    
 
       
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
-      // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
-      // console.log("response of fetchAllVehicle Category error", error);
+      console.log("error from FetchAllVehicleCategory",error);
+      
+      // toast.error("Failed to fetch vehicle categories");
+      
     }
   }, []);
 
@@ -48,21 +50,23 @@ const AllVehicleOwnershipClient = () => {
     try {
       const response = await axiosInstance.get(`/yard`);
 
-    //   console.log("all yards", response?.data?.res?.yard);
+   
       setAllYard(response?.data?.res?.yard);
      
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      console.log("error from FetchAllYards",error);
+
+      // toast.error("Failed to fetch vehicle categories");
     }
   }, []);
-//   const selectedYards = "clwyvn495000dhpvwv9k471r5"; // Replace with a valid Yard ID
-//   const Categorys = "clwspvpu10000bkfqast2i0xw"; // Replace with a valid Vehicle Category ID
-//   const vehicleStatuss = "PENDING";
-  const FetchAllVehicleOwnerships = useCallback(async () => {
+
+  const FetchAllVehicleOwnerships = 
+  // useCallback(
+    async () => {
     try {
         const params = new URLSearchParams({
             page: page.toString(),
-            limit: '10',
+            limit: limit.toString(),
 
           });
         //   params?.
@@ -77,28 +81,46 @@ const AllVehicleOwnershipClient = () => {
 
           }
 
-        //   const response = await axiosInstance.get(`/ownership/?${params.toString()}`);
+       
+console.log("params",params);
+
+console.log("12",axiosInstance.get(
+  `ownership/client/?${params.toString()}`
+));
+
+
+   
+        
 
       const response = await axiosInstance.get(
         `ownership/client/?${params.toString()}`
       );
        
-      setAllVehicleOwerships(response?.data?.res?.vehicleOwnership)
+      console.log("params",params);
+
+      console.log("all vehicle ownership",response);
+      
+      setAllVehicleOwerships(response?.data?.res)
+
          
-      // console.log( "api", `ownership/client/?${params.toString()}` );
+      
       
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
+      console.log("error",error);
+      
     } finally {
     }
-  }, [page, Category, selectedYard, vehicleStatus]);
-
+  }
+  // [page, limit,Category, selectedYard, vehicleStatus]
+// );
+// // 
   const allYardsOptions = allyard?.map((item) => ({
     value: item?.id,
     label: item?.yard_name,
   }));
 
-  // console.log("allYardsOptions",allYardsOptions);
+ 
   
 
   const vehicleCategorysOptions = vehicleCategory?.map((item) => ({
@@ -106,16 +128,11 @@ const AllVehicleOwnershipClient = () => {
     label: item.name,
   }));
 
-  // console.log("vehicleCategorysOptions",vehicleCategorysOptions);
-  
-
-  // console.log("selectedDAta", "yard=",selectedYard, "vehiclecat=",Category, vehicleStatus);
-  // console.log("selectedDAta", "yard=",typeof(selectedYard), "vehiclecat=",typeof(Category), typeof(vehicleStatus));
-
+ 
 
   useEffect(() => {
     FetchAllVehicleOwnerships();
-  }, [selectedYard, Category, vehicleStatus]);
+  }, [selectedYard, Category, vehicleStatus,page,limit]);
 
   useEffect(() => {
     FetchAllVehicleCategory();
@@ -123,7 +140,7 @@ const AllVehicleOwnershipClient = () => {
     FetchAllYards();
   }, []);
 
-  const UsersData = allVehicleOwnerships || [];
+  const UsersData = allVehicleOwnerships?.vehicleOwnership || [];
 
   
   
@@ -176,11 +193,11 @@ const AllVehicleOwnershipClient = () => {
         cell: ({ row }) => View(row),
       },
     ],
-    [filteredData]
+    [allVehicleOwnerships?.vehicleOwnership]
   );
 
 
-  // console.log("filetered data from clientLevelSuperOrg",filteredData);
+  // console.log("filetered data from allVehicleOwnerships?.totalCount",allVehicleOwnerships?.totalCount);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -291,15 +308,16 @@ const AllVehicleOwnershipClient = () => {
 
           /* )} */
         }
-        {/* <div className="w-full text-center">
-          {filteredData?.totalCount && (
+        <div className="w-full text-center">
+          {allVehicleOwnerships?.totalCount && (
             <Pagination
               page={page}
               setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
+              limit={limit}
+              totalDataCount={allVehicleOwnerships?.totalCount}
             />
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

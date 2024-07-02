@@ -88,7 +88,9 @@ const AddVehicle = () => {
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
       // toast.success("Client level organizations fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch client level organizations");
+      console.log("error",error);
+      
+      // toast.error("Failed to fetch client level organizations");
     }
   }, []);
 
@@ -99,7 +101,9 @@ const AddVehicle = () => {
       reset();
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
+      // toast.error("Failed to fetch vehicle categories");
+      console.log("error",error);
+      
     }
   }, []);
 

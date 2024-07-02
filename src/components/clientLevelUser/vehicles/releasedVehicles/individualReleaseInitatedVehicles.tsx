@@ -154,33 +154,7 @@ const IndividualReleasedVehicle = ({ releaseId }) => {
  
 
   };
-  const updateReleasedDetails=async(data:Inputs)=>{
-console.log("ilnut datas",data);
-
-    console.log("initiatedId?.initiatedVehicleId",releaseId?.releasedVehicleId);
-    
-    try {
-
-      const modifiedData={
-        ...data,
-        receiver_contact: `+91${data?.receiver_contact}`,
-
-      }
-      
-      const response=await axiosInstance.patch(`/release/${releaseId?.releasedVehicleId}`,modifiedData)
-      console.log("response from initiate vehicle release",response);
-      
-      toast.success(response?.data?.message)
-      setFormModalOpen(false)
-      router.push("/releasevehicle/releasedVehicles")
-      router.back();
-    } catch (error) {
-      console.log("error from initiate vehicle release",error);
-      toast.error(error?.response?.data?.message)
-    }
-   }
-
-
+ 
 
   // if (!vehicleData) {
   //   return (

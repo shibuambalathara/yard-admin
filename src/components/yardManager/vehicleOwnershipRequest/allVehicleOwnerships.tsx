@@ -15,6 +15,7 @@ import { inputStyle, labelStyle } from "@/components/ui/style";
 const AllVehicleOwnerships = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -37,8 +38,8 @@ const AllVehicleOwnerships = () => {
 
       
     } catch (error) {
-      // console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      console.log("error", error);
+      // toast.error(error?.response?.data?.message);
     }
   }, []);
 
@@ -51,7 +52,7 @@ const AllVehicleOwnerships = () => {
 
      
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
       console.log(error);
     }
   }, []);
@@ -74,7 +75,7 @@ const AllVehicleOwnerships = () => {
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: "5",
+        limit: limit.toString(),
       });
 
 
@@ -102,9 +103,7 @@ const AllVehicleOwnerships = () => {
       setFilteredData(response?.data?.res);
      
     } catch (error) {
-      setError({
-        text: error?.response?.data?.message,
-      });
+    
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
@@ -289,15 +288,16 @@ const AllVehicleOwnerships = () => {
 
           /* )} */
         }
-        {/* <div className="w-full text-center">
+        <div className="w-full text-center">
           {filteredData?.totalCount && (
             <Pagination
               page={page}
               setPage={setPage}
               totalDataCount={filteredData?.totalCount}
+              limit={limit}
             />
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

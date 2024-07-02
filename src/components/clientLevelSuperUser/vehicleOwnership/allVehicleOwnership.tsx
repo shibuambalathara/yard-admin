@@ -43,7 +43,9 @@ const AllSuperVehicleOwnership = () => {
       const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
       setChildren(response?.data?.res?.clientLvlOrg);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
+      console.log("error",error);
+      
     }
   }, []);
 
@@ -52,7 +54,9 @@ const AllSuperVehicleOwnership = () => {
       const response = await axiosInstance.get(`/yard`);
       setAllYard(response?.data?.res?.yard);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      // toast.error(error?.response?.data?.message);
+      console.log("error",error);
+      
     }
   }, []);
 
@@ -75,7 +79,9 @@ const AllSuperVehicleOwnership = () => {
       
         
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      console.log("error",error);
+      
+      // toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
     }
