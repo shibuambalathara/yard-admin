@@ -46,12 +46,11 @@ const AccountVerificationRequests = () => {
       console.log("response of account",response);
       
       setFilteredData(response.data);
-      setSuccess({
-        text: response?.data?.message,
-      });
+      // setSuccess({
+      //   text: response?.data?.message,
+      // });
     } catch (error) {
-    
-      console.error("Error fetching data:", error);
+     console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }

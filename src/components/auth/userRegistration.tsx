@@ -1,7 +1,7 @@
 "use client";
 import { useEffect,useState } from "react";
 import { useForm } from "react-hook-form";
-import { FormFieldInput, SelectInput,FormFieldPassword } from "../ui/fromFields";
+import { FormFieldInput, SelectInput,FormFieldPassword, SelectComponent } from "../ui/fromFields";
 import { formStyle } from "../ui/style";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from 'next/navigation';
@@ -85,11 +85,12 @@ const UserRegistration = () => {
   };
 
   return (
-    <div className="flex items-center justify-center border-2 h-screen w-full ">
-      <form className={`${formStyle.data} bg-white rounded-md overflow-hidden`} onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex items-center justify-center  h-screen w-full ">
+      <form className={`${formStyle.data} bg-white rounded-md overflow-hidden sm:max-w-2xl sm:w-full `} onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full  text-center uppercase font-bold">
           <h1>Fill the form to Register </h1>
         </div>
+        <div className="grid sm:grid-cols-2 w-full ">
         <FormFieldInput
           label=""
           type="text"
@@ -130,15 +131,17 @@ const UserRegistration = () => {
           required
           placeholder="Designation"
         />
-        <SelectInput
+        <SelectComponent
           label=""
           name="role"
-          defaultValue="Select  Role"
+          defaultValue=""
           options={bidStatusOptions}
           register={register}
-          error={errors}                             
+          errors={errors}                             
           required={true}
-          data=""
+          placeholder="Please Select Role"
+
+       
         />
         <FormFieldPassword
           label=""
@@ -166,12 +169,13 @@ const UserRegistration = () => {
           isConfirmPassword={true}
           confirmValue={password}
         />
+        </div>
           {/* {errors.confirmPassword && <p className="text-red-500">Passwords do not match</p>} */}
 
-        <div className="w-full">
+        <div className=" w--full text-center ">
           <button
             type="submit"
-            className="bg-[#333333] text-white px-4 py-1 w-full"
+            className="bg-[#333333] text-white px-4 py-1 w-52 rounded"
           >
             Submit
           </button>

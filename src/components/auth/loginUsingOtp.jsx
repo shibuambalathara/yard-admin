@@ -43,7 +43,7 @@ const LoginUsingOtp = () => {
       <h1 className=" py-2 uppercase flex items-center justify-center   w-full bg-[#333333] text-center font-semibold  text-white font-roboto">
         Login
       </h1>
-      <div className="flex flex-col p-8 w-full h-full   bg-white  ">
+      <div className="flex flex-col p-6 w-full h-full   bg-white  ">
         <form
           action=""
           className="flex flex-col justify-center items-center  space-y-2  w-full  "
@@ -71,12 +71,11 @@ const LoginUsingOtp = () => {
             </button>
           </div>
         </form>
-            <div className="text-center flex  flex-col text-sm w-full space-y-1 mt-2">
+            <div className="text-center flex  flex-col text-sm w-full  justify-center pt-2">
             <div className="w-full flex justify-center space-x-1 text-sm">
                 {" "}
                 <p>Don't have an account ?</p> <Link className="text-blue-800 text-sm" href="/register">create account </Link>
             </div>
-            {/* <Link className="text-red-400" href="/resetPassword">Forget Password ? </Link> */}
 
             </div>
       </div>

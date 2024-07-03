@@ -244,9 +244,9 @@ export const SelectInput = ({
         {...rest}
         // defaultValue={defaultValue}
       >
-        {/* <option disabled >
-        {defaultValue}
-        </option> */}
+        <option disabled  selected >
+        {label}
+        </option>
         {options &&
           options?.map((option) => (
             <option key={option.value} value={option.value}>

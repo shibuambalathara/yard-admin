@@ -119,7 +119,9 @@ console.log("modifieddata",modifiedData);
       fetchData()
     } catch (error) {
       console.error("Error updating user data", error);
-      toast.error(error?.data?.response?.message);
+      toast.error(error?.response?.data?.message);
+      // console.log("error?.data?.response?.message",error?.data?.response?.message);
+      
     }
   };
 

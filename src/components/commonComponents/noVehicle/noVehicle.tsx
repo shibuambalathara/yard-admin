@@ -4,7 +4,10 @@ import { TbSpyOff } from "react-icons/tb";
 const NoVehicleMessage = (props) => {
   const { roleFilter, statusFilter, typeFilter ,categoryFilter,
   yardFilter} = props;
-  console.log(roleFilter);
+
+  console.log(props);
+
+
   const getRoleMessage = () => {
     if (!roleFilter) {
       return 'Please select a client to view the data';
@@ -22,16 +25,18 @@ const NoVehicleMessage = (props) => {
       <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
         {roleFilter ? (
           <>
-            No {typeFilter} for <span className='font-bold'>{roleFilter}</span>
+
+          <span>No Vehicle Found for selected Option</span>
+            {/* No {typeFilter} found in <span className='font-bold'>{roleFilter}</span>
             {statusFilter && (
               <> with status <span className='font-bold'>{statusFilter}</span></>
             )}
             {categoryFilter && (
-              <> with Category <span className='font-bold'>{categoryFilter}</span></>
+              <> for Category <span className='font-bold'>{categoryFilter}</span></>
             )}
             {yardFilter && (
-              <> In yard <span className='font-bold'>{yardFilter}</span></>
-            )}
+              <> In  <span className='font-bold'>{yardFilter}</span></>
+            )} */}
           </>
         ) : (
           getRoleMessage()

@@ -164,7 +164,7 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchData }) => {
   return (
     <div className="flex items-center justify-center relative z-50 ">
       <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl  overflow-y-scroll scrollbar-hide  ">
-        <h1 className="p-2 uppercase text-center">create sub Organisation</h1>
+        <h1 className="p-2 uppercase text-center font-bold">create sub Organisation</h1>
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-200"
           onClick={onClose}

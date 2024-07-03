@@ -66,7 +66,7 @@ const AllSuperVehicleOwnership = () => {
       return;
     }
     try {
-      const params = new URLSearchParams({ page: page.toString(), limit: '10',cl_org_id:client });
+      const params = new URLSearchParams({ page: page.toString(), limit: '5',cl_org_id:client });
 
       
       if (Category) params.append('vehicle_category_id', Category);
@@ -101,6 +101,18 @@ const AllSuperVehicleOwnership = () => {
     value: item.id,
     label: item.name,
   }));
+
+  let categoryMessageArray = vehicleCategoryOptions?.filter((item) => item?.value == Category);
+  let categoryMessage = categoryMessageArray?.length > 0 ? categoryMessageArray[0].label : null;
+
+  
+  let yardMessaage = allYardsOptions?.filter((item) => item?.value == selectedYard);
+  let yardMessageData = yardMessaage?.length > 0 ? yardMessaage[0].label : null;
+
+   
+  console.log("categoryMessage"),categoryMessage;
+  
+   
   
   useEffect(() => {
     fetchAllVehicleCategory();
@@ -188,7 +200,8 @@ const AllSuperVehicleOwnership = () => {
         )
         ):
         (
-        <NoVehicleMessage typeFilter='vehicles' roleFilter={roleFilter} statusFilter={statusFilter}/>)}
+        <NoVehicleMessage typeFilter='vehicles'
+         roleFilter={roleFilter} statusFilter={statusFilter}  categoryFilter={categoryMessage} yardFilter={yardMessageData}/>)}
       </div>
     </div>
   );
