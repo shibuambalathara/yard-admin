@@ -6,14 +6,16 @@ const Pagination = (props) => {
   const [totalPages, setTotalPage] = useState();
   const [value, setValue] = useState();
 
-  // console.log("props", props);
+  console.log("props", props);
 
   useEffect(() => {
     let totalPage = Math.ceil(props?.totalDataCount / props?.limit);
     setTotalPage(totalPage);
-  }, [totalPages]);
+  }, [totalPages,props]);
 
-  const handlePagination = (value) => {
+  console.log("pages and total apage",props?.page, totalPages);
+
+  const handlePagination = (value) => { 
     let convertedValue=parseInt(value)
     // console.log("value pf page form pagination", value);
     convertedValue > 0 && props?.setPage(convertedValue);
@@ -38,7 +40,11 @@ const Pagination = (props) => {
   };
 
   return (
-    <div className="space-x-10 my-4 flex  justify-between items-center">
+    <>
+    {/* { 
+    props?.totalDataCount > props?.limit  && (  */}
+      
+      <div className="space-x-10 my-4 flex  justify-between items-center">
       <div className="w-full  space-x-4">
         <button
           className={`${buttonStyle.data}  ${
@@ -58,7 +64,7 @@ const Pagination = (props) => {
           Previous page
         </button>
         <button
-          // disabled={props?.totalDataCount/(props?.page*props?.limit)===1}
+          
           disabled={props?.page >= totalPages && true}
           onClick={() => props?.setPage(props?.page + 1)}
           className={`${buttonStyle.data}  ${
@@ -97,6 +103,8 @@ const Pagination = (props) => {
         </div>
       </div>
     </div>
+  {/* )} */}
+    </>
   );
 };
 
