@@ -64,7 +64,7 @@ const UserDetails = () => {
         >
           <span className="text-slate-500 uppercase">
             {" "}
-            {userName && `Welcome , ${userName}`}
+            {userName && `Welcome,  ${userName}`}
           </span>
         </p>
         <button onClick={handleToggle} className="relative group z-10 ">

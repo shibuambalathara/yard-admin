@@ -146,7 +146,7 @@ console.log("user form api",user);
               {" "}
               <p>Don't have an account ?</p> <Link className="text-blue-800 text-sm" href="/register">create account </Link>
             </div>
-            <Link className="text-red-400" href="/resetpassword">Forget Password ? </Link>
+            {/* <Link className="text-red-400" href="/resetpassword">Forget Password ? </Link> */}
 
           </div>
         </div>

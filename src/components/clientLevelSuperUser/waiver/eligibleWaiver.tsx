@@ -95,7 +95,7 @@ const SelectionTable = () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
-      toast.success(response?.data?.message);
+      // toast.success(response?.dat   a?.message);
     } catch (error) {
       // toast.error(error?.response?.data?.message);
       console.log(error);

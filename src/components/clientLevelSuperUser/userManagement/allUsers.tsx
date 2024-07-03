@@ -96,7 +96,7 @@ const UserManagement = () => {
         id: "viewUser",
         header: "View User",
         cell: ({ row }) => (
-          <div className="">
+          <div className="  flex justify-center items-center">
             <View row={row} onEditClick={handleEditClick} />
           </div>
         ),
@@ -126,11 +126,14 @@ const UserManagement = () => {
   console.log("user status",accountStatus);
   
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen border-green-600">
+
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
         User Management
       </h1>
+
       <div className="flex w-full px-8 justify-between">
+
     <div className="w-full  flex justify">
     <div className="">
           <RoleSelect roleOptions={SuperUserChildren} setRoleFilter={setRoleFilter} />
@@ -139,7 +142,8 @@ const UserManagement = () => {
         <SelectStatus options={UserStatus} setAccountStatus={setAccountStatus} />
       </div> */}
     </div>
-        <div className="w-full flex flex-col space-y-4">
+
+        <div className="w-full flex flex-col space-y-4 ">
           <div className="self-end">
             <button
               onClick={handleModalOpen}
@@ -148,12 +152,17 @@ const UserManagement = () => {
               Add User
             </button>
           </div>
-          <div className="w-full relative">
-            <div className="absolute top-0 right-0 border shadow-2xl rounded-lg z-50">
-              {modalOpen && <CreateUser onClose={handleModalClose} fetchData={fetchAllUsers} />}
-            </div>
+          <div className="w-full relative border-red-800 ">
+          {modalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                {/* <div className=" p-4 rounded-lg shadow-lg"> */}
+                  <CreateUser onClose={handleModalClose} fetchData={fetchAllUsers} />
+                {/* </div> */}
+              </div>
+            )}
           </div>
         </div>
+
       </div>
   <div className="">
   {editModalOpen && (
@@ -180,18 +189,20 @@ export default UserManagement;
 
 const View = ({ row, onEditClick }) => {
   return (
-    <div className="flex justify-center items-center    space-x-2 bg-gray-700 rounded-md  text-white">
+    <div
+    onClick={() => onEditClick(row.original.id)}
+     className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white">
       {/* <div className="flex flex-col justify-center items-center bg-red-500"> */}
       <p>
         <MdOutlineViewHeadline />
       </p>
-      <button
-        onClick={() => onEditClick(row.original.id)}
-        className=" "
-      >
+      {/* <button
        
-              View User
-      </button>
+        className=" "
+      > */}
+       
+            <span>  View User</span>
+      {/* </button> */}
       {/* </div> */}
     </div>
   );

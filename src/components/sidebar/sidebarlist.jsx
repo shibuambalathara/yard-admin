@@ -510,7 +510,7 @@ export const clientLevelUser = [
 ];
 
 export const clientLevelSuperUser = [
-  { title: "Super users dash", icon: <MdDashboard />, path: "/" },
+  { title: "Dashboard", icon: <MdDashboard />, path: "/" },
   
 
   {

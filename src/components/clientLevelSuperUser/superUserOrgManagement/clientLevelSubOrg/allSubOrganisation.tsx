@@ -156,11 +156,11 @@ const AllClientLevelSubOrganisation = () => {
   return (
     <div className="w-full">
     <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
-      Organisation Management
+      Sub Organisation Management
     </h1>
     <div className="flex w-full px-8 justify-between ">
       <div className="">
-        <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
+        {/* <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} /> */}
       </div>
       {/* <div className="">
         <SelectStatus options={AccountStatus} setAccountStatus={setAccountStatus} />
@@ -176,7 +176,8 @@ const AllClientLevelSubOrganisation = () => {
         </div>
         <div className="w-full relative">
           <div className="absolute top-0 right-10 border shadow-2xl rounded-lg z-50">
-            {modalOpen && <CreateClientLevelSubOrg onClose={handleModalClose} fetchData={fetchSubOrganisation} />}
+            {modalOpen && 
+            <CreateClientLevelSubOrg onClose={handleModalClose} fetchData={fetchSubOrganisation} />}
           </div>
         </div>
       </div>
