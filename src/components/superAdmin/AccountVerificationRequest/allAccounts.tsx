@@ -8,16 +8,20 @@ import Link from "next/link";
 import Pagination from "@/components/pagination/pagination";
 import toast from "react-hot-toast";
 import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
-import {SelectComponent} from "@/components/ui/fromFields"
+import { SelectComponent } from "@/components/ui/fromFields";
 import Loading from "@/app/(home)/(superAdmin)/loading";
+import {
+  RoleSelect,
+  FilterComponent,
+} from "@/components/commonComponents/role";
 const AccountVerificationRequests = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const [roleFilter, setRoleFilter] = useState("SUPER_ADMIN");
-  const [statusFilter, setStatusFilter] = useState("PENDING");
+  const [roleFilter, setRoleFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit,setLimit]=useState(5)
+  const [limit, setLimit] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -43,21 +47,20 @@ const AccountVerificationRequests = () => {
       const response = await axiosInstance.get(
         `/account/users?page=${page}&limit=${limit}&accountVerification=${statusFilter}&role=${roleFilter}`
       );
-      console.log("response of account",response);
-      
+      console.log("response of account", response);
+
       setFilteredData(response.data);
       // setSuccess({
       //   text: response?.data?.message,
       // });
     } catch (error) {
-     console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   // console.log("filteredData",filteredData);
-  
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
@@ -100,80 +103,58 @@ const AccountVerificationRequests = () => {
         Account Verification Request
       </h1>
 
-      <div className="w-1/2 space-x-4 flex text-center  mx-4 items-center  ">
-        <div className="flex flex-col space-y-2 w-1/2">
-          <label
-            htmlFor="role-select"
-            className="font-roboto font-semibold text-lg text-gray-700"
-          >
-            Role
-          </label>
-          <select
-            id="role-select"
-            className="px-3 py-2 rounded-md shadow-sm focus:outline-none  border"
-            onChange={(e) => setRoleFilter(e.target.value)}
-            // defaultValue="DFADF"
-          >
-            <option value="" disabled hidden >
-          Select Role
-        </option>
-            {Role.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+      <div className="w-full  space-x-4 flex text-center  mx-4 items-center  ">
+        <div className="flex w-full px-8  space-x-10 items-center  ">
+          <div className="">
+            <FilterComponent
+              label=""
+              name="role"
+              options={Role}
+              setValue={setRoleFilter}
+              placeholder="Select Role"
+              defaultValue=""
+            />
+          </div>
+          <div className="">
+            <FilterComponent
+              label=""
+              name="status"
+              options={AccountStatus}
+              setValue={setStatusFilter}
+              placeholder="Select Status"
+              defaultValue=""
+            />
+          </div>
+        </div>
         </div>
 
-        <div className="flex flex-col space-y-2 w-1/2">
-          <label
-            htmlFor="status-select"
-            className="font-roboto font-semibold text-lg text-gray-700"
-          >
-            Status
-          </label>
-          <select
-            id="status-select"
-            className="px-3 py-2 rounded-md shadow-sm focus:outline-none  border"
-            onChange={(e) => setStatusFilter(e.target.value)}
-            // defaultValue="DFADF"
-
-          >
-             <option value="" disabled hidden >
-          Select Status
-        </option>
-            {AccountStatus.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+        
       <div className="flex flex-col">
-  {/* Conditionally render DataTable if there are users */}
-  {filteredData?.data?.totalCount > 0 ? (
-    <>
-      <DataTable data={UsersData} columns={UsersColumn} />
-      <div className="w-full text-center">
-        {filteredData?.data?.totalCount && (
-          <Pagination
-            page={page}
-            setPage={setPage}
-            limit={limit}
-            totalDataCount={filteredData?.data?.totalCount}
-          />
+        {/* Conditionally render DataTable if there are users */}
+        {filteredData?.data?.totalCount > 0 ? (
+          <>
+            <DataTable data={UsersData} columns={UsersColumn} />
+            <div className="w-full text-center">
+              {filteredData?.data?.totalCount && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData?.data?.totalCount}
+                />
+              )}
+            </div>
+          </>
+        ) : (
+          // Render NoUsersMessage if there are no users
+          <div>
+            <NoUsersMessage
+              roleFilter={roleFilter}
+              statusFilter={statusFilter}
+            />
+          </div>
         )}
       </div>
-    </>
-  ) : (
-    // Render NoUsersMessage if there are no users
-    <div>
-      <NoUsersMessage roleFilter={roleFilter} statusFilter={statusFilter} />
-    </div>
-  )}
-</div>
-
     </div>
   );
 };
@@ -184,9 +165,12 @@ const View = (row) => {
   // console.log("view", row);
   return (
     <div>
-     
-      <Link href={`/accountVerificationRequest/${row.original.id}`} target="_blank" rel="noopener noreferrer">
-     View
+      <Link
+        href={`/accountVerificationRequest/${row.original.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View
       </Link>
     </div>
   );

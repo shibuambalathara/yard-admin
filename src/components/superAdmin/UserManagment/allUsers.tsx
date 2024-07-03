@@ -5,16 +5,17 @@ import { Role } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
-import { RoleSelect } from "@/components/commonComponents/role";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import toast from "react-hot-toast";
-import { FaUserSlash ,FaUser,FaRegEye } from "react-icons/fa";
-import { FaUserLargeSlash,FaUserLarge } from "react-icons/fa6";
+import { FaUserSlash, FaUser, FaRegEye } from "react-icons/fa";
+import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import Pagination from "@/components/pagination/pagination";
-
-
+import {
+  RoleSelect,
+  FilterComponent,
+} from "@/components/commonComponents/role";
 
 const UserManagement = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
@@ -24,7 +25,7 @@ const UserManagement = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit,setLimit]=useState(5)
+  const [limit, setLimit] = useState(5);
 
   useEffect(() => {
     if (success) {
@@ -97,89 +98,102 @@ const UserManagement = () => {
       {
         id: "viewUser",
         header: "View User",
-        cell: ({ row }) => <div className=" flex justify-center">{View(row)}</div>,
+        cell: ({ row }) => (
+          <div className=" flex justify-center">{View(row)}</div>
+        ),
       },
-//       {
-//         id: "isBlocked",
-//         header: "Status",
-//         cell: ({ row }) =>
-//           row?.original?.is_blocked ?  (
-//             <div className="border-2 p-1 bg-green-600 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-//  <p className="text-lg"><FaUserLarge/></p> 
-//               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, false)}>unblock</button>
-//             </div>
-//           ) : (
-//             <div className="border-2 p-1 bg-red-500 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-//                <p className="text-xl"><FaUserLargeSlash/> </p>
-//               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, true)}>block</button>
-//             </div>  
-//           )
-//       },
-{
-  id: "isBlocked",
-  header: "Status",
-  cell: ({ row }) => {
-    const isBlocked = row?.original?.is_blocked;
+      //       {
+      //         id: "isBlocked",
+      //         header: "Status",
+      //         cell: ({ row }) =>
+      //           row?.original?.is_blocked ?  (
+      //             <div className="border-2 p-1 bg-green-600 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
+      //  <p className="text-lg"><FaUserLarge/></p>
+      //               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, false)}>unblock</button>
+      //             </div>
+      //           ) : (
+      //             <div className="border-2 p-1 bg-red-500 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
+      //                <p className="text-xl"><FaUserLargeSlash/> </p>
+      //               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, true)}>block</button>
+      //             </div>
+      //           )
+      //       },
+      {
+        id: "isBlocked",
+        header: "Status",
+        cell: ({ row }) => {
+          const isBlocked = row?.original?.is_blocked;
 
-    return (
-      <div className={`border-2 p-1 ${isBlocked ? 'bg-red-500' : 'bg-green-600'} space-x-2 font-semibold w-fit rounded-md uppercase text-center flex justify-center items-center`}>
-        <p className="text-lg">
-          {isBlocked ? <FaUserLargeSlash /> : <FaUserLarge />}
-        </p>
-        <button
-          className="text-white font-semibold uppercase"
-          onClick={() => handleUserBlockToggle(row.original, !isBlocked)}
-        >
-          {isBlocked ? 'block' : 'unblock'}
-        </button>
-      </div>
-    );
-  }
-}
-
-      
-    ], 
+          return (
+            <div
+              className={`border-2 p-1 ${
+                isBlocked ? "bg-red-500" : "bg-green-600"
+              } space-x-2 font-semibold w-fit rounded-md uppercase text-center flex justify-center items-center`}
+            >
+              <p className="text-lg">
+                {isBlocked ? <FaUserLargeSlash /> : <FaUserLarge />}
+              </p>
+              <button
+                className="text-white font-semibold uppercase"
+                onClick={() => handleUserBlockToggle(row.original, !isBlocked)}
+              >
+                {isBlocked ? "block" : "unblock"}
+              </button>
+            </div>
+          );
+        },
+      },
+    ],
     [filteredData]
   );
 
   const handleUserBlockToggle = async (user, block) => {
     // console.log("user from handleUserBlockToggle", user);
-    const action = block ? 'block' : 'unblock';
-    const confirmation = window.confirm(`Are you sure you want to ${action} this user?`);
-  
+    const action = block ? "block" : "unblock";
+    const confirmation = window.confirm(
+      `Are you sure you want to ${action} this user?`
+    );
+
     if (!confirmation) {
       return;
     }
-  
+
     try {
-      const response = await axiosInstance.patch(`/user/${user.id}/restrict/any`, {
-        blockProperty: block,
-      });
-      console.log('response from block',response);
-      fetchData()
-      
-      console.log('response from user block/unblock', response);
+      const response = await axiosInstance.patch(
+        `/user/${user.id}/restrict/any`,
+        {
+          blockProperty: block,
+        }
+      );
+      console.log("response from block", response);
+      fetchData();
+
+      console.log("response from user block/unblock", response);
     } catch (error) {
       console.log("error from user block/unblock", error);
     }
   };
 
-
-
-
-
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
-        User Management  
+        User Management
       </h1>
-      <div className="flex w-full px-8 justify-between">
+      <div className="flex w-full px-8 justify-between items-center ">
         <div className="">
-          <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
+       
+          <FilterComponent
+            label=""
+            name="role"
+            options={Role}
+            setValue={setRoleFilter}
+          placeholder="select a Role"
+            defaultValue=""
+          />
         </div>
-        <div className="self-end">
+        <div >
           <Link
-          href={`/userManagement/createUser`}
+            href={`/userManagement/createUser`}
             // onClick={handleModalOpen}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
           >
@@ -194,21 +208,21 @@ const UserManagement = () => {
             <Loading />
           </div>
         ) : ( */}
-       {   filteredData && 
-       <>
-        <DataTable data={UsersData} columns={userColumn} />
-       <div className="w-full text-center">
-       {filteredData?.totalCount && (
-         <Pagination
-           page={page}
-           setPage={setPage}
-           limit={limit}
-           totalDataCount={filteredData?.totalCount}
-         />
-       )}
-     </div>
-       </>
-      }
+        {filteredData && (
+          <>
+            <DataTable data={UsersData} columns={userColumn} />
+            <div className="w-full text-center">
+              {filteredData?.totalCount && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData?.totalCount}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -220,12 +234,17 @@ const View = (row) => {
   // console.log("from view", row.original.id);
   return (
     <div className="flex justify-center items-center border   py-1 px-3 space-x-1 bg-gray-700 text-white  rounded-md ">
-      <p><MdOutlineViewHeadline/></p>
-      <Link href={`/userManagement/${row.original.id}`} target="_blank" rel="noopener noreferrer" className="">
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+      <Link
+        href={`/userManagement/${row.original.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className=""
+      >
         View
       </Link>
     </div>
   );
 };
-
-
