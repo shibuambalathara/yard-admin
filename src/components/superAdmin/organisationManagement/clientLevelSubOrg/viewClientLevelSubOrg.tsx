@@ -331,9 +331,14 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
       <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
         <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold text-blue-700 mb-8">
-            Edit Client Organisation
-          </h1>
+          <div className="w-full  mb-">
+          <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
+          
+          Edit Client Organisation
+        </h1>
+        <div className="border-b mt-4"></div>
+          </div>
+          
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
@@ -362,7 +367,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
             <div className="p-4 w-80">
             <div className="p-4 w-80">
   <div className="flex flex-col w-full">
-    <label htmlFor="">Auction Allowed States</label>
+    <label htmlFor="">Vehicle Category</label>
     {/* <Controller
       name="veh_cat"
       control={control}

@@ -10,8 +10,9 @@ import {
 import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) => {
+const CreateClientLevelSubOrganisation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -35,6 +36,8 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
     control,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const router=useRouter()
 
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
@@ -130,8 +133,8 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
   //   console.log("clientLevelSuperUsers",clientLevelSuperUsers);
 
   const createClientLevelSubOrganisation = useCallback(async (data: Inputs) => {
-    console.log("data from createClientLevelSubOrganisation",data);
-    
+    console.log("data from createClientLevelSubOrganisation", data);
+
     // console.log("create from cientSuperorg", data);
     const modifiedData = {
       ...data,
@@ -147,8 +150,8 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
       );
       // console.log("response after clientOrgCreaet", response);
       toast.success(response?.data?.message);
-      fetchSubOrganisation();
-      onClose();
+      router.push('/organisationManagement/clientLevelSubOrg')
+     
     } catch (error) {
       // console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -156,111 +159,107 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchSubOrganisation, }) =>
     // Handle form submission
   }, []);
 
-  return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-4 rounded-lg w-full max-w-md">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-        <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Create Sub Org</h1>
-          <p className=" cursor-pointer" onClick={onClose}>
-            x
-          </p>
-        </div>
-        <form
-          onSubmit={handleSubmit(createClientLevelSubOrganisation)}
-          className="  border-gray-200 "
-        >
-          <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border h-form-Modal scrollbar-hide overflow-y-scroll ">
-            <div className="mb-">
-              <InputField
-                label=" Sub Organisation Name"
-                type="text"
-                name="clsub_org_name"
-                register={register}
-                errors={errors}
-                pattern=""
-              />
-            </div>
- 
-            <div className="mb-">
-              <SelectComponent
-                label="Selec user"
-                options={allSubUsers}
-                name="user_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-            
-            <div className="p-4 w-80">
-      <CustomMultiSelect
-        control={control}
-        name="vehicleCatIds"
-        options={allVehicleCategorys}
-        placeholder="Select Vehicle Category"
-        label="Select Vehicle Category"
-        defaultValue=""
-      />
-    </div>
-            <div className="mb-">
-              <SelectComponent
-                label="Select Client Organisation "
-                options={allClientLevelOrganisations}
-                name="cl_org_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-            <div className="mb-">
-              <SelectComponent
-                label=" Select Client Category"
-                options={allClientCategory}
-                name="clsub_org_category_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-          </div>
+  const close=()=>{
+    router.back()
+  }
 
-          <div className=" w-full text-center p-1 mt-3  space-x-2">
-            <button
-              type="button"
-              onClick={() => onClose()}
-              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-            >
-              Submit
-            </button>
+  return (
+    <>
+   <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
+      <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
+        <div className="flex flex-col items-center">
+          <div className="w-full  mb-">
+          <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
+          
+          Create Client Organisation
+        </h1>
+        <div className="border-b mt-4"></div>
           </div>
-        </form>
+          
+          <form
+            onSubmit={handleSubmit(createClientLevelSubOrganisation)}
+            className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
+          >
+            
+  
+
+           
+            <div className="mb-">
+                  <InputField
+                    label=" Sub Organisation Name"
+                    type="text"
+                    name="clsub_org_name"
+                    register={register}
+                    errors={errors}
+                    pattern=""
+                  />
+                </div>
+
+                <div className="mb-">
+                  <SelectComponent
+                    label="Selec user"
+                    options={allSubUsers}
+                    name="user_id"
+                    register={register}
+                    errors={errors}
+                    required={true}
+                    defaultValue=""
+                  />
+                </div>
+                <div className="p-4 w-80">
+                  <CustomMultiSelect
+                    control={control}
+                    name="vehicleCatIds"
+                    options={allVehicleCategorys}
+                    placeholder="Select Vehicle Category"
+                    label="Select Vehicle Category"
+                    defaultValue=""
+                  />
+                </div>
+                <div className="mb-">
+                  <SelectComponent
+                    label="Select Client Organisation "
+                    options={allClientLevelOrganisations}
+                    name="cl_org_id"
+                    register={register}
+                    errors={errors}
+                    required={true}
+                    defaultValue=""
+                  />
+                </div>
+                <div className="mb-">
+                  <SelectComponent
+                    label=" Select Client Category"
+                    options={allClientCategory}
+                    name="clsub_org_category_id"
+                    register={register}
+                    errors={errors}
+                    required={true}
+                    defaultValue=""
+                  />
+                </div>
+
+
+            <div className="flex justify-end col-span-full">
+              <button
+                type="button"
+                onClick={() => close()}
+                className="bg-red-500 text-white py-3 px-8 rounded-lg hover:bg-red-600 transition duration-200 mr-4"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition duration-200"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
+    </>
   );
 };
 

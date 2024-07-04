@@ -122,20 +122,31 @@ const MangeParkFee = () => {
       </h1>
       <div className="flex w-full px-8 justify-between">
         
-        <div className="flex justify-end w-full">
+        <div className="flex justify-end w-full border">
           <button
             // href={`/userManagement/createUser`}
             onClick={handleModalOpen}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
           >  
-            Add Park Fee
+            Add 
           </button>
-          {modalOpen && (
+          {/* {modalOpen && (
             <AddParkFee
               onClose={handleModalClose}
               fetchData={fetchParkFeeData}
             />
-          )}
+          )} */}
+ <div className="w-full relative">
+              {modalOpen && 
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+            <AddParkFee
+              onClose={handleModalClose}
+              fetchData={fetchParkFeeData}
+            />
+            </div>
+              }
+          </div>
+
         </div>
       </div>
       {editModalOpen && (

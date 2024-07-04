@@ -110,8 +110,8 @@ const AllOrganisation = () => {
       
       
       {
-        id: "viewUser",
-        header: "View User",
+        id: "view",
+        header: "View ",
         cell: ({ row }) => (
           <div className="flex justify-center relative z-10">
             <View row={row} onEditClick={handleEditClick} />

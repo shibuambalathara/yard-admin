@@ -82,7 +82,7 @@ const Pagination = (props) => {
               : " bg-gray-700"
           }`}
           disabled={props?.page >= totalPages && true}
-         onClick={handleLastPage}>last page</button>
+         onClick={handleLastPage}>Last page</button>
 
       </div>
       <div className="flex w-full  justify-evenly">

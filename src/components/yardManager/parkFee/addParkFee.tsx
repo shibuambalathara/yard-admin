@@ -40,7 +40,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
 
     //   console.log("reponse of clientlevelorg ", response);
 
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
       console.log("error", error);
       // toast.error(`something went wrong`); 
@@ -114,17 +114,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
+          
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
           <h1 className=" font-bold  ">Add Park Fee</h1>

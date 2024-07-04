@@ -98,7 +98,7 @@ const AccountVerificationRequests = () => {
   // }
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-4">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Account Verification Request
       </h1>

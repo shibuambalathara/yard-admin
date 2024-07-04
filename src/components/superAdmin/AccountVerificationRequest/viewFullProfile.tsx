@@ -163,15 +163,16 @@ const ViewFullProfile = ({ profileId }) => {
   const currentAccountVerification = watch("account_verification");
 
   return (
-    <div className="h-full w-full p-6">
-      <h1 className="w-full uppercase border text-center text-lg font-semibold">
-        {userData?.name}
+    <div className="h-screen flex justify-center items-center w-full p-6">
+    <div className="w-full">
+    <h1 className="w-full bg-slate-200  border-t border-r border-l text-center text-lg font-bold uppercase p-2">
+       User Verification
       </h1>
-      <div className="w-full">
+      <div className="  flex justify-center items-center">
         <form
           onSubmit={handleSubmit(handleUserUpdate)}
           action=""
-          className="border scrollbar-hide grid grid-cols-2 w-full h-[600px] content-start gap-y-8 overflow-y-scroll p-4 justify-items-center"
+          className="border-2 scrollbar-hide grid grid-cols-2 w-full h-96 border-red-00 content-start gap-y-8 overflow-y-scroll p-4 justify-items-center"
         >
           <FormFieldInput
             label="Name"
@@ -245,9 +246,9 @@ const ViewFullProfile = ({ profileId }) => {
           </div>
           </div>
 
-          <div className="col-span-2 border">
+          {/* <div className="col-span-2 border">
             <ImageMaping images={images} />
-          </div>
+          </div> */}
           {/* <div className="w-full col-span-2 flex justify-center">
             <button
               type="submit"
@@ -258,6 +259,7 @@ const ViewFullProfile = ({ profileId }) => {
           </div> */}
         </form>
       </div>
+    </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -302,7 +304,7 @@ const ViewFullProfile = ({ profileId }) => {
                   error={errors.rejection_cmnt}
                   defaultValue=""
                   required
-                  placeholder="Rejection Reason "
+                  placeholder=" Eg: Incomplete Information"
                 />
               )}
               <div className="flex justify-center mt-4 ">

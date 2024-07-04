@@ -3,7 +3,7 @@ import ViewClientCategory from '@/components/superAdmin/clientCategoryManagement
 
 const IndividualClient = ({params}:{params:{clientId:string}}) => {
   return (
-    <div className='h-full w-full'><ViewClientCategory clientId={params}/></div>
+    <div className='h-full w-full'>ewrwer</div>
   )
 }
 

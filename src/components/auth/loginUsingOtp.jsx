@@ -57,7 +57,7 @@ const LoginUsingOtp = () => {
             error={errors.mobile}
             defaultValue=""
             required
-            placeholder="Enter Your mobile Number "
+            placeholder="Enter Your Mobile Number "
           />
           
 
