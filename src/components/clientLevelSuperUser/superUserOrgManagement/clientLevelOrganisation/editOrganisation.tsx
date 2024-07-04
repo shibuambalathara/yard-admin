@@ -302,7 +302,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
               type="submit"
               className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
             >
-              Create
+              Update
             </button>
           </div>
         </form>

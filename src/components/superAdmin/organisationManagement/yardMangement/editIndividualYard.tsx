@@ -154,12 +154,23 @@ const EdityardDataYard = ({ yardId }) => {
   }
 
   return (
-    <div className="bg-white p-4 rounded-lg w-full">
-      <div className="flex w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1 justify-center">
-        <h1 className="font-bold text-center">Edit Yard</h1>
-      </div>
-      <form onSubmit={handleSubmit(editYard)} className="border-gray-200 mt-14">
-        <div className="mx-auto grid grid-cols-3 gap-x-8 gap-y-10 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
+    <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
+      <div className="flex flex-col items-center">
+        <div className="w-full  mb-">
+          <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
+            Edit Yard
+          </h1>
+          <div className="border-b mt-4"></div>
+        </div>
+
+        <form
+          onSubmit={handleSubmit(editYard)}
+          className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
+        >
+          
+
+         
           <div>
             <InputField
               label="Yard Name"
@@ -221,54 +232,28 @@ const EdityardDataYard = ({ yardId }) => {
             defaultValue=""
             
           />
-          <div>
-            <InputField
-              label="Postal Code"
-              type="text"
-              name="postal_code"
-              register={register}
-              errors={errors}
-              pattern=""
-            />
+          
+
+
+          <div className="flex justify-end col-span-full">
+            <button
+              type="button"
+              onClick={() => close()}
+              className="bg-red-500 text-white py-3 px-8 rounded-lg hover:bg-red-600 transition duration-200 mr-4"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition duration-200"
+            >
+              Submit
+            </button>
           </div>
-          <div>
-            <InputField
-              label="Land Mark"
-              type="text"
-              name="land_mark"
-              register={register}
-              errors={errors}
-              pattern=""
-            />
-          </div>
-          <div>
-            <InputField
-              label="Street Name"
-              type="text"
-              name="street_name"
-              register={register}
-              errors={errors}
-              pattern=""
-            />
-          </div>
-        </div>
-        <div className="w-full text-center p-1 space-x-2 mt-6">
-          <button
-            type="button"
-            onClick={() => reset(yardData)}
-            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
+  </div>
   );
 };
 

@@ -89,7 +89,7 @@ const DataTable = ({ data, columns }) => {
                   </tr>
                 ))}
               </thead>
-              <tbody className="text-black space-x-8">
+              <tbody className="text-black space-x-2">
                 {table?.getRowModel()?.rows?.map((row) => (
                   <tr
                     className="divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50"
@@ -97,7 +97,7 @@ const DataTable = ({ data, columns }) => {
                   >
                     {row?.getVisibleCells().map((cell) => (
                       <td
-                        className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
+                        className="text-center p-4 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
                         key={cell.id}
                       >
                         {flexRender(cell?.column?.columnDef?.cell, cell.getContext())}

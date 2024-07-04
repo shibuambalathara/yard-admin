@@ -3,7 +3,7 @@ import ViewClientLevelSuperOrganisation from "@/components/superAdmin/organisati
 
 const ViewIndividualOrg = ({ params }: { params: { profileId: string } }) => {
   return (
-    <div className='h-full w-full'><ViewClientLevelSuperOrganisation  profileId={params}/></div>
+    <div className='h-full w-full'>555</div>
   )
 }
 

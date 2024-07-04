@@ -71,71 +71,79 @@ const Addcategory = ({ onClose,fetchData }) => {
   };
 
   return (
+   <>
    
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-lg">
+
+  
+
+  <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white p-4 rounded-lg w-full max-w-md">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
+          
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Add Client</h1>
+          <h1 className=" font-bold  ">Add Client Category</h1>
           <p className=" cursor-pointer" onClick={onClose}>
             x
           </p>
         </div>
         <form
-          className={`${formStyle.data}`}
-          onSubmit={handleSubmit(AddVehicleCategory)}
-        >
-          <div className="w-full  text-center uppercase font-bold">
-            <h1>Add Client Category</h1>
-          </div>
-
-          <FormFieldInput
-            label=""
+      onSubmit={handleSubmit(AddVehicleCategory)}
+        
+        className="  border-gray-200 ">
+          <div className=" grid grid-cols-1 gap-2 justify-center  p-2 border ">
+         <div>
+         <FormFieldInput
+            label="Enter Category Name"
             type="text"
             name="name"
             register={register}
             error={errors.name}
             defaultValue=""
             required
-            placeholder="Enter Category Name"
+            placeholder=""
           />
+         </div>
+          <div>
           <TextArea
-            label=""
+            label=" Enter Description"
             type="text"
             name="description"
             register={register}
             error={errors.description}
             defaultValue=""
             required
-            placeholder=" Enter Description"
+            placeholder=""
           />
+          </div>
+          </div>
 
-          <div className="w-full">
+          <div className=" w-full text-center p-1 mt-3  space-x-2">
+            
+            <button
+            type="button"
+              onClick={() => onClose()}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-[#333333] text-white px-4 py-1 w-full"
+              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
             >
-              Add
+              Submit
             </button>
           </div>
         </form>
       </div>
     </div>
+   </>
+  
+
+    
   );
 };
 

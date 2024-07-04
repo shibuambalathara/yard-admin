@@ -63,9 +63,9 @@ const AllClientLevelSubOrganisation = () => {
       );
       console.log("all sub org", response);
       setFilteredData(response?.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+      // setSuccess({
+      //   text: response?.data?.message,
+      // });
     } catch (error) {
       setError({
         text: error?.response?.data?.message,
@@ -118,8 +118,8 @@ const AllClientLevelSubOrganisation = () => {
       
       
       {
-        id: "viewUser",
-        header: "View User",
+        id: "view",
+        header: "View ",
         cell: ({ row }) => View(row),
       },
     ],
@@ -138,35 +138,28 @@ const AllClientLevelSubOrganisation = () => {
 
   return (
     <div className="w-full">
+      <div className="space-y-4 mt-2">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
       client Level Sub Organisation
       </h1>
       <div className="flex w-full px-8 justify-between">
         <div className="">
-          <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
+          {/* <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} /> */}
         </div>
         <div className="self-end">
-          <button
-            // href={`/userManagement/createUser`}
-            onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          <Link
+            href={`/organisationManagement/clientLevelSubOrg/createSubOrg/`}
+    
+            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
           >
-            ADD SUB ORG
-          </button>
-          {modalOpen && (
-            <CreateClientLevelSubOrg
-              onClose={handleModalClose}
-              fetchSubOrganisation={fetchSubOrganisation}
-            />
-          )}
+            ADD 
+            </Link>
+         
         </div>
       </div>
+      </div>
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
-          </div>
-        ) : ( */}
+       
         {
           filteredData && <DataTable data={UsersData} columns={userColumn} />
 

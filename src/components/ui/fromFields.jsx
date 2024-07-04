@@ -45,7 +45,7 @@ export const FormFieldInput = ({
         onChange={handleInputChange}
       />
 
-      {error && <p className="text-red-500">{`${label} Required`}</p>}
+      {error && <p className="text-red-500 text-start">{`${label} Required`}</p>}
     </div>
   );
 };
@@ -89,7 +89,7 @@ export const InputField = ({
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         // export const inputStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded border `}
 
-        className={`${inputStyle.data} ${name === `name` && `uppercase`}`}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} `}
         onChange={handleInputChange}
         placeholder={placeholder}
       />
@@ -244,9 +244,9 @@ export const SelectInput = ({
         {...rest}
         // defaultValue={defaultValue}
       >
-        {/* <option disabled >
-        {defaultValue}
-        </option> */}
+        <option disabled  selected >
+        {label}
+        </option>
         {options &&
           options?.map((option) => (
             <option key={option.value} value={option.value}>
@@ -409,7 +409,7 @@ export const TextArea = ({
         placeholder={placeholder}
         cols="30"
         rows="10"
-        className="w-96 h-20 border placeholder:pt-4 p-4 placeholder:text-center placeholder:my-auto"
+        className="w-96 h-20 border-2 py-6 px-2 mt-2  place "
       ></textarea>
       {error && <p className="text-red-500">{`${label} Required`}</p>}
     </div>

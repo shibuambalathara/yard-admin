@@ -89,9 +89,7 @@ const ViewFullUserProfile = ({ profileId }) => {
 
       console.log("resetData", resetData);
 
-      setSuccess({
-        text: response?.data?.message,
-      });
+     
       setInitialData(resetData); // Store the initial data
       reset(resetData);
     } catch (error) {
@@ -157,14 +155,15 @@ const ViewFullUserProfile = ({ profileId }) => {
   }
 
   return (
-    <div className="   w-full p-6 ">
-      <h1 className="w-full uppercase border text-center text-lg font-semibold">
-        Profile{" "}
-      </h1>
-      <div className="  w-full h-custom border  overflow-scroll scrollbar-hide ">
-        <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
-          <div className="max-w-6xl mx-auto grid grid-cols-2 gap-6 justify-center place-items-center p-2 ">
-            <div className="mb-">
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+      <div className="flex justify-between items-center border-b pb-4 mb-6">
+        <h1 className="text-2xl font-bold text-gray-700">Update User</h1>
+        {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mb-">
               <FormFieldInput
                 label="Name"
                 type="text"
@@ -261,44 +260,40 @@ const ViewFullUserProfile = ({ profileId }) => {
                 defaultValue="Select document type"
               />
             </div>
-            {/* <div className="mb-2 ">
-              <label className="block font-bold mb-2" htmlFor="document_value">
-                Document Value
-              </label>
-              <input
-                id="document_value"
-                type="file"
-                className="py-1 px-12 border border-gray-300 rounded"
-                // className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                {...register("document_value", )}
-              />
-              {errors.document_value && (
-                <p className="text-red-500">Document Value is required</p>
-              )}
-              <div className="border w-full">
-                <div className="w-full p-1">
-                  <Image
-                    src={img1}
-                    alt="description"
-                    width={380}
-                    height={150}
-                  />
-                </div>
-              </div>
-            </div> */}
+            
+          <div className="col-span-2 w-72">
+            <label className="block font-bold mb-2" htmlFor="document_value">
+              Document Value
+            </label>
+            <input
+              id="document_value"
+              type="file"
+              className="py-2 px-4 border border-gray-300 rounded-lg w-full"
+              {...register("document_value", { required: true })}
+            />
+            {errors.document_value && (
+              <p className="text-red-500">Document Value is required</p>
+            )}
           </div>
-
-          <div className=" w-full text-center p-1 mt-3">
-            <button
-              type="submit"
-              className="bg-red-500 text-white py-2 px-10 w-40 rounded hover:bg-red-600 transition duration-200"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
+           {/* <FileUploadInput
+                label=" Document Values"
+                name="document_value" 
+                register={register}
+                accept="image/*"
+                
+              /> */}
+        </div>
+        <div className="w-full text-center pt-4">
+          <button
+            type="submit"
+            className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
   );
 };
 

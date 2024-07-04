@@ -1,13 +1,10 @@
 "use client";
 import { useState, useEffect, useMemo, useRef } from "react";
 import DataTable from "@/components/tables/dataTable";
-
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
-
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import toast from "react-hot-toast";
-
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateClientLevelOrg from "@/components/superAdmin/organisationManagement/clientLevelOrg/addClientLevelOrgs";
 import Pagination from "@/components/pagination/pagination";
@@ -103,8 +100,8 @@ const AllYards = () => {
       },
 
       {
-        id: "viewUser",
-        header: "View User",
+        id: "view",
+        header: "View ",
         cell: ({ row }) => View(row),
       },
     ],
@@ -203,16 +200,14 @@ console.log("filteredData subOrg",filteredData);
           >
             Reset
           </button> */}
-          <button
-            // href={`/userManagement/createUser`}
-            onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
+          <Link
+            href={`/organisationManagement/yardManagement/createYard`}
+            // onClick={handleModalOpen}
+            className="bg-blue-500 text-white py-2 h-10 px-6 rounded hover:bg-blue-600 transition duration-200"
           >
-            Create Yard
-          </button>
-          {modalOpen && (
-            <CreateYard fetchYard={fetchData} onClose={handleModalClose} />
-          )}
+            Add
+          </Link>
+          
         </div>
       </div>
 

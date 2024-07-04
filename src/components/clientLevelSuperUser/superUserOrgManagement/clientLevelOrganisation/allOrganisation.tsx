@@ -19,6 +19,7 @@ import Pagination from "@/components/pagination/pagination";
 const AllOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
+  const [limit,setLimit]=useState(5)
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
@@ -109,8 +110,8 @@ const AllOrganisation = () => {
       
       
       {
-        id: "viewUser",
-        header: "View User",
+        id: "view",
+        header: "View ",
         cell: ({ row }) => (
           <div className="flex justify-center relative z-10">
             <View row={row} onEditClick={handleEditClick} />
@@ -156,7 +157,7 @@ const handleModalOpen = () => {
       </h1>
       <div className="flex w-full px-8 justify-between">
         <div className="">
-          <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} />
+          {/* <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} /> */}
         </div>
         <div className="w-full flex flex-col space-y-4">
           <div className="self-end">
@@ -168,21 +169,22 @@ const handleModalOpen = () => {
             </button>
           </div>
           <div className="w-full relative">
-            <div className="absolute top-0 right-10 border shadow-2xl rounded-lg z-50">
-              {modalOpen && <CreateClientLevelOrg onClose={handleModalClose} fetchData={fetchAllOrg} />}
+              {modalOpen && 
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+              <CreateClientLevelOrg onClose={handleModalClose} fetchData={fetchAllOrg} />
             </div>
+              }
           </div>
         </div>
       </div>
   <div className="">
   {editModalOpen && (
         <div className="relative border ">
-          <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
-          <div className=" w-full   max-w-sm z-20 ">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+
             <EditIndividualOrg userId={selectedUserId} onClose={handleEditModalClose} fetchData={fetchAllOrg} />
             
           </div>
-        </div>
         </div>
       )}
   <div>
@@ -197,17 +199,22 @@ const handleModalOpen = () => {
 export default AllOrganisation;
 
 const View = ({ row, onEditClick }) => {
-    return (
-      <div className="flex justify-center items-center  py-1 px-3 space-x-1 text-white rounded-md z-[-10]">
-        <p>
-          <MdOutlineViewHeadline />
-        </p>
-        <button
-          onClick={() => onEditClick(row.original.id)}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-        >
-          View User
-        </button>
-      </div>
-    );
-  };
+  return (
+    <div
+    onClick={() => onEditClick(row.original.id)}
+     className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white">
+      {/* <div className="flex flex-col justify-center items-center bg-red-500"> */}
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+      {/* <button
+       
+        className=" "
+      > */}
+       
+            <span>  View User</span>
+      {/* </button> */}
+      {/* </div> */}
+    </div>
+  );
+};

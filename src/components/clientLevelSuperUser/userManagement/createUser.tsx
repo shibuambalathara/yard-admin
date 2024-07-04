@@ -83,9 +83,10 @@ const CreateUser = ({ onClose,fetchData }:any) => {
   };
 
   return (
-    <div className="flex items-center justify-center relative z-50 ">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3 ">
-        <h1 className="p-2 uppercase text-center">create User</h1>
+    <div className="flex items-center justify-center relative  border-blue-800">
+      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-7xl w-full space-y-3 border-red-700 ">
+        <h1 className="p-2 uppercase text-center"><span className="px-2 py-2 font-bold">
+        create User</span></h1>
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-200"
           onClick={onClose}

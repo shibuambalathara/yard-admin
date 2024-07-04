@@ -10,7 +10,8 @@ const IndividualVehicleCategory = ({
   return (
     <div className="h-full w-full">
       {/* <Suspense fallback={<p>loading...</p>}> */}
-      <ViewVehicleCategory categoryId={params} />
+      {/* <ViewVehicleCategory categoryId={params} /> */}
+      gdfsg
       {/* </Suspense> */}
      
     </div>

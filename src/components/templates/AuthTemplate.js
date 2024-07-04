@@ -6,7 +6,7 @@ import Image from "next/image";
 const AuthTemplate = ({ children,  }) => {
   return (
     <>
-      <div className="h-screen w-full  flex flex-col justify-center relative overflow-hidden border    space-y-4  z-[10]  ">
+      <div className="h-screen w-full  flex flex-col justify-center relative overflow-hidden      z-[10]  ">
         {/* img strs */}
         {/* <div className="w-full h-full absolute z-[-1]  ">
           <Image
@@ -40,7 +40,7 @@ const AuthTemplate = ({ children,  }) => {
 
         <div className=" flex   justify-center items-center  h-80  ">
         
-          <div className="  border-2  rounded-lg   p-2  h-full flex  flex-col justify-center   ">
+          <div className="   border-stone-700     flex  flex-col justify-center   ">
          
             <div> {children}</div>
             {/* <div className="text-center   ">

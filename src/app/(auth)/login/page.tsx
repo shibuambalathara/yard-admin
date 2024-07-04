@@ -26,9 +26,11 @@ const Login = () => {
   return (
     <AuthTemplate>
       <div className=" w-96 flex items-center justify-center  z-[10] relative ">
-        <div className="  p-1 py-4 px-4  ">
+        <div className="  p-1   ">
           <Tab.Group>
-            <Tab.List className="flex space-x-1 rounded bg-blue-900/20 p-1   ">
+            <Tab.List
+             className="flex space-x-1 rounded  "
+               >
               <Tab
                 className={({ selected }) =>
                   classNames(
