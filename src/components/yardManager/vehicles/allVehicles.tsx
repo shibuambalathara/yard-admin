@@ -1,29 +1,20 @@
-
-
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role, VehicleState } from "@/utils/staticData";
+
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
-import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
-import { RoleSelect } from "@/components/commonComponents/role";
-import Loading from "@/app/(home)/(superAdmin)/loading";
-import toast from "react-hot-toast";
-import { FaUserSlash, FaUser, FaRegEye } from "react-icons/fa";
-import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
-import { GrFormView } from "react-icons/gr";
+
 import { MdOutlineViewHeadline } from "react-icons/md";
-import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
+
 import Pagination from "@/components/pagination/pagination";
-import AddVehicle from "@/components/yardManager/vehicles/addVehicles"
+
 import { inputStyle, labelStyle } from "@/components/ui/style";
 
 const AllVehicles = () => {
- 
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-//   const [modalOpen, setModalOpen] = useState(false);
+  //   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -31,38 +22,32 @@ const AllVehicles = () => {
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setCategory] = useState(null);
 
-  const [vehicleStatus, setVehicleStatus] = useState('');
-  const [limit,setLimit]=useState(6)
-  
-
-
-  
-
+  const [vehicleStatus, setVehicleStatus] = useState("");
+  const [limit, setLimit] = useState(6);
 
   const fetchVehicles = async () => {
     setIsLoading(true);
-    
-      try {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          limit: limit?.toString(),
-        });
-           
-        if (Category) {
-          params.append('vehicle_category_id', Category);
-        }
-       
-        if(vehicleStatus){
-          params.append('status',vehicleStatus);
 
-        }
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit?.toString(),
+      });
 
-        const response = await axiosInstance.get(`/vehicle/?${params.toString()}`);
-        console.log('res', response);
-      
-      
+      if (Category) {
+        params.append("vehicle_category_id", Category);
+      }
+
+      if (vehicleStatus) {
+        params.append("status", vehicleStatus);
+      }
+
+      const response = await axiosInstance.get(
+        `/vehicle/?${params.toString()}`
+      );
+      console.log("res", response);
+
       setFilteredData(response?.data?.res);
-      
     } catch (error) {
       setError({
         text: error?.response?.data?.message,
@@ -76,14 +61,12 @@ const AllVehicles = () => {
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
-      console.log('cat',response);
-      
+      console.log("cat", response);
+
       setAllVehicleCategory(response?.data?.vehicleCategory);
-    
-      
     } catch (error) {
       // toast.error("Failed to fetch vehicle categories");
-      console.log(error)
+      console.log(error);
     }
   }, []);
 
@@ -92,17 +75,15 @@ const AllVehicles = () => {
     label: item.name,
   }));
 
-
   useEffect(() => {
-    fetchVehicles(); 
-    FetchAllVehicleCategory()// Call fetchData directly inside useEffect
-  }, [Category, page,vehicleStatus]);
+    fetchVehicles();
+    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
+  }, [Category, page, vehicleStatus]);
 
   const UsersData = filteredData?.vehicle || [];
 
   const userColumn = useMemo(
     () => [
-
       {
         header: "make",
         accessorKey: "make",
@@ -134,10 +115,8 @@ const AllVehicles = () => {
         accessorKey: "code",
         // id: "code", // Ensure unique id
       },
-      
-      
+
       {
-        
         header: "Action",
         cell: ({ row }) => View(row),
       },
@@ -145,82 +124,53 @@ const AllVehicles = () => {
     [filteredData]
   );
 
-  // console.log("filetered data from clientLevelSuperOrg",filteredData);
-
-//   const handleModalOpen = () => {
-//     setModalOpen(true);
-//   };
-
-//   const handleModalClose = () => {
-//     setModalOpen(false);  
-//   };
-
-const handleCatChange =(e)=>{
-  const value = e.target.value;
-   setCategory(value)
-} 
-const handleOwnershipStatus = (e) => {
-  const value = e.target.value;
-  setVehicleStatus(value);
-};
+  const handleCatChange = (e) => {
+    const value = e.target.value;
+    setCategory(value);
+  };
+  const handleOwnershipStatus = (e) => {
+    const value = e.target.value;
+    setVehicleStatus(value);
+  };
 
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      Vehicles
+        Vehicles
       </h1>
 
       <div className="flex flex-col w-40  ml-8">
-          <label htmlFor="state" className={labelStyle?.data}>
-            Select Category
-          </label>
-          <select
-            id="state"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleCatChange}
-            
-          >
-            <option value="">All Category</option>
-           
-           
-            {vehicleCategorys.map((option, index) => (
-              <option key={index} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-          {/* {errors.state && (
-              <p className="text-red-500">State is required</p>
-                          )} */}
-        </div>
-        
-      
+        <label htmlFor="state" className={labelStyle?.data}>
+          Select Category
+        </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleCatChange}
+        >
+          <option value="">All Category</option>
+
+          {vehicleCategorys.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="flex w-full px-8 justify-between">
-        
         <div className="flex justify-end w-full">
           <Link
             href={`/vehicle/addvehicle`}
             // onClick={handleModal}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-          >  
-            Add Vehicle
+            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Add
           </Link>
-          {/* {isModalOpen && (
-            <AddVehicle
-              onClose={handleModal}
-              fetchData={fetchVehicles}
-            />
-          )} */}
         </div>
       </div>
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
-          </div>
-        ) : ( */}
         {
           filteredData && <DataTable data={UsersData} columns={userColumn} />
 
@@ -237,7 +187,6 @@ const handleOwnershipStatus = (e) => {
           )}
         </div>
       </div>
-      
     </div>
   );
 };

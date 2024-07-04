@@ -129,34 +129,22 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="  rounded-lg w-full max-w-md">
-      
-        
-        <form
-          onSubmit={handleSubmit(EditClientCategory)}
-          className=""
+      <div className="bg-white p-4 rounded-lg w-full max-w-md">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
         >
-          <div className=" mx-auto grid bg-white grid-cols-1 relative gap-x-8 gap-y-4 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8 ">
-          <button
-        className="absolute top-0 p-2 right-0 text-gray-400 hover:text-gray-600 transition duration-200"
-        onClick={() => onClose()}
-      >
-        <svg
-          className="h-6 w-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-            <div className="mb-">
+          
+        </button>
+        <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+          <h1 className=" font-bold  ">Add Park Fee</h1>
+          <p className=" cursor-pointer" onClick={onClose}>
+            x
+          </p>
+        </div>
+        <form onSubmit={handleSubmit(EditClientCategory)} className="  border-gray-200 ">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
+          <div className="mb-">
               <InputField
                 label="park Fee Per Day"
                 type="number"
@@ -166,9 +154,7 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
                 pattern=""
               />
 
-              {/* cl_org_id: string;
-  vehicle_category_id: string;
-  park_fee_per_day:string */}
+          
             </div>
             <div className="mb-">
               <SelectInput
@@ -192,10 +178,16 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
                 defaultValue=""
               />
             </div>
-            <div className=" w-full text-center p-1 mt-3  space-x-2">
+            
+           
+            
+          </div>
+
+          <div className=" w-full text-center p-1 mt-3  space-x-2">
+            
             <button
-              type="button"
-              onClick={() =>onClose()}
+            type="button"
+              onClick={() => onClose()}
               className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
@@ -207,9 +199,6 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
               Submit
             </button>
           </div>
-          </div>
-
-         
         </form>
       </div>
     </div>

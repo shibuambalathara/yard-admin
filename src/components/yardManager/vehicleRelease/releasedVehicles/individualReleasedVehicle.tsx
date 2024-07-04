@@ -193,7 +193,7 @@ console.log("ilnut datas",data);
   const tabs = {
     "Yard Details": <YardDetails vehicle={vehicleData} />,
     "Vehicle Details": <VehicleDetails vehicle={vehicleData} />,
-    "Vehicle ownership": <VehicleOwnerships vehicle={vehicleData} />,
+    "Vehicle Ownership": <VehicleOwnerships vehicle={vehicleData} />,
     "Release Details": <ReleaseDetails vehicle={vehicleData} />,
   }
 
@@ -204,7 +204,7 @@ console.log("ilnut datas",data);
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-         Released vehicle
+         Released Vehicle
         </h2>
 
         <section>
@@ -260,7 +260,7 @@ console.log("ilnut datas",data);
       </div>
    
       {
-        formModalOpen && (<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        formModalOpen && (<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center  z-50 backdrop-blur-sm">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transform transition-all flex flex-col justify-center items-center">
             <h2 className="text-2xl font-bold mb-4">Enter  Details</h2>
             <form onSubmit={handleSubmit(updateReleasedDetails)}>
@@ -325,145 +325,9 @@ export default IndividualReleasedVehicle;
 
 
 
-// const YardDetails = ({ vehicle }) => {
-//   return (
-//     <div className="border border-gray-200 px-4 py-5 sm:p-0 rounded">
-//       <dl className="sm:divide-y sm:divide-gray-200">
-//         <Detail
-//           title="Yard Name"
-//           value={vehicle?.vehicle_ownership?.vehicle?.yard?.yard_name}
-//         />
-//         <Detail
-//           title="Yard Code"
-//           value={vehicle?.vehicle_ownership?.vehicle?.yard?.code}
-//         />
-//         <Detail
-//           title="Current Days in Yard"
-//           value={vehicle?.curr_days_in_yard}
-//         />
-//         <Detail title="Total Park Fee" value={vehicle?.curr_total_park_fee} />
-//         <Detail
-//           title="Total Waiver Park Fee"
-//           value={vehicle?.curr_total_waiver_park_fee}
-//         />
-//       </dl>
-//     </div>
-//   );
-// };
 
-// const VehicleDetails = ({ vehicle }) => {
-//   const actual_entry_date = vehicle?.vehicle_ownership?.vehicle?.actual_entry_date ? vehicle?.vehicle_ownership?.vehicle?.actual_entry_date.split("T")[0]: null;
-// console.log("");
-
-//   return (
-//     <div className="border border-gray-200 px-4 py-5 sm:p-0 rounded">
-//       <dl className="sm:divide-y sm:divide-gray-200">
-//         <Detail
-//           title="Actual Entry Date."
-//           value={actual_entry_date}
-//         />
-//         <Detail
-//           title="Code"
-//           value={vehicle?.vehicle_ownership?.vehicle?.code}
-//         />
-//         <Detail
-//           title="Make"
-//           value={vehicle?.vehicle_ownership?.vehicle?.make}
-//         />
-//         <Detail
-//           title="Model"
-//           value={vehicle?.vehicle_ownership?.vehicle?.model}
-//         />
-//         <Detail
-//           title="Park fee Per Day"
-//           value={vehicle?.vehicle_ownership?.vehicle?.park_fee_per_day}
-//         />
-//         <Detail
-//           title="Registration Number"
-//           value={vehicle?.vehicle_ownership?.vehicle?.reg_number}
-//         />
-//         <Detail
-//           title="Vehicle Category"
-//           value={vehicle?.vehicle_ownership?.vehicle?.vehicle_category?.name}
-//         />
-//       </dl>
-//     </div>
-//   );
-// };
-
-// const VehicleOwnerships = ({ vehicle }) => {
-
-//   console.log("444", vehicle?.vehicle_ownership?.cl_org?.cl_org_name);
-
-//   return (
-//     <div className="border border-gray-200 px-4 py-5 sm:p-0 rounded">
-//       <dl className="sm:divide-y sm:divide-gray-200">
-//         <Detail
-//           title="Client Organisation Name"
-//           value={vehicle?.vehicle_ownership?.cl_org?.cl_org_name}
-//         />
-//         <Detail title="Code" value={vehicle?.vehicle_ownership?.cl_org?.code} />
-//         <Detail title="Comment" value={vehicle?.vehicle_ownership?.comment} />
-//         <Detail title="Status" value={vehicle?.vehicle_ownership?.status} />
-//       </dl>
-//     </div>
-//   );
-// };
-
-// const ReleaseDetails = ({ vehicle }) => {
-
-
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.collected_amount);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.days_in_yard);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.payment_doc);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.payment_status);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.receiver_contact);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.receiver_name);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.release_date);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.release_doc);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.total_amount);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.total_park_fee);
-//   // console.log("m  released vehicles",vehicleData?.release_detail?.total_waiver_park_fee);
   
   
 
 
-//   return (
-//     <div className="border border-gray-200 px-4 py-5 sm:p-0 rounded">
-//       <dl className="sm:divide-y sm:divide-gray-200">
-//         <Detail
-//           title="Collected Amount"
-//           value={vehicle?.release_detail?.collected_amount}
-//         />
-//         <Detail title="Days in Yard" value={vehicle?.release_detail?.days_in_yard} />
-       
-//         <Detail title="Payment Document" value={vehicle?.release_detail?.payment_doc} />
-       
-//         <Detail title="Payment Status" value={vehicle?.release_detail?.payment_status} />
-//         <Detail title="Receiver Name" value={vehicle?.release_detail?.receiver_name} />
 
-//         <Detail title="Receiver Contact" value={vehicle?.release_detail?.receiver_contact} />
-      
-//         <Detail title="Release Date" value={vehicle?.release_detail?.release_date} />
-        
-//         <Detail title="Release Document" value={vehicle?.release_detail?.release_doc} />
-//         <Detail title="Total Amount" value={vehicle?.release_detail?.total_amount} />
-//         <Detail title="Total Park Fee" value={vehicle?.release_detail?.total_park_fee} />
-//         <Detail title="Total Waiver Park Fee" value={vehicle?.release_detail?.total_waiver_park_fee} />
-     
-//       </dl>
-//     </div>
-//   );
-// };
-
-
-// const Detail = ({ title, value }) => (
-//   <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-//     <dt className="text-sm font-bold text-gray-500">{title}</dt>
-//     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-//       {" "}
-//       {value ? value : "N/A"}
-//     </dd>
-    
-//   </div>
-// );

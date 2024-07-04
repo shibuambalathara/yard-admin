@@ -67,7 +67,7 @@ const router = useRouter();
     fetchData();
   }, [userId]);
 
-  const  editWaiver = useCallback(async (data: Inputs) => {
+  const  EditWaiver = useCallback(async (data: Inputs) => {
     const modifiedData = {
       reason: data?.reason?.toUpperCase(),
       status: data?.status?.toUpperCase(),
@@ -90,35 +90,25 @@ const router = useRouter();
 
 
   return (
-    <div className=" p-4 rounded-lg w-full">
-      <div className="flex w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1 justify-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white p-4 rounded-lg w-full max-w-md">
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
+      >
         
+      </button>
+      <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+        <h1 className=" font-bold  ">Waiver Details</h1>
+        <p className=" cursor-pointer" onClick={onClose}>
+          x
+        </p>
       </div>
-      <form onSubmit={handleSubmit(editWaiver)} className="border-gray-200 mt-14  ">
-        <div className="mx-auto grid bg-white grid-cols-1 relative gap-x-8 gap-y-4 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
-        <button
-          className="absolute top-0 p-2 right-0 text-gray-400 hover:text-gray-600 transition duration-200"
-          onClick={() => onClose()}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-          <div>
+      <form onSubmit={handleSubmit(EditWaiver)} className="  border-gray-200 ">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
+        <div>
             <SelectInput
-              label="status"
+              label="Status"
               name="status"
               defaultValue=""
               options={AccountStatus}
@@ -149,10 +139,17 @@ const router = useRouter();
               pattern=""
             />
           </div>
-          <div className="w-full text-center p-1 space-x-2 mt-6">
+
+          
+         
+          
+        </div>
+
+        <div className=" w-full text-center p-1 mt-3  space-x-2">
+          
           <button
-            type="button"
-            // onClick={() => reset(waiverData)}
+          type="button"
+            onClick={() => onClose()}
             className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
           >
             Cancel
@@ -164,98 +161,9 @@ const router = useRouter();
             Submit
           </button>
         </div>
-        </div>
-        
       </form>
-      {/* <div>
-        <div>
-          <InputField
-            label="Waiver Code"
-            type="text"
-            name="waiver.code"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <div>
-          <InputField
-            label="Vehicle Code"
-            type="text"
-            name="vehicle_ownership.vehicle.code"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <div>
-          <InputField
-            label="Vehicle Make"
-            type="text"
-            name="vehicle_ownership.vehicle.make"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <div>
-          <InputField
-            label="Vehicle Model"
-            type="text"
-            name="vehicle_ownership.vehicle.model"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <div>
-          <InputField
-            label="Yard Code"
-            type="text"
-            name="vehicle_ownership.vehicle.yard.code"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <div>
-          <InputField
-            label="Yard Name"
-            type="text"
-            name="vehicle_ownership.vehicle.yard.yard_name"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <div>
-          <InputField
-            label="Vehicle Category"
-            type="text"
-            name="vehicle_ownership.vehicle.vehicle_category.name"
-            register={register}
-            errors={errors}
-            pattern=""
-            disabled={true}
-          />
-        </div>
-        <InputField
-          label="Comment"
-          type="text"
-          name="comment"
-          register={register}
-          errors={errors}
-          pattern=""
-          disabled={true}
-        />
-      </div> */}
     </div>
+  </div>
   );
 };
 

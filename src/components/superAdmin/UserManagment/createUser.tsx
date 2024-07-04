@@ -13,6 +13,7 @@ import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { inputStyle, labelStyle, loginInputStyle } from "@/components/ui/style";
+
 const CreateUser = () => {
   type Inputs = {
     name: string;
@@ -21,7 +22,7 @@ const CreateUser = () => {
     designation: string;
     role:
       | "SUPER_ADMIN"
-      | "CLIENT_LEVEL_SUPER_USER"
+      | "CLIENT_LEVEL_SUPER_USER" 
       | "CLIENT_LEVEL_USER"
       | "CLIENT_LEVEL_SUB_USER"
       | "YARD_MANAGER";
@@ -86,6 +87,10 @@ const CreateUser = () => {
     // Handle form submission
   }, []);
 
+  const close=()=>{
+    router.back()
+  }
+
   return (
     // <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
     <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -95,7 +100,7 @@ const CreateUser = () => {
         {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="col-span-1">
             <InputField
               label="Name"
@@ -224,10 +229,17 @@ const CreateUser = () => {
                 
               /> */}
         </div>
-        <div className="w-full text-center pt-4">
+        <div className="w-full text-center pt-4 space-x-4 ">
+        <button
+                type="button"
+                onClick={close}
+                className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
+              >
+                Back
+              </button>
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
+            className="bg-green-600 text-white py-2 px-10 rounded-md hover:bg-green-700 transition duration-200"
           >
             Submit
           </button>

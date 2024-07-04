@@ -116,7 +116,8 @@ console.log("user form api",user);
               error={errors.contact}
               defaultValue=""
               required
-              placeholder="Enter You contact"
+              placeholder="Enter Your Mobile Number"
+
             />
             <FormFieldInputLoginInput
               label=""

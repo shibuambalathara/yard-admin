@@ -14,6 +14,7 @@ import {
   RoleSelect,
   FilterComponent,
 } from "@/components/commonComponents/role";
+import { MdOutlineViewHeadline } from "react-icons/md";
 const AccountVerificationRequests = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -89,7 +90,7 @@ const AccountVerificationRequests = () => {
     {
       id: "id",
       header: "View User",
-      cell: ({ row }) => View(row),
+      cell: ({ row }) =><div className="w-20"> {View(row)}</div>
     },
   ];
 
@@ -98,7 +99,7 @@ const AccountVerificationRequests = () => {
   // }
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-4">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Account Verification Request
       </h1>
@@ -161,14 +162,20 @@ const AccountVerificationRequests = () => {
 
 export default AccountVerificationRequests;
 
+
+
 const View = (row) => {
-  // console.log("view", row);
+  // console.log("from view", row.original.id);
   return (
-    <div>
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
       <Link
-        href={`/accountVerificationRequest/${row.original.id}`}
+              href={`/accountVerificationRequest/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
+        className=""
       >
         View
       </Link>

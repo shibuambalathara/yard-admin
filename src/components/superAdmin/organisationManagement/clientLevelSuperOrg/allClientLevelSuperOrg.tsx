@@ -8,24 +8,27 @@ import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
 import { RoleSelect } from "@/components/commonComponents/role";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import toast from "react-hot-toast";
-import { FaUserSlash ,FaUser,FaRegEye } from "react-icons/fa";
-import { FaUserLargeSlash,FaUserLarge } from "react-icons/fa6";
+import { FaUserSlash, FaUser, FaRegEye } from "react-icons/fa";
+import { FaUserLargeSlash, FaUserLarge } from "react-icons/fa6";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
-import CreateClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/addClientLevelSuperOrg"
+import CreateClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/addClientLevelSuperOrg";
 import Pagination from "@/components/pagination/pagination";
+import  EditClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/viewClientLevelSuperOrg"
 
 const AllClientLevelSuperOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit,setLimit]=useState(5)
+  const [limit, setLimit] = useState(5);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+
   useEffect(() => {
     if (success) {
       toast.success(success.text ? success.text : "Success");
@@ -51,19 +54,17 @@ const AllClientLevelSuperOrganisation = () => {
       );
       console.log("all users", response);
       setFilteredData(response?.data?.res);
-  
     } catch (error) {
-    
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-    //  console.log("filteredData from clientLevelsuperOrg",filteredData);
-     
-    //  clientLvlSuperOrg  clientLevelSuperOrgs
- 
+  //  console.log("filteredData from clientLevelsuperOrg",filteredData);
+
+  //  clientLvlSuperOrg  clientLevelSuperOrgs
+
   // console.log("role filter", roleFilter);
 
   useEffect(() => {
@@ -89,25 +90,22 @@ const AllClientLevelSuperOrganisation = () => {
         accessorKey: "code",
         // id: "code", // Ensure unique id
       },
-      
-      // {
-      //   header: "ID",
-      //   accessorKey: "id",
-      //   // id: "id", // Ensure unique id
-      // },
+
+     ,
       {
-        id: "viewUser",
-        header: "View User",
-        cell: ({ row }) => View(row),
+        id: "view",
+        header: "View ",
+        cell: ({ row }) => (
+          <div className="w-20">
+            <View row={row} onEditClick={handleEditClick} />
+          </div>
+        ),
       },
-    ], 
+    ],
     [filteredData]
   );
-  
 
-  console.log("filetered data from clientLevelSuperOrg",filteredData);
-  
-
+  console.log("filetered data from clientLevelSuperOrg", filteredData);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -117,79 +115,121 @@ const AllClientLevelSuperOrganisation = () => {
     setModalOpen(false);
   };
 
+  const handleEditClick = (userId) => {
+    setSelectedUserId(userId);
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    // setSelectedUserId(null);
+  };
+
   return (
-    <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-       Client Level Super Organisation
-      </h1>
-      <div className="flex w-full px-8 justify-end  ">
-        
-        <div className="self-end">
-          <button
-          // href={`/userManagement/createUser`}
-            onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-          >
-            ADD SUPER ORG
-          </button>
-          {modalOpen && <CreateClientLevelSuperOrg onClose={handleModalClose} fetchData={fetchData} />}
-        </div>
-      </div>
-      <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
+    <>
+    
+
+      <div className="w-full">
+        <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
+          Client Level Super Organisation
+        </h1>
+        <div className="flex w-full px-8 justify-between">
+          <div className="">
+            
           </div>
-        ) : ( */}
-       {   filteredData && <DataTable data={UsersData} columns={userColumn} />
-       
-        /* )} */}
-        <div className="w-full text-center">
-          {filteredData?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-              limit={limit}
-            />
+          <div className="w-full flex flex-col space-y-4">
+            <div className="self-end">
+              <button
+                onClick={handleModalOpen}
+                className="bg-blue-500 text-white py-2 px-8 rounded hover:bg-blue-600 transition duration-200"
+              >
+                Add
+              </button>
+            </div>
+            <div className="w-full relative">
+              {modalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                  <CreateClientLevelSuperOrg
+                    onClose={handleModalClose}
+                    fetchData={fetchData}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="">
+          {editModalOpen && (
+       <div className="w-full relative">
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <EditClientLevelSuperOrg
+                  clientSuperId={selectedUserId}
+                  onClose={handleEditModalClose}
+                  fetchData={fetchData}
+                />
+              </div>
+             </div>
           )}
+          <div>
+            {
+              filteredData && (
+                <DataTable data={UsersData} columns={userColumn} />
+              )
+
+              /* )} */
+            }
+            <div className="w-full text-center">
+              {filteredData?.totalCount && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  totalDataCount={filteredData?.totalCount}
+                  limit={limit}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default AllClientLevelSuperOrganisation;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
-  return (
-   
-  //   <div className="border  bg-gray-700 text-white py-1 rounded-md ">
-  //   {/* <p>
-  //     <MdOutlineViewHeadline />
-  //   </p>
-  //   <Link href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`}
-  //     target="_blank"
-  //     rel="noopener noreferrer"
-  //     className=""
-  //   >
-  //     View
-  //   </Link> */}
-  // </div>
+// const View = (row) => {
+//   return (
+//     <div className="flex  justify-center items-center border w-fit space-x-1 bg-gray-800 text-white  py-1 px-3  rounded-md">
+//       <p>
+//         <MdOutlineViewHeadline />
+//       </p>
+//       <Link
+//         href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`}
+//         target="_blank"
+//         rel="noopener noreferrer"
+//         className=""
+//       >
+//         View
+//       </Link>
+//     </div>
+//   );
+// };
 
-<div className="flex  justify-center items-center border w-fit space-x-1 bg-gray-800 text-white  py-1 px-3  rounded-md">
-<p>
-       <MdOutlineViewHeadline />
-   </p>
-     <Link href={`/organisationManagement/clientLevelSuperOrg/${row.original.id}`}
-       target="_blank"
-      rel="noopener noreferrer"
-     className=""
-     >
-       View
-     </Link> 
-</div>
+
+const View = ({ row, onEditClick }) => {
+  console.log("row form category", row);
+
+  return (
+    <div
+      onClick={() => onEditClick(row?.original?.id)}
+      className="flex justify-center items-center py-1 px-3   space-x-2 bg-gray-700 rounded-md  text-white"
+    >
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+
+      <span> View</span>
+    </div>
   );
 };
 

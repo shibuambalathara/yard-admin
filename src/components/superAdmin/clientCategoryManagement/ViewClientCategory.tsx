@@ -14,7 +14,7 @@ type Inputs = {
   description: string;
 };
 
-const ViewClientCategory = ({ clientId }) => {
+const ViewClientCategory = ({ clientId,onClose,fetchData }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [clientcategoryData, SetClientCategoryData] = useState(null);
@@ -55,7 +55,7 @@ const ViewClientCategory = ({ clientId }) => {
     setIsLoading(true)
     try {
       const response = await axiosInstance.get(
-        `/clientorg/cat/${clientId?.clientId}`
+        `/clientorg/cat/${clientId}`
       );
 
       console.log("RESPONSE FOR INDIVIDAULA client", response);
@@ -74,7 +74,7 @@ const ViewClientCategory = ({ clientId }) => {
     FetchVehicleCategory();
   }, []);
 
-  console.log("jdflasjfl;a",typeof(clientId?.clientId));
+  console.log("jdflasjfl;a",typeof(clientId));
   
 
   const EditClientCategory = async (data: Inputs) => {
@@ -85,10 +85,10 @@ const ViewClientCategory = ({ clientId }) => {
         name: data?.name.toUpperCase(),
         description: data?.description,
       };
-console.log('clientCatId',typeof(clientId?.clientId));
+console.log('clientCatId',typeof(clientId));
 
       const response = await axiosInstance.put(
-        `/clientorg/cat/edit/${clientId?.clientId}`,
+        `/clientorg/cat/edit/${clientId}`,
         modifiedData
       );
       console.log("Response:", response);
@@ -97,6 +97,8 @@ console.log('clientCatId',typeof(clientId?.clientId));
       });
       // router.push('');
       router.push("/clientCategoryManagement");
+      onClose()
+      fetchData()
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
@@ -112,46 +114,78 @@ console.log('clientCatId',typeof(clientId?.clientId));
   }
 
   return (
-    <div className="flex items-center justify-center border-2 h-full  w-full ">
-      <form
-        className={`${formStyle.data}`}
-        onSubmit={handleSubmit(EditClientCategory)}
-      >
-        <div className="w-full  text-center uppercase font-bold">
-          <h1>Edit Vehicle Category</h1>
-        </div>
+    <>
 
-        <FormFieldInput
-          label=""
-          type="text"
-          name="name"
-          register={register}
-          error={errors.name}
-          defaultValue={clientcategoryData?.name}
-          required
-          placeholder="Enter Category Name"
-        />
-        <TextArea
-          label=""
-          type="text"
-          name="description"
-          register={register}
-          error={errors.description}
-          defaultValue={clientcategoryData?.description}
-          placeholder=" Enter Description"
-        />
 
-        <div className="w-full">
-          <button
-            type="submit"
-            className="bg-[#333333] text-white px-4 py-1 w-full"
-          >
-            Edit
-          </button>
-        </div>
-      </form>
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+<div className="bg-white p-4 rounded-lg w-full max-w-md">
+  <button
+    onClick={()=>onClose()}
+    className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
+  >
+    
+  </button>
+  <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+    <h1 className=" font-bold  ">Edit Client Category</h1>
+    <p className=" cursor-pointer" onClick={onClose}>
+      x
+    </p>
+  </div>
+  <form
+  onSubmit={handleSubmit(EditClientCategory)}
+  
+  className="  border-gray-200 ">
+    <div className=" grid grid-cols-1 gap-2 justify-center  p-2 border ">
+   <div>
+   <FormFieldInput
+      label="Category Name"
+      type="text"
+      name="name"
+      register={register}
+      error={errors.name}
+      defaultValue=""
+      required
+      placeholder=" Category Name"
+    />
+   </div>
+    <div>
+    <TextArea
+      label=" Category Description"
+      type="text"
+      name="description"
+      register={register}
+      error={errors.description}
+      defaultValue=""
+      required
+      placeholder=" Category Description"
+    />
     </div>
+    </div>
+
+    <div className=" w-full text-center p-1 mt-3  space-x-2">
+      
+      <button
+      type="button"
+        onClick={() => onClose()}
+        className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+</div>
+
+    </>
   );
 };
 
 export default ViewClientCategory;
+
+

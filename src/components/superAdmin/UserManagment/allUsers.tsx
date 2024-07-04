@@ -16,6 +16,7 @@ import {
   RoleSelect,
   FilterComponent,
 } from "@/components/commonComponents/role";
+// import ConfirmationModal from "@/components/modals/confirmOwnership/confirmOwnership";
 
 const UserManagement = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
@@ -26,6 +27,10 @@ const UserManagement = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [blockUser, setBlockUser] = useState(null);
+  const [isBlockAction, setIsBlockAction] = useState(true);
+
 
   useEffect(() => {
     if (success) {
@@ -52,9 +57,7 @@ const UserManagement = () => {
       );
       console.log("all users", response);
       setFilteredData(response.data?.res);
-      setSuccess({
-        text: response?.data?.message,
-      });
+    
     } catch (error) {
       setError({
         text: error?.response?.data?.message,
@@ -135,9 +138,9 @@ const UserManagement = () => {
               </p>
               <button
                 className="text-white font-semibold uppercase"
-                onClick={() => handleUserBlockToggle(row.original, !isBlocked)}
+                onClick={() => openConfirmationModal(row.original, isBlocked)}
               >
-                {isBlocked ? "block" : "unblock"}
+                {isBlocked ? "Unblock" : "Block"}
               </button>
             </div>
           );
@@ -147,16 +150,17 @@ const UserManagement = () => {
     [filteredData]
   );
 
-  const handleUserBlockToggle = async (user, block) => {
-    // console.log("user from handleUserBlockToggle", user);
-    const action = block ? "block" : "unblock";
-    const confirmation = window.confirm(
-      `Are you sure you want to ${action} this user?`
-    );
+  const openConfirmationModal = (user, isBlocked) => {
+    setBlockUser(user);
+    setIsBlockAction(!isBlocked);
+    setConfirmModalOpen(true);
+  };
 
-    if (!confirmation) {
-      return;
-    }
+  const handleUserBlockToggle = async () => {
+    const user = blockUser;
+    const block = isBlockAction;
+
+    setConfirmModalOpen(false);
 
     try {
       const response = await axiosInstance.patch(
@@ -167,11 +171,48 @@ const UserManagement = () => {
       );
       console.log("response from block", response);
       fetchData();
-
       console.log("response from user block/unblock", response);
     } catch (error) {
       console.log("error from user block/unblock", error);
     }
+  };
+  // const handleUserBlockToggle = async (user, block) => {
+  //   // console.log("user from handleUserBlockToggle", user);
+  //   const action = block ? "block" : "unblock";
+  //   const confirmation = window.confirm(
+  //     `Are you sure you want to ${action} this user?`
+  //   );
+
+  //   if (!confirmation) {
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axiosInstance.patch(
+  //       `/user/${user.id}/restrict/any`,
+  //       {
+  //         blockProperty: block,
+  //       }
+  //     );
+  //     console.log("response from block", response);
+  //     fetchData();
+
+  //     console.log("response from user block/unblock", response);
+  //   } catch (error) {
+  //     console.log("error from user block/unblock", error);
+  //   }
+  // };
+  const handleInitiateClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleUserblock = async () => {
+    setModalOpen(false);
+    // await InitateVehcileRelease();
+  };
+
+  const handleCancelRelease = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -179,7 +220,7 @@ const UserManagement = () => {
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
         User Management
       </h1>
-      <div className="flex w-full px-8 justify-between items-center ">
+      <div className="flex w-full px-8 justify-between items-center  ">
         <div className="">
        
           <FilterComponent
@@ -187,7 +228,7 @@ const UserManagement = () => {
             name="role"
             options={Role}
             setValue={setRoleFilter}
-          placeholder="select a Role"
+          placeholder="Select a Role"
             defaultValue=""
           />
         </div>
@@ -195,9 +236,9 @@ const UserManagement = () => {
           <Link
             href={`/userManagement/createUser`}
             // onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-500 text-white py-2 px-8 rounded hover:bg-blue-600 transition duration-200"
           >
-            Add User
+            Add 
           </Link>
           {/* {modalOpen && <CreateUserModal onClose={handleModalClose} />} */}
         </div>
@@ -223,6 +264,15 @@ const UserManagement = () => {
             </div>
           </>
         )}
+
+{confirmModalOpen && (
+        <ConfirmationModal
+          open={confirmModalOpen}
+          onConfirm={handleUserBlockToggle}
+          onCancel={() => setConfirmModalOpen(false)}
+          message={`Are you sure you want to ${isBlockAction ? "block" : "unblock"} this user?`}
+        />
+      )}
       </div>
     </div>
   );
@@ -248,3 +298,33 @@ const View = (row) => {
     </div>
   );
 };
+
+
+
+const ConfirmationModal = ({ open, onConfirm, onCancel, message }) => {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-6 rounded shadow-lg">
+        <p className="text-lg font-bold mb-4">{message}</p>
+        <div className="flex justify-end space-x-4">
+          <button
+            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-200"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200"
+            onClick={onConfirm}
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
