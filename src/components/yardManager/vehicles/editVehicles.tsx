@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FileUploadInput, {
@@ -10,27 +11,27 @@ import FileUploadInput, {
   SelectInput,
   TextArea,
 } from "@/components/ui/fromFields";
-import { formStyle } from "@/components/ui/style";
 
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import { vehicleStatus } from "@/utils/staticData";
+import Image from "next/image";
 
 interface ImageData {
   img_type: string;
   img_src: string;
   img_name: string;
   id: string;
-  updated_at: string
+  updated_at: string;
 }
 
 interface ImageType {
   src: string;
   image_type: string;
   id: string;
-  updated_at: string,
+  updated_at: string;
 }
 
 type Inputs = {
@@ -63,15 +64,14 @@ type FileInputs = {
 };
 
 const EditIndividualVehicle = ({ vehicleId }) => {
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
-  const [vehiclecategoryData, setVehicleCategoryData] = useState(null);
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [uploadImages, setUploadImages] = useState<FileInputs>({});
 
+  const [previewImages, setPreviewImages] = useState<Record<string, string[]>>(
+    {}
+  );
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
 
   useEffect(() => {
@@ -94,8 +94,6 @@ const EditIndividualVehicle = ({ vehicleId }) => {
     setImages(categorizedImages);
   }, [vehicleImage]);
 
-  console.log(vehicleImage);
-  
   const {
     register,
     handleSubmit,
@@ -108,6 +106,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
 
   const fetchVehicle = async () => {
     setIsLoading(true);
+
     try {
       const response = await axiosInstance.get(
         `/vehicle/${vehicleId?.vehicleId}`
@@ -123,8 +122,8 @@ const EditIndividualVehicle = ({ vehicleId }) => {
         actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
       };
 
-      setVehicleCategoryData(response?.data?.res);
       setVehicleImage(response?.data?.res?.vehicle_img);
+      console.log("the rsponse", response);
       reset(destructuredData);
     } catch (error) {
       console.log("error", error);
@@ -152,23 +151,35 @@ const EditIndividualVehicle = ({ vehicleId }) => {
     label: item.name,
   }));
 
-  const ClientOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
-  }));
-
-  const handleImageUpload = (event, imageType) => {
+  const handleImageUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    imageType: string,
+    index: number
+  ) => {
     const selectedFiles = event.target.files;
+    if (!selectedFiles) return;
+
     setUploadImages((prevImages) => ({
       ...prevImages,
       [imageType]: selectedFiles,
     }));
+
+    // Preview selected images
+    const selectedFilesArray = Array.from(selectedFiles);
+    const previewUrls = selectedFilesArray.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setPreviewImages((prevImages) => ({
+      ...prevImages,
+      [imageType]: previewUrls,
+    }));
   };
 
-  const editImage= useCallback(
+  const editImage = useCallback(
     async (data: Inputs) => {
       const formData = new FormData();
-
+      console.log("formdata1:" + JSON.stringify(formData));
       const vehicleImgArray = Object.entries(uploadImages).flatMap(
         ([imageType, files]) => {
           return Array.from(files).map((file, index) => ({
@@ -181,65 +192,19 @@ const EditIndividualVehicle = ({ vehicleId }) => {
       );
 
       vehicleImgArray.forEach((img, index) => {
-        formData.append(`vehicle_img[${index}][id]`, img?.id);
-        formData.append(`vehicle_img[${index}][img_type]`, img?.img_type);
-        formData.append(`vehicle_img[${index}][img_src]`, img?.img_src);
-        formData.append(`vehicle_img[${index}][file]`, img.file);
-      });
-
-      const modifiedData = {
-        ...data,
-        app_entry_date: data?.app_entry_date
-          ? new Date(data?.app_entry_date)?.toISOString()
-          : null,
-        app_exit_date: data?.app_exit_date
-          ? new Date(data?.app_exit_date)?.toISOString()
-          : null,
-        mfg_year: data?.mfg_year ? new Date(data?.mfg_year)?.toISOString() : null,
-        actual_entry_date: data?.actual_entry_date
-          ? new Date(data?.actual_entry_date)?.toISOString()
-          : null,
-        actual_exit_date: data?.actual_exit_date
-          ? new Date(data?.actual_exit_date)?.toISOString()
-          : null,
-      };
-
-      Object.entries(modifiedData).forEach(([key, value]) => {
-        if (key !== "vehicle_img" && value !== undefined) {
-          formData.append(key, value);
+        formData.append(`vehicle_img[${index}][id]`, img.id);
+        formData.append(`vehicle_img[${index}][img_type]`, img.img_type);
+        formData.append(`vehicle_img[${index}][img_src]`, img.img_src);
+        if (img.file) {
+          formData.append(`vehicle_img[${index}][file]`, img.file);
         }
       });
-
-      try {
-        const response = await axiosInstance.put(
-          `/vehicle/${vehicleId?.vehicleId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            maxBodyLength: Infinity,
-          }
-        );
-        fetchVehicle();
-        toast.success(response?.data?.message);
-      } catch (error) {
-        toast.error(error?.response?.data?.message);
-        console.log(error);
-      }
-    },
-    [vehicleId?.vehicleId, uploadImages, images]
-  );
-  const editVehicle = useCallback(
-    async (data: Inputs) => {
-     
-
-      console.log("data on submit", data);
-
+      console.log("formdata2:" + JSON.stringify(formData));
       const modifiedData = {
         ...data,
+
         app_entry_date: data?.app_entry_date
-          ?new Date(data?.app_entry_date)?.toISOString()
+          ? new Date(data?.app_entry_date)?.toISOString()
           : null,
         app_exit_date: data?.app_exit_date
           ? new Date(data?.app_exit_date)?.toISOString()
@@ -254,24 +219,37 @@ const EditIndividualVehicle = ({ vehicleId }) => {
           ? new Date(data?.actual_exit_date)?.toISOString()
           : null,
       };
-      console.log("destructure", modifiedData);
+
+      Object.entries(modifiedData).forEach(([key, value]) => {
+        if (key !== "vehicle_img" && value !== undefined) {
+          formData.append(key, value);
+        }
+      });
+      console.log(vehicleImgArray);
+      console.log("formdata3:" + JSON.stringify(formData));
 
       try {
         const response = await axiosInstance.put(
-         `/vehicle/${vehicleId?.vehicleId}`,
-          modifiedData
+          `/vehicle/${vehicleId?.vehicleId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            maxBodyLength: Infinity,
+          }
         );
-        console.log("res", response);
 
+        fetchVehicle();
         toast.success(response?.data?.message);
-        router.push("/vehicle")
       } catch (error) {
         toast.error(error?.response?.data?.message);
-        console.log(error);
+        console.log(error?.response);
       }
     },
-    [vehicleId?.vehicleId]
+    [vehicleId?.vehicleId, uploadImages, images]
   );
+
   if (isLoading) {
     return (
       <div className="flex w-full h-screen items-center justify-center">
@@ -287,7 +265,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
           Vehicle Details
         </h2>
 
-        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
             <div>
               <SelectComponent
@@ -477,56 +455,63 @@ const EditIndividualVehicle = ({ vehicleId }) => {
             />
           </div>
 
-         
-          {/* <div className="flex justify-center mt-6">
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-            >
-              Submit
-            </button>
-          </div> */}
-        </form>
-        <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-        {/* <div className="mt-6">
-            <ImageMaping images="" />
-          </div> */}
-          {Object.entries(images).map(([imageType, imageList]) => (
-            <div
-              key={imageType}
-              className="border rounded-lg shadow-xl border-black"
-            >
-              <h2 className="text-center text-lg font-semibold">
-                {imageType
-                  .replace("_", " ")
-                  .toLowerCase()
-                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                s
-              </h2>
-              {imageList?.map((image, index) => (
-                <div key={index} className="flex flex-col items-center pb-4">
-                  <img
-                    className="rounded-xl mb-2"
-                    src={`${image?.src}?v=${image.updated_at}`}
-                    alt={`${imageType} ${index}`}
-                    style={{ width: "70%" }}
-                  />
-                  <input
-                    type="file"
-                    onChange={(e) => handleImageUpload(e, imageType)}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        <button
-              type="submit"
-              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-            >
-              Submit
-            </button>
+          <div className="grid grid-cols-2 gap-2">
+            {Object.entries(images).map(([imageType, imageList]) => (
+              <div
+                key={imageType}
+                className="border rounded-lg shadow-xl border-black"
+              >
+                <h2 className="text-center text-lg font-semibold">
+                  {imageType
+                    .replace("_", " ")
+                    .toLowerCase()
+                    .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                  s
+                </h2>
+
+                {imageList?.map((img, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center pb-4 mt-3"
+                  >
+                    {previewImages[imageType]?.[index] ? (
+                      <Image
+                        className="rounded-xl mb-2 h-56"
+                        src={previewImages[imageType][index]}
+                        alt={`${imageType} ${index}`}
+                        width={400}
+                        height={400}
+                      />
+                    ) : (
+                      <Image
+                        className="rounded-xl mb-2 h-56"
+                        src={
+                          typeof img === "string"
+                            ? `${img} `
+                            : `${img.src}? v=${img?.updated_at} `
+                        }
+                        alt={`${imageType} ${index}`}
+                        width={400}
+                        height={400}
+                      />
+                    )}
+                    <input
+                      className="mt-1 pl-14 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      type="file"
+                      onChange={(e) => handleImageUpload(e, imageType, index)}
+                    />
+                  </div>
+                ))}
+                <div className="flex flex-wrap gap-4 mt-2"></div>
+              </div>
+            ))}
+          </div>
+          <button
+            type="submit"
+            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </div>
