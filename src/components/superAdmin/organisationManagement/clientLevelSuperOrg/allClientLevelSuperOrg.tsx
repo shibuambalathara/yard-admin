@@ -96,7 +96,7 @@ const AllClientLevelSuperOrganisation = () => {
         id: "view",
         header: "View ",
         cell: ({ row }) => (
-          <div className="flex justify-center ">
+          <div className="w-20">
             <View row={row} onEditClick={handleEditClick} />
           </div>
         ),
@@ -222,13 +222,13 @@ const View = ({ row, onEditClick }) => {
   return (
     <div
       onClick={() => onEditClick(row?.original?.id)}
-      className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white"
+      className="flex justify-center items-center py-1 px-3   space-x-2 bg-gray-700 rounded-md  text-white"
     >
       <p>
         <MdOutlineViewHeadline />
       </p>
 
-      <span> View User</span>
+      <span> View</span>
     </div>
   );
 };

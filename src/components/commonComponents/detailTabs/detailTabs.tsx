@@ -23,7 +23,7 @@ const Detail = ({ title, value }) => (
     const details = [
       { title: "Yard Name", value: vehicle?.vehicle_ownership?.vehicle?.yard?.yard_name },
       { title: "Yard Code", value: vehicle?.vehicle_ownership?.vehicle?.yard?.code },
-      { title: "Current Days in Yard", value: vehicle?.curr_days_in_yard },
+      { title: "Current Days In Yard", value: vehicle?.curr_days_in_yard },
       { title: "Total Park Fee", value: vehicle?.curr_total_park_fee },
       { title: "Total Waiver Park Fee", value: vehicle?.curr_total_waiver_park_fee },
     ];
@@ -38,7 +38,7 @@ const Detail = ({ title, value }) => (
       { title: "Code", value: vehicle?.vehicle_ownership?.vehicle?.code },
       { title: "Make", value: vehicle?.vehicle_ownership?.vehicle?.make },
       { title: "Model", value: vehicle?.vehicle_ownership?.vehicle?.model },
-      { title: "Park fee Per Day", value: vehicle?.vehicle_ownership?.vehicle?.park_fee_per_day },
+      { title: "Park Fee Per Day", value: vehicle?.vehicle_ownership?.vehicle?.park_fee_per_day },
       { title: "Registration Number", value: vehicle?.vehicle_ownership?.vehicle?.reg_number },
       { title: "Vehicle Category", value: vehicle?.vehicle_ownership?.vehicle?.vehicle_category?.name },
     ];
@@ -58,14 +58,19 @@ const Detail = ({ title, value }) => (
   };
   
   const ReleaseDetails = ({ vehicle }) => {
+    console.log("vehicle from ReleaseDetails",vehicle?.release_detail?.release_date);
+    
+    const release_details = vehicle?.release_detail?.release_date ? vehicle?.release_detail?.release_date?.split("T")[0] : null;
+console.log("release_details",release_details);
+
     const details = [
       { title: "Collected Amount", value: vehicle?.release_detail?.collected_amount },
-      { title: "Days in Yard", value: vehicle?.release_detail?.days_in_yard },
+      { title: "Days In Yard", value: vehicle?.release_detail?.days_in_yard },
       { title: "Payment Document", value: vehicle?.release_detail?.payment_doc },
       { title: "Payment Status", value: vehicle?.release_detail?.payment_status },
       { title: "Receiver Name", value: vehicle?.release_detail?.receiver_name },
       { title: "Receiver Contact", value: vehicle?.release_detail?.receiver_contact },
-      { title: "Release Date", value: vehicle?.release_detail?.release_date },
+      { title: "Release Date", value:  release_details },
       { title: "Release Document", value: vehicle?.release_detail?.release_doc },
       { title: "Total Amount", value: vehicle?.release_detail?.total_amount },
       { title: "Total Park Fee", value: vehicle?.release_detail?.total_park_fee },

@@ -202,7 +202,7 @@ const AllVehicleOwnerships = () => {
         Vehicle Ownership
       </h1>
 
-      <div className=" grid grid-cols-3 place-items-center  ">
+      <div className=" grid grid-cols-3 place-items-center mt-6  ">
         <div className="flex flex-col   ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Client
@@ -262,7 +262,7 @@ const AllVehicleOwnerships = () => {
           defaultValue=""
           onChange={handleStatus}
         >
-          <option value="">select status</option>
+          <option value="">Select Status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
