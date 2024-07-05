@@ -97,7 +97,7 @@ const UserManagement = () => {
         header: "View User",
         cell: ({ row }) => (
           <div className="  flex justify-center items-center">
-            <View row={row} onEditClick={handleEditClick} />
+            <View row={row} />
           </div>
         ),
       },
@@ -145,37 +145,36 @@ const UserManagement = () => {
 
         <div className="w-full flex flex-col space-y-4 ">
           <div className="self-end">
-            <button
-              onClick={handleModalOpen}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+            <Link
+            href={"/userCreation/create"}
+              // onClick={handleModalOpen}
+              className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
             >
-              Add User
-            </button>
+              Add 
+            </Link>
           </div>
           <div className="w-full relative border-red-800 ">
-          {modalOpen && (
+          {/* {modalOpen && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-                {/* <div className=" p-4 rounded-lg shadow-lg"> */}
                   <CreateUser onClose={handleModalClose} fetchData={fetchAllUsers} />
-                {/* </div> */}
               </div>
-            )}
+            )} */}
           </div>
         </div>
 
       </div>
   <div className="">
-  {editModalOpen && (
+  {/* {editModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-            {/* <div className="w-full max-w-2xl p-4 bg-white rounded-lg"> */}
+            
               <EditIndividualUser
                 userId={selectedUserId}
                 onClose={handleEditModalClose}
                 fetchData={fetchAllUsers}
               />
-            {/* </div> */}
+            
           </div>
-        )}
+        )} */}
   <div>
         <DataTable data={UsersData} columns={userColumn} />
       </div>
@@ -187,23 +186,22 @@ const UserManagement = () => {
 
 export default UserManagement;
 
-const View = ({ row, onEditClick }) => {
+const View = ({ row }) => {
   return (
-    <div
-    onClick={() => onEditClick(row.original.id)}
+    <Link
+    
+    href={`/userCreation/${row?.original?.id}`}
+     target="_blank"
+        rel="noopener noreferrer"
      className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white">
-      {/* <div className="flex flex-col justify-center items-center bg-red-500"> */}
+     
       <p>
         <MdOutlineViewHeadline />
       </p>
-      {/* <button
-       
-        className=" "
-      > */}
+     
        
             <span>  View User</span>
-      {/* </button> */}
-      {/* </div> */}
-    </div>
+      
+    </Link>
   );
 };

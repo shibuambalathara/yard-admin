@@ -11,7 +11,7 @@ import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 
-const CreateClientLevelSubOrganisation = ({ onClose, fetchData }) => {
+const CreateClientLevelSubOrganisation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -152,8 +152,7 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchData }) => {
       );
       // console.log("response after clientOrgCreaet", response);
       toast.success(response?.data?.message);
-      fetchData();
-      onClose();
+   ;
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -162,107 +161,100 @@ const CreateClientLevelSubOrganisation = ({ onClose, fetchData }) => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center relative z-50 ">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl  overflow-y-scroll scrollbar-hide  ">
-        <h1 className="p-2 uppercase text-center font-bold">create sub Organisation</h1>
-        <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-200"
-          onClick={onClose}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        <form
-          className="space-y-2  "
-          onSubmit={handleSubmit(createClientLevelSubOrganisation)}
-        >
-          <div className="max-w-7xl grid grid-cols-2 gap-5 justify-center place-items-center p-2 border  scrollbar-hide overflow-y-scroll ">
-            <div className="mb-">
-              <InputField
-                label=" "
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+      <div className="flex justify-between items-center border-b pb-4 mb-6">
+        <h1 className="text-2xl font-bold text-gray-700">Create Sub Organisation</h1>
+        {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
+      </div>
+      <form onSubmit={handleSubmit(createClientLevelSubOrganisation)} className="space-y-6">
+        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="col-span-1">
+          <InputField
+                label="Enter sub Organisation Name"
                 type="text"
                 name="clsub_org_name"
                 register={register}
                 errors={errors}
                 pattern=""
-                placeholder="Enter sub Organisation Name"
+                placeholder=""
               />
-            </div>
 
-            <div className="mb-">
-              <SelectComponent
-                label=""
+          </div>
+          <div className="col-span-1">
+          <SelectComponent
+                label="Select User"
                 options={allSubUsers}
                 name="user_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select User"
+                placeholder=""
               />
-            </div>
 
-            <div className="p-4 w-80">
-              <CustomMultiSelect
+          </div>
+          <div className="col-span-1 mt-1">
+          <CustomMultiSelect
                 control={control}
                 name="vehicleCatIds"
                 options={allVehicleCategorys}
                 placeholder="Select Vehicle Category"
-                label=""
+                label="Select Vehicle Category"
                 defaultValue=""
                 
               />
-            </div>
-            <div className="mb-">
-             
-              <SelectComponent
-                label=""
+
+          </div>
+          <div className="col-span-1">
+          <SelectComponent
+                label="Select Client Organisation"
                 options={allClientLevelOrganisations}
                 name="cl_org_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select Client Organisation"
+                placeholder=""
               />
-            </div>
-            <div className="mb-">
-              <SelectComponent
-                label=""
+
+          </div>
+          <div className="col-span-1">
+          <SelectComponent
+                label="Select Client Category"
                 options={FilteredclientCategorys}
                 name="clsub_org_category_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select Client Category"
+                placeholder=""
               />
-            </div>
+
           </div>
-          <div className="w-full  text-center">
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
-            >
-              Create
-            </button>
-          </div>
-        </form>
-      </div>
+          
+          
+         
+          
+        </div>
+        <div className="w-full text-center pt-4 space-x-4 ">
+        <button
+                type="button"
+                // onClick={close}
+                className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
+              >
+                Back
+              </button>
+          <button
+            type="submit"
+            className="bg-green-600 text-white py-2 px-10 rounded-md hover:bg-green-700 transition duration-200"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
   );
 };
 

@@ -51,6 +51,7 @@ const SelectionTable = () => {
   const [pageCount, setPageCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [pages, setPages] = useState(1);
+  const [limit,setLimit]=useState(5)
   const [modalOpen, setModalOpen] = useState(false);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [yardData, setYardData] = useState([]);
@@ -179,6 +180,7 @@ const SelectionTable = () => {
       } else {
         return [...prev, id];
       }
+
     });
   };
 
@@ -292,7 +294,7 @@ const SelectionTable = () => {
   return (
     <div className="w-full">
        
-      <div className='grid grid-cols-3 pl-6 pt-5 items-center'>
+      <div className='grid grid-cols-3 pl-6 pt-5 items-center w-full '>
       <div>
 
 
@@ -303,7 +305,8 @@ const SelectionTable = () => {
   {superClientOptions.map((option, index) => (
     <option key={index} value={option.value}>{option.label}</option>
   ))}
-</select> </div>
+</select> 
+</div>
       <div className="mb-">
         <div className="flex flex-col w-24">
           <label htmlFor="yard" className={labelStyle?.data}>
@@ -348,15 +351,25 @@ const SelectionTable = () => {
         </div>
       </div>
       
-        <div className="flex h-12 mt-4 ">
-          <button
+        <div className="flex  h-12 mt-4 w-full col-start-3  items-center">
+          <div className=' w-72 flex  justify-end '>
+          {selectedRowIds.length > 0  &&<button
             onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 "
           >
             Assign Waiver
-          </button>
-          {modalOpen && <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} client={client} />}
-        </div>
+          </button>}
+          </div>
+          </div>
+          {/* {modalOpen && <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} client={client} />} */}
+          <div className="w-full ">
+              {modalOpen && 
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+              <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} client={client} />
+            </div>
+              }
+          </div>
+        
       
       </div>
       {pageCount > 0 ? (
@@ -425,6 +438,7 @@ const SelectionTable = () => {
                 page={pages}
                 setPage={setPages}
                 totalDataCount={pageCount}
+                limit={limit}
               />
             )}
           </div>

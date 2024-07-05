@@ -3,7 +3,7 @@ import EditIndividualUser from '@/components/clientLevelSuperUser/userManagement
 
 const individualUserView = ({params}:{params:{userId:string}}) => {
   return (
-    <div>fdsasdsd</div>
+    <div><EditIndividualUser userId={params}/></div>
   )
 }
 

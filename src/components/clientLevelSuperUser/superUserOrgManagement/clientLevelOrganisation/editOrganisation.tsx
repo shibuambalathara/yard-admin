@@ -18,7 +18,7 @@ import {
 } from "@/utils/commonApi/commonApi";
 
 const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
-//   console.log("userId", userId);
+  //   console.log("userId", userId);
 
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
@@ -69,8 +69,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
     fetchData();
   }, []);
 
-  console.log("clientLevelSuperUsers",clientLevelSuperUsers);
-  
+  console.log("clientLevelSuperUsers", clientLevelSuperUsers);
 
   const FetchIndividualClientLevelOrg = useCallback(async () => {
     try {
@@ -95,9 +94,6 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
       //   console.log("d");
 
       // console.log("Form values after reset:", getValues());
-     
-
-      
     } catch (error) {
       console.log("error", error);
       // toast.error(`error in creating superOrg`);
@@ -113,33 +109,30 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
     label: item.name,
   }));
 
-  console.log("allclientLevelUsers",AllClientUsers);
-  
+  console.log("allclientLevelUsers", AllClientUsers);
 
   let result = AllClientUsers.filter(
     (item) => item?.value !== individual?.user_id
   );
- 
-  console.log("result--0001",result);
-  
 
+  console.log("result--0001", result);
 
-//   if (result.length === 0) {
-//     // The individual.user_id is not present in AllUsers, so we push a new item
-//     AllClientUsers.push({
-//       label: individual?.user,
-//       value: individual?.user_id,
-//     });
-//     // console.log("Updated AllUsers", AllUsers);
-//   } 
-//   else {
-//     // If AllUsers is empty, we can directly push the new item
-//     AllClientUsers.push({
-//       label: individual?.user,
-//       value: individual?.user_id,
-//     });
-    
-//   }
+  //   if (result.length === 0) {
+  //     // The individual.user_id is not present in AllUsers, so we push a new item
+  //     AllClientUsers.push({
+  //       label: individual?.user,
+  //       value: individual?.user_id,
+  //     });
+  //     // console.log("Updated AllUsers", AllUsers);
+  //   }
+  //   else {
+  //     // If AllUsers is empty, we can directly push the new item
+  //     AllClientUsers.push({
+  //       label: individual?.user,
+  //       value: individual?.user_id,
+  //     });
+
+  //   }
 
   //   console.log("AllUsers", AllUsers);
 
@@ -167,8 +160,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
       );
       console.log("response after sumbit of cl_lvl_org", response);
       toast.success(response?.data?.message);
-      onClose(),
-      fetchData ()
+      onClose(), fetchData();
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -178,131 +170,80 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
 
   return (
     <div className="flex items-center justify-center relative z-50 ">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl relative  space-y-">
-        <h1 className=" uppercase text-center mb-4">Update Organisation</h1>
-        <button
-          className="absolute top-0 p-2 right-0 text-gray-400 hover:text-gray-600 transition duration-200"
-          onClick={() => onClose()}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3 ">
+        <div className="">
+          <h1 className="p-2 uppercase text-start font-semibold text-base text-slate-400">
+            Edit Organisation
+          </h1>
+          <div className="border-b "></div>
+        </div>
 
         <form
           className="space-y-2  "
           onSubmit={handleSubmit(EditClientLevelOrg)}
         >
-          <div className="grid  grid-cols-1 md:grid-cols-1 gap-2  place-items-center h-auto overflow-y-scroll scrollbar-hide ">
+          <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
             <InputField
-              label=" "
+              label=" Enter Organisation"
               type="text"
               name="cl_org_name"
               register={register}
               errors={errors}
               pattern=""
-              placeholder="Enter Organisation"
+              placeholder=""
             />
 
             <div className="mb-">
               <SelectComponent
-                label=""
+                label="Select User"
                 options={AllClientUsers}
                 name="user_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select User"
+                placeholder=""
               />
             </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label="Selec super organisation"
-                options={clientLevelSuperUsers}
-                name="clsup_org_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
+
             <div className="mb-">
               <SelectComponent
-                label=""
+                label="Select Category"
                 options={AllCategory}
                 name="cl_org_category_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select Category"
+                placeholder=""
               />
             </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label=" Select Country"
-                options={Country}
-                name="country"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
             <div className="mb-">
-              {/* <SelectComponent
-                label=" "
+              <SelectComponent
+                label="Select State"
                 options={State}
                 name="state"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select State"
-              /> */}
-              <div className="mb-">
-                <SelectComponent
-                  label=""
-                  options={State}
-                  name="state"
-                  register={register}
-                  errors={errors}
-                  required={true}
-                  defaultValue=""
-                  placeholder="Select State"
-                />
-              </div>
-            </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label="Select Organisation Children"
-                options={DocumentType}
-                name="clientLvlOrgIds"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
+                placeholder=""
               />
-            </div> */}
+            </div>
           </div>
-          <div className="w-full  text-center">
+          <div className="w-full  text-center space-x-4">
+            <button
+              onClick={() => onClose()}
+              type="button"
+              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg  hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
+              className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg  hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
             >
-              Update
+              Create
             </button>
           </div>
         </form>

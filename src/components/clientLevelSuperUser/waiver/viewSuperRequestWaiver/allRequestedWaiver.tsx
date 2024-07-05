@@ -66,6 +66,7 @@ const AllRequestedWaiver = () => {
   const [roleFilter, setRoleFilter] = useState("");
   const [yardFilter, setYardFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [limit,setLimit]=useState(5)
   const {
     register,
     handleSubmit,
@@ -180,28 +181,7 @@ const AllRequestedWaiver = () => {
 
   const columns = React.useMemo<ColumnDef<User>[]>(
     () => [
-      // {
-      //   id: 'select',
-      //   header: ({ table }) => (
-      //     <IndeterminateCheckbox
-      //       {...{
-      //         checked: table.getIsAllRowsSelected(),
-      //         indeterminate: table.getIsSomeRowsSelected(),
-      //         onChange: table.getToggleAllRowsSelectedHandler(),
-      //       }}
-      //     />
-      //   ),
-      //   cell: ({ row }) => (
-      //     <div className="px-1">
-      //       <IndeterminateCheckbox
-      //         {...{
-      //           checked: selectedRowIds.includes(row.original.id),
-      //           onChange: () => handleRowSelection(row.original.id),
-      //         }}
-      //       />
-      //     </div>
-      //   ),
-      // },
+  
       {
         accessorKey: 'vehicle_ownership.vehicle.code',
         header: 'Vehicle Code',
@@ -352,24 +332,7 @@ const AllRequestedWaiver = () => {
           </div>
         </div>
 
-        {/* <div className="flex flex-col">
-          <label htmlFor="client" className={labelStyle?.data}>
-            Select Client
-          </label>
-          <select
-            id="client"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleOrgChange}
-          >
-            <option value="">All Clients</option>
-            {clientLevelOrg.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.client_org_name}
-              </option>
-            ))}
-          </select>
-        </div> */}
+   
 
         <div className="mb-">
           <div className="flex flex-col w-24">
@@ -464,7 +427,7 @@ const AllRequestedWaiver = () => {
           </div>
           <div className="w-full text-center">
             {pageCount && (
-              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} />
+              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} limit={limit} />
             )}
           </div>
         </div>

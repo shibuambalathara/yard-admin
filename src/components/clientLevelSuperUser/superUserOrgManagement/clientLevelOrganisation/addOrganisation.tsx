@@ -104,208 +104,79 @@ console.log("useeffect",clientLevelSuperUserUsers);
   return (
     <div className="flex items-center justify-center relative z-50 ">
     <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3 ">
-      <h1 className="p-2 uppercase text-center">create Organisation</h1>
-      <button
-        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-200"
-        onClick={onClose}
-      >
-        <svg
-          className="h-6 w-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-
+      <div className="">
+      <h1 className="p-2 uppercase text-start font-semibold text-base text-slate-400">create Organisation</h1>
+      <div className="border-b "></div>
+      </div>
+     
       <form className="space-y-2  " onSubmit={handleSubmit(createClientLevelOrganisation)}>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-2  h-56 overflow-y-scroll scrollbar-hide">
-          <div>
-            <FormFieldInput
-              label=""
-              type="text"
-              name="name"
-              register={register}
-              error={errors.name}
-              defaultValue=""
-              required
-              placeholder="Enter your  name"
-           
-            />
-          </div>
-          <div>
-            <FormFieldInput
-              label=""
-              type="email"
-              name="email"
-              register={register}
-              error={errors.email}
-              defaultValue=""
-              required
-              placeholder="Enter your email address"
-              
-            />
-          </div>
-          <div>
-            <FormFieldInput
-              label=""
-              type="text"
-              name="contact"
-              register={register}
-              error={errors.contact}
-              defaultValue=""
-              required
-              placeholder="Enter your contact number"
-             
-            />
-          </div>
-          <div>
-            <FormFieldInput
-              label=""
-              type="text"
-              name="designation"
-              register={register}
-              error={errors.designation}
-              defaultValue=""
-              required
-              placeholder="Enter your designation"
-          
-            />
-          </div>
-          
-          <div>
-          <FormFieldInput
-              label=""
-              type="password"
-              name="password"
-              register={register}
-              error={errors.name}
-              defaultValue=""
-              required
-              placeholder="Enter Password"
-           
-            />
-          </div>
-          
-          <div className="col-span-1">
-          <div>
-            <SelectComponent
-              label=""
-              name="role"
-              options={SuperUserChildren}
-              register={register}
-              errors={errors}
-              defaultValue=""
-              placeholder="select role"
-            />
-          </div>
-          </div>
-        </div> */}
-                  <div className="grid  grid-cols-1 md:grid-cols-1 gap-2  place-items-center h-auto overflow-y-scroll scrollbar-hide ">
+        
+     <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
            
               <InputField
-                label=" "
+                label="Enter Organisation"
                 type="text"
                 name="cl_org_name"
                 register={register}
                 errors={errors}
                 pattern=""
-                placeholder="Enter Organisation"
+                placeholder=""
               />
           
             <div className="mb-">
               <SelectComponent
-                label=""
+                label="Select a User"
                 options={allClientLevelUsers}
                 name="user_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select User"
+                placeholder="User"
               />
             </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label="Selec super organisation"
-                options={clientLevelSuperUsers}
-                name="clsup_org_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
+           
             <div className="mb-">
               <SelectComponent
-                label=""
+                label="Select Category"
                 options={AllCategory}
                 name="cl_org_category_id"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select Category"
+                placeholder="Category"
               />
             </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label=" Select Country"
-                options={Country}
-                name="country"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
+            
             <div className="mb-">
-              {/* <SelectComponent
-                label=" "
-                options={State}
-                name="state"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-                placeholder="Select State"
-              /> */}
+              
               <div className="mb-">
               <SelectComponent
-                label=""
+                label="Select a State"
                 options={State}
                 name="state"
                 register={register}
                 errors={errors}
                 required={true}
                 defaultValue=""
-                placeholder="Select State"
+                placeholder="State"
               />
             </div>
             </div>
-            {/* <div className="mb-">
-              <SelectComponent
-                label="Select Organisation Children"
-                options={DocumentType}
-                name="clientLvlOrgIds"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
+            
           </div>
-        <div className="w-full  text-center">
+        <div className="w-full  text-center space-x-4">
+        <button
+         onClick={()=>onClose()}
+            type="button"
+            className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg  hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
-            className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg  hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
           >
             Create
           </button>
