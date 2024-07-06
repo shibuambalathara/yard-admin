@@ -31,7 +31,7 @@ type Inputs = {
   confirmPassword: string;
 };
 
-const EditIndividualUser = ({ userId, onClose,fetchData }) => {
+const EditIndividualUser = ({ userId }) => {
   console.log("userId for edit user", userId);
 
   const [success, setSuccess] = useState(null);
@@ -68,10 +68,12 @@ const EditIndividualUser = ({ userId, onClose,fetchData }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/user/users/created_by_ins/${userId}`
+        `/user/users/created_by_ins/${userId?.userId}`
       );
-    
-     let phoneNumber;
+
+      console.log("userDAta", response);
+
+      let phoneNumber;
       if (response?.data?.res) {
         let contactNumber = response?.data?.res?.contact;
 
@@ -88,7 +90,6 @@ const EditIndividualUser = ({ userId, onClose,fetchData }) => {
       // console.log("resetData", initialData);
 
       console.log("error", error);
-    
     } finally {
       setIsLoading(false);
     }
@@ -98,29 +99,28 @@ const EditIndividualUser = ({ userId, onClose,fetchData }) => {
     FetchUserDate();
   }, [userId]);
 
-  const onSubmit = async (data: Inputs) => {
-    console.log("ENETERED IN USER UPDATE",data);
+  const EditUser = async (data: Inputs) => {
+    console.log("ENETERED IN USER UPDATE", data);
 
     const modifiedData = {
       ...data,
       contact: `+91${data?.contact}`,
-
     };
-console.log("modifieddata",modifiedData);
+    console.log("modifieddata", modifiedData);
 
     try {
       const response = await axiosInstance.patch(
-        `/user/users/created_by_ins/${userId}`,
+        `/user/users/created_by_ins/${userId?.userId}`,
         modifiedData
       );
-      console.log("response of updating user of client level super user", response);
+      console.log(
+        "response of updating user of client level super user",
+        response
+      );
       toast.success(response?.data?.message);
-      // onClose()
-      fetchData()
     } catch (error) {
       console.error("Error updating user data", error);
       toast.error(error?.response?.data?.message);
-      // console.log("error?.data?.response?.message",error?.data?.response?.message);
       
     }
   };
@@ -134,34 +134,15 @@ console.log("modifieddata",modifiedData);
   }
 
   return (
-    <div className="flex items-center justify-center  ">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3 relative  ">
-        <h1 className="p-2 uppercase text-center">update User</h1>
-        {/* <div className=" "> */}
-        <button
-          className="absolute top-0 p-2 right-3 text-gray-400 hover:text-gray-600 transition duration-200"
-          onClick={() => onClose()}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-        {/* </div> */}
-
-        <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2  h-56 overflow-y-scroll scrollbar-hide">
-            <div className="mb-">
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center border-b pb-4 mb-6">
+          <h1 className="text-2xl font-bold text-gray-700">Update User</h1>
+          {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
+        </div>
+        <form onSubmit={handleSubmit(EditUser)} className="space-y-6">
+          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="col-span-1">
               <FormFieldInput
                 label="Name"
                 type="text"
@@ -173,7 +154,7 @@ console.log("modifieddata",modifiedData);
                 placeholder=""
               />
             </div>
-            <div className="mb-">
+            <div className="col-span-1">
               <FormFieldInput
                 label="Email"
                 type="email"
@@ -185,7 +166,7 @@ console.log("modifieddata",modifiedData);
                 defaultValue=""
               />
             </div>
-            <div className="mb-">
+            <div className="col-span-1">
               <FormFieldInput
                 label="Contact"
                 type="number"
@@ -197,7 +178,7 @@ console.log("modifieddata",modifiedData);
                 defaultValue=""
               />
             </div>
-            <div className="mb-">
+            <div className="col-span-1">
               <SelectInput
                 label="Role"
                 options={SuperUserChildren}
@@ -206,10 +187,10 @@ console.log("modifieddata",modifiedData);
                 error={errors}
                 required
                 placeholder=""
-                defaultValue="Select user role"
+                defaultValue=""
               />
             </div>
-            <div className="mb-">
+            <div className="col-span-1">
               <FormFieldInput
                 label="Designation"
                 type="text"
@@ -222,13 +203,19 @@ console.log("modifieddata",modifiedData);
               />
             </div>
           </div>
-
-          <div className="w-full  text-center">
+          <div className="w-full text-center pt-4 space-x-4 ">
+            <button
+              type="button"
+              onClick={close}
+              className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
+            >
+              Back
+            </button>
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
+              className="bg-green-600 text-white py-2 px-10 rounded-md hover:bg-green-700 transition duration-200"
             >
-              Update
+              Submit
             </button>
           </div>
         </form>

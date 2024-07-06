@@ -122,7 +122,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
   const tabs = {
     "Yard Details": <YardDetails vehicle={vehicleData} />,
     "Vehicle Details": <VehicleDetails vehicle={vehicleData} />,
-    "Vehicle ownership": <VehicleOwnerships vehicle={vehicleData} />,
+    "Vehicle Ownership": <VehicleOwnerships vehicle={vehicleData} />,
    
   }
 
@@ -135,7 +135,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
             onClick={handleInitiateClick}
             className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600"
           >
-            CANCEL VEHICLE RELEASE
+            Cancel Vehicle Rlease
           </button>
         </div>
         <section>

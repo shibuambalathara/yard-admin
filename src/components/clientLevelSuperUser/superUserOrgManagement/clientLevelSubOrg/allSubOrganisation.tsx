@@ -25,12 +25,7 @@ const AllClientLevelSubOrganisation = () => {
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
-  const [clientLevelUsers, setClientLevelUsers] = useState([]);
-  const [clientLevelSuperUsers, setClientLevelSuperUsers] = useState([]);
-  const [allClientcategory, setAllClientCategory] = useState([]);
-  const [accountStatus,setAccountStatus]=useState()
+
 
 
   useEffect(() => {
@@ -121,11 +116,11 @@ const AllClientLevelSubOrganisation = () => {
       
       
       {
-        id: "viewUser",
-        header: "View User",
+        id: "view",
+        header: "Action ",
         cell: ({ row }) => (
           <div className="flex justify-center relative z-10">
-            <View row={row} onEditClick={handleEditClick} />
+            <View row={row} />
           </div>
         ),
       },
@@ -135,23 +130,7 @@ const AllClientLevelSubOrganisation = () => {
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
-
-  const handleEditClick = (userId) => {
-    setSelectedUserId(userId);
-    setEditModalOpen(true);
-  };
-
-  const handleEditModalClose = () => {
-    setEditModalOpen(false);
-    // setSelectedUserId(null);
-  };
 
   return (
     <div className="w-full">
@@ -167,33 +146,25 @@ const AllClientLevelSubOrganisation = () => {
       </div> */}
       <div className="w-full flex flex-col space-y-4">
         <div className="self-end">
-          <button
-            onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          <Link
+            href={'/superUserOrgManagement/subOrganisation/createSubOrg'}
+            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
           >
-            Add ORG
-          </button>
+            Add 
+          </Link>
         </div>
         <div className="w-full relative">
           <div className="absolute top-0 right-10 border shadow-2xl rounded-lg z-50">
-            {modalOpen && 
-            <CreateClientLevelSubOrg onClose={handleModalClose} fetchData={fetchSubOrganisation} />}
+            {/* {modalOpen && 
+            <CreateClientLevelSubOrg onClose={handleModalClose} fetchData={fetchSubOrganisation} />
+            } */}
           </div>
         </div>
       </div>
     </div>
 <div className="">
-{/* {editModalOpen && (
-      <div className="relative border ">
-        <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50 border  border-green-500 ">
-        <div className=" w-full   max-w-6xl z-20 border border-red-500 ">
-          <EditClientLevelSubOrg subOrgId={selectedUserId} onClose={handleEditModalClose} fetchData={fetchSubOrganisation} />
-          
-        </div>
-      </div>
-      </div>
-    )} */}
-    {editModalOpen && (
+
+    {/* {editModalOpen && (
         <div className="relative border ">
           <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
           <div className=" w-full   max-w-2xl z-20 ">
@@ -202,7 +173,7 @@ const AllClientLevelSubOrganisation = () => {
           </div>
         </div>
         </div>
-      )}
+      )} */}
 <div>
       <DataTable data={allSuborganisation} columns={userColumn} />
     </div>
@@ -214,32 +185,24 @@ const AllClientLevelSubOrganisation = () => {
 
 export default AllClientLevelSubOrganisation;
 
-const View = ({ row, onEditClick }) => {
-  // console.log("from view", row.original.id);
+
+
+const View = ({ row }) => {
   return (
-    // <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-    //   <p>
-    //     <MdOutlineViewHeadline />
-    //   </p>
-    //   <Link
-    //     href={`/superUserOrgManagement/subOrganisation/${row.original.id}`}
-    //     target="_blank"
-    //     rel="noopener noreferrer"
-    //     className=""
-    //   >
-    //     View
-    //   </Link>
-    // </div>
-    <div className="flex justify-center items-center  py-1 px-3 space-x-1 text-white rounded-md z-[-10]">
-        <p>
-          <MdOutlineViewHeadline />
-        </p>
-        <button
-          onClick={() => onEditClick(row.original.id)}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-        >
-          View User
-        </button>
-      </div>
+    <Link
+    
+    href={`/superUserOrgManagement/subOrganisation/${row?.original?.id}`}
+     target="_blank"
+        rel="noopener noreferrer"
+     className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white">
+     
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+     
+       
+            <span>  View</span>
+      
+    </Link>
   );
 };

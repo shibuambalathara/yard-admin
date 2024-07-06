@@ -54,7 +54,9 @@ export default async function RootLayout({
       <head></head>
 
       <body className={`${roboto_init.variable} ${Poppins_init.variable} h-screen `}>
+        
         <div className="relative w-full h-full ">
+   
         <div className="w-full h-full absolute z-[-1]  ">
           <Image
             src={yms}

@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
@@ -52,7 +51,7 @@ const AllReleasedVehicles = () => {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
       setAllClientLevelOrg(response?.data?.res?.clientLevelOrg);
 
-        console.log("reponse of clientlevelorg ", response);
+      console.log("reponse of clientlevelorg ", response);
 
       toast.success("successs");
     } catch (error) {
@@ -78,15 +77,12 @@ const AllReleasedVehicles = () => {
         params.append("cl_org_id", selectedYard);
       }
 
-      const response = await axiosInstance.get(
-        `release?${params.toString()}`
-      );
+      const response = await axiosInstance.get(`release?${params.toString()}`);
       console.log("resopnse of  RELEASED VEHCIES", response);
 
       setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
-      console.log("error",error);
-      
+      console.log("error", error);
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus]);
@@ -187,7 +183,7 @@ const AllReleasedVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-       All Released Vehicles
+        All Released Vehicles
       </h1>
 
       <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
@@ -202,7 +198,6 @@ const AllReleasedVehicles = () => {
             onChange={handleCategorySelect}
           >
             <option value="">All Category</option>
-            {/* <option value="">ALL STATE</option> */}
 
             {vehicleCategorysOptions.map((option, index) => (
               <option key={index} value={option?.value}>
@@ -210,58 +205,12 @@ const AllReleasedVehicles = () => {
               </option>
             ))}
           </select>
-          {/* {errors.state && (
-              <p className="text-red-500">State is required</p>
-                          )} */}
         </div>
-        <div className="flex flex-col   ">
-          <label htmlFor="state" className={labelStyle?.data}>
-            Select Yard
-          </label>
-          <select
-            id="state"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleYardSelection}
-          >
-            <option value="">All Yard</option>
-            {/* <option value="">ALL STATE</option> */}
-
-            {allYardsOptions.map((option, index) => (
-              <option key={index} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-          {/* {errors.state && (
-              <p className="text-red-500">State is required</p>
-                          )} */}
-        </div>
-
-        
       </div>
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
-          </div>
-        ) : ( */}
-        {
-          vehicleInitiated && (
-            <DataTable data={UsersData} columns={userColumn} />
-          )
-
-          /* )} */
-        }
-        {/* <div className="w-full text-center">
-          {filteredData?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-            />
-          )}
-        </div> */}
+        {vehicleInitiated && (
+          <DataTable data={UsersData} columns={userColumn} />
+        )}
       </div>
     </div>
   );

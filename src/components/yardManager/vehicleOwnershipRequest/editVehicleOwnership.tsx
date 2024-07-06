@@ -57,6 +57,9 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
+
+  console.log("isSelectDisabled",isSelectDisabled);
+  
   const router = useRouter();
   const {
     register,
@@ -86,6 +89,9 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const fetchVehicle = async () => {
     try {
       const response = await axiosInstance.get(`/ownership/${ownershipId?.vehicleOwnershipId}`);
+
+      console.log("response from edit owernship",response);
+      
       const destructuredData = {
         ...response?.data?.res,
         ...response?.data?.res?.vehicle,
@@ -102,7 +108,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
          console.log(response);
          
       // Set the isSelectDisabled state based on ownership_status
-      setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === 'pending');
+      setIsSelectDisabled(response?.data?.res?.status === 'REJECTED');
     } catch (error) {
       console.log("error", error);
     }
@@ -166,13 +172,13 @@ const EditVehicleOwnership = ({ ownershipId }) => {
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
           <div className="self-end justify-self-end mb-1 flex gap-5">
-            <button
+            {isSelectDisabled && <button
               type="button"
               onClick={handleModalOpen}
               className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
             >
               Change Ownership
-            </button>
+            </button>}
             {modalOpen && (
               <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">

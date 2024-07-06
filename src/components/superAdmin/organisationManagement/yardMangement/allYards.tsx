@@ -102,7 +102,7 @@ const AllYards = () => {
       {
         id: "view",
         header: "View ",
-        cell: ({ row }) => View(row),
+        cell: ({ row }) => <div className="w-20">{View(row)}</div>
       },
     ],
     [filteredData]

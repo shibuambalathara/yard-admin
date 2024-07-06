@@ -20,6 +20,7 @@ const MangeParkFee = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
+  const [limit,setLimit]=useState(5)
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
@@ -30,12 +31,11 @@ const MangeParkFee = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/parkfee/?page=1&limit=5&status=1&client_org_level=CLIENT_ORG`
+        `/parkfee/?page=${page}&limit=${limit}&status=1&client_org_level=CLIENT_ORG`
       );
       console.log("all users", response);
       setFilteredData(response?.data?.res);
     } catch (error) {
-     
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
@@ -52,7 +52,6 @@ const MangeParkFee = () => {
 
   const userColumn = useMemo(
     () => [
-
       {
         header: "Client Organisation ",
         accessorKey: "cl_org.cl_org_name",
@@ -74,21 +73,18 @@ const MangeParkFee = () => {
         accessorKey: "park_fee_per_day",
         // id: "code", // Ensure unique id
       },
-      
-      
+
       {
-        
         header: "Action",
         cell: ({ row }) => (
-          <button onClick={() => handleEditClick(row.original.id)} className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+          <button
+            onClick={() => handleEditClick(row.original.id)}
+            className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md "
+          >
             <p>
               <MdOutlineViewHeadline />
             </p>
-            <p
-              rel="noopener noreferrer"
-              className=""
-              
-            >
+            <p rel="noopener noreferrer" className="">
               View
             </p>
           </button>
@@ -118,70 +114,58 @@ const MangeParkFee = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      Park Fee
+        Park Fee
       </h1>
-      <div className="flex w-full px-8 justify-between">
-        
-        <div className="flex justify-end w-full border">
+      {/* <div className=" w-full px-8 "> */}
+        <div className="flex justify-end w-full pr-8 ">
+          <div>
           <button
-            // href={`/userManagement/createUser`}
             onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-          >  
-            Add 
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200  "
+          >
+            Add
           </button>
-          {/* {modalOpen && (
-            <AddParkFee
-              onClose={handleModalClose}
-              fetchData={fetchParkFeeData}
-            />
-          )} */}
- <div className="w-full relative">
-              {modalOpen && 
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-            <AddParkFee
-              onClose={handleModalClose}
-              fetchData={fetchParkFeeData}
-            />
-            </div>
-              }
           </div>
+          
 
+          <div className="">
+            {modalOpen && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <AddParkFee
+                  onClose={handleModalClose}
+                  fetchData={fetchParkFeeData}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      {/* </div> */}
+
       {editModalOpen && (
         <div className="relative border ">
-        <div className="  absolute top-40 right-0  w-full h-full flex items-center justify-end   z-50  border-green-500 ">
-        <div className=" w-full   max-w-sm z-20 ">
-        <EditParkFeeIndividual userId={selectedUserId} onClose={handleEditModalClose}/>
-          </div></div></div>
-      
-    )}
-      <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
-          </div>
-        ) : ( */}
-        {
-          filteredData && <DataTable data={UsersData} columns={userColumn} />
-
-          /* )} */
-        }
-        {/* <div className="w-full text-center">
-          {filteredData?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+            <EditParkFeeIndividual
+              userId={selectedUserId}
+              onClose={handleEditModalClose}
             />
-          )}
-        </div> */}
+          </div>
+        </div>
+      )}
+      <div>
+        {filteredData && <DataTable data={UsersData} columns={userColumn} />}
+        <div className="w-full text-center">
+              {filteredData?.totalCount && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData?.totalCount}
+                />
+              )}
+            </div>
       </div>
-      
     </div>
   );
 };
 
 export default MangeParkFee;
-

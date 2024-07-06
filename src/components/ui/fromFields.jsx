@@ -288,7 +288,7 @@ export const SelectComponent = ({
         defaultValue={defaultValue}
       >
         <option value="" disabled hidden>
-          {label ? label : placeholder}
+          {placeholder ? placeholder : label}
         </option>
         {options &&
           options?.map((option, index) => (
@@ -492,7 +492,7 @@ export const CustomMultiSelect = ({
 }) => {
   return (
     <div className="flex flex-col w-full ">
-      <label className={labelStyle.data}>
+      <label className={`${labelStyle.data} mb-2`}>
         {label}
       </label>
       <Controller
