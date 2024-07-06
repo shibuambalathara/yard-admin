@@ -63,8 +63,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
- console.log(ownershipId);
- const router = useRouter();
+  console.log(ownershipId);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -116,30 +116,33 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       reset(destructuredData);
 
       // Set the isSelectDisabled state based on ownership_status
-      setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === "pending");
+      setIsSelectDisabled(
+        response?.data?.res?.status.toLowerCase() === "pending"
+      );
     } catch (error) {
       console.log("error", error);
     }
   };
 
- 
   useEffect(() => {
     fetchVehicle();
- 
   }, [ownershipId?.clientLevelvehOwnId]);
 
   const editVehicle = useCallback(
     async (data: Inputs) => {
-      const modifiedData = {status: data?.ownership_status, comment: data?.comment?.toString()}
+      const modifiedData = {
+        status: data?.ownership_status,
+        comment: data?.comment?.toString(),
+      };
       try {
         const response = await axiosInstance.patch(
           `/ownership/status/${ownershipId?.clientLevelvehOwnId}`,
           modifiedData
         );
-        console.log('patch', modifiedData);
-        
+        console.log("patch", modifiedData);
+
         toast.success(response?.data?.message);
-        router.push("/waivers/viewCreatedWaivers")
+        router.push("/waivers/viewCreatedWaivers");
         setModalOpen(false); // Close the modal on successful update
       } catch (error) {
         // toast.error(error?.response?.data?.message);
@@ -148,8 +151,6 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     },
     [ownershipId?.clientLevelvehOwnId]
   );
-
- 
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -162,56 +163,38 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+        <h2 className=" text-2xl text-center uppercase font-extrabold text-gray-900">
           Vehicle Ownership
         </h2>
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
-          <div className="self-end justify-self-end mb-1 flex gap-5">
-            <button
-              type="button"
-              onClick={handleModalOpen}
-              className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
-            >
-              Confirm Ownership
-            </button>
+          <div className="w-full mb-1 flex gap-5">
+            {isSelectDisabled && (
+              <button
+                type="button"
+                onClick={handleModalOpen}
+                className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto"
+              >
+                Confirm Ownership
+              </button>
+            )}
+
             {modalOpen && (
-              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                  <button
-                    onClick={handleModalClose}
-                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                  </button>
-                  <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-                    <div className="flex justify-between">
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-6">
+                  <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg mb-5 pb-1">
+                    <div className="flex justify-between border-b">
                       <h1 className="font-bold">Confirm Ownership</h1>
-                      <p className="cursor-pointer" onClick={handleModalClose}>
-                        x
-                      </p>
                     </div>
                     <div>
-                    <SelectComponent
+                      <SelectComponent
                         label="Ownership Status"
                         name="ownership_status"
                         options={AccountStatus}
                         register={register}
                         errors={errors}
                         defaultValue=""
-                        
                       />
-                     
                       <InputField
                         label="Comment"
                         type="text"
@@ -220,10 +203,17 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                         errors={errors}
                         pattern
                       />
-                      <div className="flex justify-center mt-6">
+                      <div className="w-full text-center p-1 mt-3 space-x-2 border-t pt-4">
+                        <button
+                          type="button"
+                          onClick={handleModalClose}
+                          className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+                        >
+                          Cancel
+                        </button>
                         <button
                           type="submit"
-                          className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                          className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
                         >
                           Submit
                         </button>
@@ -352,7 +342,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           />
           <InputField
             disabled={true}
-            label="Chasis Number"
+            label="Chassis Number"
             type="text"
             name="chasis_number"
             register={register}
@@ -396,7 +386,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
             pattern
           />
 
-          <div className="grid grid-cols-4 gap-4 col-span-3">
+          <div className="grid grid-cols-2 gap-2 col-span-3 mt-6 px-5">
             {Object.entries(images).map(([imageType, imageList]) => (
               <div
                 key={imageType}
@@ -413,10 +403,10 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                 {imageList?.map((image, index) => (
                   <div
                     key={index}
-                    className="flex justify-center pb-4 items-center"
+                    className="flex flex-col items-center pb-4 mt-3"
                   >
                     <img
-                      className="rounded-xl"
+                      className="rounded-xl mb-2 "
                       src={image.src}
                       alt={`${imageType} ${index}`}
                       style={{ width: "70%" }}

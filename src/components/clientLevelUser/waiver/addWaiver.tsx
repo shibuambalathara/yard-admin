@@ -29,6 +29,7 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
   const [isLoading, setIsLoading] = useState(false); // Initially set to true to show loading spinner
   const router = useRouter();
 
+
   const {
     register,
     handleSubmit,
@@ -94,24 +95,9 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
   // }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-lg">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
+      <div className="bg-white p-4 rounded-lg w-fit">
+        
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
           <h1 className=" font-bold  ">Assign Waiver</h1>
           <p className=" cursor-pointer"
@@ -121,11 +107,11 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
           </p>
         </div>
         <form
-          className={` flex flex-col items-center border rounded-xl py-8`}
+          className={`  border-gray-200  justify-center  p-2 border   `}
           onSubmit={handleSubmit(AddVehicleCategory)}
         >
         
-
+              <div className="grid grid-cols-1 gap-2 justify-center  p-2 ">
           {/* <div className="mb-">
           <SelectComponent
                 label="Select Client Organisation"
@@ -167,13 +153,21 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
                 pattern=""
               />
             </div> 
-
-          <div className="w-32 mt-4">
+            </div>
+            <div className=" w-full text-center p-1 mt-3  space-x-2">
+            
+            <button
+            type="button"
+              onClick={() => onClose()}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-[#333333] text-white px-4 py-1 w-full"
+              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
             >
-              Assign
+              Submit
             </button>
           </div>
         </form>

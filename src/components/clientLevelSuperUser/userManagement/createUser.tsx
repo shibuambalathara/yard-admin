@@ -64,7 +64,7 @@ const CreateUser = ({ onClose,fetchData }:any) => {
 
   const password = watch("password");
 
-  const onSubmit = async (data: Inputs) => {
+  const CreateUser = async (data: Inputs) => {
     try {
       const modifiedData = {
         ...data,
@@ -82,138 +82,118 @@ const CreateUser = ({ onClose,fetchData }:any) => {
     }
   };
 
-  return (
-    <div className="flex items-center justify-center relative  border-blue-800">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-7xl w-full space-y-3 border-red-700 ">
-        <h1 className="p-2 uppercase text-center"><span className="px-2 py-2 font-bold">
-        create User</span></h1>
-        <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-200"
-          onClick={onClose}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+  const close=()=>{
+    router.back()
+  }
 
-        <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2  h-56 overflow-y-scroll scrollbar-hide">
-            <div>
-              <FormFieldInput
-                label=""
+  return (
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+      <div className="flex justify-between items-center border-b pb-4 mb-6">
+        <h1 className="text-2xl font-bold text-gray-700">Create User</h1>
+        {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
+      </div>
+      <form onSubmit={handleSubmit(CreateUser)} className="space-y-6">
+        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="col-span-1">
+          <FormFieldInput
+                label="Enter your name"
                 type="text"
                 name="name"
                 register={register}
                 error={errors.name}
                 defaultValue=""
                 required
-                placeholder="Enter your name"
+                placeholder=""
              
               />
-            </div>
-            <div>
-              <FormFieldInput
-                label=""
+          </div>
+          <div className="col-span-1">
+          <FormFieldInput
+                label="Enter your email address"
                 type="email"
                 name="email"
                 register={register}
                 error={errors.email}
                 defaultValue=""
                 required
-                placeholder="Enter your email address"
+                placeholder=""
                 
               />
-            </div>
-            <div>
-              <FormFieldInput
-                label=""
+          </div>
+          <div className="col-span-1">
+          <FormFieldInput
+                label="Enter your contact number"
                 type="text"
                 name="contact"
                 register={register}
                 error={errors.contact}
                 defaultValue=""
                 required
-                placeholder="Enter your contact number"
+                placeholder=""
                
               />
-            </div>
-            <div>
-              <FormFieldInput
-                label=""
+          </div>
+          <div className="col-span-1">
+          <FormFieldInput
+                label="Enter your designation"
                 type="text"
                 name="designation"
                 register={register}
                 error={errors.designation}
                 defaultValue=""
                 required
-                placeholder="Enter your designation"
+                placeholder=""
             
               />
-            </div>
-            
-            <div>
-            <FormFieldInput
-                label=""
+          </div>
+          <div className="col-span-1">
+          <FormFieldInput
+                label="Enter Password"
                 type="password"
                 name="password"
                 register={register}
                 error={errors.name}
                 defaultValue=""
                 required
-                placeholder="Enter Password"
+                placeholder=""
              
               />
-            </div>
-            {/* <div>
-              <FormFieldPassword
-                label="Confirm Password"
-                type="password"
-                name="confirmPassword"
-                register={register}
-                error={errors.confirmPassword}
-                defaultValue=""
-                required
-                placeholder="Confirm your password"
-                isConfirmPassword={true}
-                confirmValue={password}
-              />
-            </div> */}
-            <div className="col-span-1">
-            <div>
-              <SelectComponent
-                label=""
+          </div>
+          <div className="col-span-1">
+          <SelectComponent
+                label="Select Role"
                 name="role"
                 options={SuperUserChildren}
                 register={register}
                 errors={errors}
                 defaultValue=""
-                placeholder="Select Role"
+                placeholder=""
               />
-            </div>
-            </div>
+
           </div>
-          <div className="w-full  text-center">
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
-            >
-              Create
-            </button>
-          </div>
-        </form>
-      </div>
+          
+         
+          
+        </div>
+        <div className="w-full text-center pt-4 space-x-4 ">
+        <button
+                type="button"
+                onClick={close}
+                className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
+              >
+                Back
+              </button>
+          <button
+            type="submit"
+            className="bg-green-600 text-white py-2 px-10 rounded-md hover:bg-green-700 transition duration-200"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
   );
 };
 

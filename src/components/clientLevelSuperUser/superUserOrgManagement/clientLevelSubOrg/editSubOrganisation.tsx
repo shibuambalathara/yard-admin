@@ -75,7 +75,7 @@ interface ApiResponse {
 //   clsub_org_category_id: string;
 // };
 
-const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
+const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   console.log("subOrgId", subOrgId);
 
   const [clientLevelSubUsers, setClientLevelSubUsers] = useState([]);
@@ -131,7 +131,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
   const FetchIndividualClientLevelSubOrg = async () => {
     try {
       const response = await axiosInstance.get(
-        `/clientorg/client_lvl_sub_org/${subOrgId}`
+        `/clientorg/client_lvl_sub_org/${subOrgId?.subOrgId}`
       );
 
       console.log("API Response:", response);
@@ -164,8 +164,6 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
       console.log("destructeddata", destructuredData);
 
       reset(destructuredData);
-
-     
     } catch (error) {
       console.error("Error fetching individual client level sub org:", error);
       // toast.error(error?.response?.data?.message);
@@ -244,7 +242,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
     console.log("modified data for submit", submittingData);
     try {
       const response = await axiosInstance.put(
-        `clientorg/client_lvl_sub_org/${subOrgId}`,
+        `clientorg/client_lvl_sub_org/${subOrgId?.subOrgId}`,
         submittingData
       );
       console.log("response after sumbit of cl_lvl_org", response);
@@ -257,36 +255,20 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
   };
 
   return (
-    <div className="flex items-center justify-center relative z-50 ">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-3xl  overflow-y-scroll scrollbar-hide  ">
-        <h1 className="p-2 uppercase text-center font-bold">create sub Organisation</h1>
-        <button
-          className="absolute top-2 right-8 text-gray-400 hover:text-gray-600 transition duration-200"
-          onClick={onClose}
-          type="button"
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center border-b pb-4 mb-6">
+          <h1 className="text-2xl font-bold text-gray-700">
+            Update Sub Organisation
+          </h1>
+          {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}
+        </div>
         <form
-          className="space-y-2  "
           onSubmit={handleSubmit(EditSubOrganisation)}
+          className="space-y-6"
         >
-          <div className="max-w-7xl grid grid-cols-2 gap-5 p-2 justify-center place-items-center border  scrollbar-hide overflow-y-scroll ">
-            <div>
+          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="col-span-1">
               <InputField
                 label=" Sub Organisation Name"
                 type="text"
@@ -296,9 +278,9 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
                 pattern=""
               />
             </div>
-            <div>
+            <div className="col-span-1">
               <SelectInput
-                label="Select user"
+                label="Select User"
                 options={allSubUsers}
                 name="user_id"
                 register={register}
@@ -307,39 +289,40 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
                 defaultValue=""
               />
             </div>
-            <div className="w-72">
-              {/* <div className="p-4 w-80"> */}
-              <div className="flex flex-col w-full space-y-2">
-                <label className={labelStyle.data} htmlFor="">
-                  Vehicle Category
-                </label>
+            <div className="col-span-1 mt-1">
+              <div className="w-72">
+                {/* <div className="p-4 w-80"> */}
+                <div className="flex flex-col w-full space-y-2">
+                  <label className={labelStyle.data} htmlFor="">
+                    Vehicle Category
+                  </label>
 
-                <Controller
-                  name="vehicleCatIdWithName"
-                  control={control}
-                  defaultValue={defaultValues.map((state) => ({
-                    label: state.label,
-                    value: state.value,
-                  }))}
-                  render={({ field }) => (
-                    <Select
-                      options={allVehicleCategory.map((state) => ({
-                        label: state.name,
-                        value: state.id,
-                      }))}
-                      {...field}
-                      isMulti
-                      getOptionValue={(option) => option.value}
-                      getOptionLabel={(option) => option.label}
-                    />
-                  )}
-                />
+                  <Controller
+                    name="vehicleCatIdWithName"
+                    control={control}
+                    defaultValue={defaultValues.map((state) => ({
+                      label: state.label,
+                      value: state.value,
+                    }))}
+                    render={({ field }) => (
+                      <Select
+                        options={allVehicleCategory.map((state) => ({
+                          label: state.name,
+                          value: state.id,
+                        }))}
+                        {...field}
+                        isMulti
+                        getOptionValue={(option) => option.value}
+                        getOptionLabel={(option) => option.label}
+                      />
+                    )}
+                  />
 
-                {/* </div> */}
+                  {/* </div> */}
+                </div>
               </div>
             </div>
-
-            <div>
+            <div className="col-span-1">
               <SelectInput
                 label="Select Client Organisation "
                 options={allClientLevelOrganisations}
@@ -350,7 +333,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
                 defaultValue=""
               />
             </div>
-            <div>
+            <div className="col-span-1">
               <SelectInput
                 label=" Select Client Category"
                 options={allClientCategory}
@@ -362,12 +345,19 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId, onClose, fetchData }) => {
               />
             </div>
           </div>
-          <div className="w-full  text-center">
+          <div className="w-full text-center pt-4 space-x-4 ">
+            <button
+              type="button"
+              onClick={()=>window.close()}
+              className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
+            >
+              Back
+            </button>
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-500 uppercase to-blue-700 text-white py-3 px-6 rounded-lg w-60 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
+              className="bg-green-600 text-white py-2 px-10 rounded-md hover:bg-green-700 transition duration-200"
             >
-              Update
+              Submit
             </button>
           </div>
         </form>

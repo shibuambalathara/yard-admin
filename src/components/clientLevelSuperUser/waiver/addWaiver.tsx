@@ -17,13 +17,13 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 type Inputs = {
-  cl_org_id: string,
-  vehicleOwnershipIds: string,
-  fee_per_day: string,
-  reason: string
+  cl_org_id: string;
+  vehicleOwnershipIds: string;
+  fee_per_day: string;
+  reason: string;
 };
 
-const AddWaiver = ({onClose,selectedRowIds,client}) => {
+const AddWaiver = ({ onClose, selectedRowIds, client }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Initially set to true to show loading spinner
@@ -52,23 +52,17 @@ const AddWaiver = ({onClose,selectedRowIds,client}) => {
     }
   }, [success, error]);
 
-
-
   const AddVehicleCategory = async (data: Inputs) => {
     setIsLoading(true);
     try {
       const modifiedData = {
         ...data,
-        cl_org_id:client,
+        cl_org_id: client,
         fee_per_day: parseInt(data?.fee_per_day),
-        vehicleOwnershipIds:selectedRowIds
-       
-        
-      }; console.log(modifiedData);
-      const response = await axiosInstance.post(
-        "waiver/create",
-        modifiedData
-      );
+        vehicleOwnershipIds: selectedRowIds,
+      };
+      console.log(modifiedData);
+      const response = await axiosInstance.post("waiver/create", modifiedData);
       console.log("Response:", response);
       setSuccess({
         text: response?.data?.message,
@@ -82,11 +76,9 @@ const AddWaiver = ({onClose,selectedRowIds,client}) => {
       toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
-     
-       
     }
   };
- 
+
   // if (isLoading) {
   //   return (
   //     <div className="flex items-center justify-center border-2 h-full w-full">
@@ -96,59 +88,20 @@ const AddWaiver = ({onClose,selectedRowIds,client}) => {
   // }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-lg">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-        <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Assign Waiver</h1>
-          <p className=" cursor-pointer"
-           onClick={onClose}
-           >
-            x
-          </p>
+    <div className="flex items-center justify-center relative z-50 ">
+      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3 ">
+        <div className="">
+          <h1 className="p-2 uppercase text-start font-semibold text-base text-slate-400">
+            create Organisation
+          </h1>
+          <div className="border-b "></div>
         </div>
+
         <form
-          className={` flex flex-col items-center border rounded-xl py-8`}
+          className="space-y-2  "
           onSubmit={handleSubmit(AddVehicleCategory)}
         >
-        
-
-          {/* <div className="mb-">
-          <SelectComponent
-                label="Select Client Organisation"
-                options={allClientLevelOrganisations}
-                name="cl_org_id"
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div> */}
-            {/* <div className="mb-">
-              <InputField
-                label="Ownership"
-                type="zstring"
-                name="vehicleOwnershipIds"
-                register={register}
-                errors={errors}
-                pattern=""
-              />
-            </div> */}
+          <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
             <div className="mb-">
               <InputField
                 label="Fee Per Day"
@@ -168,14 +121,21 @@ const AddWaiver = ({onClose,selectedRowIds,client}) => {
                 errors={errors}
                 pattern=""
               />
-            </div> 
-
-          <div className="w-32 mt-4">
+            </div>
+          </div>
+          <div className="w-full  text-center space-x-4">
+            <button
+              onClick={() => onClose()}
+              type="button"
+              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg  hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-[#333333] text-white px-4 py-1 w-full"
+              className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg  hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
             >
-              Assign
+              Create
             </button>
           </div>
         </form>
@@ -185,6 +145,3 @@ const AddWaiver = ({onClose,selectedRowIds,client}) => {
 };
 
 export default AddWaiver;
-
-
-

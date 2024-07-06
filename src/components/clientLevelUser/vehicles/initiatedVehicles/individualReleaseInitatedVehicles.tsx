@@ -92,7 +92,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
     try {
       const response = await axiosInstance.patch(`/release/client/cancel_req/${releaseId?.initiatedVehicleId}`);
       toast.success(response.data.message);
-      router.push("/vehiclesSuperOrg/initiatedVehicles");
+      router.push("/vehicles/initiatedVehicles");
       console.log("response of post method", response);
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -130,6 +130,13 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
+       {modalOpen&&<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+        <ConfirmationModal
+          isOpen={modalOpen}
+          onCancel={handleCancelRelease}
+          onConfirm={handleConfirmRelease}
+         
+        /></div>}  
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">Initiate Release</h2>
         <div className="w-full flex justify-end">
@@ -181,11 +188,8 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
             
           </div>
         </section>
-        <ConfirmationModal
-          isOpen={modalOpen}
-          onCancel={handleCancelRelease}
-          onConfirm={handleConfirmRelease}
-        />
+       
+      
       </div>
     </div>
   );

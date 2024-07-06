@@ -229,27 +229,29 @@ export const SelectInput = ({
   error,
   register,
   required,
+  disabled = false,
   ...rest
 }) => {
   // console.log("options",options);
 
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className={`${labelStyle.data}`}>
+      <label htmlFor={name} className={`${labelStyle?.data}`}>
         {label}
       </label>
       <select
+      disabled={disabled}
         {...register(name, { required: required })}
-        className={`${inputStyle.data}`}
+        className={`${inputStyle?.data}`}
         {...rest}
         // defaultValue={defaultValue}
       >
-        <option disabled  selected >
+        {/* <option disabled  selected >
         {label}
-        </option>
+        </option> */}
         {options &&
           options?.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option?.value} value={option?.value}>
               {option.label}
             </option>
           ))}
@@ -286,7 +288,7 @@ export const SelectComponent = ({
         defaultValue={defaultValue}
       >
         <option value="" disabled hidden>
-          {label ? label : placeholder}
+          {placeholder ? placeholder : label}
         </option>
         {options &&
           options?.map((option, index) => (
@@ -490,7 +492,7 @@ export const CustomMultiSelect = ({
 }) => {
   return (
     <div className="flex flex-col w-full ">
-      <label className={labelStyle.data}>
+      <label className={`${labelStyle.data} mb-2`}>
         {label}
       </label>
       <Controller

@@ -212,7 +212,7 @@ const View = ({ row, onEditClick }) => {
         className=" "
       > */}
        
-            <span>  View User</span>
+            <span>  View </span>
       {/* </button> */}
       {/* </div> */}
     </div>

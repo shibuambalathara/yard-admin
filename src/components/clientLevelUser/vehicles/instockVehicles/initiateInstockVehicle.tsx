@@ -113,9 +113,9 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
       };
       setVehicleImage(response?.data?.res?.vehicle?.vehicle_img);
       reset(destructuredData);
-      toast.success(response.data.message);
+      
     } catch (error) {
-      // toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
 
       console.log("error", error);
     }
@@ -137,9 +137,9 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
     }
     try {
       const response = await axiosInstance.post("/release/initiate", data);
-      toast.success(response?.data?.message);
+      
       router.push("/vehicles/instockVehicles");
-      console.log("reposnse of post mehtod", response);
+      
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log("error of post mehtod", error);
@@ -163,8 +163,16 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+      {modalOpen&&<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+        <ConfirmationModal
+          isOpen={modalOpen}
+          onCancel={handleCancelRelease}
+          onConfirm={handleConfirmRelease}
+          text=""
+        /></div>}
+      
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-         Instock vehicle
+         Instock Vehicle
         </h2>
 
         <div className="w-full  flex justify-end">
@@ -293,7 +301,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
           />
           <InputField
             disabled={true}
-            label="Chasis Number"
+            label="Chassis Number"
             type="text"
             name="chasis_number"
             register={register}
@@ -337,17 +345,19 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
             pattern
           />
         </div>
-        <h2 className="text-center text-2xl font-semibold text-gray-900 mt-12 mb-6">
+        
+            
+        <div className="grid grid-cols-2 gap-2 col-span-3 mt-6 px-5">
+        <h2 className="text-center text-2xl font-semibold text-gray-900 mt-12 mb-6 col-span-2">
           Vehicle Images
         </h2>
-
-        <div className="grid grid-cols-4 gap-4 col-span-3">
           {Object.entries(images).map(([imageType, imageList]) => (
             <div
               key={imageType}
-              className="border rounded-lg shadow-xl border-black"
+              className="border rounded-lg shadow-xl border-black text-center"
             >
-              <h2 className="text-center text-lg font-semibold">
+              
+              <h2 className="rounded-xl mb-2 text-lg ">
                 {imageType
                   .replace("_", " ")
                   .toLowerCase()
@@ -370,12 +380,8 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
             </div>
           ))}
         </div>
-        <ConfirmationModal
-          isOpen={modalOpen}
-          onCancel={handleCancelRelease}
-          onConfirm={handleConfirmRelease}
-          text=""
-        />
+        
+        
       </div>
     </div>
   );

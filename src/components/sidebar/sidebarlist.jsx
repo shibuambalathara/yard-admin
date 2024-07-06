@@ -207,25 +207,25 @@ export const yardManager = [
     title: "Waiver",
     icon: <FaCarOn />,
     path: "/waiver ",
-  },
-  {
-    title: "Release Vehicles ",
-    icon: <FaCarOn />,
+  }
+  // {
+  //   title: "Release Vehicles ",
+  //   icon: <FaCarOn />,
 
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Initiate Release",
-        icon: <LiaTruckMovingSolid />,
-        path: "/releasevehicle/initiateRelease",
-      },
-      {
-        title: " Release History ",
-        icon: <TfiTruck />,
-        path: "/releasevehicle/releaseHistory",
-      },
-    ],
-  },
+  //   submenu: true,
+  //   submenuItems: [
+  //     {
+  //       title: "Initiate Release",
+  //       icon: <LiaTruckMovingSolid />,
+  //       path: "/releasevehicle/initiateRelease",
+  //     },
+  //     {
+  //       title: " Release History ",
+  //       icon: <TfiTruck />,
+  //       path: "/releasevehicle/releaseHistory",
+  //     },
+  //   ],
+  // },
 ];
 
 export const clientLevelUser = [
@@ -391,34 +391,7 @@ export const clientLevelSubUser = [
     icon: <ImTruck />,
     path: "/vehicleSubOwnership",
   },
-  {
-    title: "Vehicles",
-    icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Instock Vehicles",
-        icon: <LiaTruckMovingSolid />,
-        path: "/vehiclesSuperOrg/instockVehicles",
-      },
-      {
-        title: "Initiated Vehicles  ",
-        icon: <TfiTruck />,
-        path: "/vehiclesSuperOrg/initiatedVehicles",
-      },
-      {
-        title: "Released Vehicles  ",
-        icon: <LiaTruckMovingSolid />,
-        path: "/vehiclesSuperOrg/releasedVehicles",
-      },
-      {
-        title: "Cancelled Vehicles  ",
-        icon: <TfiTruck />,
-        path: "/vehiclesSuperOrg/cancelledVehicles",
-      },
-    ],
-  },
+  
   {
     title: "Vehicle Tracking",
     icon: <FaCarOn />,

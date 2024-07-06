@@ -29,6 +29,8 @@ const Dashboard = () => {
             return "YARD MANAGER";
           case "CLIENT_LEVEL_USER":
             return "CLIENT LEVEL USER";
+            case "CLIENT_LEVEL_SUB_USER":
+            return "CLIENT LEVEL SUB USER";
           case "CLIENT_LEVEL_SUPER_USER":
             return "CLIENT LEVEL SUPER USER";
         //   Default to user data

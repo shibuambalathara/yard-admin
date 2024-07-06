@@ -54,7 +54,9 @@ export default async function RootLayout({
       <head></head>
 
       <body className={`${roboto_init.variable} ${Poppins_init.variable} h-screen `}>
+        
         <div className="relative w-full h-full ">
+   
         <div className="w-full h-full absolute z-[-1]  ">
           <Image
             src={yms}
@@ -64,6 +66,9 @@ export default async function RootLayout({
             quality={100}
             className="bg-opacity-50 "
           />
+          <div className="relative uppercase z-10 text-3xl font-extrabold text-white opacity-80  w-fit mx-auto text-center mt-16">
+      <h1>autoBse yard management</h1>
+    </div>
         </div>
         {children}
         <Toaster/>

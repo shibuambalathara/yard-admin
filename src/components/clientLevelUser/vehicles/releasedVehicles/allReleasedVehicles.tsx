@@ -15,6 +15,7 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllReleasedVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -28,6 +29,9 @@ const AllReleasedVehicles = () => {
   const [selectedYard, setSelectedYard] = useState("");
   const [vehicleRelease, setvehicleRelease] = useState([]);
   const [allClientLevelOrg, setAllClientLevelOrg] = useState();
+  const [limit, setLimit] = useState(5);
+  const [catFilter, setCatFilter] = useState("");
+  const [yardFilter, setYardFilter] = useState("");
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
@@ -71,7 +75,7 @@ const AllReleasedVehicles = () => {
         `release/client?${params.toString()}`
       );
       console.log("resopnse of allreleasedVEhicles", response);
-
+      setFilteredData(response?.data?.res?.totalCount);
       setvehicleRelease(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
       console.log("error",error);
@@ -151,27 +155,20 @@ const AllReleasedVehicles = () => {
     [filteredData]
   );
 
-  // console.log("filetered data from clientLevelSuperOrg",filteredData);
-
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
   const handleCategorySelect = (e) => {
     const value = e.target.value;
     setVehiclecat(value);
+    
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
   const handleYardSelection = (e) => {
     const value = e.target.value;
     setSelectedYard(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setYardFilter(selectedOption.text);
   };
-  const handleOwnershipStatus = (e) => {
-    const value = e.target.value;
-    setVehicleStatus(value);
-  };
+  
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
@@ -226,50 +223,28 @@ const AllReleasedVehicles = () => {
                           )} */}
         </div>
 
-        <div className="flex flex-col  ">
-          <label htmlFor="state" className={labelStyle?.data}>
-            Status
-          </label>
-          <select
-            id="state"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleOwnershipStatus}
-          >
-            <option value="">Select Status</option>
-            {/* <option value="">ALL STATE</option> */}
-
-            {ReleaseStatus.map((option, index) => (
-              <option key={index} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-          {/* {errors.state && (
-              <p className="text-red-500">State is required</p>
-                          )} */}
-        </div>
+        
       </div>
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
+        {filteredData < 1 ? (
+          <NoVehicleMessage typeFilter="Released Vehicles" catFilter={catFilter}  yardFilter={yardFilter}/>
+        ) : (
+          <div className="w-full">
+            {vehicleRelease && (
+              <DataTable data={UsersData} columns={userColumn} />
+            )}
+            <div className="w-full text-center">
+              {filteredData > 0 && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData}
+                />
+              )}
+            </div>
           </div>
-        ) : ( */}
-        {
-          vehicleRelease && <DataTable data={UsersData} columns={userColumn} />
-
-          /* )} */
-        }
-        {/* <div className="w-full text-center">
-          {filteredData?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-            />
-          )}
-        </div> */}
+        )}
       </div>
     </div>
   );

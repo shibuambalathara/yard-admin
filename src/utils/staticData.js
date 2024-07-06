@@ -5,6 +5,13 @@
 //   { label: "Client Level  User", value: "client_level_user" },
 //   { label: "Client Level Sub User", value: "client_level_subsuer" },
 // ];
+export const RoleAliass = {
+  "SUPER_ADMIN": "SUPER ADMIN ",
+  "YARD_MANAGER": "YARD MANAGER",
+  "CLIENT_LEVEL_SUPER_USER": "CLIENT LEVEL SUPER USER",
+  "CLIENT_LEVEL_USER": "CLIENT LEVEL USER",
+  "CLIENT_LEVEL_SUB_USER": "CLIENT LEVEL SUB USER",
+};
 
 export const Role = [
   { label: "Super Admin", value: "SUPER_ADMIN" },
@@ -52,6 +59,7 @@ export const ReleaseStatus = [
 export const WaiverStatus = [
   { label: "PENDING", value: "PENDING" },
   { label: "CANCELLED", value: "CANCELLED" },
+  // { label: "APPROVED", value: "APPROVED" },
 ];
 
 export const vehicleStatus = [
