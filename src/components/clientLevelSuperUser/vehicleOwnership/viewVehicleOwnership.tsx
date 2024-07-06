@@ -370,7 +370,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           />
           <InputField
             disabled={true}
-            label="chassis  Number"
+            label="Chassis Number"
             type="text"
             name="chasis_number"
             register={register}

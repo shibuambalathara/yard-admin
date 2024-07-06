@@ -12,20 +12,21 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";  
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+
 
 const AllInstockVehicles = () => {
-  const [filteredData, setFilteredData] = useState(null);
+ 
   const [page, setPage] = useState(1);
   const [limit,setLimit]=useState(5)
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setVehiclecat] = useState("");
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState("");
   const [allInstockVehicles, setAllInstockVehicles] = useState(null);
-
+  const [catFilter, setCatFilter] = useState("");
+  const [yardFilter, setYardFilter] = useState("");
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
@@ -48,7 +49,7 @@ const AllInstockVehicles = () => {
       const response = await axiosInstance.get(`/yard`);
 
       setAllYard(response?.data?.res?.yard);
-      toast.success("Vehicle categories fetched successfully");
+     
     } catch (error) {
       console.log("error",error);
       
@@ -70,23 +71,19 @@ const AllInstockVehicles = () => {
       if (selectedYard) {
         params.append('yard_id',selectedYard);
       }
-      if(vehicleStatus){
-        params.append('status',vehicleStatus);
-
-      }
+      
 
       const response = await axiosInstance.get(
         `release/owned_instock_vehicle?${params.toString()}`     
       );
-      console.log("response of allinstock vehicles", response);
-
+      
       setAllInstockVehicles(response?.data?.res);
 
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
     } finally {
     }
-  }, [page, Category, selectedYard, vehicleStatus]);
+  }, [page, Category, selectedYard, vehicleStatus,allInstockVehicles]);
 
   const allYardsOptions = allyard?.map((item) => ({
     value: item?.id,
@@ -158,11 +155,16 @@ const AllInstockVehicles = () => {
   const handleCategorySelect = (e) => {
     const value = e.target.value;
     setVehiclecat(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
   const handleYardSelection = (e) => {
     const value = e.target.value;
     setSelectedYard(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setYardFilter(selectedOption.text);
   };
+  
   
   return (
     <div className="w-full">
@@ -204,7 +206,7 @@ const AllInstockVehicles = () => {
           defaultValue=""
           onChange={handleYardSelection}
         >
-          <option value="">All Category</option>
+          <option value="">All Yards</option>
           {/* <option value="">ALL STATE</option> */}
 
           {allYardsOptions.map((option, index) => (
@@ -227,24 +229,30 @@ const AllInstockVehicles = () => {
           </div>
         ) : ( */}
         {
-          allInstockVehicles?.vehicles && (
-            <DataTable data={UsersData} columns={userColumn} />
-          )
-
-          /* )} */
-        }
-        <div className="w-full text-center">
-          {allInstockVehicles?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              limit={limit}
-              totalDataCount={allInstockVehicles?.totalCount}
-            />
-          )}
-        </div>
+  allInstockVehicles?.totalCount<1 ? (
+    <NoVehicleMessage typeFilter='Instock Vehicles'  catFilter={catFilter}  yardFilter={yardFilter} />
+  ) : (
+    <div className="w-full">
+      {allInstockVehicles?.vehicles && (
+        <DataTable data={UsersData} columns={userColumn} />
+      )}
+      <div className="w-full text-center">
+        {allInstockVehicles?.totalCount>0 && (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            limit={limit}
+            totalDataCount={allInstockVehicles?.totalCount}
+          />
+        )}
       </div>
     </div>
+  )
+}
+
+        </div>
+      </div>
+   
   );
 };
 

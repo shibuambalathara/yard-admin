@@ -5,10 +5,12 @@ import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import SideBar from "@/components/sidebar/sidebar";
 import Login from "../(auth)/login/page";
-import { useRouter } from "next/navigation";
+
 import "../globals.css";
+
 import { Toaster } from "react-hot-toast";
 import ToastProvider from "@/utils/ToastProvider"
+import { useRouter } from "next/router";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,6 +51,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  
+  
   return (
     <html lang="en" className="h-full  ">
       <head></head>

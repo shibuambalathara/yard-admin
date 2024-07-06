@@ -59,6 +59,7 @@ const SelectionTable = () => {
   const [vehicleCategoryFilter, setVehicleCategoryFilter] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  
   const {
     register,
     handleSubmit,
@@ -479,7 +480,8 @@ const SelectionTable = () => {
                   setPage={setPages}
                   totalDataCount={pageCount}
                   limit={limit}
-                />
+                  
+              />
               )}
             </div>
           </div>
