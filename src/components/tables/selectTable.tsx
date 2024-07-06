@@ -21,6 +21,8 @@ import AddWaiver from '../clientLevelUser/waiver/addWaiver';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { inputStyle, labelStyle } from '../ui/style';
+import Loading from '@/app/(home)/(superAdmin)/loading';
+import NoVehicleMessage from '@/components/commonComponents/clientLevelUser/noVehicle';
 
 type User = {
   cl_org: {
@@ -51,6 +53,9 @@ const SelectionTable = () => {
   const [yardData, setYardData] = useState([]);
   const [yardFilter, setYardFilter] = useState('');
   const [vehicleCategoryFilter, setVehicleCategoryFilter] = useState('');
+  const [limit, setLimit] = useState(5);
+  const [yardFilter2, setYardFilter2] = useState("");
+  const [catFilter, setCatFilter] = useState("");
   const {
     register,
     handleSubmit,
@@ -73,10 +78,9 @@ const SelectionTable = () => {
     try {
       const response = await axiosInstance.get(`/yard`);
       setYardData(response?.data?.res?.yard);
-     
     } catch (error) {
       toast.error(error?.response?.data?.message);
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     }
   };
 
@@ -123,7 +127,7 @@ const SelectionTable = () => {
       const response = await axiosInstance.get(`/waiver/vehicle?${params.toString()}`);
       setData(response?.data?.res?.ownerships || []);
       setPageCount(response?.data?.res?.totalCount || null);
-      console.log("response of vehicle ownership00001", response);
+      console.log('response of vehicle ownership00001', response);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -199,6 +203,7 @@ const SelectionTable = () => {
         header: 'Category',
         cell: (info) => info.getValue(),
       },
+      // Uncomment and update this if action column is required
       // {
       //   id: 'view',
       //   header: 'Action',
@@ -239,75 +244,89 @@ const SelectionTable = () => {
 
   const handleYardChange = (e) => {
     setYardFilter(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setYardFilter2(selectedOption.text);
   };
 
   const handleVehicleCategoryChange = (e) => {
     setVehicleCategoryFilter(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
 
   console.log(yardFilter);
 
   return (
     <div className="w-full">
-      <div className='grid grid-cols-3 pl-6 pt-5 items-center'>
-      <div className="mb-">
-        <div className="flex flex-col w-24">
-          <label htmlFor="yard" className={labelStyle?.data}>
-            Select Yard
-          </label>
-          <select
-            id="yard"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleYardChange}
-          >
-            
-            <option value="">ALL Yards</option>
-            {yardOptions.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-         
+      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+        All eligible waivers
+      </h1>
+      <div className="grid grid-cols-3 pl-6 pt-5 items-center">
+        <div className="mb-">
+          <div className="flex flex-col w-24">
+            <label htmlFor="yard" className={labelStyle?.data}>
+              Select Yard
+            </label>
+            <select
+              id="yard"
+              className={inputStyle?.data}
+              defaultValue=""
+              onChange={handleYardChange}
+            >
+              <option value="">ALL Yards</option>
+              {yardOptions.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
-      <div className="mb-">
-        <div className="flex flex-col ">
-          <label htmlFor="vehicleCategory" className={labelStyle?.data}>
-            Select Vehicle Category
-          </label>
-          <select
-            id="vehicleCategory"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleVehicleCategoryChange}
-          >
-           
-            <option value="">ALL Vehicle Categories</option>
-            {vehicleCategoryOptions.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+        <div className="mb-">
+          <div className="flex flex-col ">
+            <label htmlFor="vehicleCategory" className={labelStyle?.data}>
+              Select Vehicle Category
+            </label>
+            <select
+              id="vehicleCategory"
+              className={inputStyle?.data}
+              defaultValue=""
+              onChange={handleVehicleCategoryChange}
+            >
+              <option value="">ALL Vehicle Categories</option>
+              {vehicleCategoryOptions.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
-      
-        <div className="flex h-12 mt-4 ">
+        {selectedRowIds.length > 0 && <div className="flex h-10 mt-4">
           <button
             onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto mr-5 "
           >
             Assign Waiver
           </button>
-          {modalOpen && <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds}  />}
-        </div>
-      
+          {modalOpen && (
+            <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} />
+          )}
+        </div>}
+        
       </div>
-     
+
       {loading ? (
-        <div className="flex w-full h-screen items-center justify-center">Loading...</div>
+        <div className="flex w-full h-screen items-center justify-center">
+          <Loading />
+        </div>
+      ) : pageCount < 1 ? (
+        <NoVehicleMessage
+          typeFilter="Vehicles"
+          catFilter={catFilter}
+          yardFilter={yardFilter2}
+        
+        />
       ) : (
         <div className="w-full p-5">
           <div className="mt-0.5">
@@ -326,11 +345,15 @@ const SelectionTable = () => {
           </div>
           <div className="mt-2 ring-1 w-full h-fit ring-gray-300 rounded-lg overflow-auto">
             <table className="min-w-full divide-y divide-gray-300 relative">
-              <thead className='bg-gray-700 rounded-lg'>
+              <thead className="bg-gray-700 rounded-lg">
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id} className='divide-x divide-gray-500'>
+                  <tr key={headerGroup.id} className="divide-x divide-gray-500">
                     {headerGroup.headers.map((header) => (
-                      <th key={header.id} colSpan={header.colSpan} className="py-3.5 uppercase pl-1 pr-1 text-sm font-semibold text-gray-100 text-left sm:pl-2">
+                      <th
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className="py-3.5 uppercase pl-1 pr-1 text-sm font-semibold text-gray-100 text-left sm:pl-2"
+                      >
                         {header.isPlaceholder ? null : (
                           <div className="flex items-center">
                             {flexRender(header?.column?.columnDef?.header, header.getContext())}
@@ -352,11 +375,17 @@ const SelectionTable = () => {
                   </tr>
                 ))}
               </thead>
-              <tbody className='text-black space-x-8'>
+              <tbody className="text-black space-x-8">
                 {table.getRowModel().rows.map((row) => (
-                  <tr key={row.id} className='divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50'>
+                  <tr
+                    key={row.id}
+                    className="divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50"
+                  >
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200">
+                      <td
+                        key={cell.id}
+                        className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -371,12 +400,12 @@ const SelectionTable = () => {
                 page={pages}
                 setPage={setPages}
                 totalDataCount={pageCount}
+                limit={limit}
               />
             )}
           </div>
         </div>
       )}
-      
     </div>
   );
 };

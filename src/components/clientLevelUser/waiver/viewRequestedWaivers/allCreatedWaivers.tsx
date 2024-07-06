@@ -24,6 +24,9 @@ import IndeterminateCheckbox from '@/components/tables/IndeterminateCheckbox';
 import { inputStyle, labelStyle } from '@/components/ui/style';
 import Pagination from '@/components/pagination/pagination';
 import { VehicleState } from '@/utils/staticData';
+import IndividualCreatedWaiver from './individualCreatedWaiver';
+import NoVehicleMessage from '@/components/commonComponents/clientLevelUser/noVehicle';
+import Loading from '@/app/(home)/(superAdmin)/loading';
 
 type User = {
   fee_per_day: number;
@@ -60,8 +63,14 @@ const AllCreatedWaivers = () => {
   const [yardFilter, setYardFilter] = useState('');
   const [vehicleCategoryFilter, setVehicleCategoryFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [client, setClient] = useState("");
+  const [limit,setLimit]=useState(5)
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [catFilter, setCatFilter] = useState("");
+  const [yardFilter2, setYardFilter2] = useState("");
   const {
     register,
     handleSubmit,
@@ -73,9 +82,9 @@ const AllCreatedWaivers = () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
-      toast.success(response?.data?.message);
+      
     } catch (error) {
-      // toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
       console.log("error",error);
     }
   }, []);
@@ -84,9 +93,9 @@ const AllCreatedWaivers = () => {
     try {
       const response = await axiosInstance.get(`/yard`);
       setYardData(response?.data?.res?.yard);
-      toast.success(response?.data?.message);
+      
     } catch (error) {
-      // toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
       console.error("Error fetching data:", error);
     }
   }, []);
@@ -135,7 +144,7 @@ const AllCreatedWaivers = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pages, yardFilter, vehicleCategoryFilter, client, statusFilter, fetchData]);
+  }, [pages, yardFilter, vehicleCategoryFilter, client, statusFilter, data]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {
@@ -146,6 +155,11 @@ const AllCreatedWaivers = () => {
       }
     });
   };
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    // setSelectedUserId(null);
+  };
+ 
 
   const columns = React.useMemo<ColumnDef<User>[]>(
     () => [
@@ -210,18 +224,8 @@ const AllCreatedWaivers = () => {
         id: 'view',
         header: 'Action',
         cell: ({ row }) => (
-          <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-            <p>
-              <MdOutlineViewHeadline />
-            </p>
-            <Link
-              href={`/waivers/viewCreatedWaivers/${row.original.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className=""
-            >
-              View
-            </Link>
+          <div className="flex justify-center ">
+            <View row={row} onEditClick={handleEditClick} />
           </div>
         ),
       },
@@ -244,24 +248,38 @@ const AllCreatedWaivers = () => {
     onGlobalFilterChange: setGlobalFilter,
   });
 
-  const handleYardChange = (e) => {
-    setYardFilter(e.target.value);
-  };
-
   const handleVehicleCategoryChange = (e) => {
-    setVehicleCategoryFilter(e.target.value);
+    const value = e.target.value;
+    setVehicleCategoryFilter(value);
+    
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
-
-  const handlestatusChange = (e) => {
-    setStatusFilter(e.target.value);
+  const handleYardChange = (e) => {
+    const value = e.target.value;
+    setYardFilter(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setYardFilter2(selectedOption.text);
   };
-
+ 
+  const handleOwnershipStatus = (e) => {
+    const value = e.target.value;
+    
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter(selectedOption.text);
+  };
   const handleOrgChange = (e) => {
     setClient(e.target.value);
   };
-
+ const handleEditClick = (userId) => {
+    setSelectedUserId(userId);
+    setEditModalOpen(true);
+  };
   return (
     <div className="w-full">
+      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+       All created waivers
+      </h1>
       <div className="grid grid-cols-3 pl-6 pt-5 items-center">
         <div className="mb-">
           <div className="flex flex-col w-24">
@@ -332,7 +350,7 @@ const AllCreatedWaivers = () => {
               id="status"
               className={inputStyle?.data}
               defaultValue=""
-              onChange={handlestatusChange}
+              onChange={handleOwnershipStatus}
             >
               <option value="">Status</option>
               { VehicleState.map((item,index) => (
@@ -345,10 +363,27 @@ const AllCreatedWaivers = () => {
         </div>
       </div>
       {loading ? (
-        <div className="flex w-full h-screen items-center justify-center">Loading...</div>
+        <div className="flex w-full h-screen items-center justify-center"><Loading/></div>
       ) : (
         <div className="w-full p-5">
-          <div className="mt-0.5">
+          {editModalOpen && (
+            <div className="relative border ">
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <IndividualCreatedWaiver
+                  waiverId={selectedUserId}
+                  onClose={handleEditModalClose}
+                  // fetchData={fetchData}
+                />
+              </div>
+            </div>
+          )}
+          <div>
+        {pageCount< 1 ? (
+          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  yardFilter={yardFilter2} statusFilter={statusFilter}/>
+        ) : (
+          <div className="w-full">
+             
+              <div className="mt-0.5">
             <div className="relative rounded-md shadow-sm max-w-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CiSearch className="h-5 w-5 text-gray-800" aria-hidden="true" />
@@ -413,11 +448,17 @@ const AllCreatedWaivers = () => {
               </tbody>
             </table>
           </div>
-          <div className="w-full text-center">
-            {pageCount && (
-              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} />
+            
+            <div className="w-full text-center">
+            {pageCount >0 && (
+              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} limit={limit}/>
             )}
           </div>
+          </div>
+        )}
+      </div>
+         
+         
         </div>
       )}
     </div>
@@ -425,3 +466,19 @@ const AllCreatedWaivers = () => {
 };
 
 export default AllCreatedWaivers;
+const View = ({ row, onEditClick }) => {
+  console.log("row form category", row);
+
+  return (
+    <div
+      onClick={() => onEditClick(row?.original?.id)}
+      className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white"
+    >
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+
+      <span> View</span>
+    </div>
+  );
+};

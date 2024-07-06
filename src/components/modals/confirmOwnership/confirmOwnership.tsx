@@ -5,7 +5,7 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm ,text}) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 drop-shadow-sm">
       <div className="bg-white w-full md:max-w-md mx-auto rounded-lg shadow-lg overflow-hidden animate-fade-in-down">
         <div className="relative p-6">
           <div className="flex justify-between items-center mb-4">

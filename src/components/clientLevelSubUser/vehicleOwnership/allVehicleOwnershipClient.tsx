@@ -15,6 +15,7 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllVehicleOwnershipClient = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -22,13 +23,13 @@ const AllVehicleOwnershipClient = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [vehicleStatus, setVehicleStatus] = useState('');
- 
   const [Category, setVehiclecat] = useState('');
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState('');
   const [allVehicleOwnerships,setAllVehicleOwerships]=useState([])
-
- 
+  const [limit, setLimit] = useState(5);
+  const [yardFilter, setYardFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const FetchAllYards = useCallback(async () => {
     try {
@@ -49,7 +50,7 @@ const AllVehicleOwnershipClient = () => {
     try {
         const params = new URLSearchParams({
             page: page.toString(),
-            limit: '10',
+            limit: limit.toString(),
 
           });
         //   params?.
@@ -71,14 +72,14 @@ const AllVehicleOwnershipClient = () => {
       setAllVehicleOwerships(response?.data?.res?.vehicleOwnership)
          
       // console.log( "api", `ownership/client/?${params.toString()}` );
-      
+      setFilteredData(response?.data?.res?.totalCount);
       console.log("response of vehicle ownership00001", response);
     } catch (error) {
       console.log("error",error);
       
     } finally {
     }
-  }, [page, Category, selectedYard, vehicleStatus]);
+  }, [page, Category, selectedYard,selectedYard, vehicleStatus]);
 
   const allYardsOptions = allyard?.map((item) => ({
     value: item?.id,
@@ -99,7 +100,7 @@ const AllVehicleOwnershipClient = () => {
 
   useEffect(() => {
     FetchAllVehicleOwnerships();
-  }, [selectedYard, Category, vehicleStatus]);
+  }, [selectedYard, Category, vehicleStatus,page]);
 
   useEffect(() => {
    
@@ -177,6 +178,8 @@ const AllVehicleOwnershipClient = () => {
   const handleYardSelection = (e) => {
     const value = e.target.value;
     setSelectedYard(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setYardFilter(selectedOption.text);
   };
   const handleOwnershipStatus = (e) => {
     const value = e.target.value;
@@ -224,7 +227,7 @@ const AllVehicleOwnershipClient = () => {
           defaultValue=""
           onChange={handleOwnershipStatus}
         >
-          <option value="">select status</option>
+          <option value="">Select Status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
@@ -238,27 +241,27 @@ const AllVehicleOwnershipClient = () => {
                           )} */}
       </div>
   </div>
-      <div className="flex w-full px-8 justify-between"></div>
+      
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
+        {filteredData < 1 ? (
+          <NoVehicleMessage typeFilter="Vehicles"   yardFilter={yardFilter} statusFilter={vehicleStatus}/>
+        ) : (
+          <div className="w-full">
+             
+              <DataTable data={UsersData} columns={userColumn} />
+            
+            <div className="w-full text-center">
+               {filteredData > 0 && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData}
+                />
+              )}
+            </div>
           </div>
-        ) : ( */}
-        {
-          allVehicleOwnerships && <DataTable data={UsersData} columns={userColumn} />
-
-          /* )} */
-        }
-        {/* <div className="w-full text-center">
-          {filteredData?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-            />
-          )}
-        </div> */}
+        )}
       </div>
     </div>
   );

@@ -52,6 +52,7 @@ export const ReleaseStatus = [
 export const WaiverStatus = [
   { label: "PENDING", value: "PENDING" },
   { label: "CANCELLED", value: "CANCELLED" },
+  // { label: "APPROVED", value: "APPROVED" },
 ];
 
 export const vehicleStatus = [

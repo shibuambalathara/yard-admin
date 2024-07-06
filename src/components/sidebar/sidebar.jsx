@@ -14,6 +14,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import SideBarItem from "./sidebarItem";
 import { BsArrowLeftCircle } from "react-icons/bs";
 import useAuthStore from "../../store/useAuthStore";
+// import { headers } from "next/headers";
+import { usePathname } from 'next/navigation';
+
 
 const SideBar = () => {
   const { user,token,role, } = useAuthStore();
@@ -36,6 +39,11 @@ const SideBar = () => {
       // Default to user data
     }
   };
+  const pathname = usePathname();
+  const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
+  console.log('path', modifiedPathname);
+
+
 
   // console.log("1234566789");
   const sidebarData = selectSidebarData();
@@ -44,7 +52,7 @@ const SideBar = () => {
 
   return (
     <div className=" h-full">
-      <SideBarItem item={sidebarData} />
+      <SideBarItem item={sidebarData} activePath={modifiedPathname} />
     </div>
   );
 };

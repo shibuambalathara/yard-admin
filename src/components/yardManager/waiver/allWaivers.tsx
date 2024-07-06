@@ -68,6 +68,7 @@ const  AllWaivers= () => {
   const [client, setClient] = useState("");
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [limit,setLimit]=useState(5)
   const {
     register,
     handleSubmit,
@@ -448,6 +449,7 @@ const FetchClientLevelOrgs = useCallback(async () => {
                 page={pages}
                 setPage={setPages}
                 totalDataCount={pageCount}
+                limit={limit}
               />
             )}
           </div>

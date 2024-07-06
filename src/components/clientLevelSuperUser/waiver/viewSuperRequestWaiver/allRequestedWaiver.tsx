@@ -66,6 +66,7 @@ const AllRequestedWaiver = () => {
   const [roleFilter, setRoleFilter] = useState("");
   const [yardFilter, setYardFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [limit,setLimit]=useState(5)
   const {
     register,
     handleSubmit,
@@ -464,7 +465,7 @@ const AllRequestedWaiver = () => {
           </div>
           <div className="w-full text-center">
             {pageCount && (
-              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} />
+              <Pagination page={pages} setPage={setPages} totalDataCount={pageCount} limit={limit} />
             )}
           </div>
         </div>

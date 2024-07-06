@@ -15,20 +15,22 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllVehicleOwnershipClient = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit,setLimit]=useState(5)
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [vehicleStatus, setVehicleStatus] = useState('');
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setVehiclecat] = useState('');
   const [allyard, setAllYard] = useState([]);
   const [selectedYard, setSelectedYard] = useState('');
   const [allVehicleOwnerships,setAllVehicleOwerships]=useState(null)
-
+  const [limit, setLimit] = useState(5);
+  const [catFilter, setCatFilter] = useState("");
+  const [yardFilter, setYardFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
@@ -102,7 +104,7 @@ console.log("12",axiosInstance.get(
       
       setAllVehicleOwerships(response?.data?.res)
 
-         
+      setFilteredData(response?.data?.res?.totalCount);
       
       
       console.log("response of vehicle ownership00001", response);
@@ -132,7 +134,7 @@ console.log("12",axiosInstance.get(
 
   useEffect(() => {
     FetchAllVehicleOwnerships();
-  }, [selectedYard, Category, vehicleStatus,page,limit]);
+  }, [selectedYard, Category, vehicleStatus,page,filteredData]);
 
   useEffect(() => {
     FetchAllVehicleCategory();
@@ -199,24 +201,25 @@ console.log("12",axiosInstance.get(
 
   // console.log("filetered data from allVehicleOwnerships?.totalCount",allVehicleOwnerships?.totalCount);
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
+ 
   const handleCategorySelect = (e) => {
     const value = e.target.value;
     setVehiclecat(value);
+    
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
   const handleYardSelection = (e) => {
     const value = e.target.value;
     setSelectedYard(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setYardFilter(selectedOption.text);
   };
   const handleOwnershipStatus = (e) => {
     const value = e.target.value;
     setVehicleStatus(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter(selectedOption.text);
   };
   return (
     <div className="w-full">
@@ -282,7 +285,7 @@ console.log("12",axiosInstance.get(
           defaultValue=""
           onChange={handleOwnershipStatus}
         >
-          <option value="">select status</option>
+          <option value="">Select Status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
@@ -298,26 +301,25 @@ console.log("12",axiosInstance.get(
   </div>
       <div className="flex w-full px-8 justify-between"></div>
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
+        {filteredData < 1 ? (
+          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  yardFilter={yardFilter} statusFilter={statusFilter}/>
+        ) : (
+          <div className="w-full">
+             (
+              <DataTable data={UsersData} columns={userColumn} />
+            )
+            <div className="w-full text-center">
+              {filteredData > 0 && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData}
+                />
+              )}
+            </div>
           </div>
-        ) : ( */}
-        {
-          allVehicleOwnerships && <DataTable data={UsersData} columns={userColumn} />
-
-          /* )} */
-        }
-        <div className="w-full text-center">
-          {allVehicleOwnerships?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              limit={limit}
-              totalDataCount={allVehicleOwnerships?.totalCount}
-            />
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
