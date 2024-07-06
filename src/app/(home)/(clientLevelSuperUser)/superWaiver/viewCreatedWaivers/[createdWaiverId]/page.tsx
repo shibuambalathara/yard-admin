@@ -3,7 +3,9 @@ import React from 'react'
 
 const IndividualSuper= ({params}:{params:{waiverId:string}}) => {
   return (
-    <div><IndividualSuperWaiver waiverId={params}/></div>
+    <div>
+      {/* <IndividualSuperWaiver waiverId={params}/> */}
+      </div>
   )
 }
 

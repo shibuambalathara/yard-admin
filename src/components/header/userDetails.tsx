@@ -6,6 +6,7 @@ import { FiLogOut } from "react-icons/fi";
 import useAuthStore from "@/store/useAuthStore";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import {RoleAliass } from "@/utils/staticData";
 
 const UserDetails = () => {
   const router = useRouter();
@@ -21,6 +22,9 @@ const UserDetails = () => {
     organisation,
     Type,
   } = user || {};
+
+  console.log("777",user);
+  
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -120,7 +124,7 @@ const UserDetails = () => {
             <FaUserCircle className="flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9" />
             <div className="mx-1">
               <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                {userName}
+                {userName }
               </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 {email}
@@ -131,7 +135,7 @@ const UserDetails = () => {
           <hr className="border-gray-200 dark:border-gray-700" />
           {/* <p className="flex font-medium text-xs text-gray-400 px-4 mt-1 uppercase">role:</p> */}
           <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-            {userRole}
+          {userRole && (RoleAliass[userRole] || userRole)}
           </p>
           {organisation && (
             <>

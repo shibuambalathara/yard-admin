@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import data from "@/components/tables/mockData.json";
 import DataTable from "@/components/tables/dataTable";
-import { Role, AccountStatus } from "@/utils/staticData";
+import { Role, AccountStatus,RoleAliass } from "@/utils/staticData";
 import axiosInstance from "@/utils/axios";
 import Link from "next/link";
 import Pagination from "@/components/pagination/pagination";
@@ -81,6 +81,10 @@ const AccountVerificationRequests = () => {
     {
       header: "Role",
       accessorKey: "role",
+      cell: ({ row }) => {
+        const role = row.original.role;
+        return <span>{RoleAliass[role] || role}</span>;
+      },
     },
     {
       header: "Account Status",

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role } from "@/utils/staticData";
+import { Role,RoleAliass } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -91,7 +91,10 @@ const UserManagement = () => {
       {
         header: "Role",
         accessorKey: "role",
-        id: "role", // Ensure unique id
+        cell: ({ row }) => {
+          const role = row.original.role;
+          return <span>{RoleAliass[role] || role}</span>;
+        },
       },
       {
         header: "Code",

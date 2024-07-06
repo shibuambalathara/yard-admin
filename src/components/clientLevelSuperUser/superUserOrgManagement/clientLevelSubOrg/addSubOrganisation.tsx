@@ -10,6 +10,7 @@ import {
 import React from "react";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const CreateClientLevelSubOrganisation = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +37,7 @@ const CreateClientLevelSubOrganisation = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const router=useRouter()
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
@@ -160,6 +162,10 @@ const CreateClientLevelSubOrganisation = () => {
     // Handle form submission
   }, []);
 
+  const close=()=>{
+    router.back()
+  }
+
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
@@ -240,7 +246,7 @@ const CreateClientLevelSubOrganisation = () => {
         <div className="w-full text-center pt-4 space-x-4 ">
         <button
                 type="button"
-                // onClick={close}
+                onClick={close}
                 className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
               >
                 Back

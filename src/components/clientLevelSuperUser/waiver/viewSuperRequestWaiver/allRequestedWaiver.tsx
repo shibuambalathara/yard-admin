@@ -10,14 +10,11 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-
 import { MdOutlineViewHeadline } from 'react-icons/md';
 import Link from 'next/link';
-
 import { PiSortAscendingLight, PiSortDescendingLight } from 'react-icons/pi';
 import { TbSelector } from 'react-icons/tb';
 import { CiSearch } from 'react-icons/ci';
-
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import IndeterminateCheckbox from '@/components/tables/IndeterminateCheckbox';
@@ -25,6 +22,9 @@ import { inputStyle, labelStyle } from '@/components/ui/style';
 import Pagination from '@/components/pagination/pagination';
 import { VehicleState } from '@/utils/staticData';
 import NoVehicleMessage from '@/components/commonComponents/noVehicle/noVehicle';
+import EditIndividualWaiver from "@/components/clientLevelSuperUser/waiver/viewSuperRequestWaiver/individualSuperWaiver"
+import Spinner from '@/components/commonComponents/spinner/spinner';
+
 
 type User = {
   fee_per_day: number;
@@ -67,6 +67,8 @@ const AllRequestedWaiver = () => {
   const [yardFilter, setYardFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [limit,setLimit]=useState(5)
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [wavierId, setWavierId] = useState(null);
   const {
     register,
     handleSubmit,
@@ -218,24 +220,15 @@ const AllRequestedWaiver = () => {
         cell: (info) => info.getValue(),
       },
       {
-        id: 'view',
-        header: 'Action',
+        id: "view",
+        header: "Action ",
         cell: ({ row }) => (
-          <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-            <p>
-              <MdOutlineViewHeadline />
-            </p>
-            <Link
-              href={`/superWaiver/viewCreatedWaivers/${row.original.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className=""
-            >
-              View
-            </Link>
+          <div className="flex justify-center relative z-10">
+            <View row={row} onEditClick={handleEditClick} />
           </div>
         ),
       },
+     ,
     ],
     [selectedRowIds]
   );
@@ -277,8 +270,19 @@ const AllRequestedWaiver = () => {
     setRoleFilter(selectedOption.text);
   };
 
+  const handleEditClick = (userId) => {
+    setWavierId(userId);
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    // setSelectedUserId(null);
+  };
+
   return (
     <div className="w-full">
+      <h1 className='w-full  text-center text-lg font-bold mt-4'>All CREATED WAVIER</h1>
       <div className="grid grid-cols-3 pl-6 pt-5 items-center">
       <div>
 
@@ -354,10 +358,18 @@ const AllRequestedWaiver = () => {
             </select>
           </div>
         </div>
-      </div>
+        <div className="w-full ">
+              {editModalOpen && 
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+              <EditIndividualWaiver waiverId={wavierId} onClose={handleEditModalClose}  fetchAllWaivers={fetchData} />
+            </div>
+              }
+          </div>
+
+      </div> 
       {pageCount > 0 ? (
       loading ? (
-        <div className="flex w-full h-screen items-center justify-center">Loading...</div>
+        <div className="flex w-full h-screen items-center justify-center"><Spinner/></div>
       ) : (
         <div className="w-full p-5">
           <div className="mt-0.5">
@@ -446,4 +458,25 @@ const AllRequestedWaiver = () => {
 };
 
 export default AllRequestedWaiver;
+
+const View = ({ row, onEditClick }) => {
+  return (
+    <div
+    onClick={() => onEditClick(row.original.id)}
+     className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white">
+      {/* <div className="flex flex-col justify-center items-center bg-red-500"> */}
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+      {/* <button
+       
+        className=" "
+      > */}
+       
+            <span>  View </span>
+      {/* </button> */}
+      {/* </div> */}
+    </div>
+  );
+};
 
