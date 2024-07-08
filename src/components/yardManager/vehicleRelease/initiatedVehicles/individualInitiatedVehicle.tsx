@@ -151,13 +151,13 @@ const IndividualInitiatedVehicles = ({ initiatedId }) => {
 
 
 
-  if (!vehicleData) {
-    return (
-      <div className="flex w-full h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+  // if (!vehicleData) {
+  //   return (
+  //     <div className="flex w-full h-screen items-center justify-center">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   const tabs = {
     "Yard Details": <YardDetails vehicle={vehicleData} />,

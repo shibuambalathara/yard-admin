@@ -425,14 +425,14 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               pattern
             />
 
-            <InputField
+            {/* <InputField
               label="Board Type"
               type="text"
               name="board_type"
               register={register}
               errors={errors}
               pattern
-            />
+            /> */}
             <div className="justify-self-center">
               <RadioButtonInput
                 label="RC Available"

@@ -105,7 +105,7 @@ const UserManagement = () => {
         id: "viewUser",
         header: "View User",
         cell: ({ row }) => (
-          <div className=" flex justify-center">{View(row)}</div>
+          <div className="">{View(row)}</div>
         ),
       },
       //       {
@@ -286,7 +286,7 @@ export default UserManagement;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border   py-1 px-3 space-x-1 bg-gray-700 text-white  rounded-md ">
+    <div className="   py-1 px-3 space-x-1 bg-gray-700 text-white  rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

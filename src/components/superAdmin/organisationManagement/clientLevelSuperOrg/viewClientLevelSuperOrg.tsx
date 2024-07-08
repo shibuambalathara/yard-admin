@@ -156,7 +156,9 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
       );
       console.log("response after superOrgCreae", response);
       toast.success(response?.data?.message);
+      onClose()
       router.push("/organisationManagement/clientLevelSuperOrg");
+      fetchData()
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);
