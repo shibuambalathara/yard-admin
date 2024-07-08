@@ -23,7 +23,7 @@ type Inputs = {
   reason: string;
 };
 
-const AddWaiver = ({ onClose, selectedRowIds, client }) => {
+const AddWaiver = ({ onClose, selectedRowIds, client ,fetchData}) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Initially set to true to show loading spinner
@@ -52,7 +52,7 @@ const AddWaiver = ({ onClose, selectedRowIds, client }) => {
     }
   }, [success, error]);
 
-  const AddVehicleCategory = async (data: Inputs) => {
+  const AddWaiver = async (data: Inputs) => {
     setIsLoading(true);
     try {
       const modifiedData = {
@@ -71,6 +71,7 @@ const AddWaiver = ({ onClose, selectedRowIds, client }) => {
       setTimeout(() => {
         onClose();
       }, 100);
+      fetchData()
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
@@ -92,14 +93,14 @@ const AddWaiver = ({ onClose, selectedRowIds, client }) => {
       <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3 ">
         <div className="">
           <h1 className="p-2 uppercase text-start font-semibold text-base text-slate-400">
-            create Organisation
+            create Waiver
           </h1>
           <div className="border-b "></div>
         </div>
 
         <form
           className="space-y-2  "
-          onSubmit={handleSubmit(AddVehicleCategory)}
+          onSubmit={handleSubmit(AddWaiver)}
         >
           <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
             <div className="mb-">

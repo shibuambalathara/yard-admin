@@ -38,7 +38,7 @@ const EditIndividualUser = ({ userId }) => {
   const [error, setError] = useState(null);
   const [initialData, setInitialData] = useState<Inputs | null>(null); // Store initial values
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
-
+const router=useRouter()
   useEffect(() => {
     if (success) {
       toast.success(success.text ? success.text : "Success");
@@ -118,6 +118,7 @@ const EditIndividualUser = ({ userId }) => {
         response
       );
       toast.success(response?.data?.message);
+      router.push("/userCreation")
     } catch (error) {
       console.error("Error updating user data", error);
       toast.error(error?.response?.data?.message);

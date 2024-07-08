@@ -66,6 +66,9 @@ console.log("useeffect",clientLevelSuperUserUsers);
     label: item.name,
   }));
 
+  console.log("allClientLevelUsers",allClientLevelUsers);
+  
+
   const AllCategory = allClientcategory?.map((item) => ({
     value: item.id,
     label: item.name,
