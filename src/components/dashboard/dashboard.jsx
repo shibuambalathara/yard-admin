@@ -8,7 +8,7 @@ import UnAssginedUser from "@/components/commonComponents/unAssignedUser/unAssig
 const Dashboard = () => {
   // const [userOrganisation, setUserOrganisation]=useState(null)
     const { user,token,role } = useAuthStore();
-    console.log("user form home page",user);
+    // console.log("user form home page",user);
 
     // const {organisation}=user
     // // setUserOrganisation(organisation)

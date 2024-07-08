@@ -134,17 +134,17 @@ const AllCreatedWaivers = () => {
     } finally {
       setLoading(false);
     }
-  }, [pages, yardFilter, vehicleCategoryFilter, client, statusFilter]);
+  }, [pages, yardFilter, vehicleCategoryFilter, statusFilter]);
 
   useEffect(() => {
    
     fetchYard();
     FetchAllVehicleCategory();
-  }, [ fetchYard, FetchAllVehicleCategory]);
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, [pages, yardFilter, vehicleCategoryFilter, client, statusFilter, data]);
+  }, [pages, yardFilter, vehicleCategoryFilter, statusFilter, ]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {
@@ -467,7 +467,7 @@ const AllCreatedWaivers = () => {
 
 export default AllCreatedWaivers;
 const View = ({ row, onEditClick }) => {
-  console.log("row form category", row);
+  // console.log("row form category", row);
 
   return (
     <div

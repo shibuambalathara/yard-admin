@@ -63,7 +63,7 @@ const AllClientLevelSubOrganisation = () => {
       const response = await axiosInstance.get(
         `/clientorg/client_lvl_sub_org?${params.toString()}`
       );
-      console.log("all sub org", response);
+      // console.log("all sub org", response);
       setFilteredData(response?.data?.res);
      
     } catch (error) {

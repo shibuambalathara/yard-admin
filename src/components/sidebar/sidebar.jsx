@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   client_level_super_user,
   Super_Admin,
@@ -19,6 +19,7 @@ import { usePathname } from 'next/navigation';
 
 
 const SideBar = () => {
+  const [pathname1,setPathName]=useState()
   const { user,token,role, } = useAuthStore();
 
   // console.log("user  form sidebar",user);
@@ -40,10 +41,17 @@ const SideBar = () => {
     }
   };
   const pathname = usePathname();
-  const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
-  console.log('path', modifiedPathname);
+  // console.log("pathname",pathname);
+  // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
+   const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{25}$/, '');
 
-
+  console.log('modifiedPathname', modifiedPathname);
+useEffect(()=>{
+setPathName(pathname.replace(/\/[cC][a-zA-Z0-9_-]{25}$/, ''))
+},[])
+useEffect(()=>{
+ console.log("pathname 1",pathname1,pathname)
+  },[pathname1])
 
   // console.log("1234566789");
   const sidebarData = selectSidebarData();
@@ -52,7 +60,7 @@ const SideBar = () => {
 
   return (
     <div className=" h-full">
-      <SideBarItem item={sidebarData} activePath={modifiedPathname} />
+      <SideBarItem item={sidebarData} activePath={pathname} />
     </div>
   );
 };

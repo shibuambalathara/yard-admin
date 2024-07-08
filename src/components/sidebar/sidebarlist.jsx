@@ -16,101 +16,7 @@ import { TfiTruck } from "react-icons/tfi";
 import { LiaTruckMovingSolid } from "react-icons/lia";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 
-export const client_level_super_user = [
-  { title: "Dashboard", icon: <MdDashboard /> },
-  {
-    title: "Yard",
-    path: "/",
-    icon: <GiHomeGarage />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Yard Details",
-        icon: <TbListDetails />,
-        path: "/",
-      },
 
-      {
-        title: "Yard Rent Details",
-        icon: <TbListDetails />,
-        path: "/about",
-      },
-    ],
-  },
-
-  {
-    title: "Vehicle Ownership Requests",
-    icon: <ImTruck />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Manage Request",
-        icon: <MdManageHistory />,
-        path: "/login",
-      },
-
-      {
-        title: "Review Request Status",
-        icon: <TbStatusChange />,
-        path: "/register",
-      },
-    ],
-  },
-  {
-    title: "Vehicle Tracking",
-    icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: "View Inbound Vehicles",
-        icon: <LiaTruckMovingSolid />,
-        path: "/profile",
-      },
-      {
-        title: "View Outbound Vehicles",
-        icon: <TfiTruck />,
-        path: "/profile",
-      },
-    ],
-  },
-  {
-    title: "Waviers",
-    icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Request Waiver",
-        icon: <LiaTruckMovingSolid />,
-        path: "/profile",
-      },
-      {
-        title: "Review Request Status ",
-        icon: <TfiTruck />,
-        path: "/profile",
-      },
-    ],
-  },
-  {
-    title: "Vehicle Release",
-    icon: <FaCarOn />,
-
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Initiate Release",
-        icon: <LiaTruckMovingSolid />,
-        path: "/profile",
-      },
-      {
-        title: "Revert Release  ",
-        icon: <TfiTruck />,
-        path: "/profile",
-      },
-    ],
-  },
-];
 
 export const Super_Admin = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -392,22 +298,22 @@ export const clientLevelSubUser = [
     path: "/vehicleSubOwnership",
   },
   
-  {
-    title: "Vehicle Tracking",
-    icon: <FaCarOn />,
+  // {
+  //   title: "Vehicle Tracking",
+  //   icon: <FaCarOn />,
 
-    submenu: true,
-    submenuItems: [
-      {
-        title: "View Inbound Vehicles",
-        icon: <LiaTruckMovingSolid />,
-        path: "/",
-      },
-      {
-        title: "View Outbound Vehicles",
-        icon: <TfiTruck />,
-        path: "/",
-      },
-    ],
-  },
+  //   submenu: true,
+  //   submenuItems: [
+  //     {
+  //       title: "View Inbound Vehicles",
+  //       icon: <LiaTruckMovingSolid />,
+  //       path: "/",
+  //     },
+  //     {
+  //       title: "View Outbound Vehicles",
+  //       icon: <TfiTruck />,
+  //       path: "/",
+  //     },
+  //   ],
+  // },
 ];

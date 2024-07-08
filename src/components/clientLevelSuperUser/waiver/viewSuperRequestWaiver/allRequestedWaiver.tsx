@@ -159,17 +159,17 @@ const AllRequestedWaiver = () => {
     } finally {
       setLoading(false);
     }
-  }, [pages, selectYard, vehicleCategoryFilter, client, statusFilter]);
+  }, [pages, selectYard, vehicleCategoryFilter, statusFilter]);
 
   useEffect(() => {
    
     fetchYard();
     FetchAllVehicleCategory();
-  }, [ fetchYard, FetchAllVehicleCategory]);
+  }, [ ]);
 
   useEffect(() => {
     fetchData();
-  }, [pages, selectYard, vehicleCategoryFilter, client, statusFilter, fetchData]);
+  }, [pages, selectYard, vehicleCategoryFilter, statusFilter]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {

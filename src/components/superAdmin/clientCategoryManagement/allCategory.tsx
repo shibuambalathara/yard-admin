@@ -155,7 +155,7 @@ export default ClientCategoryManagement;
 // };
 
 const View = ({ row, onEditClick }) => {
-  console.log("row form category", row);
+  // console.log("row form category", row);
 
   return (
     <div
