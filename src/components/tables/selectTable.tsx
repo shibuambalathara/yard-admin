@@ -135,9 +135,9 @@ const SelectionTable = () => {
     }
   }, [pages, yardFilter, vehicleCategoryFilter]);
 
-  useEffect(() => {
-    fetchData();
-  }, [pages, fetchData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [pages,]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {

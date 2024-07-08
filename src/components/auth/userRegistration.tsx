@@ -86,7 +86,7 @@ const UserRegistration = () => {
 
   return (
     <div className="flex items-center justify-center  h-screen w-full ">
-      <form className={`${formStyle.data} bg-white rounded-md overflow-hidden sm:max-w-2xl sm:w-full `} onSubmit={handleSubmit(onSubmit)}>
+      <form className={`${formStyle.data} bg-white rounded-md overflow-hidden sm:max-w-2xl sm:w-full  border-4 border-gray-200`} onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full  text-center uppercase font-bold">
           <h1>Fill the form to Register </h1>
         </div>

@@ -52,7 +52,7 @@ const AllClientLevelSuperOrganisation = () => {
       const response = await axiosInstance.get(
         `/clientorg/client_lvl_super_org?page=${page}&limit=${limit}&status=1&client_org_level=CLIENT_SUPER_ORG`
       );
-      console.log("all users", response);
+      // console.log("all users", response);
       setFilteredData(response?.data?.res);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -217,7 +217,7 @@ export default AllClientLevelSuperOrganisation;
 
 
 const View = ({ row, onEditClick }) => {
-  console.log("row form category", row);
+  // console.log("row form category", row);
 
   return (
     <div

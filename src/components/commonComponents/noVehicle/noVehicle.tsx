@@ -5,7 +5,7 @@ const NoVehicleMessage = (props) => {
   const { roleFilter, statusFilter, typeFilter ,categoryFilter,
   yardFilter} = props;
 
-  console.log(props);
+  // console.log(props);
 
 
   const getRoleMessage = () => {

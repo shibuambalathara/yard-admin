@@ -55,7 +55,7 @@ const UserManagement = () => {
       const response = await axiosInstance.get(
         `/user/users?page=${page}&limit=${limit}&status=1&role=${roleFilter}`
       );
-      console.log("all users", response);
+      // console.log("all users", response);
       setFilteredData(response.data?.res);
     
     } catch (error) {
