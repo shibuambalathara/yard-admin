@@ -97,10 +97,10 @@ const DataTable = ({ data, columns }) => {
                   >
                     {row?.getVisibleCells().map((cell) => (
                       <td
-                        className="text-left p-4 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
+                        className="text-left p-4 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200  "
                         key={cell.id}
                       >
-                        {flexRender(cell?.column?.columnDef?.cell, cell.getContext())}
+                        <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
                       </td>
                     ))}
                   </tr>

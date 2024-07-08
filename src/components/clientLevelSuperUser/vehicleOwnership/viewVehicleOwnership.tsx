@@ -12,6 +12,7 @@ import { comment } from "postcss";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ImageData {
   img_type: string;
@@ -73,6 +74,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     setValue,
     reset,
   } = useForm<Inputs>();
+
+  const router=useRouter()
 
   useEffect(() => {
     const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>(
@@ -158,6 +161,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
 
         toast.success(response?.data?.message);
         setModalOpen(false); // Close the modal on successful update
+        router.push("/vehicleSuperOwnership")
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);

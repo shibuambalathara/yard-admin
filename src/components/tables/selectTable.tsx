@@ -67,7 +67,7 @@ const SelectionTable = () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       setAllVehicleCategory(response?.data?.vehicleCategory);
-      toast.success(response?.data?.message);
+      
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log(error);
@@ -135,9 +135,9 @@ const SelectionTable = () => {
     }
   }, [pages, yardFilter, vehicleCategoryFilter]);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [pages,]);
+  useEffect(() => {
+    fetchData();
+  }, [pages,]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {
@@ -310,7 +310,11 @@ const SelectionTable = () => {
             Assign Waiver
           </button>
           {modalOpen && (
+            <div className="relative border "> <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 '>
             <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} />
+         </div></div>
+           
+           
           )}
         </div>}
         
@@ -386,7 +390,7 @@ const SelectionTable = () => {
                         key={cell.id}
                         className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                         <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
                       </td>
                     ))}
                   </tr>

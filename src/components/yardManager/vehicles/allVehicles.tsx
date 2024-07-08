@@ -99,11 +99,11 @@ const AllVehicles = () => {
         accessorKey: "status",
         // id: "clsup_org_name", // Ensure unique id
       },
-      {
-        header: "Yard  ",
-        accessorKey: "yard.yard_name",
-        // id: "clsup_org_name", // Ensure unique id
-      },
+      // {
+      //   header: "Yard  ",
+      //   accessorKey: "yard.yard_name",
+      //   // id: "clsup_org_name", // Ensure unique id
+      // },
       {
         header: "Category ",
         accessorKey: "vehicle_category.name",
@@ -118,7 +118,7 @@ const AllVehicles = () => {
 
       {
         header: "Action",
-        cell: ({ row }) => View(row),
+        cell: ({ row }) => View(row)
       },
     ],
     [filteredData]
@@ -196,7 +196,7 @@ export default AllVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   MdDashboard,
@@ -13,6 +13,21 @@ import { useRouter } from "next/router";
 const SidebarItem = ({ item, activePath }) => {
   const [open, setOpen] = useState(true);
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
+
+  // Function to check if any submenu item matches the active path
+  const isAnySubmenuActive = (submenuItems) => {
+    return submenuItems?.some((submenu) => submenu?.path === activePath);
+  };
+
+  // Effect to check and set state based on active submenu path
+  useEffect(() => {
+    item?.forEach((menu, index) => {
+      if (menu?.submenuItems && isAnySubmenuActive(menu?.submenuItems)) {
+        setOpenSubmenuIndex(index);
+        setOpen(true);
+      }
+    });
+  }, [item, activePath]);
 
   const toggleSubmenu = (index) => {
     if (openSubmenuIndex === index) {
@@ -42,7 +57,7 @@ const SidebarItem = ({ item, activePath }) => {
               <li
                 className={`text-base font-bold flex items-center p-2 gap-x-4 cursor-pointer ${
                   menu?.path === activePath
-                    ? "bg-gray-700 text-green-500 "
+                    ? "bg-gray-700 text-[#ea580c] "
                     : "hover:bg-gray-700 "
                 } ${menu?.spacing ? "mt-4" : "mt-3"}`}
                 onClick={() => toggleSubmenu(index)}
@@ -70,26 +85,18 @@ const SidebarItem = ({ item, activePath }) => {
                 <ul>
                   {menu?.submenuItems &&
                     menu?.submenuItems.map((submenu, subIndex) => {
-  
-
-                const result =      submenu?.path === activePath ? true :false
-
-                console.log("result",result);
-                // console.log("submenupath",submenu?.path);
-                // console.log("active",submenu?.path);
-
                       return (
                         <li
                           key={subIndex}
                           className={`text-base text-white flex items-center gap-x-4 cursor-pointer p-2 px-4 ${
                             submenu?.path === activePath
-                              ? "bg-gray-700     "   
-                              : "hover:bg-gray-700 "
-                          } rounded-md mt-2  font-bold`}
-                          style={{ color: submenu?.path === activePath ? "#22c55e" : "inherit" }}
+                              ? "bg-gray-700"
+                              : "hover:bg-gray-700"
+                          } rounded-md mt-2 font-bold`}
+                          style={{
+                            color: submenu?.path === activePath ? "#ea580c" : "inherit",
+                          }}
                         >
-
-
                           <span className="text-base">
                             {submenu?.icon ? (
                               submenu?.icon

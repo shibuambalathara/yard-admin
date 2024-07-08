@@ -68,7 +68,7 @@ const AllVehicleOwnerships = () => {
     label: item.name,
   }));
 
-  console.log("filteredData ", filteredData);
+  // console.log("filteredData ", filteredData);
 
   const FetchVehicleOwnership = async () => {
     setIsLoading(true);
@@ -110,7 +110,7 @@ const AllVehicleOwnerships = () => {
     }
   };
 
-  console.log("filteredData", filteredData);
+  // console.log("filteredData", filteredData);
   useEffect(() => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
     FetchClientLevelOrgs();

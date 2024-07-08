@@ -95,11 +95,11 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
   // }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
-      <div className="bg-white p-4 rounded-lg w-fit">
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg ">
         
-        <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-          <h1 className=" font-bold  ">Assign Waiver</h1>
+        <div className="flex justify-between items-center border-b pb-4 mb-6">
+          <h1 className=" text-2xl font-bold text-gray-700  ">Assign Waiver</h1>
           <p className=" cursor-pointer"
            onClick={onClose}
            >
