@@ -292,7 +292,7 @@ const SelectionTable = () => {
   return (
     <div className="w-full">
       <h1 className="w-full  text-center text-lg font-bold mt-4 uppercase">
-        Wavier Eligible Vehicles
+        Waiver Eligible Vehicles  
       </h1>
       <div className="grid grid-cols-3 pl-6 pt-5 items-center w-full ">
         <div>
@@ -374,16 +374,13 @@ const SelectionTable = () => {
                 onClose={handleModalClose}
                 selectedRowIds={selectedRowIds}
                 client={client}
+                fetchData={fetchData}
               />
             </div>
           )}
         </div>
         <div className="w-full ">
-          {modalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-              {/* <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} client={client} /> */}
-            </div>
-          )}
+         
         </div>
       </div>
       {pageCount > 0 ? (

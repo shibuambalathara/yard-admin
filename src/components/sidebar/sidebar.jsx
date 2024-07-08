@@ -19,7 +19,7 @@ import { usePathname } from 'next/navigation';
 
 
 const SideBar = () => {
-  const [pathname1,setPathName]=useState()
+  
   const { user,token,role, } = useAuthStore();
 
   // console.log("user  form sidebar",user);
@@ -43,15 +43,9 @@ const SideBar = () => {
   const pathname = usePathname();
   // console.log("pathname",pathname);
   // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
-   const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{25}$/, '');
+  const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}$/, '');
 
   console.log('modifiedPathname', modifiedPathname);
-useEffect(()=>{
-setPathName(pathname.replace(/\/[cC][a-zA-Z0-9_-]{25}$/, ''))
-},[])
-useEffect(()=>{
- console.log("pathname 1",pathname1,pathname)
-  },[pathname1])
 
   // console.log("1234566789");
   const sidebarData = selectSidebarData();
@@ -60,7 +54,7 @@ useEffect(()=>{
 
   return (
     <div className=" h-full">
-      <SideBarItem item={sidebarData} activePath={pathname} />
+      <SideBarItem item={sidebarData} activePath={modifiedPathname} />
     </div>
   );
 };

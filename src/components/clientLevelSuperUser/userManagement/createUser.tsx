@@ -76,6 +76,7 @@ const CreateUser = ({ onClose,fetchData }:any) => {
       toast.success(response?.data?.message)
       onClose()
       fetchData()
+      router.push("/userCreation")
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
