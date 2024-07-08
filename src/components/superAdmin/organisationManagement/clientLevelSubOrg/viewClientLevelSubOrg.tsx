@@ -124,6 +124,8 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     fetchData();
   }, [subOrgId]);
 
+  const router=useRouter()
+
   // console.log("clientLevelOrgData",clientLevelOrg);
   // console.log("vehicleCategoryData",allVehicleCategory);
   // console.log("clientLevelSubUsersData",clientLevelSubUsers);
@@ -320,6 +322,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
       );
       console.log("response after sumbit of cl_lvl_org", response);
       toast.success(response?.data?.message);
+      router.push("/organisationManagement/clientLevelSubOrg")
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -334,7 +337,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
           <div className="w-full  mb-">
           <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
           
-          Edit Client Organisation
+          Edit Client Sub Organisation
         </h1>
         <div className="border-b mt-4"></div>
           </div>
