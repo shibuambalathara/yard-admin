@@ -26,7 +26,19 @@ const config: Config = {
       }
     },
   },
-  plugins: [require("daisyui"),
+  plugins: [function({ addUtilities }) {
+    addUtilities({
+      '.hide-number-arrows': {
+        '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+          '-webkit-appearance': 'none',
+          'margin': '0',
+        },
+        '&[type=number]': {
+          '-moz-appearance': 'textfield',
+        },
+      },
+    });
+  },require("daisyui"),
   require("tailwind-scrollbar-hide") 
 ],
 
