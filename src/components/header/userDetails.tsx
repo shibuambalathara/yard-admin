@@ -23,7 +23,7 @@ const UserDetails = () => {
     Type,
   } = user || {};
 
-  console.log("777",user);
+  // console.log("777",user);
   
 
   const [isOpen, setIsOpen] = useState(false);

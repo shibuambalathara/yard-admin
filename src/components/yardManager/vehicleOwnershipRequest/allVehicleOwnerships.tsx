@@ -99,7 +99,7 @@ const AllVehicleOwnerships = () => {
 
       //   `//?page=1&limit=5&client_org_id=${client}&status=PENDING`
       // );
-      console.log("all users", response);
+      // console.log("all users", response);
       setFilteredData(response?.data?.res);
      
     } catch (error) {

@@ -51,7 +51,7 @@ const UserManagement = () => {
       const response = await axiosInstance.get(
         `/user/users/created_by_ins?page=1&limit=5&status=${accountStatus}&role=${roleFilter}`
       );
-      console.log("all users created by super user", response);
+      // console.log("all users created by super user", response);
       setFilteredData(response.data?.res);
      
     } catch (error) {
