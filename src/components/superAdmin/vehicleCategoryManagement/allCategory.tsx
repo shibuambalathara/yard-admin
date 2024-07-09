@@ -12,6 +12,7 @@ import Spinner from "@/components/commonComponents/spinner/spinner";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import EditVehicleCategory from "@/components/superAdmin/vehicleCategoryManagement/editCategory";
+import SmallGrid from "@/components/tables/SmallTable";
 
 const VehicleCategoryManagement = () => {
   const [category, setCategory] = useState();
@@ -191,7 +192,7 @@ const VehicleCategoryManagement = () => {
         </div>
       )}
   <div>
-  {category && <DataTable data={category} columns={categoryColumn} />}
+  {category && <SmallGrid data={category} columns={categoryColumn} />}
       </div>
       
   </div>
