@@ -142,7 +142,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
         console.log("patch", modifiedData);
 
         toast.success(response?.data?.message);
-        router.push("/waivers/viewCreatedWaivers");
+        router.push("/vehicleOwnershipClientOrg");
         setModalOpen(false); // Close the modal on successful update
       } catch (error) {
         // toast.error(error?.response?.data?.message);

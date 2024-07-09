@@ -163,28 +163,28 @@ const AllCreatedWaivers = () => {
 
   const columns = React.useMemo<ColumnDef<User>[]>(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <div className="px-1">
-            <IndeterminateCheckbox
-              {...{
-                checked: selectedRowIds.includes(row.original.id),
-                onChange: () => handleRowSelection(row.original.id),
-              }}
-            />
-          </div>
-        ),
-      },
+      // {
+      //   id: 'select',
+      //   header: ({ table }) => (
+      //     <IndeterminateCheckbox
+      //       {...{
+      //         checked: table.getIsAllRowsSelected(),
+      //         indeterminate: table.getIsSomeRowsSelected(),
+      //         onChange: table.getToggleAllRowsSelectedHandler(),
+      //       }}
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <div className="px-1">
+      //       <IndeterminateCheckbox
+      //         {...{
+      //           checked: selectedRowIds.includes(row.original.id),
+      //           onChange: () => handleRowSelection(row.original.id),
+      //         }}
+      //       />
+      //     </div>
+      //   ),
+      // },
       {
         accessorKey: 'vehicle_ownership.vehicle.code',
         header: 'Vehicle Code',
