@@ -159,7 +159,7 @@ const AllRequestedWaiver = () => {
     } finally {
       setLoading(false);
     }
-  }, [pages, selectYard, vehicleCategoryFilter, statusFilter]);
+  }, [pages, selectYard, vehicleCategoryFilter, statusFilter,client]);
 
   useEffect(() => {
    
@@ -169,7 +169,7 @@ const AllRequestedWaiver = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pages, selectYard, vehicleCategoryFilter, statusFilter]);
+  }, [pages, selectYard, vehicleCategoryFilter, statusFilter,client]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {

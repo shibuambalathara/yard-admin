@@ -11,6 +11,8 @@ import Addcategory from "@/components/superAdmin/clientCategoryManagement/AddCli
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import EditClientCategory from "@/components/superAdmin/clientCategoryManagement/ViewClientCategory";
 import { MdOutlineViewHeadline } from "react-icons/md";
+
+import SmallGrid from "@/components/tables/SmallTable";
 const ClientCategoryManagement = () => {
   const [clientData, setClientData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -134,7 +136,7 @@ const ClientCategoryManagement = () => {
           )}
           <div>
             {clientData && (
-              <DataTable data={clientData} columns={ClientColumn} />
+              <SmallGrid data={clientData} columns={ClientColumn} />
             )}
           </div>
         </div>

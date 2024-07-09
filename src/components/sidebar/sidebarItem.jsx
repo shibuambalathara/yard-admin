@@ -76,8 +76,9 @@ const SidebarItem = ({ item, activePath }) => {
                 </span>
                 {menu?.submenu && open && (
                   <MdKeyboardArrowDown
-                    className={`${openSubmenuIndex === index && "rotate-180"}`}
+                    className={`${openSubmenuIndex === index && "rotate-180"} `}
                   />
+                  // <div>dfadsf</div>
                 )}
               </li>
 
@@ -102,6 +103,7 @@ const SidebarItem = ({ item, activePath }) => {
                               submenu?.icon
                             ) : (
                               <MdOutlineKeyboardArrowRight />
+                              // <div>sdfds</div>
                             )}
                           </span>
                           <span>

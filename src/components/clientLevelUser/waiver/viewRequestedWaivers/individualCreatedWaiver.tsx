@@ -1,4 +1,5 @@
 "use client";
+
 import { InputField, SelectComponent, SelectInput } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import { WaiverStatus } from "@/utils/staticData";
@@ -9,12 +10,12 @@ import { formStyle, inputStyle, labelStyle, loginInputStyle } from "../../../../
 import { useRouter } from "next/navigation";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 
-const IndividualCreatedWaiver = ({ waiverId,onClose }) => {
+const IndividualCreatedWaiver = ({ waiverId, onClose }) => {
   const [waiverData, setWaiverData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   console.log(waiverData);
-  
+
   type Inputs = {
     comment: string;
     id: string;
@@ -47,16 +48,13 @@ const IndividualCreatedWaiver = ({ waiverId,onClose }) => {
       const response = await axiosInstance.get(`/waiver/${waiverId}`);
       console.log(response);
 
-      const destructuredData = { 
+      const destructuredData = {
         ...response?.data?.res,
       };
       setWaiverData(destructuredData?.status);
 
       reset(destructuredData);
-
-      
     } catch (error) {
-      
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
@@ -75,40 +73,38 @@ const IndividualCreatedWaiver = ({ waiverId,onClose }) => {
     };
     console.log('success');
     try {
-    
-     
       const response = await axiosInstance.patch(`/waiver/${waiverId}`, modifiedData);
-      console.log('res,',response);
-      
-      
-      toast.success(response?.data?.message);
-      onClose()
+      console.log('res,', response);
 
+      toast.success(response?.data?.message);
+      onClose();
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
   }, []);
 
   if (isLoading) {
-    return <div><Loading/></div>;
+    return <div><Loading /></div>;
   }
 
   return (
-    <div className="bg-white p-4 rounded-lg  w-fit">
-      
-      <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-    <h1 className=" font-bold  ">View Waiver</h1>
-    
-  </div>
+    <div className="bg-white p-4 rounded-lg w-fit">
+      <div className="flex w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+        <h1 className="font-bold">View Waiver</h1>
+      </div>
       <form onSubmit={handleSubmit(editWaiver)} className="border-gray-200 mt-4">
         <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-2 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
           <div>
             <SelectInput
-              disabled={waiverData!=='APPROVED'?false:true}
+              disabled={waiverData === 'APPROVED'||waiverData ==='CANCELLED'}
               label="Status"
               name="status"
               defaultValue=""
-              options={waiverData!=='APPROVED'?WaiverStatus:[{ label: "APPROVED", value: "APPROVED" }]}
+              options={
+                waiverData === 'PENDING' 
+                  ? WaiverStatus 
+                  : [{ label: waiverData, value: waiverData }]
+              }
               register={register}
               error={errors}
               data=""
@@ -128,7 +124,7 @@ const IndividualCreatedWaiver = ({ waiverId,onClose }) => {
           </div>
           <div>
             <InputField
-             disabled={true}
+              disabled={true}
               label="Fee per Day"
               type="number"
               name="fee_per_day"
@@ -138,24 +134,35 @@ const IndividualCreatedWaiver = ({ waiverId,onClose }) => {
             />
           </div>
         </div>
-        {waiverData!=='APPROVED'&&<div className="w-full text-center p-1 space-x-2 mt-6">
-          <button
-            type="button"
-            onClick={onClose}
-            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-          >
-            Submit
-          </button>
-        </div>}
-        
+        {waiverData === 'PENDING' && (
+          <div className="w-full text-center p-1 space-x-2 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+            >
+              Submit
+            </button>
+          </div>
+        )}
+        {waiverData !== 'PENDING' && (
+          <div className="w-full text-center p-1 space-x-2 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </form>
-      
     </div>
   );
 };
@@ -171,11 +178,12 @@ export const SelectChange = (props) => {
     errors,
     required = true,
     defaultValue,
+    handleChange,
   } = props;
 
   return (
     <div className="flex flex-col w-full">
-      <label htmlFor={name} className={labelStyle?.data}>
+      <label htmlFor={name} className={labelStyle.data}>
         {label}
       </label>
       <select
@@ -183,7 +191,7 @@ export const SelectChange = (props) => {
         {...register(name, { required })}
         className={inputStyle.data}
         defaultValue={defaultValue}
-        onChange={props?.handleChange} // Only add onChange if handleChange is provided
+        onChange={handleChange} // Only add onChange if handleChange is provided
       >
         <option value="" disabled hidden>
           {`Select ${label}`}

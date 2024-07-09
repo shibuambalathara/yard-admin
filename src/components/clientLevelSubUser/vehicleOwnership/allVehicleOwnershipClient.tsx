@@ -244,7 +244,7 @@ const AllVehicleOwnershipClient = () => {
       
       <div>
         {filteredData < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles"   yardFilter={yardFilter} statusFilter={vehicleStatus}/>
+          <NoVehicleMessage typeFilter=""   yardFilter={yardFilter} statusFilter={vehicleStatus}/>
         ) : (
           <div className="w-full">
              

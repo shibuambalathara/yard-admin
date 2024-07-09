@@ -117,7 +117,7 @@ const Addcategory = ({ onClose,fetchData }) => {
             error={errors.name}
             defaultValue=""
             required
-            placeholder=""
+            placeholder="Eg: 2W"
           />
          </div>
           <div>
@@ -129,7 +129,7 @@ const Addcategory = ({ onClose,fetchData }) => {
             error={errors.description}
             defaultValue=""
             required
-            placeholder=" "
+            placeholder="Eg: Two wheeler"
           />
           </div>
           </div>

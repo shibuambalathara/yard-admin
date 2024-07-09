@@ -383,7 +383,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               pattern
             />
 
-<div className="grid grid-cols-4 gap-4 col-span-3">
+<div className="grid grid-cols-2 gap-4 col-span-3">
           {Object.entries(images).map(([imageType, imageList]) => (
             <div
               key={imageType}

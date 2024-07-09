@@ -40,7 +40,7 @@ const router = useRouter();
     formState: { errors },
   } = useForm<Inputs>();
 
-  const fetchData = async () => {
+  const editWaiver = async () => {
     setIsLoading(true);
 
     try {
@@ -50,7 +50,7 @@ const router = useRouter();
       const destructuredData = { 
         ...response?.data?.res,
       };
-      setWaiverData(destructuredData);
+      setWaiverData(destructuredData?.status);
 
       reset(destructuredData);
 
@@ -64,7 +64,7 @@ const router = useRouter();
   };
 
   useEffect(() => {
-    fetchData();
+    editWaiver();
   }, [userId]);
 
   const  EditWaiver = useCallback(async (data: Inputs) => {
@@ -90,28 +90,23 @@ const router = useRouter();
 
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white p-4 rounded-lg w-full max-w-md">
-      <button
-        onClick={onClose}
-        className="absolute top-2 right-2 text-gray-500 hover:text-gray-600"
-      >
-        
-      </button>
-      <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-        <h1 className=" font-bold  ">Waiver Details</h1>
-        <p className=" cursor-pointer" onClick={onClose}>
-          x
-        </p>
+    <div className="bg-white p-4 rounded-lg w-fit">
+      <div className="flex w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+        <h1 className="font-bold">View Waiver</h1>
       </div>
-      <form onSubmit={handleSubmit(EditWaiver)} className="  border-gray-200 ">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
-        <div>
+      <form onSubmit={handleSubmit(editWaiver)} className="border-gray-200 mt-4">
+        <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-2 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
+          <div>
             <SelectInput
+              disabled={waiverData === 'APPROVED'||waiverData ==='CANCELLED'}
               label="Status"
               name="status"
               defaultValue=""
-              options={AccountStatus}
+              options={
+                waiverData === 'PENDING' 
+                  ? WaiverStatus 
+                  : [{ label: waiverData, value: waiverData }]
+              }
               register={register}
               error={errors}
               data=""
@@ -119,8 +114,8 @@ const router = useRouter();
             />
           </div>
           <div>
-
             <InputField
+              disabled={true}
               label="Reason"
               type="text"
               name="reason"
@@ -131,39 +126,46 @@ const router = useRouter();
           </div>
           <div>
             <InputField
-              label="Fee Per Day"
-              type="text"
+              disabled={true}
+              label="Fee per Day"
+              type="number"
               name="fee_per_day"
               register={register}
               errors={errors}
               pattern=""
             />
           </div>
-
-          
-         
-          
         </div>
-
-        <div className=" w-full text-center p-1 mt-3  space-x-2">
-          
-          <button
-          type="button"
-            onClick={() => onClose()}
-            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-          >
-            Submit
-          </button>
-        </div>
+        {waiverData === 'PENDING' && (
+          <div className="w-full text-center p-1 space-x-2 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+            >
+              Submit
+            </button>
+          </div>
+        )}
+        {waiverData !== 'PENDING' && (
+          <div className="w-full text-center p-1 space-x-2 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </form>
     </div>
-  </div>
   );
 };
 

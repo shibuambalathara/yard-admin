@@ -51,8 +51,8 @@ console.log("waiverId", waiverId);
       const destructuredData = { 
         ...response?.data?.res,
       };
-      setWaiverData(destructuredData);
-
+      setWaiverData(destructuredData?.status);
+      
       reset(destructuredData);
 
      
@@ -105,11 +105,16 @@ console.log("waiverId", waiverId);
      <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
            
      <div>
-            <SelectInput
-              label="status"
+     <SelectInput
+              disabled={waiverData === 'APPROVED'||waiverData ==='CANCELLED'}
+              label="Status"
               name="status"
               defaultValue=""
-              options={WaiverStatus}
+              options={
+                waiverData === 'PENDING' 
+                  ? WaiverStatus 
+                  : [{ label: waiverData, value: waiverData }]
+              }
               register={register}
               error={errors}
               data=""
@@ -144,21 +149,34 @@ console.log("waiverId", waiverId);
             
             
           </div>
-        <div className="w-full  text-center space-x-4">
-        <button
-         onClick={()=>onClose()}
-            type="button"
-            className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg  hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg  hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
-          >
-            Create
-          </button>
-        </div>
+          {waiverData === 'PENDING' && (
+          <div className="w-full text-center p-1 space-x-2 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+            >
+              Submit
+            </button>
+          </div>
+        )}
+        {waiverData !== 'PENDING' && (
+          <div className="w-full text-center p-1 space-x-2 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </form>
     </div>
   </div>

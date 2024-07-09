@@ -34,7 +34,7 @@ const NoVehicleMessage = (props) => {
           </>
         
       </p>
-      <p className="text-gray-500 text-md mt-4"> There is no vehicles  in {typeFilter} for you</p>
+      <p className="text-gray-500 text-md mt-4"> There is no vehicles  try adjusting the filters </p>
     </div>
   );
 };

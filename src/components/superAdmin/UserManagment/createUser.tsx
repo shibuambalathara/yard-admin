@@ -207,14 +207,14 @@ const CreateUser = () => {
               defaultValue=""
             />
           </div>
-          <div className="col-span-2 w-72">
-            <label className="block font-bold mb-2" htmlFor="document_value">
+          <div className="col-span-2 w-72 space-y-1">
+            <label className="block  font-semibold " htmlFor="document_value">
               Document Value
             </label>
             <input
               id="document_value"
               type="file"
-              className="py-2 px-4 border border-gray-300 rounded-lg w-full"
+              className="py-1 px-4 border border-gray-300  w-full"
               {...register("document_value", { required: true })}
             />
             {errors.document_value && (
