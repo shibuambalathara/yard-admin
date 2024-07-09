@@ -104,7 +104,7 @@ const Addcategory = ({ onClose,fetchData }) => {
             error={errors.name}
             defaultValue=""
             required
-            placeholder=""
+            placeholder="Eg: BANK"
           />
          </div>
           <div>

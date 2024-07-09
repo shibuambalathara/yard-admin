@@ -83,17 +83,6 @@ const AllVehicleOwnershipClient = () => {
 
           }
 
-       
-console.log("params",params);
-
-console.log("12",axiosInstance.get(
-  `ownership/client/?${params.toString()}`
-));
-
-
-   
-        
-
       const response = await axiosInstance.get(
         `ownership/client/?${params.toString()}`
       );

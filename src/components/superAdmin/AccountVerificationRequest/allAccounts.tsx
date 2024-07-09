@@ -44,9 +44,27 @@ const AccountVerificationRequests = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    try {
+  
+
+      try {
+        const params = new URLSearchParams({
+            page: page.toString(),
+            limit: limit.toString(),
+
+          });
+        //   params?.
+          if (roleFilter) {
+            params.append('role',roleFilter);
+          }
+         
+          if(statusFilter){
+            params.append('accountVerification',statusFilter)
+          }
+
+    
+       
       const response = await axiosInstance.get(
-        `/account/users?page=${page}&limit=${limit}&accountVerification=${statusFilter}&role=${roleFilter}`
+        `/account/users/?${params.toString()}`
       );
       console.log("response of account", response);
 
@@ -98,9 +116,9 @@ const AccountVerificationRequests = () => {
     },
   ];
 
-  // if(isLoading){
-  //   return <Loading/>
-  // }
+  if(isLoading){
+    return <Loading/>
+  }
 
   return (
     <div className="w-full space-y-4">
@@ -136,7 +154,7 @@ const AccountVerificationRequests = () => {
         
       <div className="flex flex-col">
         {/* Conditionally render DataTable if there are users */}
-        {filteredData?.data?.totalCount > 0 ? (
+       
           <>
             <DataTable data={UsersData} columns={UsersColumn} />
             <div className="w-full text-center">
@@ -150,15 +168,7 @@ const AccountVerificationRequests = () => {
               )}
             </div>
           </>
-        ) : (
-          // Render NoUsersMessage if there are no users
-          <div>
-            <NoUsersMessage
-              roleFilter={roleFilter}
-              statusFilter={statusFilter}
-            />
-          </div>
-        )}
+        
       </div>
     </div>
   );
