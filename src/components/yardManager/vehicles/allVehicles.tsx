@@ -177,7 +177,7 @@ const AllVehicles = () => {
           /* )} */
         }
         <div className="w-full text-center">
-          {filteredData?.totalCount && (
+          {filteredData?.totalCount >0 && (
             <Pagination
               page={page}
               setPage={setPage}
