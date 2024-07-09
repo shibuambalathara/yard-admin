@@ -1,4 +1,3 @@
-
 "use client";
 import {
   ImageMaping,
@@ -13,7 +12,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
 
 interface ImageData {
   img_type: string;
@@ -65,8 +63,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-  const router=useRouter()
-  
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -118,32 +116,35 @@ const EditVehicleOwnership = ({ ownershipId }) => {
       reset(destructuredData);
 
       // Set the isSelectDisabled state based on ownership_status
-      setIsSelectDisabled(response?.data?.res?.status.toLowerCase() === "pending");
+      setIsSelectDisabled(
+        response?.data?.res?.status.toLowerCase() === "pending"
+      );
     } catch (error) {
       console.log("error", error);
     }
   };
 
- 
-
   useEffect(() => {
     fetchVehicle();
-  
   }, []);
 
   const editVehicle = useCallback(
     async (data: Inputs) => {
-      const modifiedData = {status: data?.ownership_status, comment: data?.comment?.toString()}
+      const modifiedData = {
+        status: data?.ownership_status,
+        comment: data?.comment?.toString(),
+      };
       try {
         const response = await axiosInstance.patch(
           `/ownership/status/${ownershipId?.clientLevelvehOwnId}`,
           modifiedData
         );
-        console.log('patch', modifiedData);
-        
-       
+        console.log("patch", modifiedData);
+
+        toast.error(response?.data?.message);
+
         setModalOpen(false); // Close the modal on successful update
-        router.push('/vehicleOwnershipClientOrg')
+        router.push("/vehicleSubOwnership");
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error);
@@ -174,61 +175,60 @@ const EditVehicleOwnership = ({ ownershipId }) => {
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
           <div className="self-end justify-self-end mb-1 flex gap-5">
-          {isSelectDisabled && (
-  <button
-    type="button"
-    onClick={handleModalOpen}
-    className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto"
-  >
-    Confirm Ownership
-  </button>
-)}
+            {isSelectDisabled && (
+              <button
+                type="button"
+                onClick={handleModalOpen}
+                className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto"
+              >
+                Confirm Ownership
+              </button>
+            )}
 
-{modalOpen && (
-  <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-    <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-6">
-      <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg mb-5 pb-1">
-        <div className="flex justify-between border-b">
-          <h1 className="font-bold">Confirm Ownership</h1>
-        </div>
-        <div>
-          <SelectComponent
-            label="Ownership Status"
-            name="ownership_status"
-            options={AccountStatus}
-            register={register}
-            errors={errors}
-            defaultValue=""
-          />
-          <InputField
-            label="Comment"
-            type="text"
-            name="comment"
-            register={register}
-            errors={errors}
-            pattern
-          />
-          <div className="w-full text-center p-1 mt-3 space-x-2 border-t pt-4">
-            <button
-              type="button"
-              onClick={handleModalClose}
-              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+            {modalOpen && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-6">
+                  <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg mb-5 pb-1">
+                    <div className="flex justify-between border-b">
+                      <h1 className="font-bold">Confirm Ownership</h1>
+                    </div>
+                    <div>
+                      <SelectComponent
+                        label="Ownership Status"
+                        name="ownership_status"
+                        options={AccountStatus}
+                        register={register}
+                        errors={errors}
+                        defaultValue=""
+                      />
+                      <InputField
+                        label="Comment"
+                        type="text"
+                        name="comment"
+                        register={register}
+                        errors={errors}
+                        pattern
+                      />
+                      <div className="w-full text-center p-1 mt-3 space-x-2 border-t pt-4">
+                        <button
+                          type="button"
+                          onClick={handleModalClose}
+                          className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </form>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">

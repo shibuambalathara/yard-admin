@@ -286,7 +286,7 @@ export default UserManagement;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="   py-1 px-3 space-x-1 bg-gray-700 text-white  rounded-md ">
+    <div className=" flex items-center  py-1 px-3 space-x-1 bg-gray-700 text-white  rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

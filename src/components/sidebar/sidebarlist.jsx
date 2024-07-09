@@ -170,24 +170,24 @@ export const clientLevelUser = [
       },
     ],
   },
-  {
-    title: "Vehicle Tracking",
-    icon: <FaCarOn />,
+  // {
+  //   title: "Vehicle Tracking",
+  //   icon: <FaCarOn />,
 
-    submenu: true,
-    submenuItems: [
-      {
-        title: "View Inbound Vehicles",
-        icon: <LiaTruckMovingSolid />,
-        path: "/",
-      },
-      {
-        title: "View Outbound Vehicles",
-        icon: <TfiTruck />,
-        path: "/",
-      },
-    ],
-  },
+  //   submenu: true,
+  //   submenuItems: [
+  //     {
+  //       title: "View Inbound Vehicles",
+  //       icon: <LiaTruckMovingSolid />,
+  //       path: "/",
+  //     },
+  //     {
+  //       title: "View Outbound Vehicles",
+  //       icon: <TfiTruck />,
+  //       path: "/",
+  //     },
+  //   ],
+  // },
   {
     title: "Waiver",
     icon: <FaCarOn />,
