@@ -15,6 +15,7 @@ import {
   FilterComponent,
 } from "@/components/commonComponents/role";
 import { MdOutlineViewHeadline } from "react-icons/md";
+import { inputStyle, labelStyle } from "@/components/ui/style";
 const AccountVerificationRequests = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -116,9 +117,24 @@ const AccountVerificationRequests = () => {
     },
   ];
 
-  if(isLoading){
-    return <Loading/>
+  const handleOrgChange = (e) => {
+    const value = e.target.value;
+    setRoleFilter(value);
+  };
+
+  const handleStatus=(e)=>{
+
+    const value = e.target.value;
+
+   
+    
+
+    setStatusFilter(value)
   }
+
+  // if(isLoading){
+  //   return <Loading/>
+  // }
 
   return (
     <div className="w-full space-y-4">
@@ -129,24 +145,69 @@ const AccountVerificationRequests = () => {
       <div className="w-full  space-x-4 flex text-center  mx-4 items-center  ">
         <div className="flex w-full px-8  space-x-10 items-center  ">
           <div className="">
-            <FilterComponent
+            {/* <FilterComponent
               label=""
               name="role"
               options={Role}
               setValue={setRoleFilter}
               placeholder="Select Role"
               defaultValue=""
-            />
+            /> */}
+            <div className="flex flex-col   ">
+          {/* <label htmlFor="state" className={labelStyle?.data}>
+            Select Role
+          </label> */}
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleOrgChange}
+          >
+            <option value="">All Client</option>
+           
+
+            {Role.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          
+        </div>
+
           </div>
           <div className="">
-            <FilterComponent
+            {/* <FilterComponent
               label=""
               name="status"
               options={AccountStatus}
               setValue={setStatusFilter}
               placeholder="Select Status"
               defaultValue=""
-            />
+            /> */}
+             <div className="flex flex-col  ">
+        {/* <label htmlFor="state" className={`${labelStyle?.data} text-start`}>
+          Status
+        </label> */}
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleStatus}
+        >
+          <option value="">All Status</option>
+          {/* <option value="">ALL STATE</option> */}
+
+          {AccountStatus.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+        {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+      </div>
           </div>
         </div>
         </div>
@@ -158,7 +219,7 @@ const AccountVerificationRequests = () => {
           <>
             <DataTable data={UsersData} columns={UsersColumn} />
             <div className="w-full text-center">
-              {filteredData?.data?.totalCount && (
+              {filteredData?.data?.totalCount >0 && (
                 <Pagination
                   page={page}
                   setPage={setPage}

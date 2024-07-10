@@ -40,9 +40,8 @@ const AllReleasedVehicles = () => {
 
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      toast.error("Failed to fetch vehicle categories");
-      // console.log("response of fetchAllVehicle Category",FetchAllVehicleCategory);
-      // console.log("response of fetchAllVehicle Category error", error);
+    console.log("error",error);
+    
     }
   }, []);
 
@@ -53,7 +52,7 @@ const AllReleasedVehicles = () => {
 
       console.log("reponse of clientlevelorg ", response);
 
-      toast.success("successs");
+      // toast.success("successs");
     } catch (error) {
       console.log("error", error);
       // toast.error(`something went wrong`);

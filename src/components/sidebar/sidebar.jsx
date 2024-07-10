@@ -43,9 +43,11 @@ const SideBar = () => {
   const pathname = usePathname();
   // console.log("pathname",pathname);
   // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
-  const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}$/, '');
+  // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}$/, '');
+  const modifiedPathname = pathname.replace(/\/(?!clientCategoryManagement$)[cC][a-zA-Z0-9_-]{23,}$/, '');
 
-  console.log('modifiedPathname', modifiedPathname);
+
+  // console.log('modifiedPathname', modifiedPathname);
 
   // console.log("1234566789");
   const sidebarData = selectSidebarData();
