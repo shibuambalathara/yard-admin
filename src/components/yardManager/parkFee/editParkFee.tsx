@@ -158,7 +158,7 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
             </div>
             <div className="mb-">
               <SelectInput
-                label="Selec Client Organisation"
+                label="Select Client Organisation"
                 options={allClientLevelOrganisations}
                 name="cl_org_id"
                 register={register}
@@ -169,7 +169,7 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
             </div>
             <div className="mb-">
               <SelectInput
-                label="Selec Vehicle Category"
+                label="Select Vehicle Category"
                 options={vehicleCategorys}
                 name="vehicle_category_id"
                 register={register}

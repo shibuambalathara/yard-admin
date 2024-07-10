@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+p {
+    @apply normal-case;
+  }
+  

@@ -166,7 +166,7 @@ const CreateClientLevelOrganisation = () => {
               </div>
               <div className="mb-">
                 <SelectComponent
-                  label="Selec user"
+                  label="Select user"
                   options={AllUsers}
                   name="user_id"
                   register={register}
@@ -177,7 +177,7 @@ const CreateClientLevelOrganisation = () => {
               </div>
               <div className="mb-">
                 <SelectComponent
-                  label="Selec super organisation"
+                  label="Select super organisation"
                   options={clientLevelSuperUsers}
                   name="clsup_org_id"
                   register={register}

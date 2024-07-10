@@ -269,7 +269,7 @@ const ViewFullUserProfile = ({ profileId }) => {
               id="document_value"
               type="file"
               className="py-1 px-4 border  border-gray-300  w-full"
-              {...register("document_value", { required: true })}
+              {...register("document_value", { required: false })}
             />
             {errors.document_value && (
               <p className="text-red-500">Document Value is required</p>
