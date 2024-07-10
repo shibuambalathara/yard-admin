@@ -2,7 +2,7 @@
 import { InputField, SelectComponent, SelectInput } from "@/components/ui/fromFields";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import axiosInstance from "@/utils/axios";
-import { AccountStatus, WaiverStatus } from "@/utils/staticData";
+import { AccountStatus, VehicleState } from "@/utils/staticData";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -40,7 +40,7 @@ const router = useRouter();
     formState: { errors },
   } = useForm<Inputs>();
 
-  const editWaiver = async () => {
+  const fetchWaiver = async () => {
     setIsLoading(true);
 
     try {
@@ -64,10 +64,10 @@ const router = useRouter();
   };
 
   useEffect(() => {
-    editWaiver();
+    fetchWaiver();
   }, [userId]);
 
-  const  EditWaiver = useCallback(async (data: Inputs) => {
+  const  editWaiver = useCallback(async (data: Inputs) => {
     const modifiedData = {
       reason: data?.reason?.toUpperCase(),
       status: data?.status?.toUpperCase(),
@@ -104,7 +104,7 @@ const router = useRouter();
               defaultValue=""
               options={
                 waiverData === 'PENDING' 
-                  ? WaiverStatus 
+                  ? VehicleState
                   : [{ label: waiverData, value: waiverData }]
               }
               register={register}

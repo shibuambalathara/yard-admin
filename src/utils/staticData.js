@@ -61,7 +61,11 @@ export const WaiverStatus = [
   { label: "CANCELLED", value: "CANCELLED" },
   // { label: "APPROVED", value: "APPROVED" },
 ];
-
+// export const YardWaiver = [
+//   { label: "PENDING", value: "PENDING" },
+//   { label: "CANCELLED", value: "CANCELLED" },
+//   { label: "APPROVED", value: "APPROVED" },
+// ];
 export const vehicleStatus = [
   { label: "YES", value: 1 },
   { label: "NO", value: 0 },
