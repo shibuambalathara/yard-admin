@@ -7,7 +7,7 @@ import {
   ImageMaping,
   TextArea,
 } from "../../ui/fromFields";
-import { formStyle, inputStyle,divStyle } from "../../ui/style";
+import { formStyle, inputStyle, divStyle } from "../../ui/style";
 import img1 from "../../../../public/aadhar.jpg";
 import img2 from "../../../../public/aadhar.jpg";
 import img3 from "../../../../public/aadhar.jpg";
@@ -94,13 +94,15 @@ const ViewFullProfile = ({ profileId }) => {
     }
   };
 
+  console.log("initial data", initialData);
+
   useEffect(() => {
     FetchUserDate();
   }, [profileId.profileId]);
 
   const handleUserUpdate = async (data: Inputs) => {
-    console.log("Data",data);
-    
+    console.log("Data", data);
+
     const validFrom = data?.account_usage_from
       ? new Date(data.account_usage_from).toISOString()
       : null;
@@ -164,92 +166,126 @@ const ViewFullProfile = ({ profileId }) => {
 
   return (
     <div className="h-screen flex justify-center items-center w-full p-6">
-    <div className="w-full">
-    <h1 className="w-full bg-slate-200  border-t border-r border-l text-center text-lg font-bold uppercase p-2">
-       User Verification
-      </h1>
-      <div className="  flex justify-center items-center">
-        <form
-          onSubmit={handleSubmit(handleUserUpdate)}
-          action=""
-          className="border-2 scrollbar-hide grid grid-cols-2 w-full h-96 border-red-00 content-start gap-y-8 overflow-y-scroll p-4 justify-items-center"
-        >
-          <FormFieldInput
-            label="Name"
-            type="text"
-            name="name"
-            register={register}
-            error={errors.name}
-            defaultValue=""
-            required
-            placeholder=""
-          />
-          <FormFieldInput
-            label="Email"
-            type="email"
-            name="email"
-            register={register}
-            error={errors.email}
-            defaultValue=""
-            required
-            placeholder=" "
-          />
-          <FormFieldInput
-            label="Contact"
-            type="tel"
-            name="contact"
-            register={register}
-            error={errors.contact}
-            defaultValue=""
-            required
-            placeholder=" "
-          />
-          <FormFieldInput
-            label="Designation"
-            type="text"
-            name="designation"
-            register={register}
-            error={errors.designation}
-            defaultValue=""
-            required
-            placeholder=" "
-          />
-          <SelectInput
-            label="Role"
-            options={Role}
-            name="role"
-            register={register}
-            error={errors}
-            defaultValue=""
-            required
-          />
+      <div className="w-full">
+        <h1 className="w-full bg-slate-200  border-t border-r border-l text-center text-lg font-bold uppercase p-2">
+          User Verification
+        </h1>
+        <div className="  flex justify-center items-center">
+          <form
+            onSubmit={handleSubmit(handleUserUpdate)}
+            action=""
+            className="border-2 scrollbar-hide grid grid-cols-2 w-full h-96 border-red-00 content-start gap-y-8 overflow-y-scroll p-4 justify-items-center"
+          >
+            <FormFieldInput
+              label="Name"
+              type="text"
+              name="name"
+              register={register}
+              error={errors.name}
+              defaultValue=""
+              required
+              placeholder=""
+              disabled={true}
+            />
+            <FormFieldInput
+              label="Email"
+              type="email"
+              name="email"
+              register={register}
+              error={errors.email}
+              defaultValue=""
+              required
+              placeholder=" "
+              disabled={true}
+            />
+            <FormFieldInput
+              label="Contact"
+              type="tel"
+              name="contact"
+              register={register}
+              error={errors.contact}
+              defaultValue=""
+              required
+              placeholder=" "
+              disabled={true}
+            />
+            <FormFieldInput
+              label="Designation"
+              type="text"
+              name="designation"
+              register={register}
+              error={errors.designation}
+              defaultValue=""
+              required
+              placeholder=" "
+              disabled={true}
+            />
+            <SelectInput
+              label="Role"
+              options={Role}
+              name="role"
+              register={register}
+              error={errors}
+              defaultValue=""
+              required
+              disabled={true}
+            />
 
-          <div className="  space-y-2  col-span-1 ">
-          <div className={`${divStyle?.data} text-center justify-center ` }>
-            <button
-              type="button"
-              onClick={handleApproveClick}
-              className="bg-green-500 text-white px-4 py-2 border w-40 rounded-md border-none "
-            >
-              Approve
-            </button>
-           </div>
+            <div className="col-span-2  ">
+              <div className={` text-center justify-center `}>
+                {initialData?.account_verification === "REJECTED" && (
+                  <div >
+                    <button
+                      type="button"
+                      onClick={handleApproveClick}
+                      className="bg-green-500 text-white px-4 py-2 border w-40 rounded-md border-none "
+                    >
+                      Approve
+                    </button>
+                  </div>
+                )}
+                {initialData?.account_verification === "PENDING" && (
+                 <div className="flex gap-4">
+                  <div >
+                  <button
+                    type="button"
+                    onClick={handleRejectClick}
+                    className="bg-red-500 text-white px-4 py-2 border w-40 rounded-md"
+                  >
+                    Reject
+                  </button>
+                </div>
+                  <div >
+                    <button
+                      type="button"
+                      onClick={handleApproveClick}
+                      className="bg-green-500 text-white px-4 py-2 border w-40 rounded-md border-none "
+                    >
+                      Approve
+                    </button>
+                  </div>
+                  
+                 </div>
+                  
+                )}
+              </div>
+              {initialData?.account_verification === "APPROVED" && (
+                <div className={`${divStyle?.data}  `}>
+                  <button
+                    type="button"
+                    onClick={handleRejectClick}
+                    className="bg-red-500 text-white px-4 py-2 border w-40 rounded-md"
+                  >
+                    Reject
+                  </button>
+                </div>
+              )}
+            </div>
 
-           <div className={`${divStyle?.data} justify-center`}>
-          <button
-              type="button"
-              onClick={handleRejectClick}
-              className="bg-red-500 text-white px-4 py-2 border w-40 rounded-md"
-            >
-              Reject
-            </button>
-          </div>
-          </div>
-
-          {/* <div className="col-span-2 border">
+            {/* <div className="col-span-2 border">
             <ImageMaping images={images} />
           </div> */}
-          {/* <div className="w-full col-span-2 flex justify-center">
+            {/* <div className="w-full col-span-2 flex justify-center">
             <button
               type="submit"
               className="bg-[#333333] text-white px-4 py-1 w-60"
@@ -257,9 +293,9 @@ const ViewFullProfile = ({ profileId }) => {
               Submit
             </button>
           </div> */}
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -267,9 +303,7 @@ const ViewFullProfile = ({ profileId }) => {
             <h2 className="text-xl font-semibold mb-4">
               {modalType === "APPROVE" ? "Approve Account" : "Reject Account"}
             </h2>
-            <form
-              onSubmit={handleSubmit(handleModalSubmit)}
-            >
+            <form onSubmit={handleSubmit(handleModalSubmit)}>
               {modalType === "APPROVE" && (
                 <>
                   <FormFieldInput
@@ -318,9 +352,7 @@ const ViewFullProfile = ({ profileId }) => {
                 <button
                   type="submit"
                   className={`${
-                    modalType === "APPROVE"
-                      ? "bg-green-500"
-                      : "bg-red-500"
+                    modalType === "APPROVE" ? "bg-green-500" : "bg-red-500"
                   } text-white px-4 py-2 rounded-md`}
                 >
                   {modalType === "APPROVE" ? "Approve" : "Reject"}

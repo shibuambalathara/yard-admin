@@ -118,7 +118,7 @@ const AllVehicles = () => {
       },
 
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row)
       },
     ],

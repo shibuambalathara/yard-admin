@@ -117,7 +117,7 @@ const AccountVerificationRequests = () => {
     },
   ];
 
-  const handleRoleChange = (e) => {
+  const handleOrgChange = (e) => {
     const value = e.target.value;
     setRoleFilter(value);
   };
@@ -142,8 +142,8 @@ const AccountVerificationRequests = () => {
         Account Verification Request
       </h1>
 
-      <div className="w-full  space-x-4 flex text-center  mx-4 items-center  ">
-        <div className="flex w-full   space-x-10 items-center  ">
+      <div className="w-full  space-x-4 flex text-center   ">
+        <div className="flex w-full px-4  space-x-10   ">
           <div className="">
             {/* <FilterComponent
               label=""
@@ -161,9 +161,9 @@ const AccountVerificationRequests = () => {
             id="state"
             className={inputStyle?.data}
             defaultValue=""
-            onChange={handleRoleChange}
+            onChange={handleOrgChange}
           >
-            <option value="">All Roles</option>
+            <option value="">All Client</option>
            
 
             {Role.map((option, index) => (
@@ -215,8 +215,7 @@ const AccountVerificationRequests = () => {
         
       <div className="flex flex-col">
         {/* Conditionally render DataTable if there are users */}
-       
-          <>
+        {filteredData?.data?.totalCount>0 ?(<>
             <DataTable data={UsersData} columns={UsersColumn} />
             <div className="w-full text-center">
               {filteredData?.data?.totalCount >0 && (
@@ -228,7 +227,12 @@ const AccountVerificationRequests = () => {
                 />
               )}
             </div>
-          </>
+          </>):(
+            <div>
+              <NoUsersMessage roleFilter={roleFilter} statusFilter={statusFilter} />
+            </div>
+          )}
+          
         
       </div>
     </div>

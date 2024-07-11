@@ -311,7 +311,7 @@ const SelectionTable = () => {
           </button>
           {modalOpen && (
             <div className="relative border "> <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm'>
-            <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} />
+            <AddWaiver onClose={handleModalClose} selectedRowIds={selectedRowIds} fetch={fetchData} />
          </div></div>
            
            
@@ -343,13 +343,13 @@ const SelectionTable = () => {
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder="Search"
-                className="border w-44 focus:ring-indigo-500 focus:outline-none block m-2 pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
+                className="border w-44 focus:ring-indigo-500 focus:outline-none block  pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
               />
             </div>
           </div>
           <div className="mt-2 ring-1 w-full h-fit ring-gray-300 rounded-lg overflow-auto">
             <table className="min-w-full divide-y divide-gray-300 relative">
-              <thead className="bg-gray-700 rounded-lg">
+              <thead className="bg-gray-700 rounded-lg text-left">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id} className="divide-x divide-gray-500">
                     {headerGroup.headers.map((header) => (
@@ -386,12 +386,12 @@ const SelectionTable = () => {
                     className="divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td
-                        key={cell.id}
-                        className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
-                      >
-                         <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
-                      </td>
+                       <td
+                       key={cell.id}
+                       className="px-2 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left"
+                     >
+                        <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
+                     </td>
                     ))}
                   </tr>
                 ))}

@@ -121,7 +121,7 @@ const AllReleaseInitiatedVehicles = () => {
         accessorKey: "vehicle_ownership.vehicle.yard.yard_name",
       },
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -149,7 +149,7 @@ const AllReleaseInitiatedVehicles = () => {
         All Initiated Vehicles
       </h1>
 
-      <div className="grid grid-cols-3 w-full gap-4 place-items-center">
+      <div className="grid grid-cols-3 w-full gap-4 px-5">
         <div className="flex flex-col">
           <label htmlFor="category" className={labelStyle?.data}>
             Select Category
@@ -218,7 +218,7 @@ export default AllReleaseInitiatedVehicles;
 
 const View = (row) => {
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 px-2 rounded-md">
       <p>
         <MdOutlineViewHeadline />
       </p>

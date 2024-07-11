@@ -135,8 +135,8 @@ const router=useRouter()
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+    <div className="bg-gray-100 min-h-screen flex  justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full bg-white h-fit p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center border-b pb-4 mb-6">
           <h1 className="text-2xl font-bold text-gray-700">Update User</h1>
           {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}

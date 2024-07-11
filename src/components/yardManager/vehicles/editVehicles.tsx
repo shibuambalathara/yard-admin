@@ -466,7 +466,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
                     .replace("_", " ")
                     .toLowerCase()
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  s
+                  
                 </h2>
 
                 {imageList?.map((img, index) => (

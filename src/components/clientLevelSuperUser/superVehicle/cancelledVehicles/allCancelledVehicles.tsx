@@ -184,7 +184,7 @@ const AllCancelledVehicles = () => {
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -227,7 +227,7 @@ const AllCancelledVehicles = () => {
         All Cancelled Vehicles
       </h1>
 
-      <div className=" grid grid-cols-2 w-full  gap-4     place-items-start pt-8 px-5">
+      <div className=" grid grid-cols-3 w-full  gap-4     place-items-start pt-8 px-5">
         <div>
           <label htmlFor="client" className={labelStyle.data}>
             Select Client
@@ -293,7 +293,7 @@ const AllCancelledVehicles = () => {
         </div>
         <div className="flex flex-col  ">
           <label htmlFor="state" className={labelStyle?.data}>
-            Status
+          Select Status
           </label>
           <select
             id="state"
@@ -350,7 +350,7 @@ export default AllCancelledVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-2">
       <p>
         <MdOutlineViewHeadline />
       </p>

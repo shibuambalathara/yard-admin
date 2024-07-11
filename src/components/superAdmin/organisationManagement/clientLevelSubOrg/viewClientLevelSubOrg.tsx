@@ -331,9 +331,9 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
-      <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
-        <div className="flex flex-col items-center">
+    <div className="min-h-screen flex flex-col  bg-gray-100 py-10">
+      <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-3">
+        <div className="flex flex-col ">
           <div className="w-full  mb-">
           <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
           

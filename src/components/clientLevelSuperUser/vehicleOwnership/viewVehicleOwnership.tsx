@@ -191,7 +191,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Ownership
+          Vehicle Ownership Details
         </h2>
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
@@ -212,7 +212,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
                 <div className="bg-white p-4 rounded-lg w-full max-w-sm">
                   <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-                    <h1 className=" font-semibold text-base  ">Confirm  Ownership</h1>
+                    <h1 className=" font-semibold text-base  ">Confirm  Ownership </h1>
                   </div>
 
                   <div className="flex  flex-col items-center justify-center border px-2 py-6">
@@ -258,9 +258,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           </div>
         </form>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
-          <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
-            Vehicle Details
-          </h2>
+          
           <InputField
             disabled={true}
             label="Loan Number"
@@ -429,7 +427,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                     .replace("_", " ")
                     .toLowerCase()
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  s
+           
                 </h2>
 
                 {imageList?.map((image, index) => (

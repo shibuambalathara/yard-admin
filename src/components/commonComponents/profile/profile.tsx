@@ -86,6 +86,7 @@ const modifiedData={
 
       console.log("update response", response);
       toast.success(response?.data?.message)
+      setIsDisabled(true)
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);

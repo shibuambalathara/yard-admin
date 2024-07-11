@@ -157,7 +157,7 @@ const IndividualRelease = ({ cancelledId }) => {
   const tabs = {
     "Yard Details": <YardDetails vehicle={vehicleData} />,
     "Vehicle Details": <VehicleDetails vehicle={vehicleData} />,
-    "Vehicle ownership": <VehicleOwnerships vehicle={vehicleData} />,
+    "Vehicle Ownership": <VehicleOwnerships vehicle={vehicleData} />,
     
   }
 

@@ -9,7 +9,7 @@ import { formStyle, inputStyle, labelStyle, loginInputStyle } from "../../../../
 import Spinner from "@/components/commonComponents/spinner/spinner";
 
 const IndividualSuperWaiver = ({ waiverId ,onClose,fetchAllWaivers}) => {
-console.log("waiverId", waiverId);
+console.log("waiverId", waiverId);fetchAllWaivers
 
 
   const [waiverData, setWaiverData] = useState(null);
@@ -83,6 +83,8 @@ console.log("waiverId", waiverId);
       
       
       toast.success(response?.data?.message);
+      onClose()
+      fetchAllWaivers()
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -106,7 +108,7 @@ console.log("waiverId", waiverId);
            
      <div>
      <SelectInput
-              disabled={waiverData === 'APPROVED'||waiverData ==='CANCELLED'}
+              disabled={waiverData !== 'PENDING'}
               label="Status"
               name="status"
               defaultValue=""

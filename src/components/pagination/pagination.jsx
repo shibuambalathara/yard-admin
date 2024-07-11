@@ -86,12 +86,12 @@ const Pagination = (props) => {
 
       </div>
       <div className="flex w-full  justify-evenly">
-        <div  className="">
+        <div  className="normal-case">
           {" "}
-          <span>{props?.page} out of</span> <span>{totalPages} page</span>
+          <span>{props?.page} Out of</span> <span>{totalPages} page</span>
         </div>
         <div className="  space-x-4">
-        <span> Go to</span>
+        <span className=""> Go to</span>
           <input
             type="text"
             // className="border border-black w-40 placeholder:px-2"

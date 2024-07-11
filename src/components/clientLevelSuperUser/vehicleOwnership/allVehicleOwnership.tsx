@@ -132,7 +132,7 @@ const AllSuperVehicleOwnership = () => {
     { header: "Code", accessorKey: "vehicle.code" },
     { header: "Yard Name", accessorKey: "vehicle.yard.yard_name" },
     { header: "Status", accessorKey: "status" },
-    { header: "Action", cell: ({ row }) => View(row) },
+    { header: "View", cell: ({ row }) => View(row) },
   ], [filteredData]);
 
   const handleCategorySelect = (e) => setVehiclecat(e.target.value);
@@ -150,9 +150,9 @@ const AllSuperVehicleOwnership = () => {
  
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">Vehicle Ownership</h1>
-      <div className="grid grid-cols-2 ">
-        <div className="flex flex-col ml-6">
+      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">Vehicle Ownership </h1>
+      <div className="grid grid-cols-3 ">
+        <div className="flex flex-col ml-5">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>
          
           <select id="client" className={inputStyle.data} onChange={handleClient}>
@@ -171,7 +171,7 @@ const AllSuperVehicleOwnership = () => {
             ))}
           </select>
         </div>
-        <div className="flex flex-col ml-6">
+        <div className="flex flex-col ml-5">
           <label htmlFor="yard" className={labelStyle.data}>Select Yard</label>
           <select id="yard" className={inputStyle.data} onChange={handleYardSelection}>
               <option value="">All Yards</option>
@@ -180,10 +180,10 @@ const AllSuperVehicleOwnership = () => {
             ))}
           </select>
         </div>
-        <div className="flex flex-col ml-6">
-          <label htmlFor="status" className={labelStyle.data}>Status</label>
+        <div className="flex flex-col ml-5">
+          <label htmlFor="status" className={labelStyle.data}>Select Status</label>
           <select id="status" className={inputStyle.data} onChange={handleOwnershipStatus}>
-            <option value="">Select Status</option>
+            <option value="">All Status</option>
             {VehicleState.map((option, index) => (
               <option key={index} value={option.value}>{option.label}</option>
             ))}
@@ -210,7 +210,7 @@ const AllSuperVehicleOwnership = () => {
 export default AllSuperVehicleOwnership;
 
 const View = (row) => (
-  <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md">
+  <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-4">
     <p><MdOutlineViewHeadline /></p>
     <Link href={`/vehicleSuperOwnership/${row.original.id}`} target="_blank" rel="noopener noreferrer">View</Link>
   </div>

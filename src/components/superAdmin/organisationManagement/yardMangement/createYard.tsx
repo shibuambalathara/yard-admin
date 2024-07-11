@@ -137,7 +137,7 @@ const CreateYard = () => {
             onSubmit={handleSubmit(createYard)}
             className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
           >
-            <div className="mb-">
+            <div className=" mt-4 pt-px">
               <SelectComponent
                 label="Select User"
                 options={AllUsers}
@@ -148,7 +148,7 @@ const CreateYard = () => {
                 defaultValue=""
               />
             </div>
-            <div className="mb-">
+            <div className="">
               <InputField
                 label="yard Name"
                 type="text"
@@ -159,7 +159,7 @@ const CreateYard = () => {
               />
             </div>
 
-            <div className="mb-">
+            <div className="">
               <InputField
                 label="field Executive Name"
                 type="text"
@@ -169,7 +169,7 @@ const CreateYard = () => {
                 pattern=""
               />
             </div>
-            <div className="mb-">
+            <div className="">
               <InputField
                 label="Field Executive Contact"
                 type="text"
@@ -179,9 +179,9 @@ const CreateYard = () => {
                 pattern=""
               />
             </div>
-
+            <div className="mt-4 pt-px">
             <SelectChange
-              label="State"
+              label=" State"
               name="state"
               options={uniqueStates}
               register={register}
@@ -189,16 +189,16 @@ const CreateYard = () => {
               required={true}
               defaultValue=""
               handleChange={handleStateChange}
-            />
+            /></div><div className=" ">
             <SelectChange
-              label="City"
+              label=" City"
               name="city"
               options={filterCity}
               register={register}
               errors={errors}
               required={true}
               defaultValue=""
-            />
+            /></div>
             {/* <div className="mb-">
               <SelectComponent
                 label="Select Organisation Children"

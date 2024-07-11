@@ -75,11 +75,11 @@ const MangeParkFee = () => {
       },
 
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => (
           <button
             onClick={() => handleEditClick(row.original.id)}
-            className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md "
+            className="flex justify-center items-center border space-x-1 bg-gray-700 text-white px-2 py-1 rounded-md "
           >
             <p>
               <MdOutlineViewHeadline />
@@ -121,7 +121,7 @@ const MangeParkFee = () => {
           <div>
           <button
             onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200  "
+            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200  "
           >
             Add
           </button>

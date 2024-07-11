@@ -10,7 +10,7 @@ import { formStyle, inputStyle, labelStyle, loginInputStyle } from "../../../../
 import { useRouter } from "next/navigation";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 
-const IndividualCreatedWaiver = ({ waiverId, onClose }) => {
+const IndividualCreatedWaiver = ({ waiverId, onClose ,fetch}) => {
   const [waiverData, setWaiverData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -77,7 +77,9 @@ const IndividualCreatedWaiver = ({ waiverId, onClose }) => {
       console.log('res,', response);
 
       toast.success(response?.data?.message);
+      fetch()
       onClose();
+
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -96,7 +98,7 @@ const IndividualCreatedWaiver = ({ waiverId, onClose }) => {
         <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-2 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
           <div>
             <SelectInput
-              disabled={waiverData === 'APPROVED'||waiverData ==='CANCELLED'}
+              disabled={waiverData !== 'PENDING'}
               label="Status"
               name="status"
               defaultValue=""

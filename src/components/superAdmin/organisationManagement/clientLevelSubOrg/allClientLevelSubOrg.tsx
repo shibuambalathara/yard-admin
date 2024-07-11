@@ -152,7 +152,7 @@ const AllClientLevelSubOrganisation = () => {
     
             className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
           >
-            ADD 
+            Add 
             </Link>
          
         </div>
@@ -186,7 +186,7 @@ export default AllClientLevelSubOrganisation;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white px-2 py-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

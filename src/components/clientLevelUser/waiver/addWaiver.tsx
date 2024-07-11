@@ -23,7 +23,7 @@ type Inputs = {
   reason: string
 };
 
-const AddWaiver = ({onClose,selectedRowIds}) => {
+const AddWaiver = ({onClose,selectedRowIds,fetch}) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Initially set to true to show loading spinner
@@ -73,6 +73,7 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
       setSuccess({
         text: response?.data?.message,
       });
+      fetch()
       // router.push('/vehicleCategoryManagement');
       setTimeout(() => {
         onClose();
@@ -137,6 +138,7 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
                 register={register}
                 errors={errors}
                 pattern=""
+                placeholder="Eg: 10"
               />
             </div>
             <div className="mb-">
@@ -147,6 +149,8 @@ const AddWaiver = ({onClose,selectedRowIds}) => {
                 register={register}
                 errors={errors}
                 pattern=""
+                placeholder="Eg: Regular Customer"
+
               />
             </div> 
             </div>

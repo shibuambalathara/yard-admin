@@ -7,6 +7,7 @@ import useAuthStore from "@/store/useAuthStore";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import {RoleAliass } from "@/utils/staticData";
+import Link from "next/link";
 
 const UserDetails = () => {
   const router = useRouter();
@@ -120,7 +121,7 @@ const UserDetails = () => {
 
       {isOpen && (
         <div className="absolute right-0 z-20 w-56 mt-3 pt-2 overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800 transition-opacity duration-100 ease-out transform scale-100 opacity-100">
-          <a href="" className="flex items-center p-3 -mt-2 text-sm cursor-pointer text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+          <Link href="/profile" className="flex items-center p-3 -mt-2 text-sm cursor-pointer text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
             <FaUserCircle className="flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9" />
             <div className="mx-1">
               <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
@@ -130,16 +131,17 @@ const UserDetails = () => {
                 {email}
               </p>
             </div>
-          </a>
+          </Link>
+           
 
           <hr className="border-gray-200 dark:border-gray-700" />
           {/* <p className="flex font-medium text-xs text-gray-400 px-4 mt-1 uppercase">role:</p> */}
-          <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform  ">
+          <p className="block px-4 py-1 text-xs text-gray-600 capitalize transition-colors duration-300 transform  ">
           {userRole &&` ${(RoleAliass[userRole] || userRole)}`}
           </p>
           {organisation && (
             <>
-              <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300  ">
+              <p className="block px-4 pt-1 pb-1 text-xs text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300  ">
                 {organisation}
               </p>
 

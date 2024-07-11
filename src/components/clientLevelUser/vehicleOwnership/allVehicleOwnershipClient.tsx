@@ -30,7 +30,7 @@ const AllVehicleOwnershipClient = () => {
   const [catFilter, setCatFilter] = useState("");
   const [yardFilter, setYardFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  
+  const [loading, setLoading] = useState(true);
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
@@ -101,6 +101,7 @@ const AllVehicleOwnershipClient = () => {
       console.log("error",error);
       
     } finally {
+      setLoading(true)
     }
   }
   // [page, limit,Category, selectedYard, vehicleStatus]
@@ -180,7 +181,7 @@ const AllVehicleOwnershipClient = () => {
       
       {
         
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -217,7 +218,7 @@ const AllVehicleOwnershipClient = () => {
       </h1>
 
   <div className="flex w-full space-x-14 borde">
-  <div className="flex flex-col   ml-8">
+  <div className="flex flex-col   ml-5">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -266,7 +267,7 @@ const AllVehicleOwnershipClient = () => {
       
       <div className="flex flex-col   ml-8">
         <label htmlFor="state" className={labelStyle?.data}>
-          Status
+          Select Status
         </label>
         <select
           id="state"
@@ -274,7 +275,7 @@ const AllVehicleOwnershipClient = () => {
           defaultValue=""
           onChange={handleOwnershipStatus}
         >
-          <option value="">Select Status</option>
+          <option value="">All Status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
@@ -288,6 +289,7 @@ const AllVehicleOwnershipClient = () => {
                           )} */}
       </div>
   </div>
+  
       <div className="flex w-full px-8 justify-between"></div>
       <div>
         {filteredData < 1 ? (
@@ -319,7 +321,7 @@ export default AllVehicleOwnershipClient;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-2">
       <p>
         <MdOutlineViewHeadline />
       </p>

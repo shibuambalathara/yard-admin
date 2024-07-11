@@ -18,7 +18,7 @@ export const FormFieldInput = ({
   defaultValue,
   error,
   placeholder,
-
+  disabled=false,
   ...rest
 }) => {
   const handleInputChange = (event) => {
@@ -43,6 +43,7 @@ export const FormFieldInput = ({
         className={`${inputStyle.data}`}
         placeholder={placeholder}
         onChange={handleInputChange}
+        disabled
       />
 
       {error && <p className="text-red-500 text-start">{`${label} Required`}</p>}

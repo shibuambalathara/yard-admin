@@ -166,7 +166,7 @@ const AllVehicleOwnerships = () => {
       },
 
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -202,13 +202,7 @@ const AllVehicleOwnerships = () => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     setStatusFilter(selectedOption.text);
   }
-  if (isLoading) {
-    return (
-      <div className="flex w-full h-screen items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
+  
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
@@ -267,7 +261,7 @@ const AllVehicleOwnerships = () => {
         </div>
         <div className="flex flex-col mr-16  ">
         <label htmlFor="state" className={labelStyle?.data}>
-          Status
+         Select Status
         </label>
         <select
           id="state"
@@ -275,7 +269,7 @@ const AllVehicleOwnerships = () => {
           defaultValue=""
           onChange={handleStatus}
         >
-          <option value="">Select Status</option>
+          <option value="">All Status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
@@ -322,7 +316,7 @@ export default AllVehicleOwnerships;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-2 ">
       <p>
         <MdOutlineViewHeadline />
       </p>

@@ -157,7 +157,7 @@ const AllVehicleOwnershipClient = () => {
       
       {
         
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -193,7 +193,7 @@ const AllVehicleOwnershipClient = () => {
 
   <div className="flex w-full space-x-14 borde">
   
-      <div className="flex flex-col   ml-8">
+      <div className="flex flex-col   ml-5">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Yard
         </label>
@@ -219,7 +219,7 @@ const AllVehicleOwnershipClient = () => {
       
       <div className="flex flex-col   ml-8">
         <label htmlFor="state" className={labelStyle?.data}>
-          Status
+        Select Status
         </label>
         <select
           id="state"
@@ -244,7 +244,7 @@ const AllVehicleOwnershipClient = () => {
       
       <div>
         {filteredData < 1 ? (
-          <NoVehicleMessage typeFilter=""   yardFilter={yardFilter} statusFilter={vehicleStatus}/>
+          <NoVehicleMessage typeFilter="Vehicle"   yardFilter={yardFilter} statusFilter={vehicleStatus}/>
         ) : (
           <div className="w-full">
              
@@ -272,7 +272,7 @@ export default AllVehicleOwnershipClient;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 px-2 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

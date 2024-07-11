@@ -12,6 +12,14 @@ export const RoleAliass = {
   "CLIENT_LEVEL_USER": "CLIENT LEVEL USER",
   "CLIENT_LEVEL_SUB_USER": "CLIENT LEVEL SUB USER",
 };
+export const HeaderRole  = {
+  "SUPER_ADMIN": "SUPER ADMIN ",
+  "YARD_MANAGER": "YARD MANAGER",
+  "CLIENT_LEVEL_SUPER_USER": " SUPER USER",
+  "CLIENT_LEVEL_USER": " USER",
+  "CLIENT_LEVEL_SUB_USER": " SUB USER",
+};
+
 
 export const Role = [
   { label: "Super Admin", value: "SUPER_ADMIN" },
@@ -20,6 +28,7 @@ export const Role = [
   { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
   { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
 ];
+
 
 export const SuperUserChildren = [
   { label: "Yard Manager", value: "YARD_MANAGER" },

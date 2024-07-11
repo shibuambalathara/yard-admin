@@ -163,24 +163,28 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+      {modalOpen&&<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+        <ConfirmationModal
+          isOpen={modalOpen}
+          onCancel={handleCancelRelease}
+          onConfirm={handleConfirmRelease}
+          text=""
+        /></div>}
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Initate Release
+          Instock Vehicle Details
         </h2>
 
         <div className="w-full  flex justify-end">
           <button
             onClick={handleInitiateClick}
-            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
+            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
           >
-            Initate Vehicle Release
+            Initiate  Release
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
-          <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
-            {" "}
-            Vehicle Details
-          </h2>
+         
           <InputField
             disabled={true}
             label="Loan Number"
@@ -341,7 +345,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
           Vehicle Images
         </h2>
 
-        <div className="grid grid-cols-4 gap-4 col-span-3">
+        <div className="grid grid-cols-2 gap-4 col-span-3">
           {Object.entries(images).map(([imageType, imageList]) => (
             <div
               key={imageType}
@@ -352,7 +356,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
                   .replace("_", " ")
                   .toLowerCase()
                   .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                s
+                
               </h2>
               {imageList?.map((image, index) => (
                 <div
@@ -370,12 +374,12 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
             </div>
           ))}
         </div>
-        <ConfirmationModal
+        {/* <ConfirmationModal
           isOpen={modalOpen}
           onCancel={handleCancelRelease}
           onConfirm={handleConfirmRelease}
           text=""
-        />
+        /> */}
       </div>
     </div>
   );

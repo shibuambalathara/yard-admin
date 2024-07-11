@@ -29,7 +29,7 @@ type Inputs = {
   confirmPassword: string;
 };
 
-const CreateUser = ({ onClose,fetchData }:any) => {
+const CreateUser = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -74,11 +74,10 @@ const CreateUser = ({ onClose,fetchData }:any) => {
 
       const response = await axiosInstance.post("/user/create/pending", modifiedData);
       toast.success(response?.data?.message)
-      onClose()
-      fetchData()
+     
       router.push("/userCreation")
     } catch (error) {
-      console.error("Error:", error.response);
+      console.error("Error:", error);
       toast.error(error?.response?.data?.message);
     }
   };
@@ -88,8 +87,8 @@ const CreateUser = ({ onClose,fetchData }:any) => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
+    <div className="bg-gray-100 min-h-screen flex  justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl w-full h-fit bg-white p-8 rounded-lg shadow-lg">
       <div className="flex justify-between items-center border-b pb-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-700">Create User</h1>
         {/* <p className="cursor-pointer text-gray-500" onClick={onClose}>x</p> */}

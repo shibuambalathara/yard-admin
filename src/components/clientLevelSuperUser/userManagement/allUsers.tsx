@@ -15,10 +15,12 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateUser from "@/components/clientLevelSuperUser/userManagement/createUser";
 import EditIndividualUser from "@/components/clientLevelSuperUser/userManagement/editUser";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
 
 
 
 const UserManagement = () => {
+  
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -29,7 +31,8 @@ const UserManagement = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [accountStatus,setAccountStatus]=useState(1)
-
+  const [statusFilter, setStatusFilter] = useState(null);
+  const [limit,setLimit]=useState(5)
   useEffect(() => {
     if (success) {
       setTimeout(() => {
@@ -49,8 +52,21 @@ const UserManagement = () => {
   const fetchAllUsers = async () => {
     setIsLoading(true);
     try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+
+      });
+
+      if (roleFilter!==''&&roleFilter) {
+        params.append('role',roleFilter);
+      }
+      if(accountStatus){
+        params.append('status',accountStatus.toString());
+
+      }
       const response = await axiosInstance.get(
-        `/user/users/created_by_ins?page=1&limit=5&status=${accountStatus}&role=${roleFilter}`
+        `/user/users/created_by_ins?${params.toString()}`
       );
       // console.log("all users created by super user", response);
       setFilteredData(response.data?.res);
@@ -123,12 +139,14 @@ const UserManagement = () => {
   };
 
   const handleRoleChange = (e) => {
-    const value = e.target.value;
-    setRoleFilter(value);
+   
+    setRoleFilter(e.target.value);
   };
   const handleStatus = (e) => {
-    const value = e.target.value;
-    setAccountStatus(value);
+    
+    setAccountStatus(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter(selectedOption.text);
   };
 
   console.log("user status",accountStatus);
@@ -140,12 +158,12 @@ const UserManagement = () => {
         User Management
       </h1>
 
-      <div className="flex w-full px-6 justify-between items-center">
+      <div className="flex w-full px-5 justify-between items-center">
 
     <div className="w-full  flex justify mr-4 gap-8">
     <div className="flex flex-col   ">
           <label htmlFor="state" className={labelStyle?.data}>
-            Role
+           Select Role
           </label>
           <select
             id="state"
@@ -153,10 +171,10 @@ const UserManagement = () => {
             defaultValue=""
             onChange={handleRoleChange}
           >
-            <option value="">All Roles</option>
+            <option value='' >All Roles</option>
            
 
-            {Role.map((option, index) => (
+            {SuperUserChildren.map((option, index) => (
               <option key={index} value={option?.value}>
                 {option?.label}
               </option>
@@ -166,7 +184,7 @@ const UserManagement = () => {
         </div>
         <div className="flex flex-col mr-16  ">
         <label htmlFor="state" className={labelStyle?.data}>
-          Status
+        Select Status
         </label>
         <select
           id="state"
@@ -175,7 +193,7 @@ const UserManagement = () => {
           onChange={handleStatus}
         >
           
-          {/* <option value="">ALL STATE</option> */}
+          <option value="">Status</option>
 
           {UserStatus.map((option, index) => (
             <option key={index} value={option?.value}>
@@ -215,24 +233,22 @@ const UserManagement = () => {
         </div>
 
       </div>
-  <div className="">
-  {/* {editModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-            
-              <EditIndividualUser
-                userId={selectedUserId}
-                onClose={handleEditModalClose}
-                fetchData={fetchAllUsers}
-              />
-            
-          </div>
-        )} */}
-  <div>
-        <DataTable data={UsersData} columns={userColumn} />
-      </div>
+      {filteredData?.totalCount > 0 ? (
+         
+            <DataTable data={UsersData} columns={userColumn} />
+          
+        ) : (
+          <NoUsersMessage
+              
+              roleFilter={roleFilter}
+              statusFilter={statusFilter}
+              
+
+            />
+        )}
       
   </div>
-    </div>
+  
   );
 };
 
