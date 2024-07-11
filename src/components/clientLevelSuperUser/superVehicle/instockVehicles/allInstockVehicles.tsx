@@ -168,7 +168,7 @@ const AllInstockVehicles = () => {
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -203,7 +203,7 @@ const AllInstockVehicles = () => {
       </h1>
 
       <div className="grid grid-cols-3 w-full space-x-14 borde mt-4">
-        <div className="flex flex-col   ml-8">
+        <div className="flex flex-col   ml-5">
           <label htmlFor="client" className={labelStyle.data}>
             Select Client
           </label>
@@ -212,7 +212,7 @@ const AllInstockVehicles = () => {
             className={inputStyle.data}
             onChange={handleOrgChange}
           >
-            <option value="">All Client</option>
+            <option value="">Select  Client</option>
             {superClientOptions.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
@@ -220,7 +220,7 @@ const AllInstockVehicles = () => {
             ))}
           </select>{" "}
         </div>
-        <div className="flex flex-col   ml-8">
+        <div className="flex flex-col   ml-5">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -243,7 +243,7 @@ const AllInstockVehicles = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
         </div>
-        <div className="flex flex-col   ml-8">
+        <div className="flex flex-col    ml-6">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Yard
           </label>
@@ -310,7 +310,7 @@ export default AllInstockVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-2 ">
       <p>
         <MdOutlineViewHeadline />
       </p>

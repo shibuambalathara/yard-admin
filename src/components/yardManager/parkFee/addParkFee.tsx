@@ -97,12 +97,12 @@ const AddParkFee = ({ onClose, fetchData }) => {
       );
       console.log("response after creating park fee", response);
       
-      toast.success(response?.data?.res?.message);
+      toast.success(response?.data?.message);
       fetchData()
       onClose()
     } catch (error) {
       console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      toast.error("Already Exsist");
     }
     // Handle form submission
   },[])
@@ -118,9 +118,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
           <h1 className=" font-bold  ">Add Park Fee</h1>
-          <p className=" cursor-pointer" onClick={onClose}>
-            x
-          </p>
+          
         </div>
         <form onSubmit={handleSubmit(AddParkFee)} className="  border-gray-200 ">
           <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">

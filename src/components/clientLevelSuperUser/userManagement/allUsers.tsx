@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role, SuperUserChildren,RoleAliass } from "@/utils/staticData";
+import { Role, SuperUserChildren,RoleAliass, UserStatus } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -14,10 +14,13 @@ import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateUser from "@/components/clientLevelSuperUser/userManagement/createUser";
 import EditIndividualUser from "@/components/clientLevelSuperUser/userManagement/editUser";
+import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
 
 
 
 const UserManagement = () => {
+  
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -28,7 +31,8 @@ const UserManagement = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [accountStatus,setAccountStatus]=useState(1)
-
+  const [statusFilter, setStatusFilter] = useState(null);
+  const [limit,setLimit]=useState(5)
   useEffect(() => {
     if (success) {
       setTimeout(() => {
@@ -48,8 +52,21 @@ const UserManagement = () => {
   const fetchAllUsers = async () => {
     setIsLoading(true);
     try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+
+      });
+
+      if (roleFilter!==''&&roleFilter) {
+        params.append('role',roleFilter);
+      }
+      if(accountStatus){
+        params.append('status',accountStatus.toString());
+
+      }
       const response = await axiosInstance.get(
-        `/user/users/created_by_ins?page=1&limit=5&status=${accountStatus}&role=${roleFilter}`
+        `/user/users/created_by_ins?${params.toString()}`
       );
       // console.log("all users created by super user", response);
       setFilteredData(response.data?.res);
@@ -66,7 +83,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     fetchAllUsers(); // Call fetchData directly inside useEffect
-  }, [roleFilter, page]);
+  }, [roleFilter, page,accountStatus]);
 
   const UsersData = filteredData?.users || [];
 
@@ -121,9 +138,15 @@ const UserManagement = () => {
     setEditModalOpen(true);
   };
 
-  const handleEditModalClose = () => {
-    setEditModalOpen(false);
-    // setSelectedUserId(null);
+  const handleRoleChange = (e) => {
+   
+    setRoleFilter(e.target.value);
+  };
+  const handleStatus = (e) => {
+    
+    setAccountStatus(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter(selectedOption.text);
   };
 
   console.log("user status",accountStatus);
@@ -135,18 +158,62 @@ const UserManagement = () => {
         User Management
       </h1>
 
-      <div className="flex w-full px-8 justify-between">
+      <div className="flex w-full px-5 justify-between items-center">
 
-    <div className="w-full  flex justify">
-    <div className="">
-          <RoleSelect roleOptions={SuperUserChildren} setRoleFilter={setRoleFilter} />
+    <div className="w-full  flex justify mr-4 gap-8">
+    <div className="flex flex-col   ">
+          <label htmlFor="state" className={labelStyle?.data}>
+           Select Role
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleRoleChange}
+          >
+            <option value='' >All Roles</option>
+           
+
+            {SuperUserChildren.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          
         </div>
+        <div className="flex flex-col mr-16  ">
+        <label htmlFor="state" className={labelStyle?.data}>
+        Select Status
+        </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleStatus}
+        >
+          
+          <option value="">Status</option>
+
+          {UserStatus.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+        {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+      </div>
+      </div>
+
+      <div>
         {/* <div className="">
         <SelectStatus options={UserStatus} setAccountStatus={setAccountStatus} />
       </div> */}
     </div>
 
-        <div className="w-full flex flex-col space-y-4 ">
+        <div className="w-full flex flex-col mt-3 ">
           <div className="self-end">
             <Link
             href={"/userCreation/create"}
@@ -166,24 +233,22 @@ const UserManagement = () => {
         </div>
 
       </div>
-  <div className="">
-  {/* {editModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-            
-              <EditIndividualUser
-                userId={selectedUserId}
-                onClose={handleEditModalClose}
-                fetchData={fetchAllUsers}
-              />
-            
-          </div>
-        )} */}
-  <div>
-        <DataTable data={UsersData} columns={userColumn} />
-      </div>
+      {filteredData?.totalCount > 0 ? (
+         
+            <DataTable data={UsersData} columns={userColumn} />
+          
+        ) : (
+          <NoUsersMessage
+              
+              roleFilter={roleFilter}
+              statusFilter={statusFilter}
+              
+
+            />
+        )}
       
   </div>
-    </div>
+  
   );
 };
 

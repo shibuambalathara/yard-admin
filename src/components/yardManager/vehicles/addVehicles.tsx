@@ -312,6 +312,7 @@ const AddVehicle = () => {
               name="colour"
               register={register}
               errors={errors}
+              required={false}
               pattern
             />
             <InputField
@@ -321,6 +322,7 @@ const AddVehicle = () => {
               register={register}
               errors={errors}
               pattern
+              required={false}
             />
 
             <div>
@@ -378,6 +380,8 @@ const AddVehicle = () => {
               register={register}
               errors={errors}
               pattern
+              required={false}
+
             />
 
             <div className="">
@@ -401,49 +405,49 @@ const AddVehicle = () => {
               pattern
             />
             <FileUploadInput
-              label="Front Images"
+              label="Front image"
               name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files
               register={register}
               accept="image/*"
             
             />
             <FileUploadInput
-              label="Back Images"
+              label="Back image"
               name="files.BACK_IMAGE" // Accessing BACK_IMAGE from files
               register={register}
               accept="image/*"
            
             />
             <FileUploadInput
-              label="Right Images"
+              label="Right image"
               name="files.RIGHT_IMAGE" // Accessing RIGHT_IMAGE from files
               register={register}
               accept="image/*"
              
             />
             <FileUploadInput
-              label="Left Images"
+              label="Left image"
               name="files.LEFT_IMAGE" // Accessing LEFT_IMAGE from files
               register={register}
               accept="image/*"
             
             />
             <FileUploadInput
-              label="Odometer Images"
+              label="Odometer image"
               name="files.ODOMETER_IMAGE" // Accessing ODOMETER_IMAGE from files
               register={register}
               accept="image/*"
              
             />
             <FileUploadInput
-              label="Interior Images"
+              label="Interior image"
               name="files.INTERIOR_IMAGE" // Accessing INTERIOR_IMAGE from files
               register={register}
               accept="image/*"
               
             />
             <FileUploadInput
-              label="Other Images"
+              label="Other image"
               name="files.OTHER_IMAGE" // Accessing OTHER_IMAGE from files
               register={register}
               accept="image/*"

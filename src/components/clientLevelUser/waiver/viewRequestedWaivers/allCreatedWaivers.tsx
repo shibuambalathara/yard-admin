@@ -144,7 +144,7 @@ const AllCreatedWaivers = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pages, yardFilter, vehicleCategoryFilter, statusFilter, ]);
+  }, [pages, yardFilter, vehicleCategoryFilter, statusFilter ]);
 
   const handleRowSelection = (id: string) => {
     setSelectedRowIds((prev) => {
@@ -222,7 +222,7 @@ const AllCreatedWaivers = () => {
       },
       {
         id: 'view',
-        header: 'Action',
+        header: 'View',
         cell: ({ row }) => (
           <div className="flex justify-center ">
             <View row={row} onEditClick={handleEditClick} />
@@ -263,10 +263,10 @@ const AllCreatedWaivers = () => {
   };
  
   const handleOwnershipStatus = (e) => {
-    const value = e.target.value;
     
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    setStatusFilter(selectedOption.text);
+    
+    
+    setStatusFilter(e.target.value);
   };
   const handleOrgChange = (e) => {
     setClient(e.target.value);
@@ -280,7 +280,7 @@ const AllCreatedWaivers = () => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
        All created waivers
       </h1>
-      <div className="grid grid-cols-3 pl-6 pt-5 items-center">
+      <div className="grid grid-cols-3 pl-5 pt-5 items-center">
         <div className="mb-">
           <div className="flex flex-col w-24">
             <label htmlFor="yard" className={labelStyle?.data}>
@@ -292,7 +292,7 @@ const AllCreatedWaivers = () => {
               defaultValue=""
               onChange={handleYardChange}
             >
-              <option value="">ALL Yards</option>
+                <option value="">All Yards</option>
               {yardData.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.yard_name}
@@ -312,7 +312,7 @@ const AllCreatedWaivers = () => {
               defaultValue=""
               onChange={handleVehicleCategoryChange}
             >
-              <option value="">ALL Vehicle Categories</option>
+               <option value="">All Vehicle Categories</option>
               {vehicleCategory.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.name}
@@ -344,7 +344,7 @@ const AllCreatedWaivers = () => {
         <div className="mb-">
           <div className="flex flex-col w-24">
             <label htmlFor="status" className={labelStyle?.data}>
-              Status
+              Select Status
             </label>
             <select
               id="status"
@@ -352,7 +352,7 @@ const AllCreatedWaivers = () => {
               defaultValue=""
               onChange={handleOwnershipStatus}
             >
-              <option value="">Status</option>
+               <option value=''>All Status</option>
               { VehicleState.map((item,index) => (
                 <option key={index} value={item.value}>
                   {item.label}
@@ -372,7 +372,7 @@ const AllCreatedWaivers = () => {
                 <IndividualCreatedWaiver
                   waiverId={selectedUserId}
                   onClose={handleEditModalClose}
-                  // fetchData={fetchData}
+                  fetch={fetchData}
                 />
               </div>
             </div>
@@ -383,7 +383,7 @@ const AllCreatedWaivers = () => {
         ) : (
           <div className="w-full">
              
-              <div className="mt-0.5">
+             <div className="mt-0.5">
             <div className="relative rounded-md shadow-sm max-w-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CiSearch className="h-5 w-5 text-gray-800" aria-hidden="true" />
@@ -393,13 +393,13 @@ const AllCreatedWaivers = () => {
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder="Search"
-                className="border w-44 focus:ring-indigo-500 focus:outline-none block m-2 pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
+                className="border w-44 focus:ring-indigo-500 focus:outline-none block  pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
               />
             </div>
           </div>
           <div className="mt-2 ring-1 w-full h-fit ring-gray-300 rounded-lg overflow-auto">
             <table className="min-w-full divide-y divide-gray-300 relative">
-              <thead className="bg-gray-700 rounded-lg">
+              <thead className="bg-gray-700 rounded-lg text-left">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id} className="divide-x divide-gray-500">
                     {headerGroup.headers.map((header) => (
@@ -437,11 +437,11 @@ const AllCreatedWaivers = () => {
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
-                        key={cell.id}
-                        className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
+                      key={cell.id}
+                      className="px-2 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left"
+                    >
+                       <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
+                    </td>
                     ))}
                   </tr>
                 ))}

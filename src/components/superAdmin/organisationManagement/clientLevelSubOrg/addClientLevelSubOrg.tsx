@@ -197,7 +197,7 @@ const CreateClientLevelSubOrganisation = () => {
 
                 <div className="mb-">
                   <SelectComponent
-                    label="Select user"
+                    label="Select User"
                     options={allSubUsers}
                     name="user_id"
                     register={register}

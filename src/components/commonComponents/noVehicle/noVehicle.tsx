@@ -26,7 +26,7 @@ const NoVehicleMessage = (props) => {
         {roleFilter ? (
           <>
 
-          <span>No Vehicle Found for selected Option</span>
+          <span>No Vehicle Found for selected filters</span>
             {/* No {typeFilter} found in <span className='font-bold'>{roleFilter}</span>
             {statusFilter && (
               <> with status <span className='font-bold'>{statusFilter}</span></>

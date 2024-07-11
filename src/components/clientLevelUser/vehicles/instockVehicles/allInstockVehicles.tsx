@@ -142,7 +142,7 @@ const AllInstockVehicles = () => {
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -172,8 +172,8 @@ const AllInstockVehicles = () => {
        All Instock Vehicles
       </h1>
 
-      <div className="flex w-full space-x-14 borde">
-  <div className="flex flex-col   ml-8">
+      <div className="flex w-full space-x-14 borde px-5">
+  <div className="flex flex-col  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -206,7 +206,7 @@ const AllInstockVehicles = () => {
           defaultValue=""
           onChange={handleYardSelection}
         >
-          <option value="">All Yards</option>
+            <option value="">All Yards</option>
           {/* <option value="">ALL STATE</option> */}
 
           {allYardsOptions.map((option, index) => (
@@ -237,7 +237,7 @@ const AllInstockVehicles = () => {
         <DataTable data={UsersData} columns={userColumn} />
       )}
       <div className="w-full text-center">
-        {allInstockVehicles?.totalCount>0 && (
+        {allInstockVehicles?.totalCount>0 && (  
           <Pagination
             page={page}
             setPage={setPage}
@@ -261,7 +261,7 @@ export default AllInstockVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 px-2 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

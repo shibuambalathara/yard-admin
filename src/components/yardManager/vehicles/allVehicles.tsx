@@ -10,6 +10,7 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import Pagination from "@/components/pagination/pagination";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -21,16 +22,16 @@ const AllVehicles = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setCategory] = useState(null);
-
+  const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(5);
 
   const fetchVehicles = async () => {
     setIsLoading(true);
 
     try {
       const params = new URLSearchParams({
-        page: page.toString(),
+        page: page?.toString(),
         limit: limit?.toString(),
       });
 
@@ -117,7 +118,7 @@ const AllVehicles = () => {
       },
 
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row)
       },
     ],
@@ -127,6 +128,8 @@ const AllVehicles = () => {
   const handleCatChange = (e) => {
     const value = e.target.value;
     setCategory(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
   const handleOwnershipStatus = (e) => {
     const value = e.target.value;
@@ -138,8 +141,8 @@ const AllVehicles = () => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Vehicles
       </h1>
-
-      <div className="flex flex-col w-40  ml-8">
+     <div className="flex items-end">
+      <div className="flex flex-col w-40  ml-5">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -159,35 +162,40 @@ const AllVehicles = () => {
         </select>
       </div>
 
-      <div className="flex w-full px-8 justify-between">
-        <div className="flex justify-end w-full">
+     
+        <div className="flex justify-end w-full h-fit">
           <Link
             href={`/vehicle/addvehicle`}
             // onClick={handleModal}
-            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
           >
             Add
           </Link>
         </div>
-      </div>
+        </div>
       <div>
-        {
-          filteredData && <DataTable data={UsersData} columns={userColumn} />
-
-          /* )} */
-        }
-        <div className="w-full text-center">
-          {filteredData?.totalCount >0 && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-              limit={limit}
-            />
-          )}
+      {filteredData?.totalCount < 1 ? (
+          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+        ) : (
+          <div className="w-full">
+             
+              <DataTable data={UsersData} columns={userColumn} />
+            
+            <div className="w-full text-center">
+              {filteredData?.totalCount > 0 && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData?.totalCount}
+                />
+              )}
+            </div>
+          </div>
+        )}
         </div>
       </div>
-    </div>
+    
   );
 };
 

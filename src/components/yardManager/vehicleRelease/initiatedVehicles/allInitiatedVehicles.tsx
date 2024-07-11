@@ -16,6 +16,7 @@ import AddParkFee from "@/components/yardManager/parkFee/addParkFee";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import { log } from "util";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllInitiatedVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -29,6 +30,9 @@ const AllInitiatedVehicles = () => {
   const [selectedYard, setSelectedYard] = useState("");
   const [vehicleInitiated, setVehicleInitiated] = useState([]);
   const [allClientLevelOrg, setAllClientLevelOrg] = useState();
+  const [limit, setLimit] = useState(5);
+  const [catFilter, setCatFilter] = useState("");
+  const [yardFilter, setYardFilter] = useState("");
 
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
@@ -77,7 +81,7 @@ const AllInitiatedVehicles = () => {
 
       const response = await axiosInstance.get(`release?${params.toString()}`);
       console.log("resopnse of  INITIATED VEHCIES", response);
-
+      setFilteredData(response?.data?.res?.totalCount);
       setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
     } catch (error) {
       console.log("error", error);
@@ -169,11 +173,12 @@ const AllInitiatedVehicles = () => {
   const handleCategorySelect = (e) => {
     const value = e.target.value;
     setVehiclecat(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
-  const handleYardSelection = (e) => {
-    const value = e.target.value;
-    setSelectedYard(value);
-  };
+
+  
+
   const handleOwnershipStatus = (e) => {
     const value = e.target.value;
     setVehicleStatus(value);
@@ -185,7 +190,7 @@ const AllInitiatedVehicles = () => {
       </h1>
 
       <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
-        <div className="flex flex-col  ">
+        <div className="flex flex-col mr-14">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -206,13 +211,25 @@ const AllInitiatedVehicles = () => {
         </div>
       </div>
       <div>
-        {
-          vehicleInitiated && (
-            <DataTable data={UsersData} columns={userColumn} />
-          )
-
-          /* )} */
-        }
+      {filteredData < 1 ? (
+          <NoVehicleMessage typeFilter="Initiated Vehicles" catFilter={catFilter}  yardFilter={yardFilter}/>
+        ) : (
+          <div className="w-full">
+            {vehicleInitiated && (
+              <DataTable data={UsersData} columns={userColumn} />
+            )}
+            <div className="w-full text-center">
+              {filteredData > 0 && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData}
+                />
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

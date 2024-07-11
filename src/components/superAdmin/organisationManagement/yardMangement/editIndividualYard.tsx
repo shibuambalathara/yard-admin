@@ -149,9 +149,7 @@ const EdityardDataYard = ({ yardId }) => {
     AllUsers.push({ value: yardData?.user_id, label: yardData?.user });
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
@@ -166,12 +164,12 @@ const EdityardDataYard = ({ yardId }) => {
 
         <form
           onSubmit={handleSubmit(editYard)}
-          className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
+          className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center justify-between"
         >
           
 
          
-          <div>
+          <div className="mt-3">
             <InputField
               label="Yard Name"
               type="text"
@@ -181,17 +179,7 @@ const EdityardDataYard = ({ yardId }) => {
               pattern=""
             />
           </div>
-          <div className="mt-2">
-            <SelectInput
-              label="Select User"
-              options={AllUsers}
-              name="user_id"
-              register={register}
-              error={errors}
-              required={false}
-              defaultValue={''}
-            />
-          </div>
+          
           <div>
             <InputField
               label="Field Executive Name"
@@ -210,6 +198,17 @@ const EdityardDataYard = ({ yardId }) => {
               register={register}
               errors={errors}
               pattern=""
+            />
+          </div>
+          <div className="">
+            <SelectInput
+              label="Select User"
+              options={AllUsers}
+              name="user_id"
+              register={register}
+              error={errors}
+              required={false}
+              defaultValue={''}
             />
           </div>
           <SelectChange
@@ -272,7 +271,7 @@ export const SelectChange = (props) => {
   }=props
   
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col">
       <label htmlFor={name} className={labelStyle?.data}>
         {label}
       </label>

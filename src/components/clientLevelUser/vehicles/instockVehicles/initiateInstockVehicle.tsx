@@ -139,7 +139,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
       const response = await axiosInstance.post("/release/initiate", data);
       
       router.push("/vehicles/instockVehicles");
-      
+      toast.success(response?.data?.message)
     } catch (error) {
       toast.error(error?.response?.data?.message);
       console.log("error of post mehtod", error);
@@ -172,23 +172,20 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
         /></div>}
       
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-         Instock Vehicle
+         Instock Vehicle Details
         </h2>
 
         <div className="w-full  flex justify-end">
           <button
             onClick={handleInitiateClick}
-            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
+            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
           >
-            Initate Vehicle Release
+            Initate  Release
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
-          <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
-            {" "}
-            Vehicle Details
-          </h2>
+         
           <InputField
             disabled={true}
             label="Loan Number"
@@ -279,6 +276,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
               register={register}
               errors={errors}
               defaultValue=""
+              disabled={true}
             />
           </div>
           <InputField
@@ -362,7 +360,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
                   .replace("_", " ")
                   .toLowerCase()
                   .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                s
+                
               </h2>
               {imageList?.map((image, index) => (
                 <div

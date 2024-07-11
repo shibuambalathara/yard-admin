@@ -127,9 +127,9 @@ console.log('clientCatId',typeof(clientId));
   </button>
   <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
     <h1 className=" font-bold  ">Edit Client Category</h1>
-    <p className=" cursor-pointer" onClick={onClose}>
+    {/* <p className=" cursor-pointer" onClick={onClose}>
       x
-    </p>
+    </p> */}
   </div>
   <form
   onSubmit={handleSubmit(EditClientCategory)}

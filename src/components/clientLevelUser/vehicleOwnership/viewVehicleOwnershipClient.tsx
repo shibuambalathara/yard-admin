@@ -63,6 +63,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
+  
   console.log(ownershipId);
   const router = useRouter();
   const {
@@ -163,8 +164,8 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className=" text-2xl text-center uppercase font-extrabold text-gray-900">
-          Vehicle Ownership
+        <h2 className=" text-2xl text-center  font-extrabold text-gray-900">
+          Vehicle Ownership Details
         </h2>
 
         <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
@@ -226,9 +227,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           </div>
         </form>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
-          <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
-            Vehicle Details
-          </h2>
+          
           <InputField
             disabled={true}
             label="Loan Number"
@@ -397,7 +396,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
                     .replace("_", " ")
                     .toLowerCase()
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  s
+                  
                 </h2>
 
                 {imageList?.map((image, index) => (

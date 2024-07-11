@@ -127,6 +127,8 @@ const IndividualReleasedVehicle = ({ releaseId }) => {
         `/release/${releaseId?.releasedVehicleId}`
       );
       setVehicleData(response.data.res);
+      console.log(response);
+      
     } catch (error) {
       console.error("error", error);
     }

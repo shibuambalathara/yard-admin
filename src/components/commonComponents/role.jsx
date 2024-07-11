@@ -1,11 +1,11 @@
 import {AccountStatus} from "@/utils/staticData"
 import { inputStyle, labelStyle } from "../ui/style";
-export const RoleSelect = ({ roleOptions, setRoleFilter, placeholder = "select a role" }) => {
+export const RoleSelect = ({ roleOptions, setRoleFilter, placeholder = "Select A Role" }) => {
   return (
     <div className="max-w-md mx-auto mt-4">
       <select
         id="role-select"
-        className="block w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+        className="block w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 focus:outline-none  "
         onChange={(e) => setRoleFilter(e.target.value)}
       >
         <option  value="">{placeholder}</option>

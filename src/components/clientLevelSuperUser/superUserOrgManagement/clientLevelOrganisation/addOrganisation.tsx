@@ -97,6 +97,7 @@ console.log("useeffect",clientLevelSuperUserUsers);
       
       fetchData()
       onClose()
+      toast.success(response?.data?.message)
     } catch (error) {
       // console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -117,7 +118,7 @@ console.log("useeffect",clientLevelSuperUserUsers);
      <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
            
               <InputField
-                label="Enter Organisation"
+                label="Enter Organisation Name"
                 type="text"
                 name="cl_org_name"
                 register={register}
@@ -128,7 +129,7 @@ console.log("useeffect",clientLevelSuperUserUsers);
           
             <div className="mb-">
               <SelectComponent
-                label="Select a User"
+                label="Select  User"
                 options={allClientLevelUsers}
                 name="user_id"
                 register={register}
@@ -156,7 +157,7 @@ console.log("useeffect",clientLevelSuperUserUsers);
               
               <div className="mb-">
               <SelectComponent
-                label="Select a State"
+                label="Select  State"
                 options={State}
                 name="state"
                 register={register}

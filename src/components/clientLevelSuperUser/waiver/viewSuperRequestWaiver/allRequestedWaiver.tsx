@@ -221,7 +221,7 @@ const AllRequestedWaiver = () => {
       },
       {
         id: "view",
-        header: "Action ",
+        header: "View",
         cell: ({ row }) => (
           <div className="flex justify-center relative z-10">
             <View row={row} onEditClick={handleEditClick} />
@@ -283,14 +283,14 @@ const AllRequestedWaiver = () => {
   return (
     <div className="w-full">
       <h1 className='w-full  text-center text-lg font-bold mt-4'>All CREATED WAVIER</h1>
-      <div className="grid grid-cols-3 pl-6 pt-5 items-center">
+      <div className="grid grid-cols-3 pl-6 pt-5 px-5">
       <div>
 
 
 <label htmlFor="client" className={labelStyle.data}>Select Client</label>
 
 <select id="client" className={inputStyle.data} onChange={handleOrgChange}>
-<option value="">All Categories</option>
+<option value="">Select Client</option>
   {superClientOptions.map((option, index) => (
     <option key={index} value={option.value}>{option.label}</option>
   ))}
@@ -306,7 +306,7 @@ const AllRequestedWaiver = () => {
               defaultValue=""
               onChange={handleYardChange}
             >
-              <option value="">ALL Yards</option>
+                <option value="">All Yards</option>
               {yardData.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.yard_name}
@@ -326,7 +326,7 @@ const AllRequestedWaiver = () => {
               defaultValue=""
               onChange={handleVehicleCategoryChange}
             >
-              <option value="">ALL Vehicle Categories</option>
+               <option value="">All Vehicle Categories</option>
               {vehicleCategory.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.name}
@@ -341,7 +341,7 @@ const AllRequestedWaiver = () => {
         <div className="mb-">
           <div className="flex flex-col w-24">
             <label htmlFor="status" className={labelStyle?.data}>
-              Status
+            Select Status
             </label>
             <select
               id="status"
@@ -349,7 +349,7 @@ const AllRequestedWaiver = () => {
               defaultValue=""
               onChange={handlestatusChange}
             >
-              <option value="">Status</option>
+               <option value="">All Status</option>
               { VehicleState.map((item,index) => (
                 <option key={index} value={item.value}>
                   {item.label}
@@ -372,7 +372,7 @@ const AllRequestedWaiver = () => {
         <div className="flex w-full h-screen items-center justify-center"><Spinner/></div>
       ) : (
         <div className="w-full p-5">
-          <div className="mt-0.5">
+           <div className="mt-0.5">
             <div className="relative rounded-md shadow-sm max-w-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CiSearch className="h-5 w-5 text-gray-800" aria-hidden="true" />
@@ -382,13 +382,13 @@ const AllRequestedWaiver = () => {
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder="Search"
-                className="border w-44 focus:ring-indigo-500 focus:outline-none block m-2 pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
+                className="border w-44 focus:ring-indigo-500 focus:outline-none block  pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
               />
             </div>
           </div>
           <div className="mt-2 ring-1 w-full h-fit ring-gray-300 rounded-lg overflow-auto">
             <table className="min-w-full divide-y divide-gray-300 relative">
-              <thead className="bg-gray-700 rounded-lg">
+              <thead className="bg-gray-700 rounded-lg text-left">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id} className="divide-x divide-gray-500">
                     {headerGroup.headers.map((header) => (
@@ -425,12 +425,12 @@ const AllRequestedWaiver = () => {
                     className="divide-x divide-gray-300 cursor-pointer hover:bg-indigo-50"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td
-                        key={cell.id}
-                        className="px-6 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200"
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
+                     <td
+                     key={cell.id}
+                     className="px-2 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left"
+                   >
+                      <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
+                   </td>
                     ))}
                   </tr>
                 ))}

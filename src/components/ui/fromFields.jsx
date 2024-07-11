@@ -18,7 +18,7 @@ export const FormFieldInput = ({
   defaultValue,
   error,
   placeholder,
-
+  disabled=false,
   ...rest
 }) => {
   const handleInputChange = (event) => {
@@ -43,6 +43,7 @@ export const FormFieldInput = ({
         className={`${inputStyle.data}`}
         placeholder={placeholder}
         onChange={handleInputChange}
+        disabled
       />
 
       {error && <p className="text-red-500 text-start">{`${label} Required`}</p>}
@@ -89,7 +90,7 @@ export const InputField = ({
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         // export const inputStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded border `}
 
-        className={`${inputStyle.data} ${name === `name` && `uppercase`} `}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${disabled && `bg-gray-100`} `}
         onChange={handleInputChange}
         placeholder={placeholder}
       />

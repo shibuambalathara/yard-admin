@@ -19,7 +19,7 @@ const getRoleLabel = (roleValue) => {
   }
 };
 
-const NoUsersMessage = ({ roleFilter, statusFilter }) => {
+const NoUsersMessage = ({ roleFilter, statusFilter="" }) => {
 
   if (roleFilter === "" || statusFilter === "") {
     return (
@@ -37,7 +37,7 @@ const NoUsersMessage = ({ roleFilter, statusFilter }) => {
         </svg>
         <p className="text-gray-500 text-md mt-4 flex items-center">
           <span className="font-bold text-lg font-poppins upper shadow-2xl">
-          Please select user role and status
+          Please select user role {statusFilter &&statusFilter }
           </span>
         </p>
       </div>
@@ -73,12 +73,19 @@ const NoUsersMessage = ({ roleFilter, statusFilter }) => {
 
 
       </div>
-      <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
-        No users for <span className="font-bold">{roleLabel}</span> with status{" "}
-        <span className="font-bold">{statusFilter}</span>{" "}
+      <div className="flex">
+      <p className="text-gray-700 text-md font-semibold mb-2 uppercase flex">
+        No users for <span className="font-bold ml-2">{roleLabel}
+          
+          </span> 
+          
+         
       </p>
+      {statusFilter !=='Status' &&statusFilter &&(< div className="flex"><p className="text-gray-700 text-md font-semibold mb-2 uppercase ml-2"> with status{" "}</p>
+        <span className="font-bold ml-2">{statusFilter}</span>{" "}</div>)}
+        </div>
       <p className="text-gray-500 text-md mt-4">
-        Try adjusting your filters or adding new users.
+      Try adjusting your filters or adding new users  
       </p>
     </div>
     

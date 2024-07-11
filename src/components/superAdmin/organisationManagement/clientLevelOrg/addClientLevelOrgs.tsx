@@ -153,7 +153,7 @@ const CreateClientLevelOrganisation = () => {
             onSubmit={handleSubmit(createClientLevelOrganisation)}
             className="  border-gray-200 "
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 place-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center">
               <div className="mb-">
                 <InputField
                   label=" Organisation Name"
@@ -166,7 +166,7 @@ const CreateClientLevelOrganisation = () => {
               </div>
               <div className="mb-">
                 <SelectComponent
-                  label="Select user"
+                  label="Select User"
                   options={AllUsers}
                   name="user_id"
                   register={register}
@@ -177,7 +177,7 @@ const CreateClientLevelOrganisation = () => {
               </div>
               <div className="mb-">
                 <SelectComponent
-                  label="Select super organisation"
+                  label="Select Super Organisation"
                   options={clientLevelSuperUsers}
                   name="clsup_org_id"
                   register={register}

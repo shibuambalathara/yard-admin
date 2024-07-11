@@ -23,6 +23,9 @@ import { inputStyle, labelStyle } from "@/components/ui/style";
 import Pagination from "@/components/pagination/pagination";
 import { VehicleState } from "@/utils/staticData";
 import EditWaivers from "./editWaivers";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import Loading from "@/app/(home)/(superAdmin)/loading";
+import Spinner from "@/components/commonComponents/spinner/spinner";
 
 type User = {
   fee_per_day: number;
@@ -62,6 +65,9 @@ const AllWaivers = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [limit, setLimit] = useState(5);
+  const [catFilter, setCatFilter] = useState("");
+  const [clientFilter, setClientFilter] = useState("");
+  const [statusFilter2, setStatusFilter2] = useState("");
   const {
     register,
     handleSubmit,
@@ -196,7 +202,7 @@ const AllWaivers = () => {
       },
       {
         id: "view",
-        header: "Action",
+        header: "View",
         cell: ({ row }) => (
           <button
             onClick={() => handleEditClick(row.original.id)}
@@ -230,20 +236,27 @@ const AllWaivers = () => {
     onGlobalFilterChange: setGlobalFilter,
   });
 
-  const handlestatusChange = (e) => {
-    setStatusFilter(e.target.value);
-  };
-
-  const handleVehicleCategoryChange = (e) => {
-    setVehicleCategoryFilter(e.target.value);
+  const handleCatChange = (e) => {
+    const value = e.target.value;
+    setVehicleCategoryFilter(value);
+    
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
   const handleOrgChange = (e) => {
     const value = e.target.value;
     setClient(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setClientFilter(selectedOption.text);
   };
 
-  console.log(statusFilter);
+  const handleStatus=(e)=>{
 
+    const value = e.target.value;
+    setStatusFilter(value)
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter2(selectedOption.text);
+  }
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
@@ -273,15 +286,15 @@ const AllWaivers = () => {
         <div className="mb-">
           <div className="flex flex-col w-24">
             <label htmlFor="yard" className={labelStyle?.data}>
-              Status
+             Select Status
             </label>
             <select
               id="status"
               className={inputStyle?.data}
               defaultValue=""
-              onChange={handlestatusChange}
+              onChange={handleStatus}
             >
-              <option value="">Status</option>
+               <option value="">All Status</option>
               {VehicleState.map((option, index) => (
                 <option key={index} value={option.value}>
                   {option.label}
@@ -299,9 +312,9 @@ const AllWaivers = () => {
               id="vehicleCategory"
               className={inputStyle?.data}
               defaultValue=""
-              onChange={handleVehicleCategoryChange}
+              onChange={ handleCatChange}
             >
-              <option value="">ALL Vehicle Categories</option>
+               <option value="">All Vehicle Categories</option>
               {vehicleCategoryOptions.map((option, index) => (
                 <option key={index} value={option.value}>
                   {option.label}
@@ -322,11 +335,7 @@ const AllWaivers = () => {
         </div> */}
       </div>
 
-      {loading ? (
-        <div className="flex w-full h-screen items-center justify-center">
-          Loading...
-        </div>
-      ) : (
+      
         <div className="w-full p-5">
           {/* {editModalOpen && (
             <div className="relative border ">
@@ -351,20 +360,23 @@ const AllWaivers = () => {
               </div>
             )}
           </div>
-          <div className="mt-0.5">
+          
+          <div className="w-full text-center">
+          {pageCount < 1 ? (
+         <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  clientFilter={clientFilter} statusFilter={statusFilter}/>
+        ) : (
+          <div className="w-full">
+            <div className="mt-0.5">
             <div className="relative rounded-md shadow-sm max-w-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <CiSearch
-                  className="h-5 w-5 text-gray-800"
-                  aria-hidden="true"
-                />
+                <CiSearch className="h-5 w-5 text-gray-800" aria-hidden="true" />
               </div>
               <input
                 type="text"
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder="Search"
-                className="border w-44 focus:ring-indigo-500 focus:outline-none block m-2 pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
+                className="border w-44 focus:ring-indigo-500 focus:outline-none block  pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -426,18 +438,23 @@ const AllWaivers = () => {
               </tbody>
             </table>
           </div>
-          <div className="w-full text-center">
-            {pageCount && (
-              <Pagination
-                page={pages}
-                setPage={setPages}
-                totalDataCount={pageCount}
-                limit={limit}
-              />
-            )}
+             
+            
+            <div className="w-full text-center">
+              {pageCount > 0 && (
+                <Pagination
+                  page={pages}
+                  setPage={setPages}
+                  limit={limit}
+                  totalDataCount={pageCount}
+                />
+              )}
+            </div>
+          </div>
+        )}
           </div>
         </div>
-      )}
+     
     </div>
   );
 };

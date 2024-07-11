@@ -184,7 +184,7 @@ const ViewIndividualClientLevelOrg = ({ userId, onClose, fetchData }) => {
         >
           <div className="grid  grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide ">
             <InputField
-              label=" Enter Organisation"
+              label=" Enter Organisation Name"
               type="text"
               name="cl_org_name"
               register={register}

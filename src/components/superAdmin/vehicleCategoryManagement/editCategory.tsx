@@ -116,9 +116,7 @@ const ViewVehicleCategory = ({ categoryId,onClose,fetchData }) => {
         </button>
         <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
           <h1 className=" font-bold  ">Edit Vehicle Category</h1>
-          <p className=" cursor-pointer" onClick={onClose}>
-            x
-          </p>
+        
         </div>
         <form onSubmit={handleSubmit(EditVehilceCategory)} className="  border-gray-200 ">
           <div className=" grid grid-cols-1 gap-5 justify-center  p-2 border ">

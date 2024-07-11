@@ -124,7 +124,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
   const tabs = {
     "Yard Details": <YardDetails vehicle={vehicleData} />,
     "Vehicle Details": <VehicleDetails vehicle={vehicleData} />,
-    "Vehicle ownership": <VehicleOwnerships vehicle={vehicleData} />,
+    "Vehicle Ownership": <VehicleOwnerships vehicle={vehicleData} />,
    
   }
 
@@ -138,13 +138,13 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
          
         /></div>}  
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">Initiate Release</h2>
+        <h2 className="text-center text-2xl font-extrabold text-gray-900">Initiated Vehicle Details</h2>
         <div className="w-full flex justify-end">
           <button
             onClick={handleInitiateClick}
-            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600"
-          >
-            CANCEL VEHICLE RELEASE
+            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 capitalize"
+          > 
+            cancel release
           </button>
         </div>
         <section>
@@ -210,18 +210,19 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
             <h2 className="text-2xl font-bold text-gray-800">Confirm Action</h2>
           </div>
           <p className="text-gray-700 mb-6">Are you sure you want to cancel the initiated vehicle?</p>
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-3">
+            
+            <button
+              onClick={onCancel}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg ml-2 hover:bg-red-600 focus:outline-none"
+            >
+              Cancel
+            </button>
             <button
               onClick={onConfirm}
               className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none"
             >
               Confirm
-            </button>
-            <button
-              onClick={onCancel}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg ml-2 hover:bg-gray-400 focus:outline-none"
-            >
-              Cancel
             </button>
           </div>
         </div>

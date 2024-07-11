@@ -50,7 +50,7 @@ const DataTable = ({ data, columns }) => {
                 value={filtering}
                 onChange={(e) => setFiltering(e.target.value)}
                 placeholder="Search"
-                className="border w-44 focus:ring-indigo-500 focus:outline-none block m-2 pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
+                className="border w-44 focus:ring-indigo-500 focus:outline-none block  pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -97,11 +97,11 @@ const DataTable = ({ data, columns }) => {
                   >
                     {row?.getVisibleCells().map((cell) => (
                       <td
-                        className="text-left p-4 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200  "
-                        key={cell.id}
-                      >
-                        <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
-                      </td>
+                      key={cell.id}
+                      className="px-2 py-3.5 text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left"
+                    >
+                       <div className="justify-start flex">{flexRender(cell?.column?.columnDef?.cell, cell.getContext())}</div>
+                    </td>
                     ))}
                   </tr>
                 ))}

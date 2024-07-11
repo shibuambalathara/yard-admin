@@ -12,6 +12,14 @@ export const RoleAliass = {
   "CLIENT_LEVEL_USER": "CLIENT LEVEL USER",
   "CLIENT_LEVEL_SUB_USER": "CLIENT LEVEL SUB USER",
 };
+export const HeaderRole  = {
+  "SUPER_ADMIN": "SUPER ADMIN ",
+  "YARD_MANAGER": "YARD MANAGER",
+  "CLIENT_LEVEL_SUPER_USER": " SUPER USER",
+  "CLIENT_LEVEL_USER": " USER",
+  "CLIENT_LEVEL_SUB_USER": " SUB USER",
+};
+
 
 export const Role = [
   { label: "Super Admin", value: "SUPER_ADMIN" },
@@ -20,6 +28,7 @@ export const Role = [
   { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
   { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
 ];
+
 
 export const SuperUserChildren = [
   { label: "Yard Manager", value: "YARD_MANAGER" },
@@ -34,7 +43,7 @@ export const AccountStatus = [
 ];
 
 export const UserStatus=[
-  { label: "ACTIVE", value: 0},
+  { label: "ACTIVE", value: 1},
   { label: "INACTIVE", value: 0},
   ,
 ]
@@ -51,6 +60,8 @@ export const VehicleState = [
   { label: "APPROVED", value: "APPROVED" },
 ];
 
+
+
 export const ReleaseStatus = [
   { label: "INITIATED", value: "INITIATED" },
   { label: "CANCELLED", value: "CANCELLED" },
@@ -61,7 +72,11 @@ export const WaiverStatus = [
   { label: "CANCELLED", value: "CANCELLED" },
   // { label: "APPROVED", value: "APPROVED" },
 ];
-
+// export const YardWaiver = [
+//   { label: "PENDING", value: "PENDING" },
+//   { label: "CANCELLED", value: "CANCELLED" },
+//   { label: "APPROVED", value: "APPROVED" },
+// ];
 export const vehicleStatus = [
   { label: "YES", value: 1 },
   { label: "NO", value: 0 },

@@ -11,6 +11,7 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllVehicleOwnerships = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -26,7 +27,9 @@ const AllVehicleOwnerships = () => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [client, setClient] = useState("");
   const [ownershipStatus,setOwnerShipStatus]=useState("")
-
+  const [catFilter, setCatFilter] = useState("");
+  const [clientFilter, setClientFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   //  toast.success(success)
   // toast.error(error)
   const FetchClientLevelOrgs = useCallback(async () => {
@@ -163,7 +166,7 @@ const AllVehicleOwnerships = () => {
       },
 
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -181,21 +184,25 @@ const AllVehicleOwnerships = () => {
   const handleCatChange = (e) => {
     const value = e.target.value;
     setCategory(value);
+    
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
   const handleOrgChange = (e) => {
     const value = e.target.value;
     setClient(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setClientFilter(selectedOption.text);
   };
 
   const handleStatus=(e)=>{
 
     const value = e.target.value;
-
-    console.log("value from ownership fo yardmanager",value);
-    
-
     setOwnerShipStatus(value)
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter(selectedOption.text);
   }
+  
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
@@ -203,7 +210,7 @@ const AllVehicleOwnerships = () => {
       </h1>
 
       <div className=" grid grid-cols-3 place-items-center mt-6  ">
-        <div className="flex flex-col   ">
+        <div className="flex flex-col  mr-16  ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Client
           </label>
@@ -229,7 +236,7 @@ const AllVehicleOwnerships = () => {
 
        
 
-        <div className="flex flex-col ">
+        <div className="flex flex-col mr-16  ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -252,9 +259,9 @@ const AllVehicleOwnerships = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
         </div>
-        <div className="flex flex-col  ">
+        <div className="flex flex-col mr-16  ">
         <label htmlFor="state" className={labelStyle?.data}>
-          Status
+         Select Status
         </label>
         <select
           id="state"
@@ -262,7 +269,7 @@ const AllVehicleOwnerships = () => {
           defaultValue=""
           onChange={handleStatus}
         >
-          <option value="">Select Status</option>
+          <option value="">All Status</option>
           {/* <option value="">ALL STATE</option> */}
 
           {VehicleState.map((option, index) => (
@@ -278,28 +285,29 @@ const AllVehicleOwnerships = () => {
       </div>
 
       <div>
-        {/* {isLoading ? (
-          <div className="flex w-full h-screen items-center justify-center">
-            <Loading />
+      
+      {filteredData?.totalCount < 1 ? (
+         <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  yardFilter={clientFilter} statusFilter={statusFilter}/>
+        ) : (
+          <div className="w-full">
+             
+              <DataTable data={UsersData} columns={userColumn} />
+            
+            <div className="w-full text-center">
+              {filteredData?.totalCount > 0 && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  limit={limit}
+                  totalDataCount={filteredData?.totalCount}
+                />
+              )}
+            </div>
           </div>
-        ) : ( */}
-        {
-          filteredData && <DataTable data={UsersData} columns={userColumn} />
-
-          /* )} */
-        }
-        <div className="w-full text-center">
-          {filteredData?.totalCount && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-              limit={limit}
-            />
-          )}
+        )}
         </div>
       </div>
-    </div>
+   
   );
 };
 
@@ -308,7 +316,7 @@ export default AllVehicleOwnerships;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-2 ">
       <p>
         <MdOutlineViewHeadline />
       </p>

@@ -174,7 +174,7 @@ const AllCancelledVehicles = () => {
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Action",
+        header: "View",
         cell: ({ row }) => View(row),
       },
     ],
@@ -195,7 +195,7 @@ const AllCancelledVehicles = () => {
     const value = e.target.value;
     setSelectedYard(value);
     const selectedOption = e.target.options[e.target.selectedIndex];
-    setYardFilter(selectedOption.text);
+    setYardFilter(selectedOption?.text);
   };
  
   return (
@@ -204,7 +204,7 @@ const AllCancelledVehicles = () => {
         All Cancelled Vehicles  
       </h1>
 
-      <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
+      <div className=" grid grid-cols-3 w-full  gap-4     px-5">
   <div className="flex flex-col  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
@@ -259,9 +259,9 @@ const AllCancelledVehicles = () => {
           <NoVehicleMessage typeFilter="Cancelled Vehicles" catFilter={catFilter}  yardFilter={yardFilter}/>
         ) : (
           <div className="w-full">
-             (
+             
               <DataTable data={UsersData} columns={userColumn} />
-            )
+            
             <div className="w-full text-center">
               {filteredData > 0 && (
                 <Pagination
@@ -285,7 +285,7 @@ export default AllCancelledVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 px-2 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
