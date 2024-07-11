@@ -203,7 +203,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
         <div className="max-w-5xl w-full h-fit bg-white p-8 rounded-lg shadow-lg">
           <div className="flex justify-between items-center border-b pb-4 mb-6">
             <h1 className="text-2xl font-bold text-gray-700">
-              Create Organisation
+               update Organisation
             </h1>
           </div>
           <form

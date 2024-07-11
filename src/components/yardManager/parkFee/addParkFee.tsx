@@ -97,12 +97,12 @@ const AddParkFee = ({ onClose, fetchData }) => {
       );
       console.log("response after creating park fee", response);
       
-      toast.success(response?.data?.res?.message);
+      toast.success(response?.data?.message);
       fetchData()
       onClose()
     } catch (error) {
       console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      toast.error("Already Exsist");
     }
     // Handle form submission
   },[])
@@ -136,7 +136,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
             </div>
             <div className="mb-">
               <SelectComponent
-                label="Selec Client Organisation"
+                label="Select Client Organisation"
                 options={allClientLevelOrganisations}
                 name="cl_org_id"
                 register={register}
@@ -147,7 +147,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
             </div>
             <div className="mb-">
               <SelectComponent
-                label="Selec Vehicle Category"
+                label="Select Vehicle Category"
                 options={vehicleCategorys}
                 name="vehicle_category_id"
                 register={register}

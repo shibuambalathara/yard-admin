@@ -119,7 +119,7 @@ const UserRegistration = () => {
           error={errors.contact}
           defaultValue=""
           required
-          placeholder="contact"
+          placeholder="Contact"
         />
         <FormFieldInput
           label=""

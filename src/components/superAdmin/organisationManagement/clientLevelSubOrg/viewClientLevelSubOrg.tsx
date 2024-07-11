@@ -358,7 +358,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
             </div>
             <div>
               <SelectInput
-                label="Selec user"
+                label="Select user"
                 options={allSubUsers}
                 name="user_id"
                 register={register}

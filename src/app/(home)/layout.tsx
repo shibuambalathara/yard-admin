@@ -55,7 +55,7 @@ export default async function RootLayout({
   
   
   return (
-    <html lang="en" className="h-full  ">
+    <html lang="en" className="h-full capitalize ">
       <head></head>
 
       <body
