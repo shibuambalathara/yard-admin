@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role, SuperUserChildren,RoleAliass } from "@/utils/staticData";
+import { Role, SuperUserChildren,RoleAliass, UserStatus } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -14,6 +14,7 @@ import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateUser from "@/components/clientLevelSuperUser/userManagement/createUser";
 import EditIndividualUser from "@/components/clientLevelSuperUser/userManagement/editUser";
+import { inputStyle, labelStyle } from "@/components/ui/style";
 
 
 
@@ -66,7 +67,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     fetchAllUsers(); // Call fetchData directly inside useEffect
-  }, [roleFilter, page]);
+  }, [roleFilter, page,accountStatus]);
 
   const UsersData = filteredData?.users || [];
 
@@ -121,9 +122,13 @@ const UserManagement = () => {
     setEditModalOpen(true);
   };
 
-  const handleEditModalClose = () => {
-    setEditModalOpen(false);
-    // setSelectedUserId(null);
+  const handleRoleChange = (e) => {
+    const value = e.target.value;
+    setRoleFilter(value);
+  };
+  const handleStatus = (e) => {
+    const value = e.target.value;
+    setAccountStatus(value);
   };
 
   console.log("user status",accountStatus);
@@ -135,18 +140,62 @@ const UserManagement = () => {
         User Management
       </h1>
 
-      <div className="flex w-full px-8 justify-between">
+      <div className="flex w-full px-6 justify-between items-center">
 
-    <div className="w-full  flex justify">
-    <div className="">
-          <RoleSelect roleOptions={SuperUserChildren} setRoleFilter={setRoleFilter} />
+    <div className="w-full  flex justify mr-4 gap-8">
+    <div className="flex flex-col   ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Role
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleRoleChange}
+          >
+            <option value="">All Roles</option>
+           
+
+            {Role.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          
         </div>
+        <div className="flex flex-col mr-16  ">
+        <label htmlFor="state" className={labelStyle?.data}>
+          Status
+        </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleStatus}
+        >
+          
+          {/* <option value="">ALL STATE</option> */}
+
+          {UserStatus.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+        {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+      </div>
+      </div>
+
+      <div>
         {/* <div className="">
         <SelectStatus options={UserStatus} setAccountStatus={setAccountStatus} />
       </div> */}
     </div>
 
-        <div className="w-full flex flex-col space-y-4 ">
+        <div className="w-full flex flex-col mt-3 ">
           <div className="self-end">
             <Link
             href={"/userCreation/create"}

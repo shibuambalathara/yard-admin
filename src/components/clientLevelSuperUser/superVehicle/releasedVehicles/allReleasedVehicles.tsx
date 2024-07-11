@@ -225,7 +225,7 @@ const AllReleasedVehicles = () => {
         All Released Vehicles
       </h1>
 
-      <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
+      <div className=" grid grid-cols-2 w-full  gap-4     place-items-start px-5">
         <div>
           <label htmlFor="client" className={labelStyle.data}>
             Select Client

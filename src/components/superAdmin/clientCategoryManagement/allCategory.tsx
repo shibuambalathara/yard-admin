@@ -102,10 +102,10 @@ const ClientCategoryManagement = () => {
             {/* <RoleSelect roleOptions={Role} setRoleFilter={setRoleFilter} /> */}
           </div>
           <div className="w-full flex flex-col space-y-4">
-            <div className="self-end">
+            <div className="self-end pr-20">
               <button
                 onClick={handleModalOpen}
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+                className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mr-12"
               >
                 Add
               </button>

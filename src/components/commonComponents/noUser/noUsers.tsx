@@ -78,7 +78,7 @@ const NoUsersMessage = ({ roleFilter, statusFilter }) => {
         <span className="font-bold">{statusFilter}</span>{" "}
       </p>
       <p className="text-gray-500 text-md mt-4">
-        Try adjusting your filters or adding new users.
+      Try adjusting your filters or adding new users  
       </p>
     </div>
     

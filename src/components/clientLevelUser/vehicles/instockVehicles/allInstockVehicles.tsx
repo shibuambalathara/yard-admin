@@ -206,7 +206,7 @@ const AllInstockVehicles = () => {
           defaultValue=""
           onChange={handleYardSelection}
         >
-          <option value="">All Yards</option>
+            <option value="">All Yards</option>
           {/* <option value="">ALL STATE</option> */}
 
           {allYardsOptions.map((option, index) => (
@@ -237,7 +237,7 @@ const AllInstockVehicles = () => {
         <DataTable data={UsersData} columns={userColumn} />
       )}
       <div className="w-full text-center">
-        {allInstockVehicles?.totalCount>0 && (
+        {allInstockVehicles?.totalCount>0 && (  
           <Pagination
             page={page}
             setPage={setPage}

@@ -203,7 +203,7 @@ const AllInstockVehicles = () => {
       </h1>
 
       <div className="grid grid-cols-3 w-full space-x-14 borde mt-4">
-        <div className="flex flex-col   ml-8">
+        <div className="flex flex-col   ml-6">
           <label htmlFor="client" className={labelStyle.data}>
             Select Client
           </label>
@@ -220,7 +220,7 @@ const AllInstockVehicles = () => {
             ))}
           </select>{" "}
         </div>
-        <div className="flex flex-col   ml-8">
+        <div className="flex flex-col   ml-5">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -243,7 +243,7 @@ const AllInstockVehicles = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
         </div>
-        <div className="flex flex-col   ml-8">
+        <div className="flex flex-col    ml-6">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Yard
           </label>
