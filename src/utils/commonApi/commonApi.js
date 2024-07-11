@@ -89,3 +89,26 @@ export const FetchAllClientCategory = async () => {
     return []; // Return an empty array or appropriate fallback
   }
 }
+
+
+ 
+export const getUserProfile = async() => {
+    try {
+      const response = await axiosInstance.get('/user/profile'); // Adjust the URL as needed
+      return response?.data?.res;
+
+      console.log("profile response", response);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  export const updateUserProfile = async (data) => {
+    try {
+      const response = await axiosInstance.put(`/user/profile`, data); // replace `/path/to/api` with your actual API endpoint
+      return response;
+    } catch (error) {
+     
+      console.log("error",error);
+    }
+  };

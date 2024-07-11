@@ -41,7 +41,7 @@ const ViewFullUserProfile = ({ profileId }) => {
   const [error, setError] = useState(null);
   const [initialData, setInitialData] = useState<Inputs | null>(null); // Store initial values
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
-
+ const router=useRouter()
   useEffect(() => {
     if (success) {
       toast.success(success.text ? success.text : "Success");
@@ -140,6 +140,7 @@ const ViewFullUserProfile = ({ profileId }) => {
       );
       console.log("response of updating user", response);
       toast.success(response?.data?.message);
+      router.push("/userManagement")
     } catch (error) {
       console.error("Error updating user data", error);
       toast.error(error?.data?.response?.message);
@@ -248,7 +249,7 @@ const ViewFullUserProfile = ({ profileId }) => {
                 defaultValue=""
               />
             </div>
-            <div className="mb- h-auto">
+            {/* <div className="mb- h-auto">
               <SelectInput
                 label="Document Type"
                 options={DocumentType}
@@ -259,9 +260,9 @@ const ViewFullUserProfile = ({ profileId }) => {
                 placeholder="Select document type"
                 defaultValue="Select document type"
               />
-            </div>
+            </div> */}
             
-          <div className="col-span-2 w-72 space-y-1">
+          {/* <div className="col-span-2 w-72 space-y-1">
             <label className="block font-semibold " htmlFor="document_value">
               Document Value
             </label>
@@ -274,7 +275,7 @@ const ViewFullUserProfile = ({ profileId }) => {
             {errors.document_value && (
               <p className="text-red-500">Document Value is required</p>
             )}
-          </div>
+          </div> */}
            {/* <FileUploadInput
                 label=" Document Values"
                 name="document_value" 

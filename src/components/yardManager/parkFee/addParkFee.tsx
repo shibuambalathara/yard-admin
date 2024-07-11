@@ -97,12 +97,12 @@ const AddParkFee = ({ onClose, fetchData }) => {
       );
       console.log("response after creating park fee", response);
       
-      toast.success(response?.data?.res?.message);
+      toast.success(response?.data?.message);
       fetchData()
       onClose()
     } catch (error) {
       console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      toast.error("Already Exsist");
     }
     // Handle form submission
   },[])
