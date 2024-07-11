@@ -292,7 +292,7 @@ const AllCreatedWaivers = () => {
               defaultValue=""
               onChange={handleYardChange}
             >
-              <option value="">ALL Yards</option>
+                <option value="">All Yards</option>
               {yardData.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.yard_name}
@@ -312,7 +312,7 @@ const AllCreatedWaivers = () => {
               defaultValue=""
               onChange={handleVehicleCategoryChange}
             >
-              <option value="">ALL Vehicle Categories</option>
+               <option value="">All Vehicle Categories</option>
               {vehicleCategory.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.name}
@@ -352,7 +352,7 @@ const AllCreatedWaivers = () => {
               defaultValue=""
               onChange={handleOwnershipStatus}
             >
-              <option value="">Status</option>
+               <option value="">All Status</option>
               { VehicleState.map((item,index) => (
                 <option key={index} value={item.value}>
                   {item.label}

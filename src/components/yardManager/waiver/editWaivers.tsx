@@ -61,7 +61,7 @@ const router = useRouter();
     } finally {
       setIsLoading(false);
     }
-  };
+  }; 
 
   useEffect(() => {
     fetchWaiver();

@@ -283,7 +283,7 @@ const AllRequestedWaiver = () => {
   return (
     <div className="w-full">
       <h1 className='w-full  text-center text-lg font-bold mt-4'>All CREATED WAVIER</h1>
-      <div className="grid grid-cols-3 pl-6 pt-5 items-center">
+      <div className="grid grid-cols-2 pl-6 pt-5 items-center">
       <div>
 
 
@@ -306,7 +306,7 @@ const AllRequestedWaiver = () => {
               defaultValue=""
               onChange={handleYardChange}
             >
-              <option value="">ALL Yards</option>
+                <option value="">All Yards</option>
               {yardData.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.yard_name}
@@ -326,7 +326,7 @@ const AllRequestedWaiver = () => {
               defaultValue=""
               onChange={handleVehicleCategoryChange}
             >
-              <option value="">ALL Vehicle Categories</option>
+               <option value="">All Vehicle Categories</option>
               {vehicleCategory.map((option, index) => (
                 <option key={index} value={option.id}>
                   {option.name}
@@ -349,7 +349,7 @@ const AllRequestedWaiver = () => {
               defaultValue=""
               onChange={handlestatusChange}
             >
-              <option value="">Status</option>
+               <option value="">All Status</option>
               { VehicleState.map((item,index) => (
                 <option key={index} value={item.value}>
                   {item.label}

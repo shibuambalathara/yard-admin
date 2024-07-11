@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import DataTable from "@/components/tables/dataTable";
-import { Role,RoleAliass } from "@/utils/staticData";
+import { Role,RoleAliass, UserStatus } from "@/utils/staticData";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
 import CreateUserModal from "@/components/superAdmin/UserManagment/createUser";
@@ -16,10 +16,16 @@ import {
   RoleSelect,
   FilterComponent,
 } from "@/components/commonComponents/role";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
+import { inputStyle, labelStyle } from "@/components/ui/style";
 // import ConfirmationModal from "@/components/modals/confirmOwnership/confirmOwnership";
 
 const UserManagement = () => {
-  const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
+  const [roleFilter, setRoleFilter] = useState("");
+  
+  const [status, setStatus] = useState('1');
+  const [statusFilter, setStatusFilter] = useState("");
   const [filteredData, setFilteredData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
@@ -30,7 +36,7 @@ const UserManagement = () => {
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [blockUser, setBlockUser] = useState(null);
   const [isBlockAction, setIsBlockAction] = useState(true);
-
+  const [roleSetFilter, setRoleSetFilter] = useState("");
 
   useEffect(() => {
     if (success) {
@@ -48,13 +54,28 @@ const UserManagement = () => {
       }, 2000);
     }
   }, [success, error]);
+  
 
   const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axiosInstance.get(
-        `/user/users?page=${page}&limit=${limit}&status=1&role=${roleFilter}`
-      );
+    setIsLoading(true);try {
+      const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+
+        });
+        if (roleFilter) {
+          params.append('role',roleFilter);
+        }
+        if(status){
+          params.append('status',status);
+
+        }
+
+        const response = await axiosInstance.get(
+          `/user/users?${params.toString()}`
+        );
+    
+      
       // console.log("all users", response);
       setFilteredData(response.data?.res);
     
@@ -72,8 +93,22 @@ const UserManagement = () => {
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
-  }, [roleFilter, page]);
+  }, [roleFilter, page,status]);
 
+
+  const handleStatus = (e) => {
+    const value = e.target.value;
+    setStatus(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setStatusFilter(selectedOption.text);
+  };
+
+
+
+  const handleRoleChange = (e) => {
+    const value = e.target.value;
+    setRoleFilter(value);
+  };
   const UsersData = filteredData?.users || [];
 
   const userColumn = useMemo(
@@ -126,7 +161,7 @@ const UserManagement = () => {
       //       },
       {
         id: "isBlocked",
-        header: "Status",
+        header: "Action",
         cell: ({ row }) => {
           const isBlocked = row?.original?.is_blocked;
 
@@ -134,13 +169,13 @@ const UserManagement = () => {
             <div
               className={`border-2 p-1 ${
                 isBlocked ? "bg-red-500" : "bg-green-600"
-              } space-x-2 font-semibold w-fit rounded-md uppercase text-center flex justify-center items-center`}
+              } space-x-2 font-semibold w-fit rounded-md uppercase text-center flex justify-center items-center px-2`}
             >
               <p className="text-lg">
                 {isBlocked ? <FaUserLargeSlash /> : <FaUserLarge />}
               </p>
               <button
-                className="text-white font-semibold uppercase"
+                className="text-white font-semibold capitalize "
                 onClick={() => openConfirmationModal(row.original, isBlocked)}
               >
                 {isBlocked ? "Unblock" : "Block"}
@@ -223,23 +258,57 @@ const UserManagement = () => {
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
         User Management
       </h1>
-      <div className="flex w-full px-8 justify-between items-center  ">
-        <div className="">
-       
-          <FilterComponent
-            label=""
-            name="role"
-            options={Role}
-            setValue={setRoleFilter}
-          placeholder="Select a Role"
+      <div className="flex w-full px-5 justify-between items-center  ">
+        
+        <div className="flex flex-col   ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Role
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
             defaultValue=""
-          />
+            onChange={handleRoleChange}
+          >
+            <option value="">All Roles</option>
+           
+
+            {Role.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
+          
         </div>
-        <div >
+        <div className="flex flex-col   ml-8">
+        <label htmlFor="state" className={labelStyle?.data}>
+            Status
+          </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleStatus}
+        >
+         
+          {/* <option value="">ALL STATE</option> */}
+
+          {UserStatus.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+        {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+      </div>
+        <div  className="mt-5 ">
           <Link
             href={`/userManagement/createUser`}
             // onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-8 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-500 text-white py-2 px-8 rounded hover:bg-blue-600 transition duration-200 " 
           >
             Add 
           </Link>
@@ -252,11 +321,13 @@ const UserManagement = () => {
             <Loading />
           </div>
         ) : ( */}
-        {filteredData && (
+        {filteredData?.totalCount<1 ? (
+    <NoUsersMessage   roleFilter={roleFilter}   statusFilter={statusFilter} />
+  ) : (
           <>
             <DataTable data={UsersData} columns={userColumn} />
             <div className="w-full text-center">
-              {filteredData?.totalCount && (
+              {filteredData?.totalCount>0 && (
                 <Pagination
                   page={page}
                   setPage={setPage}

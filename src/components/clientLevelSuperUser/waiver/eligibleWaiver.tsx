@@ -324,7 +324,7 @@ const SelectionTable = () => {
               defaultValue=""
               onChange={handleYardChange}
             >
-              <option value="">ALL Yards</option>
+                <option value="">All Yards</option>
               {yardOptions.map((option, index) => (
                 <option key={index} value={option.value}>
                   {option.label}
@@ -344,7 +344,7 @@ const SelectionTable = () => {
               defaultValue=""
               onChange={handleVehicleCategoryChange}
             >
-              <option value="">ALL Vehicle Categories</option>
+               <option value="">All Vehicle Categories</option>
               {vehicleCategoryOptions.map((option, index) => (
                 <option key={index} value={option.value}>
                   {option.label}

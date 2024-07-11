@@ -294,9 +294,9 @@ const AllVehicleOwnershipClient = () => {
           <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  yardFilter={yardFilter} statusFilter={statusFilter}/>
         ) : (
           <div className="w-full">
-             (
+             
               <DataTable data={UsersData} columns={userColumn} />
-            )
+            
             <div className="w-full text-center">
               {filteredData > 0 && (
                 <Pagination

@@ -117,7 +117,7 @@ const AccountVerificationRequests = () => {
     },
   ];
 
-  const handleOrgChange = (e) => {
+  const handleRoleChange = (e) => {
     const value = e.target.value;
     setRoleFilter(value);
   };
@@ -143,7 +143,7 @@ const AccountVerificationRequests = () => {
       </h1>
 
       <div className="w-full  space-x-4 flex text-center  mx-4 items-center  ">
-        <div className="flex w-full px-8  space-x-10 items-center  ">
+        <div className="flex w-full   space-x-10 items-center  ">
           <div className="">
             {/* <FilterComponent
               label=""
@@ -161,9 +161,9 @@ const AccountVerificationRequests = () => {
             id="state"
             className={inputStyle?.data}
             defaultValue=""
-            onChange={handleOrgChange}
+            onChange={handleRoleChange}
           >
-            <option value="">All Client</option>
+            <option value="">All Roles</option>
            
 
             {Role.map((option, index) => (

@@ -85,7 +85,7 @@ const AllSuperVehicleOwnership = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [page, Category, selectedYard, vehicleStatus, client,filteredData]);
+  }, [page, Category, selectedYard, vehicleStatus, client]);
 
   const superClientOptions = children.map(item => ({
     value: item.id,
@@ -151,8 +151,8 @@ const AllSuperVehicleOwnership = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">Vehicle Ownership</h1>
-      <div className="grid grid-cols-2">
-        <div className="flex flex-col ml-8">
+      <div className="grid grid-cols-2 ">
+        <div className="flex flex-col ml-6">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>
          
           <select id="client" className={inputStyle.data} onChange={handleClient}>
@@ -162,7 +162,7 @@ const AllSuperVehicleOwnership = () => {
             ))}
           </select>
         </div>
-        <div className="flex flex-col ml-8">
+        <div className="flex flex-col ml-6">
           <label htmlFor="category" className={labelStyle.data}>Select Category</label>
           <select id="category" className={inputStyle.data} onChange={handleCategorySelect}>
             <option value="">All Categories</option>
@@ -171,16 +171,16 @@ const AllSuperVehicleOwnership = () => {
             ))}
           </select>
         </div>
-        <div className="flex flex-col ml-8">
+        <div className="flex flex-col ml-6">
           <label htmlFor="yard" className={labelStyle.data}>Select Yard</label>
           <select id="yard" className={inputStyle.data} onChange={handleYardSelection}>
-            <option value="">All Yards</option>
+              <option value="">All Yards</option>
             {allYardsOptions.map((option, index) => (
               <option key={index} value={option.value}>{option.label}</option>
             ))}
           </select>
         </div>
-        <div className="flex flex-col ml-8">
+        <div className="flex flex-col ml-6">
           <label htmlFor="status" className={labelStyle.data}>Status</label>
           <select id="status" className={inputStyle.data} onChange={handleOwnershipStatus}>
             <option value="">Select Status</option>

@@ -50,7 +50,7 @@ const DataTable = ({ data, columns }) => {
                 value={filtering}
                 onChange={(e) => setFiltering(e.target.value)}
                 placeholder="Search"
-                className="border w-44 focus:ring-indigo-500 focus:outline-none block m-2 pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
+                className="border w-44 focus:ring-indigo-500 focus:outline-none block  pl-10 rounded-md border-gray-400 p-1 placeholder:font-semibold"
               />
             </div>
           </div>

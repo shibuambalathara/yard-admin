@@ -120,7 +120,7 @@ const UserDetails = () => {
 
       {isOpen && (
         <div className="absolute right-0 z-20 w-56 mt-3 pt-2 overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800 transition-opacity duration-100 ease-out transform scale-100 opacity-100">
-          <a className="flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+          <a href="" className="flex items-center p-3 -mt-2 text-sm cursor-pointer text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
             <FaUserCircle className="flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9" />
             <div className="mx-1">
               <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
@@ -134,12 +134,12 @@ const UserDetails = () => {
 
           <hr className="border-gray-200 dark:border-gray-700" />
           {/* <p className="flex font-medium text-xs text-gray-400 px-4 mt-1 uppercase">role:</p> */}
-          <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-          {userRole && (RoleAliass[userRole] || userRole)}
+          <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform  ">
+          {userRole &&` ${(RoleAliass[userRole] || userRole)}`}
           </p>
           {organisation && (
             <>
-              <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+              <p className="block px-4 py-3 text-xs text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300  ">
                 {organisation}
               </p>
 

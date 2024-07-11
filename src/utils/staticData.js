@@ -34,7 +34,7 @@ export const AccountStatus = [
 ];
 
 export const UserStatus=[
-  { label: "ACTIVE", value: 0},
+  { label: "ACTIVE", value: 1},
   { label: "INACTIVE", value: 0},
   ,
 ]
@@ -50,6 +50,8 @@ export const VehicleState = [
   { label: "REJECTED", value: "REJECTED" },
   { label: "APPROVED", value: "APPROVED" },
 ];
+
+
 
 export const ReleaseStatus = [
   { label: "INITIATED", value: "INITIATED" },
