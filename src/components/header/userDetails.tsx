@@ -16,6 +16,9 @@ const UserDetails = () => {
   const token = authStore.token;
   const role = authStore.role;
 
+  console.log("user from authsoter",user);
+  
+
   const {
     name: userName,
     role: userRole,
@@ -24,7 +27,7 @@ const UserDetails = () => {
     Type,
   } = user || {};
 
-  // console.log("777",user);
+  console.log("user")
   
 
   const [isOpen, setIsOpen] = useState(false);

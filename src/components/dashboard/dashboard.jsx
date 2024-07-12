@@ -3,22 +3,19 @@
 import React, { useState } from 'react'
 import useAuthStore from "../../store/useAuthStore";
 import UnAssginedUser from "@/components/commonComponents/unAssignedUser/unAssignedUser"
+import { useRouter } from 'next/navigation';
 
 
 const Dashboard = () => {
-  // const [userOrganisation, setUserOrganisation]=useState(null)
+  
     const { user,token,role } = useAuthStore();
-    // console.log("user form home page",user);
+    const router=useRouter()
 
-    // const {organisation}=user
-    // // setUserOrganisation(organisation)
-    // // const {name}=user
-
-    // console.log("org form home",organisation,);
-    // // console.log("userOrganistion",userOrganisation);
 
     if( user?.role !=="SUPER_ADMIN" &&  user?.organisation==null){
       return<UnAssginedUser username={user?.name} />
+    }else if (user?.role !=="SUPER_ADMIN" &&  user?.organisation) {
+      router.push("/")
     }
 
     const selectSidebarData = () => {
