@@ -29,7 +29,7 @@ const UnAssignedUser = ({ username }) => {
             <h1 className="text-2xl font-semibold mb-4">Hi {username},</h1>
             <p className="text-md mb-2">Welcome to Autobse Yard Management</p>
             <p className="text-md mb-2">
-              You are currently not assigned to any organization.
+              You are currently not assigned to any Organisation.
             </p>
             <p className="text-md mb-2">So kindly contact the admin.</p>
             <p className="text-md">Thank You</p>

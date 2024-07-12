@@ -140,7 +140,7 @@ console.log("filteredData subOrg",filteredData);
   return (
     <div className="mt-8  ">
       <h1 className="text-center font-bold uppercase text-lg  mb-3 pb-1">
-        Yard Organization
+        Yard Organisation
       </h1>
       <div className="grid grid-cols-3 px-5 items-center  gap-4">
         {/*  */}

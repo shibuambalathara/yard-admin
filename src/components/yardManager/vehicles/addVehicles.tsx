@@ -86,11 +86,11 @@ const AddVehicle = () => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
-      // toast.success("Client level organizations fetched successfully");
+      // toast.success("Client level Organisations fetched successfully");
     } catch (error) {
       console.log("error",error);
       
-      // toast.error("Failed to fetch client level organizations");
+      // toast.error("Failed to fetch client level Organisations");
     }
   }, []);
 

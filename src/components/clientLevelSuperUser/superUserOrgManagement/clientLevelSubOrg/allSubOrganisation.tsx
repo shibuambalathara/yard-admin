@@ -205,7 +205,7 @@ const AllClientLevelSubOrganisation = () => {
 
 
       </div>
-      <span className="text-gray-700 text-md font-semibold mb-2 uppercase">No Sub Organization found </span>
+      <span className="text-gray-700 text-md font-semibold mb-2 uppercase">No Sub Organisation found </span>
       </div>
     )}
 

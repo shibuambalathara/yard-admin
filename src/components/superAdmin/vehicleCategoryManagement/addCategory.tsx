@@ -116,6 +116,7 @@ const Addcategory = ({ onClose,fetchData }) => {
             defaultValue=""
             required
             placeholder="Eg: 2W"
+            disabled={false}
           />
          </div>
           <div>

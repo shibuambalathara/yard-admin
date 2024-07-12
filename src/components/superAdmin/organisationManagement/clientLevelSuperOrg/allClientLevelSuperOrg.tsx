@@ -76,12 +76,12 @@ const AllClientLevelSuperOrganisation = () => {
   const userColumn = useMemo(
     () => [
       {
-        header: "Organization Category",
+        header: "Organisation Category",
         accessorKey: "clsup_org_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "Organization Name",
+        header: "Organisation Name",
         accessorKey: "clsup_org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
