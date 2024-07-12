@@ -130,6 +130,7 @@ const ViewVehicleCategory = ({ categoryId,onClose,fetchData }) => {
           defaultValue={categoryData?.name}
           required
           placeholder=""
+          disabled={false}
         />
         <TextArea
           label=" Category Description"

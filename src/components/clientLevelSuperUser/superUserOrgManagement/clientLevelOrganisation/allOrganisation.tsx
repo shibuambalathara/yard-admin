@@ -82,12 +82,12 @@ const AllOrganisation = () => {
   const userColumn = useMemo(
     () => [
       {
-        header: "Organization Name",
+        header: "Organisation Name",
         accessorKey: "cl_org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Organization Category",
+        header: "Organisation Category",
         accessorKey: "cl_org_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },

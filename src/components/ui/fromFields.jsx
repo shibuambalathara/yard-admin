@@ -43,7 +43,7 @@ export const FormFieldInput = ({
         className={`${inputStyle.data}`}
         placeholder={placeholder}
         onChange={handleInputChange}
-        disabled
+        disabled={disabled}
       />
 
       {error && <p className="text-red-500 text-start">{`${label} Required`}</p>}

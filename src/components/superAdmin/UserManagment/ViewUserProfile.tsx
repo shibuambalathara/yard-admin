@@ -284,10 +284,17 @@ const ViewFullUserProfile = ({ profileId }) => {
                 
               /> */}
         </div>
-        <div className="w-full text-center pt-4">
+        <div className="w-full text-center pt-4 space-x-3">
+        <button
+            type="button"
+            onClick={()=>window.close()}
+            className="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition duration-200"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
+            className="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition duration-200"
           >
             Submit
           </button>
