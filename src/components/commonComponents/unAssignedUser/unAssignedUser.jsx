@@ -6,7 +6,7 @@ const UnAssignedUser = ({ username }) => {
       {username && (
         <div className="flex items-center w-full justify-center min-h-screen bg-gray-50">
           <div className="bg-white p-10 rounded-lg shadow-lg text-center">
-            <svg
+            {/* <svg
               className="w-16 h-16 text-red-500 mx-auto mb-4"
               fill="none"
               stroke="currentColor"
@@ -25,7 +25,7 @@ const UnAssignedUser = ({ username }) => {
                 strokeWidth="2"
                 d="M12 9v4m0 4h.01"
               ></path>
-            </svg>
+            </svg> */}
             <h1 className="text-2xl font-semibold mb-4">Hi {username},</h1>
             <p className="text-md mb-2">Welcome to Autobse Yard Management</p>
             <p className="text-md mb-2">

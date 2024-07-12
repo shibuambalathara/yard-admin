@@ -56,7 +56,15 @@ const useAuthStore = create<AuthStoreType>()(
     devtools(
         persist(
             (set, get) => ({
-                user: null,
+                user: {
+                    name: '',
+                    email: '',
+                    contact: '',
+                    designation: '',
+                    role: '',
+                    organisation: '',
+                    Type: ''
+                  }, // Ensure initial user state has all fields
                 isAuthenticated: false,
                 token: null,
                 role: null,
@@ -95,5 +103,57 @@ const useAuthStore = create<AuthStoreType>()(
         { name: 'auth-store' }
     )
 );
+// const useAuthStore = create<AuthStoreType>()(
+//     devtools(
+//       persist(
+//         (set, get) => ({
+//           user: {
+//             name: '',
+//             email: '',
+//             contact: '',
+//             designation: '',
+//             role: '',
+//             organisation: '',
+//             Type: ''
+//           }, // Ensure initial user state has all fields
+//           isAuthenticated: false,
+//           token: null,
+//           role: null,
+//           setUser: (user) => set((state) => ({ ...state, user })),
+//           setToken: (token) => set((state) => ({ ...state, token })),
+//           login: (user, token, role) => set((state) => ({
+//             ...state,
+//             user,
+//             isAuthenticated: true,
+//             token,
+//             role,
+//           })),
+//           logout: () => {
+//             storage.removeItem('AuthStore'); // Remove persisted state on logout
+//             set(() => ({
+//               user: null,
+//               isAuthenticated: false,
+//               token: null,
+//               role: null,
+//             }));
+//           },
+//           register: (user, token, role) => set((state) => ({
+//             ...state,
+//             user,
+//             isAuthenticated: true,
+//             token,
+//             role,
+//           })),
+//           getToken: () => get().token,
+//         }),
+//         {
+//           name: 'AuthStore',
+//           storage,
+//         }
+//       ),
+//       { name: 'auth-store' }
+//     )
+//   );
+  
 
 export default useAuthStore;

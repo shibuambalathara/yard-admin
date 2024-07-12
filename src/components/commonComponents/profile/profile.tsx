@@ -16,15 +16,14 @@ type Document = {
 };
 
 type User = {
-    code: string;
-    contact: string;
-    designation: string;
-    document?: Document[];
-    email: string;
-    id: string;
-    name: string;
-  };
-  
+  code: string;
+  contact: string;
+  designation: string;
+  document?: Document[];
+  email: string;
+  id: string;
+  name: string;
+};
 
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -38,9 +37,7 @@ const Profile = () => {
   } = useForm<User>();
   const { token, role, setUser: setStoreUser } = useAuthStore();
 
-
-  console.log("userRole",role);
-  
+  // console.log("userRole", role);
 
   const router = useRouter();
 
@@ -48,15 +45,15 @@ const Profile = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await getUserProfile();
-        console.log("profile response", response);
+        // console.log("profile response", response);
         setUser(response);
         const phoneNumber = "+918089688206";
-const cleanedPhoneNumber = response?.contact?.replace("+91", "");
-console.log(cleanedPhoneNumber);
-const modifiedData={
-    ...response,
-    contact:cleanedPhoneNumber
-}
+        const cleanedPhoneNumber = response?.contact?.replace("+91", "");
+        console.log(cleanedPhoneNumber);
+        const modifiedData = {
+          ...response,
+          contact: cleanedPhoneNumber,
+        };
         reset(modifiedData);
       } catch (error) {
         console.log("error", error);
@@ -66,33 +63,97 @@ const modifiedData={
     fetchUserProfile();
   }, []);
 
-  console.log("user", user);
+  // console.log("user 007", user);
 
   const toggleDisabled = () => {
     setIsDisabled(!isDisabled);
   };
   const Back = () => {
-    router.push("");
+    router.back();
   };
+
+  // const UpdateUserProfile = async (data: User) => {
+  //   try {
+  //     const modifiedData = {
+  //       ...data,
+  //       contact: `+91${data?.contact}`,
+  //     };
+  //     const response = await updateUserProfile(modifiedData);
+        
+      
+      
+     
+
+  //     console.log("update response", response);
+  //     toast.success(response?.data?.message);
+  //     setIsDisabled(true);
+  //   } catch (error) {
+  //     console.log("error", error);
+  //     toast.error(error?.response?.data?.message);
+  //   }
+  // };
 
   const UpdateUserProfile = async (data: User) => {
     try {
-        const modifiedData={
-            ...data,
-            contact:`+91${data?.contact}`
-        }
+      // Prepare the data to be sent to the backend
+      const modifiedData = {
+        ...data,
+        contact: `+91${data?.contact}`
+      };
+  
+      // Make the API call to update the user profile
       const response = await updateUserProfile(modifiedData);
-    //   setStoreUser(modifiedData); // Update the user in the store
+  
+      // Check if the response is successful and contains updated data
+      if (response?.data) {
+        const updatedUserData = response?.data?.res;
+        console.log("updatedUserData",updatedUserData);
+        setIsDisabled(true)
+        // Extract only the specific properties to update
+        const updatedProperties = {
+          name: updatedUserData.name,
+          email: updatedUserData.email,
+          contact: updatedUserData.contact,
+          designation: updatedUserData.designation,
+        };
+  
+        console.log("updatedProperties",updatedProperties);
 
-      console.log("update response", response);
-      toast.success(response?.data?.message)
-      setIsDisabled(true)
+        // Get the current user state from useAuthStore
+        const currentUser = useAuthStore.getState().user;
+
+        console.log("current user from store",currentUser);
+        
+  
+        // Merge the specific properties with the current user state
+        if (currentUser) {
+          const updatedUser = {
+            ...currentUser,
+            ...updatedProperties,
+          };
+  
+          console.log("updatedUser to store",updatedUser);
+          
+          // Update the user in the store with the merged data
+          useAuthStore.setState  ({ user: updatedUser });
+  
+          // Display a success message
+          toast.success(response?.data?.message);
+        } else {
+          console.error('Current user not found');
+        }
+      } else {
+        throw new Error('Update failed');
+      }
     } catch (error) {
       console.log("error", error);
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || 'Update failed');
     }
   };
-  const isDocumentUpdateAllowed = role === "YARD_MANAGER" || role === "CLIENT_LEVEL_USER";
+  
+
+  const isDocumentUpdateAllowed =
+    role === "YARD_MANAGER" || role === "CLIENT_LEVEL_USER";
 
   return (
     <div className="bg-gray-100 min-h-screen flex  justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -175,7 +236,7 @@ const modifiedData={
               />
             </div> */}
 
-{/* {isDocumentUpdateAllowed && (
+            {/* {isDocumentUpdateAllowed && (
               <>
                 <div className="col-span-1">
                   <InputField
