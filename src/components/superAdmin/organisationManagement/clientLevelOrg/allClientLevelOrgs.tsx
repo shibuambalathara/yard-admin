@@ -14,6 +14,7 @@ import { GrFormView } from "react-icons/gr";
 import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateClientLevelOrg from "@/components/superAdmin/organisationManagement/clientLevelOrg/addClientLevelOrgs";
 import Pagination from "@/components/pagination/pagination";
+import { CgOrganisation } from "react-icons/cg";
 
 const AllClientLevelOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
@@ -122,14 +123,27 @@ const AllClientLevelOrganisation = () => {
         </div>
       </div>
       <div>
+      {filteredData?.totalCount< 1?( <div className="flex flex-col justify-center items-center h-96 p-8">
+      <div className="mb-6">
+        <CgOrganisation className='text-red-500 font-bold text-6xl' />
+      </div>
+      <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
         
-        {
-          filteredData && <DataTable data={UsersData} columns={userColumn} />
+          <>
 
-          /* )} */
-        }
-        <div className="w-full text-center">
-          {filteredData?.totalCount && (
+          <span>No Organization  Found</span>
+         
+          </>
+        
+      </p>
+      
+    </div>):( <>
+      {filteredData && 
+
+      <>
+            <DataTable data={UsersData} columns={userColumn} />
+            <div className="w-full text-center">
+          {filteredData?.totalCount >0 && (
             <Pagination
               page={page}
               setPage={setPage}
@@ -138,9 +152,17 @@ const AllClientLevelOrganisation = () => {
             />
           )}
         </div>
+
+      </>
+
+
+      
+      }
+</>)}
+        </div>
       </div>
       
-    </div>
+  
   );
 };
 

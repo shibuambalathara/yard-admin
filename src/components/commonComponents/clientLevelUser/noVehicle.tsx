@@ -3,7 +3,7 @@ import { TbCarOff } from "react-icons/tb";
 
 const NoVehicleMessage = (props) => {
   const { roleFilter, statusFilter, typeFilter ,catFilter,
-  yardFilter, clientFilter} = props;
+  yardFilter, clientFilter ,stateFilter,districtFilter} = props;
 
   console.log(yardFilter);
 
@@ -23,7 +23,12 @@ const NoVehicleMessage = (props) => {
           { clientFilter && (
               <> for Client <span className='font-bold'>{ clientFilter}</span></>
             )}  
-         
+            { stateFilter && (
+              <> IN <span className='font-bold'>{ stateFilter}</span></>
+            )}  
+         { districtFilter && (
+              <> IN <span className='font-bold'>{ districtFilter}</span></>
+            )} 
             {catFilter && (
               <> for Category <span className='font-bold'>{catFilter}</span></>
             )}
@@ -36,7 +41,7 @@ const NoVehicleMessage = (props) => {
           </>
         
       </p>
-      <p className="text-gray-500 text-md mt-4"> There is no vehicles  try adjusting the filters </p>
+      <p className="text-gray-500 text-md mt-4"> There is no {typeFilter} try adjusting the filters </p>
     </div>
   );
 };

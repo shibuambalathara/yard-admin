@@ -173,7 +173,7 @@ console.log("ilnut datas",data);
       toast.success(response?.data?.message)
       setFormModalOpen(false)
       router.push("/releasevehicle/releasedVehicles")
-      router.back();
+      window.close()
     } catch (error) {
       console.log("error from initiate vehicle release",error);
       toast.error(error?.response?.data?.message)
@@ -206,7 +206,14 @@ console.log("ilnut datas",data);
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
          Released Vehicle
         </h2>
-
+        <div className="w-full  flex justify-end mt-4">
+          <button
+            onClick={handleInitiateClick}
+            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 mr-2 "
+          >
+            Update Release
+          </button>
+        </div>
         <section>
           <div>
             {/* <div className="mb-4 text-xl font-semibold text-gray-900">
@@ -245,14 +252,7 @@ console.log("ilnut datas",data);
               </TabGroup>
             </div>
 
-            <div className="w-full  flex justify-start mt-4">
-          <button
-            onClick={handleInitiateClick}
-            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
-          >
-            Update Release
-          </button>
-        </div>
+          
           </div>
         </section>
 

@@ -34,6 +34,7 @@ const CreateClientLevelSubOrganisation = () => {
     handleSubmit,
     reset,
     control,
+    
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -207,15 +208,16 @@ const CreateClientLevelSubOrganisation = () => {
                   />
                 </div>
                 <div className="p-4 w-80">
-                  <CustomMultiSelect
-                    control={control}
-                    name="vehicleCatIds"
-                    options={allVehicleCategorys}
-                    placeholder="Select Vehicle Category"
-                    label="Select Vehicle Category"
-                    defaultValue=""
-                  />
-                </div>
+              <CustomMultiSelect
+                control={control }
+                name="vehicleCatIds"
+                options={allVehicleCategorys}
+                placeholder="Select Vehicle Category"
+                label="Select Vehicle Category"
+                defaultValue=""
+                rules={{ required: "This field is required" }} // Add validation rules
+              />
+            </div>
                 <div className="mb-">
                   <SelectComponent
                     label="Select Client Organisation "

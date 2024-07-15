@@ -46,7 +46,7 @@ export const FormFieldInput = ({
         disabled={disabled}
       />
 
-      {error && <p className="text-red-500 text-start">{`${label} Required`}</p>}
+      {error && <p className="text-red-500 text-start">{`This field is required`}</p>}
     </div>
   );
 };
@@ -95,7 +95,7 @@ export const InputField = ({
         placeholder={placeholder}
       />
       {errors[name] && (
-        <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
+        <p className="text-red-500  mt-1">{'This field is required'}</p>
       )}
     </div>
   );
@@ -177,7 +177,7 @@ export const FormFieldInputLoginInput = ({
         placeholder={placeholder}
       />
 
-      {error && <p className="text-red-500">{`${label} Required`}</p>}
+      {error && <p className="text-red-500">This field is required</p>}
     </div>
   );
 };
@@ -257,7 +257,7 @@ export const SelectInput = ({
             </option>
           ))}
       </select>
-      {error[name] && <p className="text-red-500">{name} is required</p>}
+      {error[name] && <p className="text-red-500">This field is required</p>}
     </div>
   );
 };
@@ -299,7 +299,7 @@ export const SelectComponent = ({
           ))}
       </select>
       {errors && errors[name] && (
-        <p className="text-red-500">{name} is required</p>
+        <p className="text-red-500">This field is required</p>
       )}
     </div>
   );
@@ -353,7 +353,7 @@ export const AccountVerificatioSelect = ({
             </option>
           ))}
       </select>
-      {error && <p className="text-red-500">{`${label} Required`}</p>}
+      {error && <p className="text-red-500">{`This field is required`}</p>}
     </div>
   );
 };
@@ -414,7 +414,7 @@ export const TextArea = ({
         rows="10"
         className="w-96 h-20 border-2 py-6 px-2 mt-2  place "
       ></textarea>
-      {error && <p className="text-red-500">{`${label} Required`}</p>}
+      {error && <p className="text-red-500">This field is required</p>}
     </div>
   );
 };
@@ -483,45 +483,48 @@ const customStyles = {
   }),
 };
 
-export const CustomMultiSelect = ({
-  control,
-  name,
-  options,
-  placeholder,
-  label,
-  defaultValue
-}) => {
-  return (
-    <div className="flex flex-col w-full ">
-      <label className={`${labelStyle.data} mb-2`}>
-        {label}
-      </label>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <Select
-            {...field}
-            isMulti
-            options={options}
-           
-            className={inputStyles.data}
-            classNamePrefix="react-select"
-            placeholder={placeholder}
-            onChange={(selected) =>
-              field.onChange(selected?.map((option) => option?.value))
-            }
-            value={options?.filter((option) =>
-              field?.value?.includes(option?.value)
-            )}
-          />
-        )}
-      />
-    </div>
-  );
-};
-
-
+  export const CustomMultiSelect = ({
+    control,
+    name,
+    options,
+    placeholder,
+    label,
+    defaultValue,
+    rules={} // Accept rules as a prop
+  }) => {
+    return (
+      <div className="flex flex-col w-full">
+        <label className="mb-2">
+          {label}
+        </label>
+        <Controller
+          name={name}
+          control={control}
+          defaultValue={defaultValue} // Set default value
+          rules={rules} // Apply validation rules
+          render={({ field, fieldState: { error } }) => (
+            <>
+              <Select
+                {...field}
+                isMulti
+                options={options}
+                className="react-select-container"
+                classNamePrefix="react-select"
+                placeholder={placeholder}
+                onChange={(selected) =>
+                  field.onChange(selected?.map((option) => option?.value))
+                }
+                value={options?.filter((option) =>
+                  field?.value?.includes(option?.value)
+                )}
+              />
+              {error && <p className="text-red-500 mt-1">This field is required</p>}
+            </>
+          )}
+        />
+      </div>
+    );
+  }
 
 export const CustomMultiSelectForEdit = ({
   control,

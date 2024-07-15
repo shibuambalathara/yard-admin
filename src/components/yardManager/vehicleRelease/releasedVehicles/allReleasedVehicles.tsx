@@ -203,7 +203,7 @@ const AllReleasedVehicles = () => {
         </div>
       </div>
       <div>
-      {filteredData < 1 ? (
+      {filteredData < 0 ? (
           <NoVehicleMessage typeFilter="Released Vehicles" catFilter={catFilter}  yardFilter={yardFilter}/>
         ) : (
           <div className="w-full">
@@ -232,7 +232,7 @@ export default AllReleasedVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md px-2">
       <p>
         <MdOutlineViewHeadline />
       </p>
