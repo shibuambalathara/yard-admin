@@ -20,7 +20,7 @@ type Inputs = {
   park_fee_per_day: string;
 };
 
-const EditParkFeeIndividual = ({ userId,onClose }) => {
+const EditParkFeeIndividual = ({ userId,onClose,fetchData }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [clientcategoryData, SetClientCategoryData] = useState(null);
@@ -119,6 +119,7 @@ const EditParkFeeIndividual = ({ userId,onClose }) => {
         text: response?.data?.message,
       });
       onClose()
+      fetchData()
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
