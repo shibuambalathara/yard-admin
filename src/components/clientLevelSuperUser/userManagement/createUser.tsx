@@ -168,6 +168,8 @@ const CreateUser = () => {
                 register={register}
                 errors={errors}
                 defaultValue=""
+                required={true}
+
                 placeholder=""
               />
 
