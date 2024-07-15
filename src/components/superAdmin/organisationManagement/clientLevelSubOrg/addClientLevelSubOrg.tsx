@@ -113,11 +113,18 @@ const CreateClientLevelSubOrganisation = () => {
     label: item.name,
   }));
 
-  const allClientCategory = category?.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
+  // const allClientCategory = category?.map((item) => ({
+  //   value: item.id,
+  //   label: item.name,
+  // }));
+  const allowedLabels = ["BANK"];
 
+  const AllCategory = category
+    .filter(item => allowedLabels.includes(item.name))
+    .map(item => ({
+      value: item.id,
+      label: item.name,
+    }));
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
     label: item.cl_org_name,
@@ -171,8 +178,7 @@ const CreateClientLevelSubOrganisation = () => {
         <div className="flex flex-col items-center">
           <div className="w-full  mb-">
           <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
-          
-          Create Client Organisation
+          Create Sub Organisation
         </h1>
         <div className="border-b mt-4"></div>
           </div>
@@ -232,7 +238,7 @@ const CreateClientLevelSubOrganisation = () => {
                 <div className="mb-">
                   <SelectComponent
                     label=" Select Client Category"
-                    options={allClientCategory}
+                    options={AllCategory}
                     name="clsub_org_category_id"
                     register={register}
                     errors={errors}

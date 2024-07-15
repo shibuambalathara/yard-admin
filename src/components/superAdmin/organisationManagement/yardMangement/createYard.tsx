@@ -128,7 +128,7 @@ const CreateYard = () => {
         <div className="flex flex-col items-center">
           <div className="w-full  mb-4">
             <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
-              Create Yard
+              Create Yard Organisation
             </h1>
             <div className="border-b mt-4"></div>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useCallback } from "react";
-import { Role, DocumentType, Country } from "@//utils/staticData";
+import { Role, DocumentType, Country,superOrgCat } from "@//utils/staticData";
 import {
   FormFieldInput,
   SelectInput,
@@ -73,14 +73,23 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
     value: item.id,
     label: item.name,
   }));
+  const allowedLabels = ["GOVERNMENT", "INSURANCE", "BANK"];
 
-  const AllCategory = category.map((item) => ({
+const AllCategory = category
+  .filter(item => allowedLabels.includes(item.name))
+  .map(item => ({
     value: item.id,
     label: item.name,
   }));
 
-  console.log("AllUsers", AllUsers);
-  // console.log("AllCat", AllCategory);
+
+  // const AllCategory = category.map((item) => ({
+  //   value: item.id,
+  //   label: item.name,
+  // }));
+
+  // console.log("AllUsers", AllUsers);
+  console.log("AllCategory", AllCategory);
 
   const onSubmit = async (data: Inputs) => {
     console.log("create from cientSuperorg", data);
