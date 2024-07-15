@@ -147,6 +147,7 @@ const MangeParkFee = () => {
             <EditParkFeeIndividual
               userId={selectedUserId}
               onClose={handleEditModalClose}
+              fetchData={fetchParkFeeData}
             />
           </div>
         </div>

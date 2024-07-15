@@ -133,10 +133,14 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
 
   // console.log("AllUsers", AllUsers);
 
-  const AllCategory = category.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
+  const allowedLabels = ["GOVERNMENT", "INSURANCE", "BANK"];
+
+  const AllCategory = category
+    .filter(item => allowedLabels.includes(item.name))
+    .map(item => ({
+      value: item.id,
+      label: item.name,
+    }));
 
   // console.log("AllCat", AllCategory);
 

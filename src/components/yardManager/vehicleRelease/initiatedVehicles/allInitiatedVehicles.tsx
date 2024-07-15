@@ -240,7 +240,7 @@ export default AllInitiatedVehicles;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md  px-2">
       <p>
         <MdOutlineViewHeadline />
       </p>

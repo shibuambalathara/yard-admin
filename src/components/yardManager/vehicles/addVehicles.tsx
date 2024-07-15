@@ -234,7 +234,7 @@ const AddVehicle = () => {
           onSubmit={handleSubmit(AddVehicle)}
           encType="multipart/form-data"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-center">
             <div>
               <SelectComponent
                 label="Select Organisation"

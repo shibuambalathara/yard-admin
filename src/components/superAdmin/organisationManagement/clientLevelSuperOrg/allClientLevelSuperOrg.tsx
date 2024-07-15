@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
+import { CgOrganisation } from "react-icons/cg";
 import DataTable from "@/components/tables/dataTable";
 import { Role } from "@/utils/staticData";
 import Link from "next/link";
@@ -15,6 +16,7 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import CreateClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/addClientLevelSuperOrg";
 import Pagination from "@/components/pagination/pagination";
 import  EditClientLevelSuperOrg from "@/components/superAdmin/organisationManagement/clientLevelSuperOrg/viewClientLevelSuperOrg"
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllClientLevelSuperOrganisation = () => {
   const [roleFilter, setRoleFilter] = useState("CLIENT_LEVEL_USER");
@@ -171,26 +173,46 @@ const AllClientLevelSuperOrganisation = () => {
              </div>
           )}
           <div>
-            {
-              filteredData && (
-                <DataTable data={UsersData} columns={userColumn} />
-              )
+          {filteredData?.totalCount< 1?( <div className="flex flex-col justify-center items-center h-96 p-8">
+      <div className="mb-6">
+        <CgOrganisation className='text-red-500 font-bold text-6xl' />
+      </div>
+      <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
+        
+          <>
 
-              /* )} */
-            }
+          <span>No Organization  Found</span>
+         
+          </>
+        
+      </p>
+      
+    </div>):( <>
+      {filteredData && 
+
+      <>
+            <DataTable data={UsersData} columns={userColumn} />
             <div className="w-full text-center">
-              {filteredData?.totalCount && (
-                <Pagination
-                  page={page}
-                  setPage={setPage}
-                  totalDataCount={filteredData?.totalCount}
-                  limit={limit}
-                />
-              )}
+          {filteredData?.totalCount >0 && (
+            <Pagination
+              page={page}
+              setPage={setPage}
+              totalDataCount={filteredData?.totalCount}
+              limit={limit}
+            />
+          )}
+        </div>
+
+      </>
+
+
+      
+      }
+</>)}
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 };

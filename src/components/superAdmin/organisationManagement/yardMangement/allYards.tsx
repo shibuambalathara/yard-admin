@@ -17,11 +17,13 @@ import {
   labelStyle,
   loginInputStyle,
 } from "../../../../components/ui/style";
+import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 const AllYards = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [limit,setLimit]=useState(5)
-
+  const [catFilter, setCatFilter] = useState("");
+  const [yardFilter, setYardFilter] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
@@ -125,6 +127,8 @@ console.log("filteredData subOrg",filteredData);
 
     stateData ? setFilterDistricts(stateData?.map((item)=>item?.city)) : [];
     setSelectDistrict("");
+   
+    setCatFilter(e.target.value);
   };
 
   console.log("filtered districts",filterDistricts);
@@ -192,7 +196,7 @@ console.log("filteredData subOrg",filteredData);
     <p className="text-red-500">State is required</p>
   )} */}
         </div>
-        <div className="self-end justify-self-end mb-1 flex gap-5">
+        <div className="self-end justify-self-end mb-2 flex gap-5">
           {/* <button
             // href={`/userManagement/createUser`}
             onClick={handleReset}
@@ -210,13 +214,13 @@ console.log("filteredData subOrg",filteredData);
           
         </div>
       </div>
-
+      {filteredData?.totalCount< 1?(<NoVehicleMessage typeFilter="Yard" stateFilter={catFilter}   />):( <>
       {filteredData && 
 
       <>
             <DataTable data={UsersData} columns={userColumn} />
             <div className="w-full text-center">
-          {filteredData?.totalCount && (
+          {filteredData?.totalCount >0 && (
             <Pagination
               page={page}
               setPage={setPage}
@@ -231,7 +235,8 @@ console.log("filteredData subOrg",filteredData);
 
       
       }
-
+</>)}
+            
     </div>
   );
 };

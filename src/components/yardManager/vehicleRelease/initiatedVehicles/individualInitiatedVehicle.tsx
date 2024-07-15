@@ -171,10 +171,23 @@ const IndividualInitiatedVehicles = ({ initiatedId }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+     
+      <ConfirmationModal
+          isOpen={confirmModalOpen}
+          onCancel={handleCancelRelease}
+          onConfirm={handleConfirmRelease}
+        />
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
           Initiate Release
         </h2>
-
+        <div className="w-full  flex justify-end">
+          <button
+            onClick={handleInitiateClick}
+            className=" p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
+          >
+            Initate Vehicle Release
+          </button>
+        </div>
         <section>
           <div>
             {/* <div className="mb-4 text-xl font-semibold text-gray-900">
@@ -213,22 +226,10 @@ const IndividualInitiatedVehicles = ({ initiatedId }) => {
               </TabGroup>
             </div>
 
-            <div className="w-full  flex justify-start">
-          <button
-            onClick={handleInitiateClick}
-            className="border p-2 text-white bg-green-400 rounded-md shadow-lg hover:bg-green-600 "
-          >
-            Initate Vehicle Release
-          </button>
-        </div>
+            
           </div>
         </section>
 
-        <ConfirmationModal
-          isOpen={confirmModalOpen}
-          onCancel={handleCancelRelease}
-          onConfirm={handleConfirmRelease}
-        />
       </div>
    
       {
@@ -277,7 +278,7 @@ const IndividualInitiatedVehicles = ({ initiatedId }) => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-green-500 text-white px-10 py-2 rounded-md"
+                  className="bg-blue-500 text-white px-10 py-2 rounded-md"
                 >
                   Submit
                 </button>
