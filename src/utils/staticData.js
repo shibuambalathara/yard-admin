@@ -20,6 +20,12 @@ export const HeaderRole  = {
   "CLIENT_LEVEL_SUB_USER": " SUB USER",
 };
 
+export const superOrgCat=[
+  { label: "GOVERNMENT", value: "GOVERNMENT" },
+{ label: "INSURANCE", value: "INSURANCE" },
+{ label: "BANK", value: "BANK" }
+]
+
 
 export const Role = [
   { label: "Super Admin", value: "SUPER_ADMIN" },

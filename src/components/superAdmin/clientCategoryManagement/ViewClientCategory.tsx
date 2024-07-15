@@ -59,6 +59,8 @@ const ViewClientCategory = ({ clientId,onClose,fetchData }) => {
       );
 
       console.log("RESPONSE FOR INDIVIDAULA client", response);
+      console.log("response",response);
+      
       SetClientCategoryData(response?.data?.clientCategory);
       reset(response?.data?.clientCategory);
     } catch (error) {
