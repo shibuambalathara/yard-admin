@@ -331,7 +331,7 @@ export const RepoUser = [
   {
     title: "Repo Vehicle",
     icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    path: "/repoVehicle",
   },
   {
     title: "Requested",
