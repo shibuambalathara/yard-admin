@@ -175,24 +175,7 @@ export const clientLevelUser = [
       },
     ],
   },
-  // {
-  //   title: "Vehicle Tracking",
-  //   icon: <FaCarOn />,
-
-  //   submenu: true,
-  //   submenuItems: [
-  //     {
-  //       title: "View Inbound Vehicles",
-  //       icon: <LiaTruckMovingSolid />,
-  //       path: "/",
-  //     },
-  //     {
-  //       title: "View Outbound Vehicles",
-  //       icon: <TfiTruck />,
-  //       path: "/",
-  //     },
-  //   ],
-  // },
+  
   {
     title: "Waiver",
     icon: <FaCarOn />,
@@ -211,6 +194,21 @@ export const clientLevelUser = [
       },
     ],
   },
+  {
+    title: "Repo Vehicles",
+    icon: <FaCarOn />,
+    path: "/repoVehicle",
+
+    },
+  {
+    title: "Requested for Repos",
+    icon: <FaCarOn />,
+    path: "",
+
+    
+  },
+
+
 ];
 
 export const clientLevelSuperUser = [
@@ -293,6 +291,19 @@ export const clientLevelSuperUser = [
       },
     ],
   },
+  {
+    title: "Repo Vehicles",
+    icon: <FaCarOn />,
+    path: "/superUserRepoVehicle",
+
+    },
+  {
+    title: "Requested for Repos",
+    icon: <FaCarOn />,
+    path: "",
+
+    
+  },
 ];
 
 export const clientLevelSubUser = [
@@ -330,6 +341,11 @@ export const RepoUser = [
 
   {
     title: "Repo Vehicle",
+    icon: <ImTruck />,
+    path: "/repoVehicle",
+  },
+  {
+    title: "Requested repo Vehicle",
     icon: <ImTruck />,
     path: "/repoVehicle",
   },
