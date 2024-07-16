@@ -15,6 +15,10 @@ import { FaCarOn, FaUsersViewfinder } from "react-icons/fa6";
 import { TfiTruck } from "react-icons/tfi";
 import { LiaTruckMovingSolid } from "react-icons/lia";
 import { HiBuildingOffice2 } from "react-icons/hi2";
+import { VscGitPullRequestNewChanges } from "react-icons/vsc";
+
+import { FaRegHandshake } from 'react-icons/fa';
+import { MdDescription } from 'react-icons/md';
 
 
 
@@ -41,7 +45,7 @@ export const Super_Admin = [
 
   {
     title: "User Management",
-    icon: <FaUserCircle />,
+    icon: <FaUsers />,
     path: "/userManagement",
   },
   {
@@ -214,7 +218,8 @@ export const clientLevelSuperUser = [
 
   {
     title: "Vehicle Ownership Requests",
-    icon: <ImTruck />,
+    icon: <VscGitPullRequestNewChanges 
+    />,
     path: "/vehicleSuperOwnership",
   },
   {
@@ -247,13 +252,13 @@ export const clientLevelSuperUser = [
   },
   {
     title: "User Management",
-    icon: <FaCarOn />,
+    icon: <FaUsers />,
     path: "/userCreation",
   },
 
   {
     title: "Organisation Management",
-    icon: <FaCarOn />,
+    icon: <CgOrganisation/>,
 
     submenu: true,
     submenuItems: [
@@ -272,7 +277,7 @@ export const clientLevelSuperUser = [
   },
   {
     title: "Waiver",
-    icon: <FaCarOn />,
+    icon: <FaRegHandshake />,
 
     submenu: true,
     submenuItems: [
@@ -317,4 +322,55 @@ export const clientLevelSubUser = [
   //     },
   //   ],
   // },
+];
+
+
+export const RepoUser = [
+  { title: "Dashboard", icon: <MdDashboard /> },
+
+  {
+    title: "Repo Vehicle",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  {
+    title: "Requested",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  {
+    title: "Rejected",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  {
+    title: "Approved",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  {
+    title: "Repo Vehicle",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  {
+    title: "yard Available Vehicle",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  
+ 
+];
+
+export const RepoAdmin = [
+  { title: "Dashboard", icon: <MdDashboard /> },
+
+  {
+    title: "Repo Vehicle",
+    icon: <ImTruck />,
+    path: "/vehicleSubOwnership",
+  },
+  
+  
+ 
 ];
