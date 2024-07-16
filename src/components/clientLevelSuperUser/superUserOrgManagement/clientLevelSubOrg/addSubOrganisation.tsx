@@ -187,7 +187,7 @@ const CreateClientLevelSubOrganisation = () => {
               />
 
           </div>
-          <div className="col-span-1">
+          <div className="col-span-1 mt-2">
           <SelectComponent
                 label="Select User"
                 options={allSubUsers}
@@ -200,7 +200,7 @@ const CreateClientLevelSubOrganisation = () => {
               />
 
           </div>
-          <div className="col-span-1 mt-1">
+          <div className="col-span-1 mt-px">
           <CustomMultiSelect
                 control={control}
                 name="vehicleCatIds"
@@ -208,7 +208,7 @@ const CreateClientLevelSubOrganisation = () => {
                 placeholder="Select Vehicle Category"
                 label="Select Vehicle Category"
                 defaultValue=""
-                
+                rules={{ required: "This field is required" }}
               />
 
           </div>
