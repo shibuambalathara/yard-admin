@@ -518,7 +518,7 @@ const customStyles = {
                   field?.value?.includes(option?.value)
                 )}
               />
-              {error && <p className="text-red-500 mt-1">This field is required</p>}
+              {error && <p className="text-red-500 mt-2">This field is required</p>}
             </>
           )}
         />

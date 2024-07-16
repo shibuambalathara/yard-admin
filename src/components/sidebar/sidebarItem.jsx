@@ -98,14 +98,14 @@ const SidebarItem = ({ item, activePath }) => {
                             color: submenu?.path === activePath ? "#ea580c" : "inherit",
                           }}
                         >
-                          <span className="text-base">
+                          {/* <span className="text-base">
                             {submenu?.icon ? (
                               submenu?.icon
                             ) : (
                               <MdOutlineKeyboardArrowRight />
                               // <div>sdfds</div>
                             )}
-                          </span>
+                          </span> */}
                           <span>
                             {submenu?.path ? (
                               <Link href={submenu?.path}>{submenu?.title}</Link>

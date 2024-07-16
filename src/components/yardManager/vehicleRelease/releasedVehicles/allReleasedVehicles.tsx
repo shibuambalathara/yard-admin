@@ -203,7 +203,7 @@ const AllReleasedVehicles = () => {
         </div>
       </div>
       <div>
-      {filteredData < 0 ? (
+      {filteredData < 1 ? (
           <NoVehicleMessage typeFilter="Released Vehicles" catFilter={catFilter}  yardFilter={yardFilter}/>
         ) : (
           <div className="w-full">
