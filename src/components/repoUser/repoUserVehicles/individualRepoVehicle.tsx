@@ -3,8 +3,14 @@ import IndividualVehicle from "../../reuseableComponent/repoComponents/viewIndiv
 
 const IndividualRepoVehicle = () => {
     const vehicleId="123"
+
+    console.log("963",vehicleId);
+    
   return (
-    <div><IndividualVehicle vehicleId={vehicleId} /></div>
+    <div>
+      {/* <p>fghfgfdgsdfgg</p> */}
+      <IndividualVehicle vehicleId={vehicleId} />
+      </div>
   )
 }
 

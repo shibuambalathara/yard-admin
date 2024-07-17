@@ -83,7 +83,7 @@ const AllRepoDetails = () => {
         </div>
         <div className="flex justify-end w-full h-fit">
           <Link
-            href={`/repoVehicle/addRepoVehicle`}
+            href={`/superUserRepoVehicles/addRepoVehicle`}
             className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
           >
             Add

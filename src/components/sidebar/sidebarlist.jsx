@@ -127,25 +127,13 @@ export const yardManager = [
     title: "Waiver",
     icon: <MdWavingHand />,
     path: "/waiver ",
+  },  
+  {
+    title: "Repo Requests",
+    icon: <FaCarOn />,
+    path: "/waiver ",
   }
-  // {
-  //   title: "Release Vehicles ",
-  //   icon: <FaCarOn />,
-
-  //   submenu: true,
-  //   submenuItems: [
-  //     {
-  //       title: "Initiate Release",
-  //       icon: <LiaTruckMovingSolid />,
-  //       path: "/releasevehicle/initiateRelease",
-  //     },
-  //     {
-  //       title: " Release History ",
-  //       icon: <TfiTruck />,
-  //       path: "/releasevehicle/releaseHistory",
-  //     },
-  //   ],
-  // },
+  
 ];
 
 export const clientLevelUser = [
@@ -351,37 +339,29 @@ export const RepoUser = [
   {
     title: "Repo Vehicle",
     icon: <ImTruck />,
-    path: "/repoVehicle",
+    path: "/repoUserVehicles",
   },
-  {
-    title: "Requested repo Vehicle",
-    icon: <ImTruck />,
-    path: "/repoVehicle",
-  },
+
   {
     title: "Requested",
     icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    path: "/requestedRepoVehicle",
   },
   {
     title: "Rejected",
     icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    path: "/rejectedRepoVehicle",
   },
   {
     title: "Approved",
     icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    path: "/approvedRepoVehicle",
   },
-  {
-    title: "Repo Vehicle",
-    icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
-  },
+
   {
     title: "yard Available Vehicle",
     icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    path: "/yardAvailableVehicle",
   },
   
  

@@ -18,6 +18,8 @@ import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import { vehicleStatus } from "@/utils/staticData";
 import Image from "next/image";
+// import imageupload from "@/components/reuseableComponent/imageUpload/imageUpload";
+import Link from "next/link";
 
 interface ImageData {
   img_type: string;
@@ -64,6 +66,9 @@ type FileInputs = {
 };
 
 const ViewIndividualVehicle = ({ vehicleId }) => {
+
+  console.log("123456",vehicleId);
+  
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
@@ -425,14 +430,6 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               pattern
             />
 
-            {/* <InputField
-              label="Board Type"
-              type="text"
-              name="board_type"
-              register={register}
-              errors={errors}
-              pattern
-            /> */}
             <div className="justify-self-center">
               <RadioButtonInput
                 label="RC Available"
@@ -466,7 +463,6 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
                     .replace("_", " ")
                     .toLowerCase()
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  
                 </h2>
 
                 {imageList?.map((img, index) => (
@@ -506,13 +502,20 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               </div>
             ))}
           </div>
-          <button
+          {/* <button
             type="submit"
             className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
           >
             Submit
-          </button>
+          </button> */}
         </form>
+        <Link
+        href={`/uploadImage`}
+          type="button"
+          className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+        >
+          upload Image
+        </Link>
       </div>
     </div>
   );
