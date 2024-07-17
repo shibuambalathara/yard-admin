@@ -82,8 +82,9 @@ const AllReleasedVehicles = () => {
 
       const response = await axiosInstance.get(`release?${params.toString()}`);
       console.log("resopnse of  RELEASED VEHCIES", response);
-
+  
       setVehicleInitiated(response?.data?.res?.vehicleReleaseData);
+      setFilteredData(response?.data?.res?.totalCount)
     } catch (error) {
       console.log("error", error);
     } finally {

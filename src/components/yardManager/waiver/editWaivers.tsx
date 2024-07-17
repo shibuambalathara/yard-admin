@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 
-const EditWaivers = ({ userId,onClose }) => {
+const EditWaivers = ({ userId,onClose,fetchData }) => {
   const [waiverData, setWaiverData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 console.log('h',userId);
@@ -82,7 +82,7 @@ const router = useRouter();
       
       toast.success(response?.data?.message);
       onClose()
-
+      fetchData()
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -98,7 +98,7 @@ const router = useRouter();
         <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-2 justify-center items-center place-items-center p-2 w-fit border rounded-xl px-6 py-8">
           <div>
             <SelectInput
-              disabled={waiverData === 'APPROVED'||waiverData ==='CANCELLED'}
+              disabled={waiverData !== 'PENDING'}
               label="Status"
               name="status"
               defaultValue=""
