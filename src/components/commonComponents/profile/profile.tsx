@@ -139,15 +139,19 @@ const Profile = () => {
   
           // Display a success message
           toast.success(response?.data?.message);
-        } else {
+        } 
+        
+        else {
           console.error('Current user not found');
         }
+
+
       } else {
         throw new Error('Update failed');
       }
     } catch (error) {
-      console.log("error", error);
-      toast.error(error?.response?.data?.message || 'Update failed');
+      console.log("error123", error?.response?.data);
+      // toast.error(error?.response?.data?.message );
     }
   };
   

@@ -356,6 +356,7 @@ const AllWaivers = () => {
                 <EditWaivers
                   userId={selectedUserId}
                   onClose={handleEditModalClose}
+                  fetchData={fetchData}
                 />
               </div>
             )}

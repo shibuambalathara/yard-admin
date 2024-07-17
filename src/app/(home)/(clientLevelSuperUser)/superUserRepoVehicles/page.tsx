@@ -1,8 +1,10 @@
+import AllRepoDetails from '@/components/repoVehicle/allRepoVehicle'
 import React from 'react'
 
 const ViewAllRepoVehicle = () => {
   return (
-    <div>ViewAllRepoVehicle</div>
+    <>
+    <AllRepoDetails/></>
   )
 }
 
