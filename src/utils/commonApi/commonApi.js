@@ -108,7 +108,7 @@ export const getUserProfile = async() => {
       const response = await axiosInstance.put(`/user/profile`, data); // replace `/path/to/api` with your actual API endpoint
       return response;
     } catch (error) {
-     
+      toast.error(error?.response?.data?.message );
       console.log("error",error);
     }
   };

@@ -1,0 +1,108 @@
+[
+    {
+      "id": 1,
+      "make": "Toyota",
+      "model": "Corolla",
+      "color": "White",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 2,
+      "make": "Honda",
+      "model": "Civic",
+      "color": "Black",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 3,
+      "make": "Ford",
+      "model": "Mustang",
+      "color": "Red",
+      "body_type": "Coupe"
+    },
+    {
+      "id": 4,
+      "make": "Chevrolet",
+      "model": "Tahoe",
+      "color": "Blue",
+      "body_type": "SUV"
+    },
+    {
+      "id": 5,
+      "make": "Tesla",
+      "model": "Model 3",
+      "color": "Silver",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 6,
+      "make": "BMW",
+      "model": "X5",
+      "color": "Gray",
+      "body_type": "SUV"
+    },
+    {
+      "id": 7,
+      "make": "Audi",
+      "model": "A4",
+      "color": "White",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 8,
+      "make": "Mercedes-Benz",
+      "model": "C-Class",
+      "color": "Black",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 9,
+      "make": "Jeep",
+      "model": "Wrangler",
+      "color": "Green",
+      "body_type": "SUV"
+    },
+    {
+      "id": 10,
+      "make": "Hyundai",
+      "model": "Elantra",
+      "color": "Blue",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 11,
+      "make": "Kia",
+      "model": "Sorento",
+      "color": "Red",
+      "body_type": "SUV"
+    },
+    {
+      "id": 12,
+      "make": "Nissan",
+      "model": "Altima",
+      "color": "Gray",
+      "body_type": "Sedan"
+    },
+    {
+      "id": 13,
+      "make": "Subaru",
+      "model": "Outback",
+      "color": "Brown",
+      "body_type": "SUV"
+    },
+    {
+      "id": 14,
+      "make": "Mazda",
+      "model": "CX-5",
+      "color": "White",
+      "body_type": "SUV"
+    },
+    {
+      "id": 15,
+      "make": "Volkswagen",
+      "model": "Jetta",
+      "color": "Silver",
+      "body_type": "Sedan"
+    }
+  ]
+  
