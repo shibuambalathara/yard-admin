@@ -7,6 +7,7 @@ import {
   ImageMaping,
   RadioButtonInput,
   FileUploadInput,
+  DateField,
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
@@ -264,7 +265,7 @@ const AddVehicle = () => {
               errors={errors}
               pattern
             />
-            <InputField
+            <DateField
               label="Actual Entry Date"
               type="date"
               name="actual_entry_date"
@@ -273,7 +274,7 @@ const AddVehicle = () => {
               pattern
             />
 
-            <InputField
+            <DateField
               label="Manufacturing Date"
               type="date"
               name="mfg_year"

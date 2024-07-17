@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FileUploadInput, {
+  DateField,
   FormFieldInput,
   ImageMaping,
   InputField,
@@ -293,6 +294,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled ={true}
             />
             <InputField
               label="App Entry Date"
@@ -301,6 +303,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled ={true}
             />
             <InputField
               label="App Exit Date"
@@ -310,6 +313,7 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled ={true}
             />
             <InputField
               label="Actual Exit Date"
@@ -319,9 +323,10 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled ={true}
             />
 
-            <InputField
+            <DateField
               label="Manufacturing Date"
               type="date"
               name="mfg_year"

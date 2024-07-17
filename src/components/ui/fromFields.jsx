@@ -441,6 +441,65 @@ export const FileUploadInput = ({
     </div>
   );
 };
+export  const ExcelUploadInput = ({
+   label, name, register, accept 
+  }) => {
+  return (
+    <div className="w-full">
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md">
+        <div className="space-y-1 text-center">
+          <svg
+            className="mx-auto h-12 w-12 text-gray-400"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 48 48"
+            aria-hidden="true"
+          >
+            <path
+              d="M28 8H20C18.8954 8 18 8.89543 18 10V38C18 39.1046 18.8954 40 20 40H28C29.1046 40 30 39.1046 30 38V10C30 8.89543 29.1046 8 28 8Z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
+            <path
+              d="M14 12H10C8.89543 12 8 12.8954 8 14V34C8 35.1046 8.89543 36 10 36H14C15.1046 36 16 35.1046 16 34V14C16 12.8954 15.1046 12 14 12Z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
+            <path
+              d="M38 12H34C32.8954 12 32 12.8954 32 14V34C32 35.1046 32.8954 36 34 36H38C39.1046 36 40 35.1046 40 34V14C40 12.8954 39.1046 12 38 12Z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
+          </svg>
+          <div className="flex text-sm text-gray-600">
+            <label
+              htmlFor={name}
+              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+            >
+              <span>Upload a file</span>
+              <input
+                id={name}
+                name={name}
+                type="file"
+                accept={accept}
+                className="sr-only"
+                {...register(name)}
+              />
+            </label>
+          </div>
+          <p className="text-xs text-gray-500">Excel files (.xlsx, .xls, .csv) up to 10MB</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+
 
 // const labelStyle = {
 //   data: "text-gray-700 mb-2"
@@ -572,3 +631,96 @@ export const CustomMultiSelectForEdit = ({
 
 
 export default FileUploadInput;
+export const SelectChange = (props) => {
+  const {
+    label,
+    name,
+    options,
+    register,
+    errors,
+    required = true,
+    defaultValue,
+  } = props;
+
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={name} className={labelStyle?.data}>
+        {label}
+      </label>
+      <select
+        id={name}
+        {...register(name, { required })}
+        className={inputStyle.data}
+        defaultValue={defaultValue}
+        onChange={props?.handleChange} // Only add onChange if handleChange is provided
+      >
+        <option value="" disabled hidden>
+          {`Select ${label}`}
+        </option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value || option}>
+            {option.label || option}
+          </option>
+        ))}
+      </select>
+      {errors[name] && <p className="text-red-500">{`${label} is required`}</p>}
+    </div>
+  );
+};
+export const DateField = ({
+  name,
+  label,
+  type = "text",
+  register,
+  errors,
+  required = true,
+  pattern,
+  disabled = false,
+  placeholder = ""
+}) => {
+  const handleInputChange = (event) => {
+    if (
+      name !== "email" &&
+      name !== "password" &&
+      name !== "date" &&
+      name !== "number"
+    ) {
+      event.target.value = event.target.value.toUpperCase();
+    }
+  };
+
+  const registerOptions = {
+    required: required && `This field is required`,
+    pattern: pattern && {
+      value: pattern,
+      message: `It is invalid`,
+    },
+  };
+
+  if (type === "date") {
+    registerOptions.valueAsDate = true;
+    registerOptions.validate = (value) => {
+      const selectedDate = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set the time part to 00:00:00
+      return selectedDate <= today || `Future date cannot be selected`;
+    };
+  }
+
+  return (
+    <div className="mb-4">
+      <label className="text-gray-800 text-sm font-semibold leading-tight tracking-normal">{label}</label>
+      <input
+        disabled={disabled}
+        type={type}
+        {...register(name, registerOptions)}
+        className={`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${name === "name" ? "uppercase" : ""} ${disabled ? "bg-gray-100" : ""}`}
+        onChange={handleInputChange}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="text-red-500 mt-1">{errors[name].message || 'This field is required'}</p>
+      )}
+    </div>
+  );
+};
