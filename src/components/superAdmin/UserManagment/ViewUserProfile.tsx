@@ -83,8 +83,8 @@ const ViewFullUserProfile = ({ profileId }) => {
 
         document_type: response?.data?.data?.documents?.document_type,
         account_usage_from:
-          response?.data?.data?.account_usage_from.split("T")[0], // Extract only the date part
-        account_usage_to: response?.data?.data?.account_usage_to.split("T")[0], // Extract only the date part
+          response?.data?.data?.account_usage_from?.split("T")[0], // Extract only the date part
+        account_usage_to: response?.data?.data?.account_usage_to?.split("T")[0], // Extract only the date part
       };
 
       console.log("resetData", resetData);

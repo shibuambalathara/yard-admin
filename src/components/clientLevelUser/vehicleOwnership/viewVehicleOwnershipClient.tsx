@@ -106,7 +106,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
         app_exit_date:
           response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
-        mfg_year: response?.data?.res?.vehicle?.mfg_year.split("T")[0],
+        mfg_year: response?.data?.res?.vehicle?.mfg_year?.split("T")[0],
         actual_entry_date:
           response?.data?.res?.vehicle?.actual_entry_date?.split("T")[0],
         actual_exit_date:
