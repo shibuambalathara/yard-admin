@@ -77,11 +77,11 @@ export const Super_Admin = [
         icon: <HiBuildingOffice2 />,
         path: "/organisationManagement/yardManagement",
       },
-      {
-        title: "Repo  Organisation  ",
-        icon: <HiBuildingOffice2 />,
-        path: "/organisationManagement/repoManagement",
-      },
+      // {
+      //   title: "Repo  Organisation  ",
+      //   icon: <HiBuildingOffice2 />,
+      //   path: "/organisationManagement/repoManagement",
+      // },
     ],
   },
 ];
@@ -128,11 +128,11 @@ export const yardManager = [
     icon: <MdWavingHand />,
     path: "/waiver ",
   },  
-  {
-    title: "Repo Requests",
-    icon: <FaCarOn />,
-    path: "/waiver ",
-  }
+  // {
+  //   title: "Repo Requests",
+  //   icon: <FaCarOn />,
+  //   path: "/waiver ",
+  // }
   
 ];
 
@@ -191,19 +191,19 @@ export const clientLevelUser = [
       },
     ],
   },
-  {
-    title: "Repo Vehicles",
-    icon: <BsFillTruckFrontFill />,
-    path: "/repoVehicle",
+  // {
+  //   title: "Repo Vehicles",
+  //   icon: <BsFillTruckFrontFill />,
+  //   path: "/repoVehicle",
 
-    },
-  {
-    title: "Requested for Repos",
-    icon: <AiFillRightCircle />,
-    path: "",
+  //   },
+  // {
+  //   title: "Requested for Repos",
+  //   icon: <AiFillRightCircle />,
+  //   path: "",
 
     
-  },
+  // },
 
 
 ];
@@ -288,19 +288,19 @@ export const clientLevelSuperUser = [
       },
     ],
   },
-  {
-    title: "Repo Vehicles",
-    icon: <BsFillTruckFrontFill />,
-    path: "/superUserRepoVehicle",
+  // {
+  //   title: "Repo Vehicles",
+  //   icon: <BsFillTruckFrontFill />,
+  //   path: "/superUserRepoVehicle",
 
-    },
-  {
-    title: "Requested for Repos",
-    icon: <AiFillRightCircle />,
-    path: "",
+  //   },
+  // {
+  //   title: "Requested for Repos",
+  //   icon: <AiFillRightCircle />,
+  //   path: "",
 
     
-  },
+  // },
 ];
 
 export const clientLevelSubUser = [
