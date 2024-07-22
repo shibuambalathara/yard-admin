@@ -15,7 +15,7 @@ import {
   StateFilter,
   Search,
 } from "@/components/reuseableComponent/filter/filters";
-import RequestForRepo from "./requestForRepo";
+import RequestForRepo from "../availableForYard/requestForRepo";
 
 const AllRepoVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -128,23 +128,7 @@ const AllRepoVehicles = () => {
         header: "View",
         cell: ({ row }) => View(row),
       },
-      {
-       
-        header: "Request",
-        cell: ({ row }) => (
-          <button
-            onClick={() => handleEditClick(row.original.id)}
-            className="flex justify-center items-center border space-x-1 bg-gray-700 text-white px-2 py-1 rounded-md "
-          >
-            <p>
-              <MdOutlineViewHeadline />
-            </p>
-            <p rel="noopener noreferrer" className="">
-            Request
-            </p>
-          </button>
-        ),
-      },
+      
     ],
     [filteredData]
   );
@@ -221,17 +205,7 @@ const AllRepoVehicles = () => {
           </Link>
         </div>
       </div> */}
-      <div className="">
-            {editModalOpen && (
-              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-                <RequestForRepo
-                  userId={selectedUserId}
-                  onClose={handleEditModalClose}
-                  fetchData={''}
-                />
-              </div>
-            )}
-          </div>
+      
       <div>
         {filteredData?.totalCount < 1 ? (
           <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />

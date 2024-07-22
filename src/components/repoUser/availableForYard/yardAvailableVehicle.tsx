@@ -18,7 +18,8 @@ import { CgOrganisation } from "react-icons/cg";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import { Cities } from "@/utils/cities";
-
+import RequestForRepo from "./requestForRepo";
+import mockData from "@/components/tables/vehicleData.json";
 
 const  YardAvailableVehicle = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -39,12 +40,7 @@ const  YardAvailableVehicle = () => {
   const [editModalOpen, setEditModalOpen] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
+  
   useEffect(() => {
     // Extract unique state names from Cities array
     const uniqueStates = Cities?.reduce((acc, current) => {
@@ -85,7 +81,14 @@ const  YardAvailableVehicle = () => {
     setSelectedUserId(userId);
     setEditModalOpen(true);
   };
-  const UsersData = filteredData?.yard || [];
+
+
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    // setSelectedUserId(null);
+  };
+  const UsersData = mockData || [];
 
   const userColumn = useMemo(
     () => [
@@ -113,6 +116,23 @@ const  YardAvailableVehicle = () => {
           <div className="w-20">
             <View row={row} onEditClick={handleEditClick} />
           </div>
+        ),
+      },
+      {
+       
+        header: "Request",
+        cell: ({ row }) => (
+          <button
+            onClick={() => handleEditClick(row?.original?.id)}
+            className="flex justify-center items-center border space-x-1 bg-gray-700 text-white px-2 py-1 rounded-md "
+          >
+            <p>
+              <MdOutlineViewHeadline />
+            </p>
+            <p rel="noopener noreferrer" className="">
+            Request
+            </p>
+          </button>
         ),
       },
     ],
@@ -147,10 +167,7 @@ console.log("filteredData subOrg",filteredData);
     setSelectDistrict(e.target.value);
   };
 
-  const handleEditModalClose = () => {
-    setEditModalOpen(false);
-    // setSelectedUserId(null);
-  };
+  
 
 
 
@@ -230,6 +247,17 @@ console.log("filteredData subOrg",filteredData);
             </div> */}
          
         </div>
+        <div className="">
+            {editModalOpen && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <RequestForRepo
+                  userId={selectedUserId}
+                  onClose={handleEditModalClose}
+                  fetchData={''}
+                />
+              </div>
+            )}
+          </div>
         
       <div>
       {filteredData?.totalCount< 1?( <div className="flex flex-col justify-center items-center h-96 p-8">
@@ -247,7 +275,7 @@ console.log("filteredData subOrg",filteredData);
       </p>
       
     </div>):( <>
-      {filteredData && 
+      {!filteredData && 
 
       <>
             <DataTable data={UsersData} columns={userColumn} />
@@ -285,7 +313,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/organisationManagement/clientLevelOrg/${row.original.id}`}
+        href={`/organisationManagement/clientLevelOrg/${row?.original?.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

@@ -115,8 +115,8 @@ const RequestForRepo = ({onClose, fetchData,userId}) => {
            
             <div className="">
               <InputField
-                label="Name"
-                type="text"
+                label="Expected Entry Date"
+                type="datetime-local"
                 name="name"
                 register={register}
                 errors={errors}
@@ -124,7 +124,7 @@ const RequestForRepo = ({onClose, fetchData,userId}) => {
               />
             </div>
 
-           
+{/*            
             <div className="mt-4 pt-px">
             <SelectChange
               label=" State"
@@ -144,7 +144,7 @@ const RequestForRepo = ({onClose, fetchData,userId}) => {
               errors={errors}
               required={true}
               defaultValue=""
-            /></div>
+            /></div> */}
             {/* <div className="mb-">
               <SelectComponent
                 label="Select Organisation Children"
