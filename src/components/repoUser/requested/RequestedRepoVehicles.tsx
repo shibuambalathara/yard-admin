@@ -12,7 +12,7 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
-const AllRequestedVehicles = () => {
+const AllRequestedVehicles = (props) => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   //   const [modalOpen, setModalOpen] = useState(false);

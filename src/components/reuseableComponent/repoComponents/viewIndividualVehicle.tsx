@@ -181,79 +181,79 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
     }));
   };
 
-  const editImage = useCallback(
-    async (data: Inputs) => {
-      const formData = new FormData();
-      console.log("formdata1:" + JSON.stringify(formData));
-      const vehicleImgArray = Object.entries(uploadImages).flatMap(
-        ([imageType, files]) => {
-          return Array.from(files).map((file, index) => ({
-            id: images[imageType]?.[index]?.id || "",
-            img_type: imageType,
-            img_src: images[imageType]?.[index]?.src || "",
-            file: file,
-          }));
-        }
-      );
+  // const editImage = useCallback(
+  //   async (data: Inputs) => {
+  //     const formData = new FormData();
+  //     console.log("formdata1:" + JSON.stringify(formData));
+  //     const vehicleImgArray = Object.entries(uploadImages).flatMap(
+  //       ([imageType, files]) => {
+  //         return Array.from(files).map((file, index) => ({
+  //           id: images[imageType]?.[index]?.id || "",
+  //           img_type: imageType,
+  //           img_src: images[imageType]?.[index]?.src || "",
+  //           file: file,
+  //         }));
+  //       }
+  //     );
 
-      vehicleImgArray.forEach((img, index) => {
-        formData.append(`vehicle_img[${index}][id]`, img.id);
-        formData.append(`vehicle_img[${index}][img_type]`, img.img_type);
-        formData.append(`vehicle_img[${index}][img_src]`, img.img_src);
-        if (img.file) {
-          formData.append(`vehicle_img[${index}][file]`, img.file);
-        }
-      });
-      console.log("formdata2:" + JSON.stringify(formData));
-      const modifiedData = {
-        ...data,
+  //     vehicleImgArray.forEach((img, index) => {
+  //       formData.append(`vehicle_img[${index}][id]`, img.id);
+  //       formData.append(`vehicle_img[${index}][img_type]`, img.img_type);
+  //       formData.append(`vehicle_img[${index}][img_src]`, img.img_src);
+  //       if (img.file) {
+  //         formData.append(`vehicle_img[${index}][file]`, img.file);
+  //       }
+  //     });
+  //     console.log("formdata2:" + JSON.stringify(formData));
+  //     const modifiedData = {
+  //       ...data,
 
-        app_entry_date: data?.app_entry_date
-          ? new Date(data?.app_entry_date)?.toISOString()
-          : null,
-        app_exit_date: data?.app_exit_date
-          ? new Date(data?.app_exit_date)?.toISOString()
-          : null,
-        mfg_year: data?.mfg_year
-          ? new Date(data?.mfg_year)?.toISOString()
-          : null,
-        actual_entry_date: data?.actual_entry_date
-          ? new Date(data?.actual_entry_date)?.toISOString()
-          : null,
-        actual_exit_date: data?.actual_exit_date
-          ? new Date(data?.actual_exit_date)?.toISOString()
-          : null,
-      };
+  //       app_entry_date: data?.app_entry_date
+  //         ? new Date(data?.app_entry_date)?.toISOString()
+  //         : null,
+  //       app_exit_date: data?.app_exit_date
+  //         ? new Date(data?.app_exit_date)?.toISOString()
+  //         : null,
+  //       mfg_year: data?.mfg_year
+  //         ? new Date(data?.mfg_year)?.toISOString()
+  //         : null,
+  //       actual_entry_date: data?.actual_entry_date
+  //         ? new Date(data?.actual_entry_date)?.toISOString()
+  //         : null,
+  //       actual_exit_date: data?.actual_exit_date
+  //         ? new Date(data?.actual_exit_date)?.toISOString()
+  //         : null,
+  //     };
 
-      Object.entries(modifiedData).forEach(([key, value]) => {
-        if (key !== "vehicle_img" && value !== undefined) {
-          formData.append(key, value);
-        }
-      });
-      console.log(vehicleImgArray);
-      console.log("formdata3:" + JSON.stringify(formData));
+  //     Object.entries(modifiedData).forEach(([key, value]) => {
+  //       if (key !== "vehicle_img" && value !== undefined) {
+  //         formData.append(key, value);
+  //       }
+  //     });
+  //     console.log(vehicleImgArray);
+  //     console.log("formdata3:" + JSON.stringify(formData));
 
-      try {
-        const response = await axiosInstance.put(
-          `/vehicle/${vehicleId?.vehicleId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            maxBodyLength: Infinity,
-          }
-        );
+  //     try {
+  //       const response = await axiosInstance.put(
+  //         `/vehicle/${vehicleId?.vehicleId}`,
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //           maxBodyLength: Infinity,
+  //         }
+  //       );
 
-        fetchVehicle();
-        toast.success(response?.data?.message);
-      } catch (error) {
-        toast.error(error?.response?.data?.message);
-        console.log(error?.response);
-      }
-    },
-    [vehicleId?.vehicleId, uploadImages, images]
-  );
+  //       fetchVehicle();
+  //       toast.success(response?.data?.message);
+  //     } catch (error) {
+  //       toast.error(error?.response?.data?.message);
+  //       console.log(error?.response);
+  //     }
+  //   },
+  //   [vehicleId?.vehicleId, uploadImages, images]
+  // );
 
   if (isLoading) {
     return (
@@ -270,7 +270,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
           Vehicle Details
         </h2>
 
-        <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
+        <form  className="mt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
             <div>
               <SelectComponent
@@ -509,11 +509,28 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
             Submit
           </button> */}
         </form>
+
+        <div className=" w-full text-center p-1 mt-3  space-x-2">
+      
+      <button
+      type="button"
+        // onClick={() => onClose()}
+        className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+      >
+        REJECT
+      </button>
+      <button
+        type="button"
+        className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+      >
+        ACCEPT
+      </button>
+    </div>
         <Link
         href={`/uploadImage`}
-          type="button"
+          type="button "
           className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-        >
+        > 
           upload Image
         </Link>
       </div>
