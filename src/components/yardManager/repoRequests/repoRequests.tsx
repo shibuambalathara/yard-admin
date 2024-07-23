@@ -88,34 +88,29 @@ const AllRepoRequests = () => {
       {
         header: "make",
         accessorKey: "make",
-      
       },
       {
         header: "model",
         accessorKey: "model",
-        
       },
       {
         header: "Status",
         accessorKey: "status",
-      
       },
-  ,
+      ,
       {
         header: "Category ",
         accessorKey: "vehicle_category.name",
-    
       },
 
       {
         header: "code",
         accessorKey: "code",
-       
       },
 
       {
         header: "View",
-        cell: ({ row }) => View(row)
+        cell: ({ row }) => View(row),
       },
     ],
     [filteredData]
@@ -135,40 +130,36 @@ const AllRepoRequests = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-       All Repo Requests
+        All Repo Requests
       </h1>
-     <div className="flex items-end">
-      <div className="flex flex-col w-40  ml-5">
-        <label htmlFor="state" className={labelStyle?.data}>
-          Select Category
-        </label>
-        <select
-          id="state"
-          className={inputStyle?.data}
-          defaultValue=""
-          onChange={handleCatChange}
-        >
-          <option value="">All Category</option>
+      <div className="flex items-end">
+        <div className="flex flex-col w-40  ml-5">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Select Category
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleCatChange}
+          >
+            <option value="">All Category</option>
 
-          {vehicleCategorys.map((option, index) => (
-            <option key={index} value={option?.value}>
-              {option?.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-     
-        
+            {vehicleCategorys.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
         </div>
+      </div>
       <div>
-      {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+        {filteredData?.totalCount < 1 ? (
+          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
-             
-              <DataTable data={UsersData} columns={userColumn} />
-            
+            <DataTable data={UsersData} columns={userColumn} />
+
             <div className="w-full text-center">
               {filteredData?.totalCount > 0 && (
                 <Pagination
@@ -181,9 +172,8 @@ const AllRepoRequests = () => {
             </div>
           </div>
         )}
-        </div>
       </div>
-    
+    </div>
   );
 };
 

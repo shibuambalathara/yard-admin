@@ -27,7 +27,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
   type Inputs = {
     user_id: string;
     clsup_org_id: string;
-    cl_org_name: string;
+    org_name: string;
     cl_org_category_id: string;
     country: string;
     state: string;
@@ -56,7 +56,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
 
       const transformedArray = response?.data?.res?.clientLvlSuperOrg.map(
         (item) => ({
-          label: item.clsup_org_name,
+          label: item.org_name,
           value: item.id,
         })
       );
@@ -175,7 +175,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
 
     const submittingData = {
       ...data,
-      cl_org_name: data?.cl_org_name?.toUpperCase(),
+      org_name: data?.org_name?.toUpperCase(),
     };
 
     console.log("modified data for submit", submittingData);
@@ -215,7 +215,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
                 <InputField
                   label="Client Organisation Name"
                   type="text"
-                  name="cl_org_name"
+                  name="org_name"
                   register={register}
                   errors={errors}
                   pattern=""
@@ -232,7 +232,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
                   defaultValue=""
                 />
               </div>
-              <div className="mb-">
+              {/* <div className="mb-">
                 <SelectInput
                   label="Select User"
                   options={AllUsers}
@@ -242,7 +242,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
                   required={true}
                   defaultValue=""
                 />
-              </div>
+              </div> */}
 
               <div className="mb-">
                 <SelectInput

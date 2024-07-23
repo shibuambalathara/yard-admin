@@ -63,7 +63,7 @@ const AllClientLevelOrganisation = () => {
     } 
   };
 
-  // console.log("filteredData from clientLevelsuperOrg", filteredData);
+  console.log("filteredData from clientLevelsuperOrg", filteredData);
 
   useEffect(() => {
     fetchData(); // Call fetchData directly inside useEffect
@@ -75,12 +75,17 @@ const AllClientLevelOrganisation = () => {
     () => [
       {
         header: "Organisation Name",
-        accessorKey: "cl_org_name",
+        accessorKey: "org_name",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Super Organisation Name",
+        accessorKey: "clsup_org.org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Organisation Category",
-        accessorKey: "cl_org_category.name",
+        accessorKey: "client_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
 

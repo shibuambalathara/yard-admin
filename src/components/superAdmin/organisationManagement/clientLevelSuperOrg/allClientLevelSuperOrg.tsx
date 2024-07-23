@@ -79,12 +79,12 @@ const AllClientLevelSuperOrganisation = () => {
     () => [
       {
         header: "Organisation Category",
-        accessorKey: "clsup_org_category.name",
+        accessorKey: "client_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "Organisation Name",
-        accessorKey: "clsup_org_name",
+        accessorKey: "org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {

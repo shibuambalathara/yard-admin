@@ -36,8 +36,8 @@ interface ClSubOrg {
   cl_org: ClOrg;
   cl_org_id: string;
   clsub_org_category: ClSubOrgCategory;
-  clsub_org_category_id: string;
-  clsub_org_name: string;
+ client_category_id: string;
+  org_name: string;
   code: string;
   id: string;
 }
@@ -58,8 +58,8 @@ interface ApiResponse {
   cl_org: ClOrg;
   cl_org_id: string;
   clsub_org_category: ClSubOrgCategory;
-  clsub_org_category_id: string;
-  clsub_org_name: string;
+ client_category_id: string;
+  org_name: string;
   code: string;
   id: string;
   user: User;
@@ -72,8 +72,8 @@ interface ApiResponse {
 //   user_id: string;
 //   cl_org_id: string;
 //   veh_cat: [];
-//   clsub_org_name: string;
-//   clsub_org_category_id: string;
+//   org_name: string;
+//  client_category_id: string;
 // };
 
 const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
@@ -153,8 +153,8 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   //       const destructuredData = {
   //         cl_org_name: fetchedData?.cl_org?.cl_org_name,
   //         cl_org_id: fetchedData?.cl_org_id,
-  //         clsub_org_category_id: fetchedData?.clsub_org_category_id,
-  //         clsub_org_name: fetchedData?.clsub_org_name,
+  //        client_category_id: fetchedData?.clsub_org_category_id,
+  //         org_name: fetchedData?.org_name,
   //         code: fetchedData?.code,
   //         id: fetchedData?.id,
   //         user_id: fetchedData?.user_id,
@@ -219,10 +219,10 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
       setDefaultValues(vehCatOptions);
 
       const destructuredData = {
-        cl_org_name: fetchedData?.cl_org?.cl_org_name,
+        cl_org_name: fetchedData?.cl_org?.org_name,
         cl_org_id: fetchedData?.cl_org_id,
-        clsub_org_category_id: fetchedData?.clsub_org_category_id,
-        clsub_org_name: fetchedData?.clsub_org_name,
+       client_category_id: fetchedData?.clsub_org_category_id,
+        org_name: fetchedData?.org_name,
         code: fetchedData?.code,
         id: fetchedData?.id,
         user_id: fetchedData?.user_id,
@@ -350,7 +350,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
               <InputField
                 label=" Sub Organisation Name"
                 type="text"
-                name="clsub_org_name"
+                name="org_name"
                 register={register}
                 errors={errors}
                 pattern=""

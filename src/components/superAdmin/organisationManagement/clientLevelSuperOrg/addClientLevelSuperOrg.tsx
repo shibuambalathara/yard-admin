@@ -20,9 +20,9 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
   const [category, setAllCategory] = useState([]);
 
   type Inputs = {
-    clsup_org_name: string;
+    org_name: string;
     user_id: string;
-    clsup_org_category_id: string;
+    client_category_id: string;
     country: string;
     // clientLvlOrgIds: string;
   };
@@ -53,6 +53,8 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
     try {
       const response = await axiosInstance.get(`clientorg/cat/`);
 
+      
+
       setAllCategory(response?.data?.clientCategory);
 
       // console.log("resposne of FetchAllClientCategory",response);
@@ -69,10 +71,10 @@ const CreateClientLevelSuperOrganisation = ({ onClose, fetchData }) => {
     FetchAllClientCategory();
   }, []);
 
-  const AllUsers = users.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
+  // const AllUsers = users.map((item) => ({
+  //   value: item.id,
+  //   label: item.name,
+  // }));
   const allowedLabels = ["GOVERNMENT", "INSURANCE", "BANK"];
 
 const AllCategory = category
@@ -96,7 +98,7 @@ const AllCategory = category
 
     const modifiedData = {
       ...data,
-      clsup_org_name: data?.clsup_org_name?.toUpperCase(),
+      org_name: data?.org_name?.toUpperCase(),
     };
 
     console.log("modifiedDAta", modifiedData);
@@ -133,13 +135,13 @@ const AllCategory = category
               <InputField
                 label="Super Organisation Name"
                 type="text"
-                name="clsup_org_name"
+                name="org_name"
                 register={register}
                 errors={errors}
                 pattern=""
               />
             </div>
-            <div className="mb-">
+            {/* <div className="mb-">
               <SelectComponent
                 label="Select User"
                 options={AllUsers}
@@ -149,13 +151,13 @@ const AllCategory = category
                 required={true}
                 defaultValue=""
               />
-            </div>
+            </div> */}
 
             <div className="mb-">
               <SelectComponent
                 label="Select Category "
                 options={AllCategory}
-                name="clsup_org_category_id"
+                name="client_category_id"
                 register={register}
                 errors={errors}
                 required={true}

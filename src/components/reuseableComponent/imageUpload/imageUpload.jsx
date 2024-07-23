@@ -29,7 +29,7 @@ const App = () => {
                 key={index}
                 src={image}
                 alt={`Upload Preview ${index}`}
-                className="w-40 h-40 ml-4 mb-4 space-x-2"
+                className="w-72 border border-stone-500-800 p-1 rounded-md h-48 ml-4 mb-4 space-x-2"
               />
             </div>
           ))}
