@@ -17,7 +17,7 @@ import {
 } from "../../../../components/ui/style";
 
 type Inputs = {
-  yard_name: string;
+  org_name: string;
   user_id: string;
   field_executive_name: string;
   field_executive_contact: number;
@@ -101,7 +101,7 @@ const CreateYard = () => {
     console.log("create from cientSuperorg", data);
     const modifiedData = {
       ...data,
-      yard_name: data?.yard_name?.toUpperCase(),
+      org_name: data?.org_name?.toUpperCase(),
       field_executive_name: data?.field_executive_name?.toUpperCase(),
       city: data?.city,
     };
@@ -110,7 +110,8 @@ const CreateYard = () => {
       const response = await axiosInstance.post("yard/create", modifiedData);
       console.log("response after clientOrgCreaet", response);
       toast.success(response?.data?.message);
-      window.close()
+      
+      router.push("/organisationManagement/yardManagement")
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -137,7 +138,7 @@ const CreateYard = () => {
             onSubmit={handleSubmit(createYard)}
             className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
           >
-            <div className=" mt-4 pt-px">
+            {/* <div className=" mt-4 pt-px">
               <SelectComponent
                 label="Select User"
                 options={AllUsers}
@@ -147,12 +148,12 @@ const CreateYard = () => {
                 required={true}
                 defaultValue=""
               />
-            </div>
+            </div> */}
             <div className="">
               <InputField
                 label="yard Name"
                 type="text"
-                name="yard_name"
+                name="org_name"
                 register={register}
                 errors={errors}
                 pattern=""

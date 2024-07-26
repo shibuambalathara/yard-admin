@@ -257,7 +257,9 @@ export const SelectInput = ({
         </option> */}
         {options &&
           options?.map((option) => (
-            <option key={option?.value} value={option?.value}>
+            <option 
+            className="max-md:text-sm"
+            key={option?.value} value={option?.value}>
               {option.label}
             </option>
           ))}
@@ -339,7 +341,8 @@ export const SelectComponent = ({
         defaultValue={defaultValue}
       // always call onChangeHandler
       >
-        <option value="" disabled hidden>
+        <option 
+            className="max-md:text-sm" value="" disabled hidden>
           {placeholder ? placeholder : label}
         </option>
         {options &&
