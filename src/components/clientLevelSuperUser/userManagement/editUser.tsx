@@ -187,7 +187,7 @@ const router=useRouter()
                 register={register}
                 error={errors}
                 required
-                placeholder=""
+                // placeholder=""
                 defaultValue=""
               />
             </div>

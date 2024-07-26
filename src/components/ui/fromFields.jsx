@@ -232,8 +232,12 @@ export const SelectInput = ({
   required,
   disabled = false,
   ...rest
+
+  
+ 
 }) => {
-  // console.log("options",options);
+  console.log("options",  options);
+  console.log("name",  name);
 
   return (
     <div className="flex flex-col">
@@ -245,6 +249,7 @@ export const SelectInput = ({
         {...register(name, { required: required })}
         className={`${inputStyle?.data}`}
         {...rest}
+
         // defaultValue={defaultValue}
       >
         {/* <option disabled  selected >
@@ -264,6 +269,50 @@ export const SelectInput = ({
   );
 };
 
+export const SelectInputWithChange = ({
+  label,
+  name,
+  options,
+  defaultValue,
+  error,
+  register,
+  required,
+  disabled = false,
+    handleRoleChange,
+  ...rest
+}) => {
+  // console.log("options",options);
+
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={name} className={`${labelStyle?.data}`}>
+        {label}
+      </label>
+      <select
+      disabled={disabled}
+        {...register(name, { required: required })}
+        className={`${inputStyle?.data}`}
+        {...rest}
+        // defaultValue={defaultValue}
+        onChange={handleRoleChange}
+      >
+        {/* <option disabled  selected >
+        {label}
+        </option> */}
+        {options &&
+          options?.map((option) => (
+            <option key={option?.value} value={option?.value}>
+              {option.label}
+            </option>
+          ))}
+          
+      </select>
+      {error[name] && <p className="text-red-500">This field is required</p>}
+    </div>
+  );
+};
+
+
 export const SelectComponent = ({
   label,
   name,
@@ -273,9 +322,10 @@ export const SelectComponent = ({
   required = false,
   defaultValue,
   disabled = false,
-  placeholder=""
+  placeholder="",
+   // default to a no-op function
 }) => {
-  // console.log("errors",errors);
+  
 
   return (
     <div className="flex flex-col w-full">
@@ -289,6 +339,7 @@ export const SelectComponent = ({
         // className="py-1 px-12 border border-gray-300 rounded"
         className={inputStyle?.data}
         defaultValue={defaultValue}
+      // always call onChangeHandler
       >
         <option 
             className="max-md:text-sm" value="" disabled hidden>
@@ -307,6 +358,50 @@ export const SelectComponent = ({
     </div>
   );
 };
+
+
+export const SelectComponentWithOnchange = ({
+  label,
+  name,
+  options,
+  register,
+  errors,
+  required = false,
+  value, // Controlled value
+  disabled = false,
+  placeholder = "",
+  onChangeHandler
+}) => {
+  return (
+    <div className="flex flex-col w-full">
+      <label htmlFor={name} className={labelStyle?.data}>
+        {label}
+      </label>
+      <select
+        disabled={disabled}
+        id={name}
+        {...register(name, { required: required && "This field is required" })}
+        className={inputStyle?.data}
+        value={value} // Ensure the select uses value from state
+        onChange={onChangeHandler}
+      >
+        <option value="" disabled hidden>
+          {placeholder ? placeholder : label}
+        </option>
+        {options &&
+          options.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+      </select>
+      {errors && errors[name] && (
+        <p className="text-red-500">This field is required</p>
+      )}
+    </div>
+  );
+};
+
 
 export const AccountVerificatioSelect = ({
   label,

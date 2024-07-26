@@ -76,7 +76,7 @@ const UserManagement = () => {
         );
     
       
-      // console.log("all users", response);
+      console.log("all users", response);
       setFilteredData(response.data?.res);
     
     } catch (error) {
@@ -143,22 +143,7 @@ const UserManagement = () => {
           <div className="">{View(row)}</div>
         ),
       },
-      //       {
-      //         id: "isBlocked",
-      //         header: "Status",
-      //         cell: ({ row }) =>
-      //           row?.original?.is_blocked ?  (
-      //             <div className="border-2 p-1 bg-green-600 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-      //  <p className="text-lg"><FaUserLarge/></p>
-      //               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, false)}>unblock</button>
-      //             </div>
-      //           ) : (
-      //             <div className="border-2 p-1 bg-red-500 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-      //                <p className="text-xl"><FaUserLargeSlash/> </p>
-      //               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, true)}>block</button>
-      //             </div>
-      //           )
-      //       },
+      
       {
         id: "isBlocked",
         header: "Action",

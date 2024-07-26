@@ -21,7 +21,6 @@ const AllClientLevelOrganisation = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [limit,setLimit]=useState(5)
-
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
   const [success, setSuccess] = useState(null);
