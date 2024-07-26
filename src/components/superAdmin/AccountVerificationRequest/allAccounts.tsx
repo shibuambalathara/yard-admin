@@ -143,7 +143,7 @@ const AccountVerificationRequests = () => {
       </h1>
 
       <div className="w-full  space-x-4 flex text-center   ">
-        <div className="flex w-full px-4  space-x-10   ">
+        <div className="flex w-full px-8  md:space-x-10  space-x-6  ">
           <div className="">
             {/* <FilterComponent
               label=""

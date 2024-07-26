@@ -86,7 +86,7 @@ const AllYards = () => {
     () => [
       {
         header: "yard name",
-        accessorKey: "yard_name",
+        accessorKey: "org_name",
       },
       {
         header: "state",

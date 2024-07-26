@@ -70,7 +70,7 @@ const UserDetails = () => {
        : "transform scale-0 opacity-0 text-gray-500"
    }`}
         >
-          <span className="text-slate-500 uppercase">
+          <span className="text-slate-500 uppercase max-md:hidden">
             {" "}
             {userName && `Welcome,  ${userName}`}
           </span>
