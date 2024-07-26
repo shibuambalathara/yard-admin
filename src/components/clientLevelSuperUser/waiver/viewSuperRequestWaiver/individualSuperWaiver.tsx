@@ -119,7 +119,7 @@ console.log("waiverId", waiverId);fetchAllWaivers
               }
               register={register}
               error={errors}
-              data=""
+              // data=""
               required={false}
             />
           </div>
