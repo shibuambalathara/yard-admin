@@ -18,7 +18,7 @@ export const FormFieldInput = ({
   defaultValue,
   error,
   placeholder,
-  disabled=false,
+  disabled = false,
   ...rest
 }) => {
   const handleInputChange = (event) => {
@@ -46,7 +46,9 @@ export const FormFieldInput = ({
         disabled={disabled}
       />
 
-      {error && <p className="text-red-500 text-start">{`This field is required`}</p>}
+      {error && (
+        <p className="text-red-500 text-start">{`This field is required`}</p>
+      )}
     </div>
   );
 };
@@ -60,7 +62,7 @@ export const InputField = ({
   required = true,
   pattern,
   disabled = false,
-  placeholder=""
+  placeholder = "",
 }) => {
   const handleInputChange = (event) => {
     if (
@@ -90,12 +92,14 @@ export const InputField = ({
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         // export const inputStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded border `}
 
-        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${disabled && `bg-gray-100`} `}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${
+          disabled && `bg-gray-100`
+        } `}
         onChange={handleInputChange}
         placeholder={placeholder}
       />
       {errors[name] && (
-        <p className="text-red-500  mt-1">{'This field is required'}</p>
+        <p className="text-red-500  mt-1">{"This field is required"}</p>
       )}
     </div>
   );
@@ -232,12 +236,9 @@ export const SelectInput = ({
   required,
   disabled = false,
   ...rest
-
-  
- 
 }) => {
-  console.log("options",  options);
-  console.log("name",  name);
+  // console.log("options",  options);
+  // console.log("name",  name);
 
   return (
     <div className="flex flex-col">
@@ -245,21 +246,23 @@ export const SelectInput = ({
         {label}
       </label>
       <select
-      disabled={disabled}
+        disabled={disabled}
         {...register(name, { required: required })}
         className={`${inputStyle?.data}`}
         {...rest}
 
-        // defaultValue={defaultValue}
+        // defaultValue={defaultValue}x
       >
-        {/* <option disabled  selected >
+        {/* <option  >
         {label}
         </option> */}
         {options &&
           options?.map((option) => (
-            <option 
-            className="max-md:text-sm"
-            key={option?.value} value={option?.value}>
+            <option
+              className="max-md:text-sm"
+              key={option?.value}
+              value={option?.value}
+            >
               {option.label}
             </option>
           ))}
@@ -268,6 +271,47 @@ export const SelectInput = ({
     </div>
   );
 };
+
+export const SelectInputOptional = ({
+  label,
+  name,
+  options,
+  defaultValue,
+  error,
+  register,
+  required,
+  disabled = false,
+  ...rest
+}) => {
+  // console.log("options",options);
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={name} className={`${labelStyle?.data}`}>
+        {label}
+      </label>
+      <select
+        disabled={disabled}
+        {...register(name, { required: required })}
+        className={`${inputStyle?.data}`}
+        defaultValue={defaultValue}
+        {...rest}
+      >
+        {options &&
+          options?.map((option) => (
+            <option
+              className="max-md:text-sm"
+              key={option?.value}
+              value={option?.value}
+            >
+              {option.label}
+            </option>
+          ))}
+      </select>
+      {error[name] && <p className="text-red-500">This field is required</p>}
+    </div>
+  );
+};
+
 
 export const SelectInputWithChange = ({
   label,
@@ -278,7 +322,7 @@ export const SelectInputWithChange = ({
   register,
   required,
   disabled = false,
-    handleRoleChange,
+  handleRoleChange,
   ...rest
 }) => {
   // console.log("options",options);
@@ -289,7 +333,7 @@ export const SelectInputWithChange = ({
         {label}
       </label>
       <select
-      disabled={disabled}
+        disabled={disabled}
         {...register(name, { required: required })}
         className={`${inputStyle?.data}`}
         {...rest}
@@ -305,13 +349,11 @@ export const SelectInputWithChange = ({
               {option.label}
             </option>
           ))}
-          
       </select>
       {error[name] && <p className="text-red-500">This field is required</p>}
     </div>
   );
 };
-
 
 export const SelectComponent = ({
   label,
@@ -322,11 +364,9 @@ export const SelectComponent = ({
   required = false,
   defaultValue,
   disabled = false,
-  placeholder="",
-   // default to a no-op function
+  placeholder = "",
+  // default to a no-op function
 }) => {
-  
-
   return (
     <div className="flex flex-col w-full">
       <label htmlFor={name} className={labelStyle?.data}>
@@ -339,10 +379,9 @@ export const SelectComponent = ({
         // className="py-1 px-12 border border-gray-300 rounded"
         className={inputStyle?.data}
         defaultValue={defaultValue}
-      // always call onChangeHandler
+        // always call onChangeHandler
       >
-        <option 
-            className="max-md:text-sm" value="" disabled hidden>
+        <option className="max-md:text-sm" value="" disabled hidden>
           {placeholder ? placeholder : label}
         </option>
         {options &&
@@ -359,7 +398,6 @@ export const SelectComponent = ({
   );
 };
 
-
 export const SelectComponentWithOnchange = ({
   label,
   name,
@@ -370,7 +408,7 @@ export const SelectComponentWithOnchange = ({
   value, // Controlled value
   disabled = false,
   placeholder = "",
-  onChangeHandler
+  onChangeHandler,
 }) => {
   return (
     <div className="flex flex-col w-full">
@@ -401,7 +439,6 @@ export const SelectComponentWithOnchange = ({
     </div>
   );
 };
-
 
 export const AccountVerificatioSelect = ({
   label,
@@ -517,13 +554,7 @@ export const TextArea = ({
   );
 };
 
-export const FileUploadInput = ({
-  label,
-  name,
-  register,
-  accept,
-  
-}) => {
+export const FileUploadInput = ({ label, name, register, accept }) => {
   return (
     <div>
       <label className={`${labelStyle.data}`}>{label}</label>
@@ -532,19 +563,18 @@ export const FileUploadInput = ({
         name={name}
         type="file"
         accept={accept}
-        
         className={`${inputStyle.data} `}
         {...register(name)}
       />
     </div>
   );
 };
-export  const ExcelUploadInput = ({
-   label, name, register, accept 
-  }) => {
+export const ExcelUploadInput = ({ label, name, register, accept }) => {
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label}
+      </label>
       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md">
         <div className="space-y-1 text-center">
           <svg
@@ -589,15 +619,14 @@ export  const ExcelUploadInput = ({
               />
             </label>
           </div>
-          <p className="text-xs text-gray-500">Excel files (.xlsx, .xls, .csv) up to 10MB</p>
+          <p className="text-xs text-gray-500">
+            Excel files (.xlsx, .xls, .csv) up to 10MB
+          </p>
         </div>
       </div>
     </div>
   );
 };
-
-
-
 
 // const labelStyle = {
 //   data: "text-gray-700 mb-2"
@@ -640,49 +669,48 @@ const customStyles = {
   }),
 };
 
-  export const CustomMultiSelect = ({
-    control,
-    name,
-    options,
-    placeholder,
-    label,
-    defaultValue,
-    rules={} // Accept rules as a prop
-  }) => {
-    return (
-      <div className="flex flex-col w-full">
-        <label className="mb-2">
-          {label}
-        </label>
-        <Controller
-          name={name}
-          control={control}
-          defaultValue={defaultValue} // Set default value
-          rules={rules} // Apply validation rules
-          render={({ field, fieldState: { error } }) => (
-            <>
-              <Select
-                {...field}
-                isMulti
-                options={options}
-                className="react-select-container"
-                classNamePrefix="react-select"
-                placeholder={placeholder}
-                onChange={(selected) =>
-                  field.onChange(selected?.map((option) => option?.value))
-                }
-                value={options?.filter((option) =>
-                  field?.value?.includes(option?.value)
-                )}
-              />
-              {error && <p className="text-red-500 mt-2">This field is required</p>}
-            </>
-          )}
-        />
-      </div>
-    );
-  }
-
+export const CustomMultiSelect = ({
+  control,
+  name,
+  options,
+  placeholder,
+  label,
+  defaultValue,
+  rules = {}, // Accept rules as a prop
+}) => {
+  return (
+    <div className="flex flex-col w-full">
+      <label className="mb-2">{label}</label>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={defaultValue} // Set default value
+        rules={rules} // Apply validation rules
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <Select
+              {...field}
+              isMulti
+              options={options}
+              className="react-select-container"
+              classNamePrefix="react-select"
+              placeholder={placeholder}
+              onChange={(selected) =>
+                field.onChange(selected?.map((option) => option?.value))
+              }
+              value={options?.filter((option) =>
+                field?.value?.includes(option?.value)
+              )}
+            />
+            {error && (
+              <p className="text-red-500 mt-2">This field is required</p>
+            )}
+          </>
+        )}
+      />
+    </div>
+  );
+};
 
 export const CustomMultiSelectForEdit = ({
   control,
@@ -690,7 +718,7 @@ export const CustomMultiSelectForEdit = ({
   options,
   placeholder,
   label,
-  defaultValue = []
+  defaultValue = [],
 }) => {
   return (
     <div className="flex flex-col w-full">
@@ -714,7 +742,9 @@ export const CustomMultiSelectForEdit = ({
             placeholder={placeholder}
             onChange={(selected) => field.onChange(selected)}
             value={options?.filter((option) =>
-              field?.value?.some((val) => val.vehicle_category_id === option.value)
+              field?.value?.some(
+                (val) => val.vehicle_category_id === option.value
+              )
             )}
             getOptionLabel={(option) => option.label}
             getOptionValue={(option) => option.value}
@@ -724,9 +754,6 @@ export const CustomMultiSelectForEdit = ({
     </div>
   );
 };
-
- 
-
 
 export default FileUploadInput;
 export const SelectChange = (props) => {
@@ -774,7 +801,7 @@ export const DateField = ({
   required = true,
   pattern,
   disabled = false,
-  placeholder = ""
+  placeholder = "",
 }) => {
   const handleInputChange = (event) => {
     if (
@@ -807,17 +834,23 @@ export const DateField = ({
 
   return (
     <div className="mb-4">
-      <label className="text-gray-800 text-sm font-semibold leading-tight tracking-normal">{label}</label>
+      <label className="text-gray-800 text-sm font-semibold leading-tight tracking-normal">
+        {label}
+      </label>
       <input
         disabled={disabled}
         type={type}
         {...register(name, registerOptions)}
-        className={`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${name === "name" ? "uppercase" : ""} ${disabled ? "bg-gray-100" : ""}`}
+        className={`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${
+          name === "name" ? "uppercase" : ""
+        } ${disabled ? "bg-gray-100" : ""}`}
         onChange={handleInputChange}
         placeholder={placeholder}
       />
       {errors[name] && (
-        <p className="text-red-500 mt-1">{errors[name].message || 'This field is required'}</p>
+        <p className="text-red-500 mt-1">
+          {errors[name].message || "This field is required"}
+        </p>
       )}
     </div>
   );

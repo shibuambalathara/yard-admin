@@ -33,6 +33,8 @@ export const Role = [
   { label: "Client Level Super User", value: "CLIENT_LEVEL_SUPER_USER" },
   { label: "Client Level  User", value: "CLIENT_LEVEL_USER" },
   { label: "Client Level Sub User", value: "CLIENT_LEVEL_SUB_USER" },
+  { label: "Repo User", value: "REPO_USER" },
+  { label: "Repo Admin", value: "REPO_ADMIN" },
 ];
 
 
