@@ -114,7 +114,7 @@ export const getUserProfile = async() => {
   };
 
   export const FetchOrganisation=async (data)=>{
-    console.log("zzzzz",data);
+    console.log("FetchOrganisation role:===",data);
     try {
       const response = await axiosInstance.get(
         `/user/organizations?role=${data}`

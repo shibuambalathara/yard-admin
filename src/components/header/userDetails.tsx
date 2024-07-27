@@ -28,6 +28,9 @@ const UserDetails = () => {
   } = user || {};
 
   // console.log("user")
+
+  console.log("HIT ONE ");
+  
   
 
   const [isOpen, setIsOpen] = useState(false);
