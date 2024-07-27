@@ -15,7 +15,8 @@ import DataLoading from "@/components/commonComponents/spinner/DataFetching";
 import Spinner from "@/components/commonComponents/spinner/spinner";
 import { useRouter } from "next/navigation";
 
-const AddIndividualVehicle = () => {
+const AddIndividualVehicle = (props) => {
+  const { superRequire}=props
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,7 @@ const AddIndividualVehicle = () => {
     OTHER_IMAGE: FileList;
   };
   type Inputs = {
-    cl_org_id: string;
+    cl_org_id:string;
     vehicle_category_id: string;
     loan_number: string;
     actual_entry_date: string;
@@ -49,7 +50,7 @@ const AddIndividualVehicle = () => {
     board_type: string;
     rc_available: string;
     key_count: string;
-    files: FileInputs; // Files property containing images
+    // files: FileInputs; // Files property containing images
   };
 
   const {
@@ -94,33 +95,33 @@ const AddIndividualVehicle = () => {
 //     }
 //   }, []);
 
-//   const FetchAllVehicleCategory = useCallback(async () => {
-//     try {
-//       const response = await axiosInstance.get(`/Vehicle/cat`);
-//       setAllVehicleCategory(response?.data?.vehicleCategory);
-//       reset();
-//       // toast.success("Vehicle categories fetched successfully");
-//     } catch (error) {
-//       // toast.error("Failed to fetch vehicle categories");
-//       console.log("error",error);
+  const FetchAllVehicleCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/Vehicle/cat`);
+      setAllVehicleCategory(response?.data?.vehicleCategory);
+      reset();
+      // toast.success("Vehicle categories fetched successfully");
+    } catch (error) {
+      // toast.error("Failed to fetch vehicle categories");
+      console.log("error",error);
       
-//     }
-//   }, []);
+    }
+  }, []);
 
 //   const ClientOrganisations = clientLevelOrg?.map((item) => ({
 //     value: item.id,
 //     label: item.cl_org_name,
 //   }));
 
-//   const vehicleCategorys = vehicleCategory?.map((item) => ({
-//     value: item.id,
-//     label: item.name,
-//   }));
+  const vehicleCategorys = vehicleCategory?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
 
-//   useEffect(() => {
-//     FetchAllVehicleCategory();
-//     FetchClientLevelOrgs();
-//   }, [FetchAllVehicleCategory, FetchClientLevelOrgs]);
+  useEffect(() => {
+    FetchAllVehicleCategory();
+   
+  }, [FetchAllVehicleCategory]);
 
   const AddIndividualVehicle = useCallback(async (data: Inputs) => {
     console.log('data on submit',data);
@@ -135,7 +136,7 @@ const AddIndividualVehicle = () => {
     // Append other form data fields
     const dataUpperCase = {
       ...data,
-      cl_org_id: data.cl_org_id,
+      // cl_org_id: data.cl_org_id,
       vehicle_category_id: data.vehicle_category_id,
       loan_number: data.loan_number,
       actual_entry_date: actual_entry_date,
@@ -155,6 +156,9 @@ const AddIndividualVehicle = () => {
       key_count: data.key_count,
     };
     // /   // Create a FormData object
+    if (superRequire) {
+      dataUpperCase.cl_org_id = data.cl_org_id;
+    }
 
     console.log("dataUpperCase",dataUpperCase);
     
@@ -177,29 +181,24 @@ const AddIndividualVehicle = () => {
     };
 
     // Append files to FormData
-    appendFiles(data.files.FRONT_IMAGE, "FRONT_IMAGE");
-    appendFiles(data.files.BACK_IMAGE, "BACK_IMAGE");
-    appendFiles(data.files.RIGHT_IMAGE, "RIGHT_IMAGE");
-    appendFiles(data.files.LEFT_IMAGE, "LEFT_IMAGE");
-    appendFiles(data.files.ODOMETER_IMAGE, "ODOMETER_IMAGE");
-    appendFiles(data.files.INTERIOR_IMAGE, "INTERIOR_IMAGE");
-    appendFiles(data.files.OTHER_IMAGE, "OTHER_IMAGE");
+    // appendFiles(data.files.FRONT_IMAGE, "FRONT_IMAGE");
+    // appendFiles(data.files.BACK_IMAGE, "BACK_IMAGE");
+    // appendFiles(data.files.RIGHT_IMAGE, "RIGHT_IMAGE");
+    // appendFiles(data.files.LEFT_IMAGE, "LEFT_IMAGE");
+    // appendFiles(data.files.ODOMETER_IMAGE, "ODOMETER_IMAGE");
+    // appendFiles(data.files.INTERIOR_IMAGE, "INTERIOR_IMAGE");
+    // appendFiles(data.files.OTHER_IMAGE, "OTHER_IMAGE");
 
     console.log("formdata",formData);
     
 
     try {
       console.log("Submitting form data to /vehicle/create");
-      const response = await axiosInstance.post("/vehicle/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        maxBodyLength: Infinity,
-      });
+      const response = await axiosInstance.post("/repossession/vehicle", dataUpperCase );
       console.log("Response received:", response);
       toast.success(response?.data?.message);
       reset()
-      router.push("/vehicle")
+      router.push("/repoVehicle")
       // router.push('/vehicle')
     } catch (error) {
       const errorMessages = error?.response?.data?.message;
@@ -262,15 +261,23 @@ const AddIndividualVehicle = () => {
               errors={errors}
               pattern
             />
-            <InputField
+            {/* <InputField
               label="Actual Entry Date"
               type="date"
               name="actual_entry_date"
               register={register}
               errors={errors}
               pattern
-            />
-
+            /> */}
+           <SelectComponent
+                  label="Select Category "
+                  options={vehicleCategorys}
+                  name="vehicle_category_id"
+                  register={register}
+                  errors={errors}
+                  required={true}
+                  defaultValue=""
+                />
             <InputField
               label="Manufacturing Date"
               type="date"
@@ -323,17 +330,7 @@ const AddIndividualVehicle = () => {
               required={false}
             />
 
-            <div>
-              <SelectComponent
-                label="Start Condition"
-                name="start_condition"
-                options={vehicleStatus}
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
+            
             <InputField
               label="Registration Number"
               type="text"
@@ -362,16 +359,16 @@ const AddIndividualVehicle = () => {
             />
             
 
-            <InputField
+            {/* <InputField
               label="Odometer"
               type="number"
               name="odometer"
               register={register}
               errors={errors}
               pattern
-            />
+            /> */}
 
-            <InputField
+            {/* <InputField
               label="Board Type"
               type="text"
               name="board_type"
@@ -380,9 +377,9 @@ const AddIndividualVehicle = () => {
               pattern
               required={false}
 
-            />
+            /> */}
 
-            <div className="">
+            {/* <div className="">
             <RadioButtonInput
               label="RC Available"
               type="radio"
@@ -392,17 +389,17 @@ const AddIndividualVehicle = () => {
               defaultValue=""
               placeholder=""
             />
-            </div>
+            </div> */}
 
-            <InputField
+            {/* <InputField
               label="Key Count"
               type="number"
               name="key_count"
               register={register}
               errors={errors}
               pattern
-            />
-            <FileUploadInput
+            /> */}
+            {/* <FileUploadInput
               label="Front image"
               name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files
               register={register}
@@ -450,7 +447,7 @@ const AddIndividualVehicle = () => {
               register={register}
               accept="image/*"
               
-            />
+            /> */}
           </div>
 
           <div className="mt-6">

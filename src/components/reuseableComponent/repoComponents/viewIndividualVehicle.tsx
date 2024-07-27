@@ -38,7 +38,7 @@ interface ImageType {
 
 type Inputs = {
   yard_id: string;
-  cl_org_id: string;
+  // cl_org_id: string;
   vehicle_category_id: string;
   loan_number: string;
   actual_entry_date: string;
@@ -66,9 +66,8 @@ type FileInputs = {
 };
 
 const ViewIndividualVehicle = ({ vehicleId }) => {
+  console.log("123456", vehicleId);
 
-  console.log("123456",vehicleId);
-  
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
@@ -80,7 +79,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
 
   useEffect(() => {
-    const categorizedImages = vehicleImage.reduce<Record<string, ImageType[]>>(
+    const categorizedImages = vehicleImage?.reduce<Record<string, ImageType[]>>(
       (acc, item) => {
         if (!acc[item.img_type]) {
           acc[item.img_type] = [];
@@ -114,7 +113,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
 
     try {
       const response = await axiosInstance.get(
-        `/vehicle/${vehicleId?.vehicleId}`
+        `/repossession/vehicle/${vehicleId?.vehId}`
       );
 
       const destructuredData = {
@@ -181,8 +180,8 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
     }));
   };
 
-  // const editImage = useCallback(
-  //   async (data: Inputs) => {
+  const editImage = useCallback(
+    async (data: Inputs) => {
   //     const formData = new FormData();
   //     console.log("formdata1:" + JSON.stringify(formData));
   //     const vehicleImgArray = Object.entries(uploadImages).flatMap(
@@ -205,25 +204,25 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
   //       }
   //     });
   //     console.log("formdata2:" + JSON.stringify(formData));
-  //     const modifiedData = {
-  //       ...data,
+      const modifiedData = {
+        ... data,
 
-  //       app_entry_date: data?.app_entry_date
-  //         ? new Date(data?.app_entry_date)?.toISOString()
-  //         : null,
-  //       app_exit_date: data?.app_exit_date
-  //         ? new Date(data?.app_exit_date)?.toISOString()
-  //         : null,
-  //       mfg_year: data?.mfg_year
-  //         ? new Date(data?.mfg_year)?.toISOString()
-  //         : null,
-  //       actual_entry_date: data?.actual_entry_date
-  //         ? new Date(data?.actual_entry_date)?.toISOString()
-  //         : null,
-  //       actual_exit_date: data?.actual_exit_date
-  //         ? new Date(data?.actual_exit_date)?.toISOString()
-  //         : null,
-  //     };
+        app_entry_date: data?.app_entry_date
+          ? new Date(data?.app_entry_date)?.toISOString()
+          : null,
+        app_exit_date: data?.app_exit_date
+          ? new Date(data?.app_exit_date)?.toISOString()
+          : null,
+        mfg_year: data?.mfg_year
+          ? new Date(data?.mfg_year)?.toISOString()
+          : null,
+        actual_entry_date: data?.actual_entry_date
+          ? new Date(data?.actual_entry_date)?.toISOString()
+          : null,
+        actual_exit_date: data?.actual_exit_date
+          ? new Date(data?.actual_exit_date)?.toISOString()
+          : null,
+      };
 
   //     Object.entries(modifiedData).forEach(([key, value]) => {
   //       if (key !== "vehicle_img" && value !== undefined) {
@@ -233,27 +232,27 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
   //     console.log(vehicleImgArray);
   //     console.log("formdata3:" + JSON.stringify(formData));
 
-  //     try {
-  //       const response = await axiosInstance.put(
-  //         `/vehicle/${vehicleId?.vehicleId}`,
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //           maxBodyLength: Infinity,
-  //         }
-  //       );
+      try {
+        const response = await axiosInstance.put(
+          `/repossession/vehicle/${vehicleId?.vehId}`,
+          modifiedData ,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            maxBodyLength: Infinity,
+          }
+        );
 
-  //       fetchVehicle();
-  //       toast.success(response?.data?.message);
-  //     } catch (error) {
-  //       toast.error(error?.response?.data?.message);
-  //       console.log(error?.response);
-  //     }
-  //   },
-  //   [vehicleId?.vehicleId, uploadImages, images]
-  // );
+        fetchVehicle();
+        toast.success(response?.data?.message);
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+        console.log(error?.response);
+      }
+    },
+    [vehicleId?.vehicleId, uploadImages, images]
+  );
 
   if (isLoading) {
     return (
@@ -270,7 +269,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
           Vehicle Details
         </h2>
 
-        <form  className="mt-8 space-y-6">
+        <form  onSubmit={handleSubmit(editImage)}  className="mt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
             <div>
               <SelectComponent
@@ -291,7 +290,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern
             />
-            <InputField
+            {/* <InputField
               label="Actual Entry Date"
               type="date"
               name="actual_entry_date"
@@ -306,8 +305,8 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-            />
-            <InputField
+            /> */}
+            {/* <InputField
               label="App Exit Date"
               type="date"
               required={false}
@@ -324,7 +323,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-            />
+            /> */}
 
             <InputField
               label="Manufacturing Date"
@@ -340,7 +339,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               type="text"
               name="make"
               register={register}
-              errors={errors}
+              errors={errors  }
               pattern
             />
             <InputField
@@ -360,23 +359,31 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               pattern
             />
             <InputField
-              label="Colour"
+              label="Organizatin code"
               type="text"
-              name="colour"
+              name="cl_org.code"
               register={register}
               errors={errors}
               pattern
             />
             <InputField
+              label="code"
+              type="text"
+              name="code"
+              register={register}
+              errors={errors}
+              pattern
+            />
+            {/* <InputField
               label="Condition"
               type="text"
               name="condition"
               register={register}
               errors={errors}
               pattern
-            />
+            /> */}
 
-            <div>
+            {/* <div>
               <SelectComponent
                 label="Start Condition"
                 name="start_condition"
@@ -385,7 +392,7 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
                 errors={errors}
                 defaultValue=""
               />
-            </div>
+            </div> */}
             <InputField
               label="Registration Number"
               type="text"
@@ -412,48 +419,20 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern
             />
-            <InputField
+            {/* <InputField
               label="Board Type"
               type="text"
               name="board_type"
               register={register}
               errors={errors}
               pattern
-            />
+            /> */}
 
-            <InputField
-              label="Odometer"
-              type="number"
-              name="odometer"
-              register={register}
-              errors={errors}
-              pattern
-            />
-
-            <div className="justify-self-center">
-              <RadioButtonInput
-                label="RC Available"
-                type="radio"
-                name="rc_available"
-                register={register}
-                error={errors}
-                defaultValue=""
-                placeholder=""
-              />
-            </div>
-
-            <InputField
-              label="Key Count"
-              type="number"
-              name="key_count"
-              register={register}
-              errors={errors}
-              pattern
-            />
+            <div className="justify-self-center"></div>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            {Object.entries(images).map(([imageType, imageList]) => (
+            {/* {Object.entries(images)?.map(([imageType, imageList]) => (
               <div
                 key={imageType}
                 className="border rounded-lg shadow-xl border-black"
@@ -500,39 +479,32 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
                 ))}
                 <div className="flex flex-wrap gap-4 mt-2"></div>
               </div>
-            ))}
+            ))} */}
           </div>
-          {/* <button
+          <button
             type="submit"
             className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
           >
             Submit
-          </button> */}
+          </button>
         </form>
 
         <div className=" w-full text-center p-1 mt-3  space-x-2">
-      
-      <button
-      type="button"
-        // onClick={() => onClose()}
-        className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-      >
-        REJECT
-      </button>
-      <button
-        type="button"
-        className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-      >
-        ACCEPT
-      </button>
-    </div>
-        <Link
-        href={`/uploadImage`}
-          type="button "
-          className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-        > 
-          upload Image
-        </Link>
+          <button
+            type="button"
+            // onClick={() => onClose()}
+            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+          >
+            CANCEL
+          </button>
+          <button
+            type="submit"
+            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+          >
+           SUBMIT
+          </button>
+        </div>
+        
       </div>
     </div>
   );

@@ -191,19 +191,19 @@ export const clientLevelUser = [
       },
     ],
   },
-  // {
-  //   title: "Repo Vehicles",
-  //   icon: <BsFillTruckFrontFill />,
-  //   path: "/repoVehicle",
+  {
+    title: "Repo Vehicles",
+    icon: <BsFillTruckFrontFill />,
+    path: "/repoVehicle",
 
-  //   },
-  // {
-  //   title: "Requested for Repos",
-  //   icon: <AiFillRightCircle />,
-  //   path: "",
+    },
+  {
+    title: "Requested for Repos",
+    icon: <AiFillRightCircle />,
+    path: "",
 
     
-  // },
+  },
 
 
 ];
@@ -288,19 +288,19 @@ export const clientLevelSuperUser = [
       },
     ],
   },
-  // {
-  //   title: "Repo Vehicles",
-  //   icon: <BsFillTruckFrontFill />,
-  //   path: "/superUserRepoVehicle",
+  {
+    title: "Repo Vehicles",
+    icon: <BsFillTruckFrontFill />,
+    path: "/superUserRepoVehicles",
 
-  //   },
-  // {
-  //   title: "Requested for Repos",
-  //   icon: <AiFillRightCircle />,
-  //   path: "requestedRepo",
+    },
+  {
+    title: "Requested for Repos",
+    icon: <AiFillRightCircle />,
+    path: "requestedRepo",
 
     
-  // },
+  },
 ];
 
 export const clientLevelSubUser = [

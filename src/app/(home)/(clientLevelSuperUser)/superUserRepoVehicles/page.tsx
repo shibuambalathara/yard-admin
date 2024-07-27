@@ -4,7 +4,7 @@ import React from 'react'
 const ViewAllRepoVehicle = () => {
   return (
     <>
-    <AllRepoDetails/></>
+    <AllRepoDetails childrenRequire={true}/></>
   )
 }
 
