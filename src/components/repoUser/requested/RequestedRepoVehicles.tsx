@@ -44,7 +44,7 @@ const AllRequestedVehicles = (props) => {
       }
 
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `repossession/repo_veh_req?${params.toString()}`
       );
       console.log("res", response);
 
@@ -81,18 +81,19 @@ const AllRequestedVehicles = (props) => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
   }, [Category, page, vehicleStatus]);
 
-  const UsersData = filteredData?.vehicle || [];
+  const UsersData = filteredData?.repoVehicleRequests
+  || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "make",
-        accessorKey: "make",
+        header: "City",
+        accessorKey: "initial_city",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "model",
-        accessorKey: "model",
+        header: "State",
+        accessorKey: "initial_state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -106,14 +107,14 @@ const AllRequestedVehicles = (props) => {
       //   // id: "clsup_org_name", // Ensure unique id
       // },
       {
-        header: "Category ",
-        accessorKey: "vehicle_category.name",
+        header: "Registration no ",
+        accessorKey: "repo_vehicle.reg_number",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "code",
-        accessorKey: "code",
+        accessorKey: "repo_vehicle.code",
         // id: "code", // Ensure unique id
       },
 

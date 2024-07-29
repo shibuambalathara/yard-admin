@@ -1,11 +1,11 @@
 import React from 'react'
 import IndividualVehicle from "@/components/repoUser/repoUserVehicles/individualRepoVehicle"
 
-const IndividualRepoVehicle = () => {
+const IndividualRepoVehicle = ({params}:{params:{vehicleId:string}}) => {
   return (
     <div>
         {/* <p>safasfjasdlfadslf</p> */}
-        <IndividualVehicle/>
+        <IndividualVehicle vehicleId={params} />
         </div>
   )
 }

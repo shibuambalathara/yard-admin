@@ -43,7 +43,7 @@ const AddRepoVehicles = () => {
           </Tab.List>
           <Tab.Panels className="mt-2 p-4">
             <Tab.Panel>
-              <AddIndividualVehicle />
+              <AddIndividualVehicle  />
             </Tab.Panel>
             <Tab.Panel>
               <AddMultipleVehicle />
