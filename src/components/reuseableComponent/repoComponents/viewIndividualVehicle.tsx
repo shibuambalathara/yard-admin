@@ -65,7 +65,7 @@ type FileInputs = {
   [key: string]: FileList;
 };
 
-const ViewIndividualVehicle = ({ vehicleId }) => {
+const IndividualVehicle = ({ vehicleId }) => {
   console.log("123456", vehicleId);
 
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
@@ -510,4 +510,4 @@ const ViewIndividualVehicle = ({ vehicleId }) => {
   );
 };
 
-export default ViewIndividualVehicle;
+export default IndividualVehicle;
