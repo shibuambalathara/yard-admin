@@ -202,7 +202,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicle/${row.original.id}`}
+        href={`/requestedRepoVehicle/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""

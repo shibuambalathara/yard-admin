@@ -36,7 +36,7 @@ const AllRepoManagemnet = () => {
   const stateDropdownRef = useRef(null);
   const [stateAndCities,setAllStatesAndCities]=useState([])
   const [uniqueStates, setUniqueStates] = useState([]);
-  const [editModalOpen, setEditModalOpen] = useState(true);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   const handleModalClose = () => {
@@ -57,41 +57,44 @@ const AllRepoManagemnet = () => {
     setUniqueStates(uniqueStates);
   }, []); // Only run once on component mount
 
-  // const fetchData = async () => {
-  //   setIsLoading(true);
+  const fetchData = async () => {
+    setIsLoading(true);
 
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/yard?page=${page}&limit=${limit}&country=INDIA&state=${selectedState}&city=${selectDistrict}`
-  //     );
-  //     console.log("all yards", response);
-  //     setFilteredData(response?.data?.res);
+    try {
+      const response = await axiosInstance.get(
+        `/repo-agency?page=${page}&limit=${limit}&state=${selectedState}&city=${selectDistrict}`
+      );
+      console.log("all yards", response);
+      setFilteredData(response?.data?.res);
 
-  //     setSuccess({
-  //       text: response?.data?.message,
-  //     });
-  //   } catch (error) {
-  //     setError({
-  //       text: error?.response?.data?.message,
-  //     });
-  //     console.error("Error fetching data:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // console.log("filt", filteredData);
+      setSuccess({
+        text: response?.data?.message,
+      });
+    } catch (error) {
+      setError({
+        text: error?.response?.data?.message,
+      });
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  
+  }, [ page, selectedState]);
+  console.log("filt", filteredData);
   const handleEditClick = (userId) => {
     setSelectedUserId(userId);
     setEditModalOpen(true);
   };
-  const UsersData = filteredData?.yard || [];
+  const UsersData = filteredData?.repoAgency || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "yard name",
-        accessorKey: "yard_name",
+        header: "organization name",
+        accessorKey: "org_name",
       },
       {
         header: "state",
@@ -223,7 +226,7 @@ console.log("filteredData subOrg",filteredData);
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
                   <AddRepo
                     onClose={handleModalClose}
-                    fetchData={''}
+                    fetchData={fetchData}
                   />
                 </div>
               )}
@@ -236,7 +239,7 @@ console.log("filteredData subOrg",filteredData);
                 <ViewRepoManagement
                   clientSuperId={selectedUserId}
                   onClose={handleEditModalClose}
-                  fetchData={''}
+                  fetchData={fetchData}
                 />
               </div>
              </div>
@@ -286,22 +289,19 @@ console.log("filteredData subOrg",filteredData);
 };
 
 export default AllRepoManagemnet;
+const View = ({ row, onEditClick }) => {
+  console.log("row form category", row);
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
+    <div
+      onClick={() => onEditClick(row?.original?.id)}
+      className="flex justify-center items-center py-1 px-3   space-x-2 bg-gray-700 rounded-md  text-white"
+    >
       <p>
         <MdOutlineViewHeadline />
       </p>
-      <Link
-        href={`/organisationManagement/clientLevelOrg/${row.original.id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
-        View
-      </Link>
+
+      <span> View</span>
     </div>
   );
 };

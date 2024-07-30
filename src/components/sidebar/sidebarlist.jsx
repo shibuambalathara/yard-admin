@@ -77,11 +77,11 @@ export const Super_Admin = [
         icon: <HiBuildingOffice2 />,
         path: "/organisationManagement/yardManagement",
       },
-      // {
-      //   title: "Repo  Organisation  ",
-      //   icon: <HiBuildingOffice2 />,
-      //   path: "/organisationManagement/repoManagement",
-      // },
+      {
+        title: "Repo  Organisation  ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/repoManagement",
+      },
     ],
   },
 ];
@@ -200,7 +200,7 @@ export const clientLevelUser = [
   {
     title: "Requested for Repos",
     icon: <AiFillRightCircle />,
-    path: "",
+    path: "/requestedRepo",
 
     
   },
