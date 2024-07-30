@@ -47,10 +47,11 @@ const RepoRequest = ({ onClose, vehicleId, fetchData }) => {
       const response = await axiosInstance.post("repossession/repo_veh_req", modifiedData);
       console.log("Response:", response);
       toast.success(response?.data?.message)
-      setTimeout(() => {
-        onClose();
-      }, 100);
+      
+       
+     
       fetchData();
+      onClose();
       router.push('/repoUserVehicles')
     } catch (error) {
       console.error("Error:", error.response);

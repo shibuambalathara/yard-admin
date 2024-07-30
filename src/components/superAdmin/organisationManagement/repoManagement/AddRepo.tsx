@@ -17,10 +17,9 @@ import {
 } from "../../../../components/ui/style";
 
 type Inputs = {
-  yard_name: string;
+  name: string;
   user_id: string;
-  field_executive_name: string;
-  field_executive_contact: number;
+  
 
   country: string;
   state: string;
@@ -81,25 +80,27 @@ const AddRepo = ({onClose, fetchData}) => {
 
   console.log("filtered districts", filterCity);
 
-  // const AddRepo = useCallback(async (data: Inputs) => {
-  //   console.log("create from cientSuperorg", data);
-  //   const modifiedData = {
-  //     ...data,
-  //     yard_name: data?.yard_name?.toUpperCase(),
-  //     field_executive_name: data?.field_executive_name?.toUpperCase(),
-  //     city: data?.city,
-  //   };
-
-  //   try {
-  //     const response = await axiosInstance.post("yard/create", modifiedData);
-  //     console.log("response after clientOrgCreaet", response);
-  //     toast.success(response?.data?.message);
+  const AddRepo = useCallback(async (data: Inputs) => {
+    console.log("create from cientSuperorg", data);
+    const modifiedData = {
      
-  //   } catch (error) {
-  //     console.log("error", error);
-  //     toast.error(error?.response?.data?.message);
-  //   }
-  // }, []);
+      
+      org_name:data?.name,
+      city: data?.city,
+      state: data?.state,
+    };
+
+    try {
+      const response = await axiosInstance.post("/repo-agency", modifiedData);
+      console.log("response after clientOrgCreaet", response);
+      toast.success(response?.data?.message);
+      onClose()
+      fetchData()
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error?.response?.data?.message);
+    }
+  }, []);
 
 
 
@@ -114,7 +115,7 @@ const AddRepo = ({onClose, fetchData}) => {
       </div>
 
           <form
-            // onSubmit={handleSubmit(AddRepo)}
+            onSubmit={handleSubmit(AddRepo)}
             className="space-y-3 grid grid-cols-1  gap-3 w-full place-items-center"
           >
            

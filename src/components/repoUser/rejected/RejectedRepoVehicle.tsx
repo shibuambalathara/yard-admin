@@ -12,7 +12,7 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
-const AllRejectedVehicles = () => {
+const AllRejectedVehicles = (props) => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   //   const [modalOpen, setModalOpen] = useState(false);
@@ -33,18 +33,17 @@ const AllRejectedVehicles = () => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
+        status:'REJECTED',
       });
 
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
 
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
-      }
+    
 
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `repossession/repo_veh_req?${params.toString()}`
       );
       console.log("res", response);
 
@@ -81,18 +80,19 @@ const AllRejectedVehicles = () => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
   }, [Category, page, vehicleStatus]);
 
-  const UsersData = filteredData?.vehicle || [];
+  const UsersData = filteredData?.repoVehicleRequests
+  || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "make",
-        accessorKey: "make",
+        header: "City",
+        accessorKey: "initial_city",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "model",
-        accessorKey: "model",
+        header: "State",
+        accessorKey: "initial_state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -106,14 +106,14 @@ const AllRejectedVehicles = () => {
       //   // id: "clsup_org_name", // Ensure unique id
       // },
       {
-        header: "Category ",
-        accessorKey: "vehicle_category.name",
+        header: "Registration no ",
+        accessorKey: "repo_vehicle.reg_number",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "code",
-        accessorKey: "code",
+        accessorKey: "repo_vehicle.code",
         // id: "code", // Ensure unique id
       },
 
@@ -139,7 +139,7 @@ const AllRejectedVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Rejected Repo Vehicles
+        Requested Repo Vehicles
       </h1>
      <div className="flex items-end">
       <div className="flex flex-col w-40  ml-5">
@@ -163,7 +163,7 @@ const AllRejectedVehicles = () => {
       </div>
 
      
-    
+       
         </div>
       <div>
       {filteredData?.totalCount < 1 ? (
