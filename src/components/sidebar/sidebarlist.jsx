@@ -128,11 +128,11 @@ export const yardManager = [
     icon: <MdWavingHand />,
     path: "/waiver ",
   },  
-  // {
-  //   title: "Repo Requests",
-  //   icon: <FaCarOn />,
-  //   path: "/waiver ",
-  // }
+  {
+    title: "Repo Requests",
+    icon: <FaCarOn />,
+    path: "/repoRequests ",
+  }
   
 ];
 
