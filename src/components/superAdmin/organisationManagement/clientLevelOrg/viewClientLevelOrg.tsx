@@ -28,7 +28,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
     user_id: string;
     clsup_org_id: string;
     org_name: string;
-    cl_org_category_id: string;
+    client_category_id: string;
     country: string;
     state: string;
     user: string;
@@ -248,7 +248,7 @@ const ViewIndividualClientLevelOrg = ({ clientOrgId }) => {
                 <SelectInput
                   label="Select Category "
                   options={AllCategory}
-                  name="cl_org_category_id"
+                  name="client_category_id"
                   register={register}
                   error={errors}
                   required={true}
