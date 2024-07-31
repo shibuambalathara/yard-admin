@@ -288,7 +288,7 @@ const IndividualVehicle = ({ vehicleId }) => {
                 options={vehicleCategorys}
                 register={register}
                 errors={errors}
-                defaultValue=""
+                defaultValue="" disabled={true}
               />
             </div>
 
@@ -298,7 +298,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="loan_number"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
             {/* <InputField
               label="Actual Entry Date"
@@ -342,6 +342,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled={true}
             />
 
             <InputField
@@ -350,7 +351,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="make"
               register={register}
               errors={errors  }
-              pattern
+              pattern disabled={true}
             />
             <InputField
               label="Model"
@@ -358,7 +359,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="model"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
             <InputField
               label="Variant"
@@ -366,7 +367,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="variant"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
             <InputField
               label="Organizatin code"
@@ -374,7 +375,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="cl_org.code"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
             <InputField
               label="code"
@@ -382,7 +383,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="code"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
             {/* <InputField
               label="Condition"
@@ -409,7 +410,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="reg_number"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
 
             <InputField
@@ -418,7 +419,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="eng_number"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
 
             <InputField
@@ -427,7 +428,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="chasis_number"
               register={register}
               errors={errors}
-              pattern
+              pattern disabled={true}
             />
             {/* <InputField
               label="Board Type"

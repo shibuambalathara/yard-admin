@@ -12,7 +12,8 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
-const AllApprovedRepoVehicles = () => {
+const AllRequestedVehicles = (props) => {
+  const{user}=props
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   //   const [modalOpen, setModalOpen] = useState(false);
@@ -33,18 +34,19 @@ const AllApprovedRepoVehicles = () => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
+        status:'REPOSSESSION_APPROVED',
       });
 
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
 
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
-      }
+      // if (vehicleStatus) {
+      //   params.append("status", vehicleStatus);
+      // }
 
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `repossession/repo_veh_req?${params.toString()}`
       );
       console.log("res", response);
 
@@ -81,18 +83,19 @@ const AllApprovedRepoVehicles = () => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
   }, [Category, page, vehicleStatus]);
 
-  const UsersData = filteredData?.vehicle || [];
+  const UsersData = filteredData?.repoVehicleRequests
+  || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "make",
-        accessorKey: "make",
+        header: "City",
+        accessorKey: "initial_city",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "model",
-        accessorKey: "model",
+        header: "State",
+        accessorKey: "initial_state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -106,20 +109,20 @@ const AllApprovedRepoVehicles = () => {
       //   // id: "clsup_org_name", // Ensure unique id
       // },
       {
-        header: "Category ",
-        accessorKey: "vehicle_category.name",
+        header: "Registration no ",
+        accessorKey: "repo_vehicle.reg_number",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "code",
-        accessorKey: "code",
+        accessorKey: "repo_vehicle.code",
         // id: "code", // Ensure unique id
       },
 
       {
         header: "View",
-        cell: ({ row }) => View(row)
+        cell: ({ row }) =><View row={row} user={user} />
       },
     ],
     [filteredData]
@@ -139,7 +142,7 @@ const AllApprovedRepoVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-       Aproved Repo Vehicles
+        Requested Repo Vehicles
       </h1>
      <div className="flex items-end">
       <div className="flex flex-col w-40  ml-5">
@@ -163,7 +166,7 @@ const AllApprovedRepoVehicles = () => {
       </div>
 
      
-        
+       
         </div>
       <div>
       {filteredData?.totalCount < 1 ? (
@@ -191,17 +194,21 @@ const AllApprovedRepoVehicles = () => {
   );
 };
 
-export default AllApprovedRepoVehicles;
+export default AllRequestedVehicles;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
+const View = ({ row, user }) => {
+  const href =
+    user === 'client'
+      ? `/requestedRepo/${row.original.id}`
+      : `/requestedRepoVehicle/${row.original.id}`;
+
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicle/${row.original.id}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         className=""

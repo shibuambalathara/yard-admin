@@ -3,7 +3,7 @@ import React from 'react'
 
 const AllRequestedRepo = () => {
   return (
-    <div><AllRequestedVehicles/></div>
+    <div><AllRequestedVehicles user ={'client'}/></div>
   )
 }
 

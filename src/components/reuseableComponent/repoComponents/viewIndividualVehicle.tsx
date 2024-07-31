@@ -235,13 +235,8 @@ const IndividualVehicle = ({ vehicleId }) => {
       try {
         const response = await axiosInstance.put(
           `/repossession/vehicle/${vehicleId?.vehId}`,
-          modifiedData ,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            maxBodyLength: Infinity,
-          }
+          modifiedData 
+         
         );
 
         fetchVehicle();
@@ -481,15 +476,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               </div>
             ))} */}
           </div>
-          <button
-            type="submit"
-            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-          >
-            Submit
-          </button>
-        </form>
-
-        <div className=" w-full text-center p-1 mt-3  space-x-2">
+          <div className=" w-full text-center p-1 mt-3  space-x-2">
           <button
             type="button"
             // onClick={() => onClose()}
@@ -504,6 +491,15 @@ const IndividualVehicle = ({ vehicleId }) => {
            SUBMIT
           </button>
         </div>
+          {/* <button
+            type="submit"
+            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+          >
+            Submit
+          </button> */}
+        </form>
+
+       
         
       </div>
     </div>
