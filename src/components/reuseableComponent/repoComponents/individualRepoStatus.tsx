@@ -18,12 +18,15 @@ import Loading from "@/app/(home)/(superAdmin)/loading";
 import { vehicleStatus } from "@/utils/staticData";
 import Image from "next/image";
 import Link from "next/link";
+import RepoRespond from "./modal/requestRespond";
 
 type Inputs = {
-  cl_org: string;
-  org_name: string;
-  code: string;
-  reg_number: string;
+  repo_vehicle:
+  {org_name: string;
+    code: string;
+    reg_number: string;}
+     cl_org: string;
+  
   initial_city: string;
   initial_state: string;
 };
@@ -32,16 +35,18 @@ type FileInputs = {
   [key: string]: FileList;
 };
 
-const IndividualStatuss = ({ vehicleId }) => {
+const IndividualStatuss = (props) => {
+  const{ vehicleId,user,disable }=props
   const [vehicleImage, setVehicleImage] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [vehicleCategory, setAllVehicleCategory] = useState([]);
+  const [status, setStatus] = useState('');
+  const [responseStatus, setResponseStatus] = useState('');
   const [uploadImages, setUploadImages] = useState<FileInputs>({});
   const [modalOpen, setModalOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState<Record<string, string[]>>(
     {}
   );
-
+ console.log(vehicleId)
   const {
     register,
     handleSubmit,
@@ -52,32 +57,35 @@ const IndividualStatuss = ({ vehicleId }) => {
   } = useForm<Inputs>();
   const router = useRouter();
 
-  const fetchVehicle = async () => {
-    setIsLoading(true);
-
+  const fetchVehicle = useCallback(async () => {
     try {
-      const response = await axiosInstance.get(
-        `/repossession/repo_veh_req/${vehicleId?.vehId}`
-      );
-
+      setIsLoading(true);
+  
+      const endpoint =
+        user === 'client'
+          ? `/repossession/repo_veh_req/${vehicleId?.repoId}`
+          : `/repossession/repo_veh_req/${vehicleId?.vehId}`;
+      const response = await axiosInstance.get(endpoint);
+      setResponseStatus(response?.data?.res?.status)
       const destructuredData = {
         cl_org: response?.data?.res?.repo_vehicle?.cl_org?.code,
-        org_name: response?.data?.res?.repo_vehicle?.org_name,
+        org_name: response?.data?.res?.repo_vehicle?.cl_org?.org_name,
         code: response?.data?.res?.repo_vehicle?.code,
         reg_number: response?.data?.res?.repo_vehicle?.reg_number,
         initial_city: response?.data?.res?.initial_city,
         initial_state: response?.data?.res?.initial_state,
       };
-
+      console.log(response);
+      
       setVehicleImage(response?.data?.res?.vehicle_img);
-      reset(destructuredData);
+      reset( destructuredData );
     } catch (error) {
-      console.log("error", error);
+      console.error("Error fetching vehicle data:", error);
+      // Optionally, display an error message to the user
     } finally {
       setIsLoading(false);
     }
-  };
-
+  }, [user, vehicleId, reset, setVehicleImage, setIsLoading]);
   useEffect(() => {
     fetchVehicle();
   }, []);
@@ -90,8 +98,13 @@ const IndividualStatuss = ({ vehicleId }) => {
     );
   }
 
-  const handleModalOpen = () => {
+  const handleModalAccept = () => {
     setModalOpen(true);
+    setStatus('REPOSSESSION_APPROVED')
+  };
+  const handleModalReject = () => {
+    setModalOpen(true);
+    setStatus('REPOSSESSION_REJECTED')
   };
 
   const handleModalClose = () => {
@@ -106,7 +119,7 @@ const IndividualStatuss = ({ vehicleId }) => {
         </h2>
 
         <form onSubmit={handleSubmit(data => console.log(data))} className="mt-8 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <InputField
               label="CL Org Code"
               type="text"
@@ -114,15 +127,18 @@ const IndividualStatuss = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled={true}
             />
-            <InputField
+            { user!=='client' &&(<InputField
               label="Org Name"
               type="text"
               name="org_name"
               register={register}
               errors={errors}
               pattern
-            />
+              disabled={true}
+            />)}
+            
             <InputField
               label="Code"
               type="text"
@@ -130,6 +146,7 @@ const IndividualStatuss = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled={true}
             />
             <InputField
               label="Registration Number"
@@ -138,6 +155,7 @@ const IndividualStatuss = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled={true}
             />
             <InputField
               label="Initial City"
@@ -146,6 +164,7 @@ const IndividualStatuss = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled={disable}
             />
             <InputField
               label="Initial State"
@@ -154,24 +173,58 @@ const IndividualStatuss = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
+              disabled={disable}
             />
           </div>
-
-          <div className=" w-full text-center p-1 mt-3  space-x-2">
-          <button
-            type="button"
-            // onClick={() => onClose()}
-            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-          >
-            CANCEL
-          </button>
-          <button
-            onClick={handleModalOpen}
-            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-          >SUBMIT
-          </button>
-        </div>
+                   
+          
         </form>
+        {user === 'client' ? ( responseStatus==='REPOSSESSION_REQUESTED' && (
+  <>
+    {modalOpen && (
+      <div className="relative border">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+          <RepoRespond status={status} onClose={handleModalClose} vehicleId={vehicleId} fetchData={fetchVehicle} />
+        </div>
+      </div>
+    )}
+
+    <div className="w-full text-center p-1 mt-3 space-x-2">
+      <button
+        type="button"
+        onClick={handleModalReject}
+        className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+      >
+        REJECT
+      </button>
+      <button
+        onClick={handleModalAccept}
+        className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+      >
+        ACCEPT
+      </button>
+    </div>
+  </>
+)) : (
+  responseStatus==='REPOSSESSION_REQUESTED' && (
+    <div className="w-full text-center p-1 mt-3 space-x-2">
+      <button
+        type="button"
+        // onClick={() => onClose()}
+        className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+      >
+        CANCEL
+      </button>
+      <button
+        onClick={handleModalAccept}
+        className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+      >
+        SUBMIT
+      </button>
+    </div>
+  ))
+}
+
       </div>
     </div>
   );

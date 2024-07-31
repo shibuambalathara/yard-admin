@@ -13,6 +13,7 @@ import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 
 const AllRequestedVehicles = (props) => {
+  const{user}=props
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   //   const [modalOpen, setModalOpen] = useState(false);
@@ -33,15 +34,16 @@ const AllRequestedVehicles = (props) => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
+        status:'REPOSSESSION_REQUESTED',
       });
 
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
 
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
-      }
+      // if (vehicleStatus) {
+      //   params.append("status", vehicleStatus);
+      // }
 
       const response = await axiosInstance.get(
         `repossession/repo_veh_req?${params.toString()}`
@@ -120,7 +122,7 @@ const AllRequestedVehicles = (props) => {
 
       {
         header: "View",
-        cell: ({ row }) => View(row)
+        cell: ({ row }) =><View row={row} user={user} />
       },
     ],
     [filteredData]
@@ -194,15 +196,19 @@ const AllRequestedVehicles = (props) => {
 
 export default AllRequestedVehicles;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
+const View = ({ row, user }) => {
+  const href =
+    user === 'client'
+      ? `/requestedRepo/${row.original.id}`
+      : `/requestedRepoVehicle/${row.original.id}`;
+
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/requestedRepoVehicle/${row.original.id}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         className=""

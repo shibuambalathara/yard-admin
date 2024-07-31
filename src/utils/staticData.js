@@ -49,6 +49,11 @@ export const AccountStatus = [
   { label: "REJECTED", value: "REJECTED" },
   { label: "APPROVED", value: "APPROVED" },
 ];
+export const RepoStatus = [
+  // { label: "PENDING", value: "PENDING" },
+  { label: "REJECTED", value: "" },
+  { label: "APPROVED", value: "REPOSSESSION_APPROVED" },
+];
 
 export const UserStatus=[
   { label: "ACTIVE", value: 1},

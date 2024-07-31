@@ -1,14 +1,15 @@
-import ViewIndividualVehicle from "@/components/reuseableComponent/repoComponents/viewIndividualVehicle";
+import IndividualStatuss from "@/components/reuseableComponent/repoComponents/individualRepoStatus";
+
 import React from "react";
 
 
 
 
-const ViewFullProfiles = ({ params }: { params: {repoId: string } }) => {
+const ViewFullProfiles = ({ params }: { params: {vehicleId: string } }) => {
   return (
     <div className="h-full w-full">
       
-    <ViewIndividualVehicle   vehicleId={params}/>
+    <IndividualStatuss user={'client'}  vehicleId={params} disable={true}/>
    
      
     </div>

@@ -1,4 +1,4 @@
-import IndividualStatuss from '@/components/reuseableComponent/repoComponents/repoUser/individualRepoStatus'
+import IndividualStatuss from '@/components/reuseableComponent/repoComponents/individualRepoStatus'
 import React from 'react'
 
 
