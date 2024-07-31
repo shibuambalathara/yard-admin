@@ -115,20 +115,32 @@ console.log("filteredData subOrg",filteredData);
 
 
 
+  // const handleStateChange = (e) => {
+  //   const selectedState = e.target.value;
+  //   // console.log("selectedState from handle change",selectedState);
+
+  //   setSelectedState(selectedState);
+  //   const stateData = Cities.filter((item) => item.state === selectedState);
+  //   console.log("selected state from state array", stateData);
+
+  //   !selectedState && setFilterDistricts([]);
+
+  //   stateData ? setFilterDistricts(stateData?.map((item)=>item?.city)) : [];
+  //   setSelectDistrict("");
+   
+  //   setCatFilter(e.target.value);
+  // };
+
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
-    // console.log("selectedState from handle change",selectedState);
 
     setSelectedState(selectedState);
+
     const stateData = Cities.filter((item) => item.state === selectedState);
-    console.log("selected state from state array", stateData);
 
-    !selectedState && setFilterDistricts([]);
-
-    stateData ? setFilterDistricts(stateData?.map((item)=>item?.city)) : [];
-    setSelectDistrict("");
-   
-    setCatFilter(e.target.value);
+    setFilterDistricts(selectedState ? stateData.map((item) => item.city) : []);
+    setSelectDistrict(""); // Reset city selection to show placeholder
+    // setCatFilter(e.target.value);
   };
 
   console.log("filtered districts",filterDistricts);
@@ -146,7 +158,7 @@ console.log("filteredData subOrg",filteredData);
       <h1 className="text-center font-bold uppercase text-lg  mb-3 pb-1">
         Yard Organisation
       </h1>
-      <div className="grid grid-cols-3 px-5 items-center  gap-4">
+      <div className="grid grid-cols-3 px-5 items-center justify-center  gap-4">
         {/*  */}
         <div className="flex flex-col w-24 ml-px  ">
           <label htmlFor="state" className={labelStyle?.data}>
@@ -173,14 +185,14 @@ console.log("filteredData subOrg",filteredData);
                           )} */}
         </div>
 
-        <div className="flex flex-col w-24">
+        <div className="flex flex-col ">
           <label htmlFor="district" className={labelStyle?.data}>
             Select District
           </label>
           <select
             id="district"
             className={inputStyle?.data}
-            defaultValue=""
+          value={selectDistrict}
             onChange={handleDistricChange}
           >
             <option value="" disabled hidden>

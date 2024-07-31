@@ -7,6 +7,7 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import {CategoryFilter, CityFilter,ClientFilter,Search,StateFilter} from "@/components/reuseableComponent/filter/filters"
 
 const AllRepoDetails = (props) => {
 
@@ -129,6 +130,10 @@ const {childrenRequire} =props
 
   const userColumn = useMemo(
     () => [
+      // {
+      //   header: "Client",
+      //   accessorKey: "cl_org.org_name",
+      // },
       {
         header: "make",
         accessorKey: "make",
@@ -185,6 +190,7 @@ const {childrenRequire} =props
             ))}
           </select>
         </div>
+        
         { childrenRequire&&(
         <div className="flex flex-col ml-5">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>

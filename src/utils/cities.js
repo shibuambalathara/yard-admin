@@ -5,8 +5,9 @@ export const  Cities = [
     },
     {
       city: 'PORT BLAIR',
-      state: 'ANDAMAN &AMP;AMP; NICOBAR ISLANDS',
+      state: 'ANDAMAN AND NICOBAR ISLANDS'
     },
+    
     {
       city: 'ADILABAD',
       state: 'ANDHRA PRADESH',
@@ -1269,16 +1270,18 @@ export const  Cities = [
     },
     {
       city: 'AMLI',
-      state: 'DADRA &AMP;AMP; NAGAR HAVELI',
+      state: 'DADRA AND NAGAR HAVELI'
     },
+    
     {
       city: 'SILVASSA',
-      state: 'DADRA &AMP;AMP; NAGAR HAVELI',
+      state: 'DADRA AND NAGAR HAVELI AND DAMAN AND DIU'
     },
     {
       city: 'DAMAN AND DIU',
-      state: 'DAMAN &AMP;AMP; DIU',
+      state: 'DADRA AND NAGAR HAVELI AND DAMAN AND DIU'
     },
+    
     {
       city: 'ASOLA',
       state: 'DELHI',
@@ -1949,64 +1952,65 @@ export const  Cities = [
     },
     {
       city: 'JAMMU',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'ACHABBAL',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'AKHNOOR',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'ANANTNAG',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'ARNIA',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'AWANTIPORA',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'BANDIPORE',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'BARAMULA',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'KATHUA',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'LEH',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'LADAKH'
     },
     {
       city: 'PUNCH',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'RAJAURI',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'SOPORE',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'SRINAGAR',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
     {
       city: 'UDHAMPUR',
-      state: 'JAMMU &AMP;AMP; KASHMIR',
+      state: 'JAMMU AND KASHMIR'
     },
+    
     {
       city: 'AMLABAD',
       state: 'JHARKHAND',

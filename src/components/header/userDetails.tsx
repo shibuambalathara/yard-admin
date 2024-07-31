@@ -29,7 +29,7 @@ const UserDetails = () => {
 
   // console.log("user")
 
-  console.log("HIT ONE ");
+  // console.log("HIT ONE ");
   
   
 
