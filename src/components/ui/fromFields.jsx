@@ -105,6 +105,39 @@ export const InputField = ({
   );
 };
 
+export const DisabledInput = ({
+  name,
+  label,
+  type = "text",
+  disabled = true,
+  placeholder = "",
+  value,
+}) => {
+  let displayValue = value;
+  
+  // Check if the type is date and format it appropriately
+  if (type === "date" && value) {
+    const date = new Date(value);
+    displayValue = date.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+  }
+
+  return (
+    <div className="mb-">
+      <label className={`${labelStyle.data}`}>{label}</label>
+      <input
+        disabled={disabled}
+        type={type}
+        value={displayValue}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${
+          disabled && `bg-gray-100`
+        }  disabled:bg-white`}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
+
+
 export const FormFieldPassword = ({
   label,
   type,
@@ -311,7 +344,6 @@ export const SelectInputOptional = ({
     </div>
   );
 };
-
 
 export const SelectInputWithChange = ({
   label,
