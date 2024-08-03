@@ -132,7 +132,8 @@ export const yardManager = [
     title: "Repo Requests",
     icon: <FaCarOn />,
     path: "/repoRequests ",
-  }
+  },
+  
   
 ];
 
@@ -201,6 +202,13 @@ export const clientLevelUser = [
     title: "Requested for Repos",
     icon: <AiFillRightCircle />,
     path: "/requestedRepo",
+
+    
+  },
+  {
+    title: "Repo close",
+    icon: <AiFillRightCircle />,
+    path: "/repoClose",
 
     
   },
@@ -297,7 +305,7 @@ export const clientLevelSuperUser = [
   {
     title: "Requested for Repos",
     icon: <AiFillRightCircle />,
-    path: "requestedRepo",
+    path: "/SuperRequestedRepo",
 
     
   },
@@ -356,6 +364,11 @@ export const RepoUser = [
     title: "Approved",
     icon: <ImTruck />,
     path: "/approvedRepoVehicle",
+  },
+  {
+    title: "Completed",
+    icon: <ImTruck />,
+    path: "/completedRepoVehicle",
   },
 
   {

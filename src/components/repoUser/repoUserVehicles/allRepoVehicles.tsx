@@ -83,14 +83,14 @@ const AllRepoDetails = (props) => {
         }
 
         const response = await axiosInstance.get(
-          `/repossession/vehicle?${params.toString()}`
+          `/repossession/vehicles/eligible?${params.toString()}`
         );
 
       
 
         console.log("all vehicle ownership", response);
 
-        setAllVehicleOwerships(response?.data?.res?.repoVehicle);
+        setAllVehicleOwerships(response?.data?.res?.vehicleForRequest);
 
         setFilteredData(response?.data?.res?.totalCount);
 

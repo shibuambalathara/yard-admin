@@ -14,13 +14,14 @@ type Inputs = {
   reason?: string;
 };
 
-const RepoRespond = ({ onClose, vehicleId, fetchData, status }) => {
+const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-
+   console.log(vehicleId);
+   
   const RepoReq = async (data: Inputs) => {
     setIsLoading(true);
     try {
@@ -32,7 +33,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status }) => {
           // start_date: data?.start_date ? new Date(data?.start_date).toISOString() : null,
           end_date: data?.end_date ? new Date(data?.end_date).toISOString() : null
         };
-      } else if (status === "REPOSSESSION_REJECTED") {
+      } else if (status === "REPOSSESSION_REJECTED"||status === "REPOSSESSION_REQUESTED") {
         modifiedData = {
           ...modifiedData,
           reason: data.reason,
@@ -40,13 +41,27 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status }) => {
       }
 
       console.log(modifiedData);
-      const response = await axiosInstance.patch(`repossession/repo_veh_req/respond/${vehicleId?.repoId}`, modifiedData);
+      status === "REPOSSESSION_REJECTED"
+        
+      
+        
+      const response = await axiosInstance.patch(`${status === "REPOSSESSION_REQUESTED"?
+        "repossession/repo_veh_req/cancel_repossession/":
+        "repossession/repo_veh_req/client_respond/"}${vehicleId?.repoId}`, modifiedData);
       console.log("Response:", response);
       toast.success(response?.data?.message);
 
       fetchData();
       onClose();
-      router.push('/requestedRepo');
+      if (status === "REPOSSESSION_REQUESTED") {
+        onClose();
+      } else {
+        if (user === 'client') {
+          router.push('/requestedRepo');
+        } else {
+          router.push('/SuperRequestedRepo');
+        }
+      }
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
@@ -111,7 +126,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status }) => {
                 />
               </>
             )}
-            {status === "REPOSSESSION_REJECTED" && (
+            {status === "REPOSSESSION_REJECTED"||status === "REPOSSESSION_REQUESTED" && (
               <InputField
                 label="Reason"
                 type="text"

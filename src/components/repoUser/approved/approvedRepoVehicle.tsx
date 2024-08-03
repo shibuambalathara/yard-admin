@@ -11,8 +11,9 @@ import Pagination from "@/components/pagination/pagination";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import { useRouter } from "next/navigation";
 
-const AllRequestedVehicles = (props) => {
+const AllApprovedVehicles = (props) => {
   const{user}=props
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -26,7 +27,9 @@ const AllRequestedVehicles = (props) => {
   const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [limit, setLimit] = useState(5);
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [status, setStatus] = useState('');
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -124,6 +127,10 @@ const AllRequestedVehicles = (props) => {
         header: "View",
         cell: ({ row }) =><View row={row} user={user} />
       },
+      {
+        header: "Completed",
+        cell: ({ row }) => <Completed row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} setStatus={setStatus}/>,
+      },
     ],
     [filteredData]
   );
@@ -138,11 +145,15 @@ const AllRequestedVehicles = (props) => {
     const value = e.target.value;
     setVehicleStatus(value);
   };
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedVehicleId(null); // Reset selected vehicle ID
+  };
 
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Requested Repo Vehicles
+        Approved Repo Vehicles
       </h1>
      <div className="flex items-end">
       <div className="flex flex-col w-40  ml-5">
@@ -194,13 +205,13 @@ const AllRequestedVehicles = (props) => {
   );
 };
 
-export default AllRequestedVehicles;
+export default AllApprovedVehicles;
 
 const View = ({ row, user }) => {
   const href =
     user === 'client'
       ? `/requestedRepo/${row.original.id}`
-      : `/requestedRepoVehicle/${row.original.id}`;
+      : `/approvedRepoVehicle/${row.original.id}`;
 
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
@@ -218,3 +229,24 @@ const View = ({ row, user }) => {
     </div>
   );
 };
+
+const Completed = ({ row, user, setModalOpen, setSelectedVehicleId ,setStatus}) => {
+  const handleApproveClick = () => {
+    setStatus('REPOSSESSION_REQUESTED')
+    setSelectedVehicleId({repoId:row.original.id});
+  };
+
+  return (
+    <div className="flex justify-end w-full h-fit">
+    <Link
+      href={`/approvedRepoVehicle/${row.original.id}/completed`}
+      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
+    >
+      Completed
+    </Link>
+  </div>
+  );
+};
+
+
+
