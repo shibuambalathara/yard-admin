@@ -38,7 +38,7 @@ interface ImageType {
 
 type Inputs = {
   yard_id: string;
-  // cl_org_id: string;
+  cl_org_id: string;
   vehicle_category_id: string;
   loan_number: string;
   actual_entry_date: string;
@@ -65,11 +65,13 @@ type FileInputs = {
   [key: string]: FileList;
 };
 
-const IndividualVehicle = ({ vehicleId }) => {
+const IndividualVehicle = (props) => {
+ const { vehicleId,user}=props
   console.log("123456", vehicleId);
-
+  const [children, setChildren] = useState([]);
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState('');
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [uploadImages, setUploadImages] = useState<FileInputs>({});
 
@@ -77,7 +79,7 @@ const IndividualVehicle = ({ vehicleId }) => {
     {}
   );
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
-
+ 
   useEffect(() => {
     const categorizedImages = vehicleImage?.reduce<Record<string, ImageType[]>>(
       (acc, item) => {
@@ -97,7 +99,7 @@ const IndividualVehicle = ({ vehicleId }) => {
 
     setImages(categorizedImages);
   }, [vehicleImage]);
-
+  
   const {
     register,
     handleSubmit,
@@ -120,13 +122,14 @@ const IndividualVehicle = ({ vehicleId }) => {
         ...response?.data?.res,
         app_entry_date: response?.data?.res?.app_entry_date?.split("T")[0],
         app_exit_date: response?.data?.res?.app_exit_date?.split("T")[0],
-        mfg_year: response?.data?.res?.mfg_year.split("T")[0],
+        mfg_year: response?.data?.res?.mfg_year?.split("T")[0],
         actual_entry_date:
           response?.data?.res?.actual_entry_date?.split("T")[0],
         actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
       };
 
       setVehicleImage(response?.data?.res?.vehicle_img);
+      setStatus(response?.data?.res?.status)
       console.log("the rsponse", response);
       reset(destructuredData);
     } catch (error) {
@@ -144,8 +147,24 @@ const IndividualVehicle = ({ vehicleId }) => {
       console.log("error from vehiclecat", error);
     }
   }, []);
+  const fetchChildren = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/clientorg/client_lvl_super_org/child/_org`
+      );
+      setChildren(response?.data?.res?.clientLvlOrg);
+      console.log(response);
+      
+    } catch (error) {
+      console.log("error", error);
 
+      // toast.error("Failed to fetch children");
+    }
+
+   
+  }, []);
   useEffect(() => {
+    fetchChildren();
     fetchVehicle();
     FetchAllVehicleCategory();
   }, []);
@@ -154,7 +173,10 @@ const IndividualVehicle = ({ vehicleId }) => {
     value: item.id,
     label: item.name,
   }));
-
+  const superClientOptions = children.map(item => ({
+    value: item.id,
+    label: item.org_name
+  }));
   const handleImageUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
     imageType: string,
@@ -223,7 +245,9 @@ const IndividualVehicle = ({ vehicleId }) => {
           ? new Date(data?.actual_exit_date)?.toISOString()
           : null,
       };
-
+      if (user==='super') {
+        modifiedData.cl_org_id = data?.cl_org_id;
+      }
   //     Object.entries(modifiedData).forEach(([key, value]) => {
   //       if (key !== "vehicle_img" && value !== undefined) {
   //         formData.append(key, value);
@@ -249,6 +273,11 @@ const IndividualVehicle = ({ vehicleId }) => {
     [vehicleId?.vehicleId, uploadImages, images]
   );
 
+  const onClose=()=>{
+  window.close()
+  }
+  
+
   if (isLoading) {
     return (
       <div className="flex w-full h-screen items-center justify-center">
@@ -257,11 +286,12 @@ const IndividualVehicle = ({ vehicleId }) => {
     );
   }
 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Details
+          Vehicle Detailss
         </h2>
 
         <form  onSubmit={handleSubmit(editImage)}  className="mt-8 space-y-6">
@@ -276,6 +306,19 @@ const IndividualVehicle = ({ vehicleId }) => {
                 defaultValue=""
               />
             </div>
+
+            <div>
+              {user==='super'&&(<SelectComponent
+                label="Select Organisation"
+                name="cl_org_id"
+                options={superClientOptions}
+                register={register}
+                errors={errors}
+                defaultValue=""
+              />)}
+              
+            </div>
+
 
             <InputField
               label="Loan Number"
@@ -476,21 +519,22 @@ const IndividualVehicle = ({ vehicleId }) => {
               </div>
             ))} */}
           </div>
-          <div className=" w-full text-center p-1 mt-3  space-x-2">
+          {status.toLowerCase() ==='pending' &&(<div className=" w-full text-center p-1 mt-3  space-x-2">
           <button
             type="button"
-            // onClick={() => onClose()}
+            onClick={() => onClose()}
             className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
           >
             CANCEL
           </button>
           <button
             type="submit"
-            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+             className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
           >
            SUBMIT
           </button>
-        </div>
+        </div>)}
+          
           {/* <button
             type="submit"
             className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"

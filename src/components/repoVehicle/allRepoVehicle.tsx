@@ -11,7 +11,7 @@ import {CategoryFilter, CityFilter,ClientFilter,Search,StateFilter} from "@/comp
 
 const AllRepoDetails = (props) => {
 
-const {childrenRequire} =props
+const {childrenRequire,user} =props
 
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -147,6 +147,10 @@ const {childrenRequire} =props
         accessorKey: "status",
       },
       {
+        header: "Organization",
+        accessorKey: "cl_org.org_name",
+      },
+      {
         header: "Category ",
         accessorKey: "vehicle_category.name",
       },
@@ -156,7 +160,7 @@ const {childrenRequire} =props
       },
       {
         header: "View",
-        cell: ({ row }) => <View row={row} />,
+        cell: ({ row }) => <View row={row}  user={user}/>,
       },
     ],
     [filteredData]
@@ -171,7 +175,7 @@ const {childrenRequire} =props
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
        All Repo Vehicles
       </h1>
-      <div className=" grid grid-cols-3 items-end px-3">
+      <div className={` grid  items-end justify-between px-3 ${user==='super'?'grid-cols-3': 'grid-cols-2 ' }`}>
         <div className="flex flex-col w-40 ml-5">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
@@ -204,7 +208,7 @@ const {childrenRequire} =props
         </div>)}
         <div className="flex justify-end w-full h-fit">
           <Link
-            href={`/superUserRepoVehicles/addRepoVehicle`}
+            href={`${childrenRequire?"/superUserRepoVehicles/addRepoVehicle":"/repoVehicle/addRepoVehicle"}`}
             className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
           >
             Add
@@ -236,14 +240,18 @@ const {childrenRequire} =props
 
 export default AllRepoDetails;
 
-const View = ({ row }) => {
+const View = ({ row ,user}) => {
+  const href = 
+   user === 'client'
+  ? `/repoVehicle/${row.original.id}`
+  : `/superUserRepoVehicles/${row.original.id}`;
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md">
       <p>
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/repoVehicle/${row.original.id}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
       >

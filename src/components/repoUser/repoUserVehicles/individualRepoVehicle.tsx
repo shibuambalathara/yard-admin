@@ -78,7 +78,9 @@ const IndividualVehicle = ({ vehicleId }) => {
     {}
   );
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
-
+  const onClose=()=>{
+    window.close()
+    }
   useEffect(() => {
     const categorizedImages = vehicleImage?.reduce<Record<string, ImageType[]>>(
       (acc, item) => {
@@ -504,14 +506,14 @@ const IndividualVehicle = ({ vehicleId }) => {
         <div className=" w-full text-center p-1 mt-3  space-x-2">
           <button
             type="button"
-            // onClick={() => onClose()}
+            onClick={() => onClose()}
             className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
           >
             CANCEL
           </button>
           <button
             onClick={handleModalOpen}
-            className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+             className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
           >REQUEST
           </button>
         </div>

@@ -20,6 +20,9 @@ const AddIndividualVehicle = (props) => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [children, setChildren] = useState([]);
+
+  const [client, setClient] = useState('');
   const router=useRouter()
 
   type FileInputs = {
@@ -95,6 +98,25 @@ const AddIndividualVehicle = (props) => {
 //     }
 //   }, []);
 
+  const fetchChildren = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
+      setChildren(response?.data?.res?.clientLvlOrg);
+      console.log(response);
+      
+    } catch (error) {
+      // toast.error(error?.response?.data?.message);
+      console.log("error",error);
+      
+    }
+  }, []);
+
+  useEffect(() => {
+    // fetchAllVehicleCategory();
+    fetchChildren();
+    // fetchAllYards();
+  }, []);
+
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
@@ -107,7 +129,10 @@ const AddIndividualVehicle = (props) => {
       
     }
   }, []);
-
+  const superClientOptions = children.map(item => ({
+    value: item.id,
+    label: item.org_name
+  }));
 //   const ClientOrganisations = clientLevelOrg?.map((item) => ({
 //     value: item.id,
 //     label: item.cl_org_name,
@@ -117,7 +142,10 @@ const AddIndividualVehicle = (props) => {
     value: item.id,
     label: item.name,
   }));
-
+  const onClose=()=>{
+    if(superRequire) router.push('/superUserRepoVehicles')
+      router.push('/repoVehicle')
+  }
   useEffect(() => {
     FetchAllVehicleCategory();
    
@@ -232,17 +260,18 @@ const AddIndividualVehicle = (props) => {
           encType="multipart/form-data"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-center">
-            {/* <div>
-              <SelectComponent
+            
+              {superRequire &&(<SelectComponent
                 label="Select Organisation"
                 name="cl_org_id"
-                options={''}
+                options={superClientOptions}
                 register={register}
                 errors={errors}
                 defaultValue=""
-              />
-            </div>
-            <div>
+              />)}
+              
+            
+            {/* <div>
               <SelectComponent
                 label="Select Category"
                 name="vehicle_category_id"
@@ -453,10 +482,17 @@ const AddIndividualVehicle = (props) => {
           <div className="mt-6">
             <ImageMaping images="" />
           </div>
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-6 gap-4">
+          <button
+        type="button"
+        onClick={() => onClose()}
+        className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+      >
+        CANCEL
+      </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
             >
               Submit
             </button>

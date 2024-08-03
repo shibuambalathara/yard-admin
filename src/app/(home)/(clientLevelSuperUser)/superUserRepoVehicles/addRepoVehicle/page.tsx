@@ -43,7 +43,7 @@ const AddRepoVehicle = () => {
           </Tab.List>
           <Tab.Panels className="mt-2 p-4">
             <Tab.Panel>
-              <AddIndividualVehicle  superRequire={true} />
+              <AddIndividualVehicle  superRequire={true}  />
             </Tab.Panel>
             <Tab.Panel>
               <AddMultipleVehicle />

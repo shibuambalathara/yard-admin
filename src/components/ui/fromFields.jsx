@@ -797,6 +797,7 @@ export const SelectChange = (props) => {
     errors,
     required = true,
     defaultValue,
+    disabled=false,
   } = props;
 
   return (
@@ -806,6 +807,7 @@ export const SelectChange = (props) => {
       </label>
       <select
         id={name}
+        disabled={disabled}
         {...register(name, { required })}
         className={inputStyle.data}
         defaultValue={defaultValue}

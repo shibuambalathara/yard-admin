@@ -224,7 +224,7 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
             </button>
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+               className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
             >
               Submit
             </button>
