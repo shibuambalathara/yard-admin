@@ -1,12 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { inputStyle, labelStyle } from "@/components/ui/style";
-import useDebounce from "@/components/reuseableComponent/customHooks/customHooks"
-
+import useDebounce from "@/components/reuseableComponent/customHooks/customHooks";
 
 export const CategoryFilter = (props) => {
-  const { label, handleCatChange, options } = props;
+  const { label, options, setCategory, Category } = props;
 
-  console.log("options",);
+  // console.log("options",);
+
+  const handleCategory = (e) => {
+    console.log("e.target.value", e.target.value);
+    setCategory(e.target.value);
+  };
+
+  console.log("Category from filter", Category);
 
   return (
     <div className="flex flex-col w-40  ml-5">
@@ -17,7 +23,7 @@ export const CategoryFilter = (props) => {
         id="state"
         className={inputStyle?.data}
         defaultValue=""
-        onChange={handleCatChange}
+        onChange={handleCategory}
       >
         <option value=""> {label}</option>
         {options &&
@@ -30,11 +36,14 @@ export const CategoryFilter = (props) => {
     </div>
   );
 };
+
+
+
 export const Status = (props) => {
-  const { label, setStatusFilter, options } = props;
-  const handleStatus=(e)=>{
-    setStatusFilter(e.target.value)
-  }
+  const { label, setVehicleStatus, options } = props;
+  const handleStatus = (e) => {
+    setVehicleStatus(e.target.value);
+  };
 
   return (
     <div className="flex flex-col w-40  ml-5">
@@ -61,22 +70,14 @@ export const Status = (props) => {
 
 export const Search = (props) => {
   const { label, setSearchVehicle, placeholder } = props;
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 200); // Debounce for 300ms
-  // const handleSearch = (e) => {
-  //   const value= e.target.value.toUpperCase()
 
-  //   setSearchVehicle(value);
-  // };
-
-
-  // Update the search term and set it to uppercase
   const handleSearch = (e) => {
     const value = e.target.value.toUpperCase();
     setSearchTerm(value);
   };
 
-  // Use the debounced value to update the search vehicle state
   useEffect(() => {
     setSearchVehicle(debouncedSearchTerm);
   }, [debouncedSearchTerm, setSearchVehicle]);
@@ -90,8 +91,6 @@ export const Search = (props) => {
         className={`${inputStyle?.data} uppercase placeholder:capitalize`}
         placeholder={placeholder}
         onChange={handleSearch}
-
-       
       />
     </div>
   );
@@ -148,6 +147,7 @@ export const StateFilter = (props) => {
     </div>
   );
 };
+
 export const CityFilter = (props) => {
   const { labelStyle, inputStyle, handleCatChange, vehicleCategorys } = props;
 

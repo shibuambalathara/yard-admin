@@ -167,6 +167,7 @@ const ViewFullUserProfile = ({ profileId }) => {
     const modifiedData = {
       ...data,
       name: data?.name?.toUpperCase(),
+      contact:`${data?.contact}`,
       account_usage_from: validFrom,
       account_usage_to: validTo,
       org_id: orgId,
@@ -180,6 +181,7 @@ const ViewFullUserProfile = ({ profileId }) => {
         modifiedData
       );
       toast.success(response?.data?.message);
+      router.push("/userManagement");
     } catch (error) {
       console.error("Error updating user data", error);
       toast.error(error?.response?.data?.message);
@@ -400,93 +402,4 @@ const ViewFullUserProfile = ({ profileId }) => {
 
 export default ViewFullUserProfile;
 
-// const EditOrganisation=()=>{
 
-//   return (
-//     <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-//     <div className="bg-white p-4 rounded-lg w-full max-w-md">
-
-//       <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-//         <h1 className=" font-bold  ">Create super ORG</h1>
-
-//       </div>
-//       <form onSubmit={handleSubmit(onSubmit)} className="  border-gray-200 ">
-//         <div className="max-w-7xl mx-auto grid grid-cols-1 gap-5 justify-center place-items-center p-2 border ">
-//           <div className="mb-">
-//             <InputField
-//               label="Super Organisation Name"
-//               type="text"
-//               name="org_name"
-//               register={register}
-//               errors={errors}
-//               pattern=""
-//             />
-//           </div>
-//           {/* <div className="mb-">
-//             <SelectComponent
-//               label="Select User"
-//               options={AllUsers}
-//               name="user_id"
-//               register={register}
-//               errors={errors}
-//               required={true}
-//               defaultValue=""
-//             />
-//           </div> */}
-
-//           <div className="mb-">
-//             <SelectComponent
-//               label="Select Category "
-//               options={AllCategory}
-//               name="client_category_id"
-//               register={register}
-//               errors={errors}
-//               required={true}
-//               defaultValue=""
-//             />
-//           </div>
-//           <div className="mb-">
-//             {/* <SelectComponent
-//               label=" Select Country"
-//               options={Country}
-//               name="country"
-//               register={register}
-//               errors={errors}
-//               required={true}
-//               defaultValue=""
-//             /> */}
-//           </div>
-//           {/* <div className="mb-">
-//             <SelectComponent
-//               label="Select Organisation Children"
-//               options={DocumentType}
-//               name="clientLvlOrgIds"
-//               register={register}
-//               errors={errors}
-//               required={true}
-//               defaultValue=""
-//             />
-//           </div> */}
-//         </div>
-
-//         <div className=" w-full text-center p-1 mt-3  space-x-2">
-
-//           <button
-//           type="button"
-//             // onClick={() => onClose()}
-//             className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-//           >
-//             Cancel
-//           </button>
-//           <button
-//             type="submit"
-//              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
-//           >
-//             Submit
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//   </div>
-//   )
-// }

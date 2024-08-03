@@ -1,5 +1,5 @@
 import React from 'react'
-import RepoRequests from "@/components/yardManager/repoRequests/repoRequests"
+import RepoRequests from "@/components/yardManager/repoRequests/allRepoRequests"
 const AllrepoRequests = () => {
   return (
     <div><RepoRequests/></div>
