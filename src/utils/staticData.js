@@ -64,7 +64,6 @@ export const VehicleEntryStatus = [
   { label: "ENTRY REQUESTED", value: "ENTRY_REQUESTED" },
   { label: "ENTRY APPROVED", value: "ENTRY_APPROVED" },
   { label: "ENTRY REJECTED", value: "ENTRY_REJECTED" },
-  { label: "ENTRY COMPLETED", value: "ENTRY_COMPLETED" },
   { label: "ENTRY CANCELLED", value: "ENTRY_CANCELLED" }
 ];
 

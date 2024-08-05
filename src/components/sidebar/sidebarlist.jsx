@@ -8,7 +8,15 @@ import {
 } from "react-icons/md";
 import { RiAccountPinBoxFill } from "react-icons/ri";
 import { ImTruck } from "react-icons/im";
-import { FaUsers, FaUserCircle, FaLink, FaHandsHelping, FaUser, FaHandshake, FaTruckLoading } from "react-icons/fa";
+import {
+  FaUsers,
+  FaUserCircle,
+  FaLink,
+  FaHandsHelping,
+  FaUser,
+  FaHandshake,
+  FaTruckLoading,
+} from "react-icons/fa";
 import { CgOrganisation } from "react-icons/cg";
 import { GiHomeGarage } from "react-icons/gi";
 import { TbListDetails, TbStatusChange } from "react-icons/tb";
@@ -18,13 +26,10 @@ import { LiaTruckMovingSolid } from "react-icons/lia";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { VscGitPullRequestNewChanges } from "react-icons/vsc";
 
-import { FaRegHandshake } from 'react-icons/fa';
-import { MdDescription } from 'react-icons/md';
+import { FaRegHandshake } from "react-icons/fa";
+import { MdDescription } from "react-icons/md";
 import { BsFillTruckFrontFill } from "react-icons/bs";
 import { AiFillRightCircle } from "react-icons/ai";
-
-
-
 
 export const Super_Admin = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -97,8 +102,7 @@ export const yardManager = [
 
   {
     title: "Vehicles",
-    icon: 
-    <FaCarOn />,
+    icon: <FaCarOn />,
     path: "/vehicle",
   },
   {
@@ -127,14 +131,12 @@ export const yardManager = [
     title: "Waiver",
     icon: <MdWavingHand />,
     path: "/waiver ",
-  },  
+  },
   {
     title: "Repo Requests",
     icon: <FaCarOn />,
     path: "/repoRequests ",
   },
-  
-  
 ];
 
 export const clientLevelUser = [
@@ -173,7 +175,7 @@ export const clientLevelUser = [
       },
     ],
   },
-  
+
   {
     title: "Waiver",
     icon: <MdWavingHand />,
@@ -196,24 +198,17 @@ export const clientLevelUser = [
     title: "Repo Vehicles",
     icon: <BsFillTruckFrontFill />,
     path: "/repoVehicle",
-
-    },
+  },
   {
     title: "Requested for Repos",
     icon: <AiFillRightCircle />,
     path: "/requestedRepo",
-
-    
   },
   {
     title: "Repo close",
     icon: <AiFillRightCircle />,
     path: "/repoClose",
-
-    
   },
-
-
 ];
 
 export const clientLevelSuperUser = [
@@ -221,8 +216,7 @@ export const clientLevelSuperUser = [
 
   {
     title: "Vehicle Ownership Requests",
-    icon: <VscGitPullRequestNewChanges 
-    />,
+    icon: <VscGitPullRequestNewChanges />,
     path: "/vehicleSuperOwnership",
   },
   {
@@ -261,7 +255,7 @@ export const clientLevelSuperUser = [
 
   {
     title: "Organisation Management",
-    icon: <CgOrganisation/>,
+    icon: <CgOrganisation />,
 
     submenu: true,
     submenuItems: [
@@ -300,14 +294,11 @@ export const clientLevelSuperUser = [
     title: "Repo Vehicles",
     icon: <BsFillTruckFrontFill />,
     path: "/superUserRepoVehicles",
-
-    },
+  },
   {
     title: "Requested for Repos",
     icon: <AiFillRightCircle />,
     path: "/SuperRequestedRepo",
-
-    
   },
 ];
 
@@ -319,7 +310,7 @@ export const clientLevelSubUser = [
     icon: <ImTruck />,
     path: "/vehicleSubOwnership",
   },
-  
+
   // {
   //   title: "Vehicle Tracking",
   //   icon: <FaCarOn />,
@@ -339,7 +330,6 @@ export const clientLevelSubUser = [
   //   ],
   // },
 ];
-
 
 export const RepoUser = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -372,12 +362,15 @@ export const RepoUser = [
   },
 
   {
-    title: "yard Available Vehicle",
+    title: "Yard Available Vehicle",
     icon: <ImTruck />,
     path: "/yardAvailableVehicle",
   },
-  
- 
+  {
+    title: "Yard Requested Vehicle",
+    icon: <ImTruck />,
+    path: "/yardRequestedVehicle",
+  },
 ];
 
 export const RepoAdmin = [
@@ -388,7 +381,4 @@ export const RepoAdmin = [
     icon: <ImTruck />,
     path: "/vehicleSubOwnership",
   },
-  
-  
- 
 ];

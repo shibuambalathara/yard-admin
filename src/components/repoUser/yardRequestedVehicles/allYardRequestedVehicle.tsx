@@ -1,3 +1,13 @@
+// import React from 'react'
+
+// const AllYardRequestedVehicle = () => {
+//   return (
+//     <div>allYardRequestedVehicle</div>
+//   )
+// }
+
+// export default AllYardRequestedVehicle
+
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
@@ -19,7 +29,7 @@ import { VehicleEntryStatus } from "@/utils/staticData";
 import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
 
-const AllRepoRequests = () => {
+const AllYardRequestedVehicle = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -205,7 +215,7 @@ const AllRepoRequests = () => {
   );
 };
 
-export default AllRepoRequests;
+export default AllYardRequestedVehicle;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -222,76 +232,6 @@ const View = (row) => {
       >
         View
       </Link>
-    </div>
-  );
-};
-const Completed = (row) => {
-  // console.log("from view", row.original.id);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-  const [modalOpen,setModalOpen]=useState(false)
-  
-const handleModalOpen=()=>{
-setModalOpen(true)
-}
-
-const handleModalClose=()=>{
-  setModalOpen(false)
-}
-
-const onSubmit=()=>{
-
-}
-  return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <div
-        onClick={handleModalOpen}
-        className=""
-      >
-        Status
-      </div>
-     { modalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg w-full max-w-md">
-            <div className="flex justify-between items-center pb-3">
-              <h2 className="text-xl font-semibold">Modify Entry Date</h2>
-              <button onClick={handleModalClose}>&times;</button>
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-">
-                <InputField
-                  label="Expected Entry Date"
-                  type="date"
-                  name="expected_entry_date"
-                  register={register}
-                  errors={errors}
-                  pattern=""
-                />
-              </div>
-              <div className="flex justify-end space-x-4 mt-4">
-                <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>}
     </div>
   );
 };
