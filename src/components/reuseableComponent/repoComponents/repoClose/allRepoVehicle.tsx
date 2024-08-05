@@ -13,7 +13,7 @@ import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import RepoClose from "../modal/requestClose";
 
-const AllRequestedVehicles = (props) => {
+const  AllRequestedVehicles = (props) => {
   const { user } = props;
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
@@ -29,6 +29,7 @@ const AllRequestedVehicles = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState('');
   const [selectedVehicleId, setSelectedVehicleId] = useState(null); // State for selected vehicle ID
+console.log(selectedVehicleId);
 
   const fetchVehicles = async () => {
     setIsLoading(true);
@@ -195,8 +196,8 @@ export default AllRequestedVehicles;
 const View = ({ row, user }) => {
   const href =
     user === 'client'
-      ? `/requestedRepo/${row.original.id}`
-      : `/requestedRepoVehicle/${row.original.id}`;
+      ? `/repoClose/${row.original.id}`
+      : `/superRepoClose/${row.original.id}`;
 
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">

@@ -8,6 +8,8 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import {CategoryFilter, CityFilter,ClientFilter,Search,StateFilter} from "@/components/reuseableComponent/filter/filters"
+import { SelectComponentWithOnchange } from "../ui/fromFields";
+import { RepoStatus, RepoStatus2, VehicleState } from "@/utils/staticData";
 
 const AllRepoDetails = (props) => {
 
@@ -16,6 +18,7 @@ const {childrenRequire,user} =props
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,8 +35,23 @@ const {childrenRequire,user} =props
   const [statusFilter, setStatusFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [children, setChildren] = useState([]);
-
+  const [yardId, setYardId] = useState("");
   const [client, setClient] = useState('');
+
+
+  const FetchAllVehicleCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/Vehicle/cat`);
+      console.log("cat", response);
+
+      setAllVehicleCategory(response?.data?.vehicleCategory);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  
+
   const fetchChildren = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
@@ -48,7 +66,7 @@ const {childrenRequire,user} =props
   }, []);
 
   useEffect(() => {
-    // fetchAllVehicleCategory();
+    FetchAllVehicleCategory()
     fetchChildren();
     // fetchAllYards();
   }, []);
@@ -108,7 +126,12 @@ const {childrenRequire,user} =props
   }));
 
   console.log(children);
-  
+
+  const vehicleCategorys = vehicleCategory?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
   const superClientOptions = children.map(item => ({
     value: item.id,
     label: item.org_name
@@ -119,6 +142,16 @@ const {childrenRequire,user} =props
     // setRoleFilter(selectedOption.text)
     // setClientSelection(true)
      }
+     const handleOwnershipStatus = (e) => {
+      const value = e.target.value;
+      setVehicleStatus(value);
+      
+    };
+     const handleYardChange = (event) => {
+      const selectedYardId = event.target.value;
+      setYardId(selectedYardId);
+      // setValue("yard_id", selectedYardId); // Set the value in the form
+    };
     
  console.log(client);
   
@@ -167,7 +200,10 @@ const {childrenRequire,user} =props
   );
 
   const handleCatChange = (e) => {
-    setCatFilter(e.target.value);
+    const value = e.target.value;
+    setVehiclecat(value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCatFilter(selectedOption.text);
   };
 
   return (
@@ -175,28 +211,63 @@ const {childrenRequire,user} =props
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
        All Repo Vehicles
       </h1>
-      <div className={` grid  items-end justify-between px-3 ${user==='super'?'grid-cols-3': 'grid-cols-2 ' }`}>
-        <div className="flex flex-col w-40 ml-5">
-          <label htmlFor="state" className={labelStyle?.data}>
-            Select Category
-          </label>
-          <select
-            id="state"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleCatChange}
-          >
-            <option value="">All Category</option>
-            {vehicleCategory.map((option, index) => (
-              <option key={index} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className={` grid  items-end px-8   ${user==='super'?'grid-cols-4 gap-x-48': 'grid-cols-3 justify-between' }`}>
+        <div className="flex flex-col   ">
+        <label htmlFor="state" className={labelStyle?.data}>
+          Select Category
+        </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleCatChange}
+        >
+          <option value="">All Category</option>
+
+          {vehicleCategorys.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+      </div>
         
+      {/* <SelectComponentWithOnchange
+                label="Select a Role"
+                name="role"
+                options={Role}
+                register={register}
+                errors={errors}
+                required={true}
+                value={role} // Pass controlled value
+                onChangeHandler={handleRoleChange}
+              /> */}
+
+<div className="flex flex-col  ">
+        <label htmlFor="state" className={labelStyle?.data}>
+          Select Status
+        </label>
+        <select
+          id="state"
+          className={inputStyle?.data}
+          defaultValue=""
+          onChange={handleOwnershipStatus}
+        >
+          <option value="">All Status</option>
+          {/* <option value="">ALL STATE</option> */}
+
+          {RepoStatus2.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+        </select>
+        {/* {errors.state && (
+              <p className="text-red-500">State is required</p>
+                          )} */}
+      </div>   
         { childrenRequire&&(
-        <div className="flex flex-col ml-5">
+        <div className="flex flex-col">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>
          
           <select id="client" className={inputStyle.data} onChange={handleClient}>
@@ -206,7 +277,7 @@ const {childrenRequire,user} =props
             ))}
           </select>
         </div>)}
-        <div className="flex justify-end w-full h-fit">
+        <div className="flex w-full  justfy-end  h-fit">
           <Link
             href={`${childrenRequire?"/superUserRepoVehicles/addRepoVehicle":"/repoVehicle/addRepoVehicle"}`}
             className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
@@ -216,18 +287,18 @@ const {childrenRequire,user} =props
         </div>
       </div>
       <div>
-        {filteredData?.totalCount < 1 ? (
+        {filteredData < 1 ? (
           <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />
             <div className="w-full text-center">
-              {filteredData?.totalCount > 0 && (
+              {filteredData > 0 && (
                 <Pagination
                   page={page}
                   setPage={setPage}
                   limit={limit}
-                  totalDataCount={filteredData?.totalCount}
+                  totalDataCount={filteredData}
                 />
               )}
             </div>

@@ -68,7 +68,7 @@ type FileInputs = {
 
 const IndividualVehicle = ({ vehicleId }) => {
   console.log("123456", vehicleId);
-  const vehId= vehicleId?.vehId;
+  const [status, setStatus] = useState('');
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
@@ -128,7 +128,7 @@ const IndividualVehicle = ({ vehicleId }) => {
           response?.data?.res?.actual_entry_date?.split("T")[0],
         actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
       };
-
+      setStatus(response?.data?.res?.status)
       setVehicleImage(response?.data?.res?.vehicle_img);
       console.log("the rsponse", response);
       reset(destructuredData);
@@ -507,15 +507,16 @@ const IndividualVehicle = ({ vehicleId }) => {
           <button
             type="button"
             onClick={() => onClose()}
-            className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
           >
             CANCEL
           </button>
-          <button
+          {status!=='CLOSED'&&(<button
             onClick={handleModalOpen}
              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
           >REQUEST
-          </button>
+          </button>)}
+          
         </div>
         
       </div>

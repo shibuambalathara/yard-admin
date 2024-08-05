@@ -156,7 +156,7 @@ console.log("waiverId", waiverId);fetchAllWaivers
             <button
               type="button"
               onClick={onClose}
-              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
             </button>
@@ -173,7 +173,7 @@ console.log("waiverId", waiverId);fetchAllWaivers
             <button
               type="button"
               onClick={onClose}
-              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
             </button>
