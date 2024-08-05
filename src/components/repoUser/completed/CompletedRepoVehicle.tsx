@@ -197,10 +197,7 @@ const AllCompleted = (props) => {
 export default AllCompleted;
 
 const View = ({ row, user }) => {
-  const href =
-    user === 'client'
-      ? `/requestedRepo/${row.original.id}`
-      : `/rejectedRepoVehicle/${row.original.id}`;
+  const href =`/completedRepoVehicle/${row.original.id}`;
 
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">

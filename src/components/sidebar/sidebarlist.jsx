@@ -308,6 +308,12 @@ export const clientLevelSuperUser = [
     path: "/SuperRequestedRepo",
 
     
+  },{
+    title: "Close Repo",
+    icon: <AiFillRightCircle />,
+    path: "/superRepoClose",
+
+    
   },
 ];
 

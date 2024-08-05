@@ -81,6 +81,12 @@ export const VehicleState = [
   { label: "APPROVED", value: "APPROVED" },
 ];
 
+export const RepoStatus2= [
+  { label: "PENDING", value: "PENDING" },
+  { label: "ONGOING", value: "ONGOING" },
+  { label: "CLOSED", value: "CLOSED" },
+];
+
 
 
 export const ReleaseStatus = [

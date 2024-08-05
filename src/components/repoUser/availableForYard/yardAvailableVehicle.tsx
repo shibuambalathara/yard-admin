@@ -31,6 +31,7 @@ const AllRequestedVehicles = (props) => {
   const [status, setStatus] = useState('');
   const [selectedVehicleId, setSelectedVehicleId] = useState(null);
   const [allYard,  setAllYard] = useState([]); // State for selected vehicle ID
+
  
   const fetchVehicles = async () => {
     setIsLoading(true);
@@ -222,10 +223,7 @@ const AllRequestedVehicles = (props) => {
 export default AllRequestedVehicles;
 
 const View = ({ row, user }) => {
-  const href =
-    user === 'client'
-      ? `/requestedRepo/${row.original.id}`
-      : `/requestedRepoVehicle/${row.original.id}`;
+  const href =`/yardAvailableVehicle/${row.original.id}`;
 
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
