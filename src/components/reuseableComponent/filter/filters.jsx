@@ -97,22 +97,24 @@ export const Search = (props) => {
 };
 
 export const ClientFilter = (props) => {
-  const { labelStyle, inputStyle, handleCatChange, vehicleCategorys } = props;
-
+  const {  setClient, options } = props;
+  const handleClient = (e) => {
+    setClient(e.target.value);
+  };
   return (
     <div className="flex flex-col w-40  ml-5">
       <label htmlFor="state" className={labelStyle?.data}>
-        Select Category
+        Select Client
       </label>
       <select
         id="state"
         className={inputStyle?.data}
         defaultValue=""
-        onChange={handleCatChange}
+        onChange={handleClient}
       >
-        <option value="">All Category</option>
-        {vehicleCategorys &&
-          vehicleCategorys.map((option, index) => (
+        <option value="">All Clients</option>
+        { options &&
+          options.map((option, index) => (
             <option key={index} value={option?.value}>
               {option?.label}
             </option>
@@ -173,3 +175,4 @@ export const CityFilter = (props) => {
     </div>
   );
 };
+

@@ -12,6 +12,8 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import { useRouter } from "next/navigation";
+import { Search } from "@/components/reuseableComponent/filter/filters";
+import { formatDate } from "@/components/reuseableComponent/repoComponents/dateAndTime";
 
 const AllApprovedVehicles = (props) => {
   const{user}=props
@@ -30,6 +32,8 @@ const AllApprovedVehicles = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState('');
   const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [searchLoading,setSearchLoading]=useState(false)
+  const [registrationNum, setRegistrationNum] = useState(null);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -43,7 +47,9 @@ const AllApprovedVehicles = (props) => {
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
-
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
       // if (vehicleStatus) {
       //   params.append("status", vehicleStatus);
       // }
@@ -83,8 +89,12 @@ const AllApprovedVehicles = (props) => {
 
   useEffect(() => {
     fetchVehicles();
+
+  }, [Category, page, vehicleStatus,registrationNum]);
+  useEffect(() => {
+ 
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
-  }, [Category, page, vehicleStatus]);
+  }, []);
 
   const UsersData = filteredData?.repoVehicleRequests
   || [];
@@ -105,6 +115,11 @@ const AllApprovedVehicles = (props) => {
         header: "Status",
         accessorKey: "status",
         // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Requested Date",
+        accessorKey: "req_date",
+        cell: ({ row }) => formatDate(row.original.req_date),
       },
       // {
       //   header: "Yard  ",
@@ -155,8 +170,8 @@ const AllApprovedVehicles = (props) => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Approved Repo Vehicles
       </h1>
-     <div className="flex items-end">
-      <div className="flex flex-col w-40  ml-5">
+     <div className="flex items-end px-8 gap-40">
+      <div className="flex flex-col w-40 ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -175,6 +190,9 @@ const AllApprovedVehicles = (props) => {
           ))}
         </select>
       </div>
+      <div>
+          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
 
      
        
@@ -231,10 +249,7 @@ const View = ({ row, user }) => {
 };
 
 const Completed = ({ row, user, setModalOpen, setSelectedVehicleId ,setStatus}) => {
-  const handleApproveClick = () => {
-    setStatus('REPOSSESSION_REQUESTED')
-    setSelectedVehicleId({repoId:row.original.id});
-  };
+ 
 
   return (
     <div className="flex justify-end w-full h-fit">

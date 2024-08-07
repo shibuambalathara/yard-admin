@@ -14,6 +14,7 @@ import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVe
 import RepoRespond from "@/components/reuseableComponent/repoComponents/modal/requestRespond";
 import RequestForRepo from "./requestForRepo";
 import RepoYardRequest from "@/components/reuseableComponent/repoComponents/modal/requestForYard";
+import { Search } from "@/components/reuseableComponent/filter/filters";
 const AllRequestedVehicles = (props) => {
   const { user } = props;
   const [filteredData, setFilteredData] = useState(null);
@@ -31,8 +32,8 @@ const AllRequestedVehicles = (props) => {
   const [status, setStatus] = useState('');
   const [selectedVehicleId, setSelectedVehicleId] = useState(null);
   const [allYard,  setAllYard] = useState([]); // State for selected vehicle ID
-
- 
+  const [registrationNum, setRegistrationNum] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -42,6 +43,9 @@ const AllRequestedVehicles = (props) => {
         limit: limit?.toString(),
         
       });
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
 
       if (Category) {
         params.append("vehicle_category_id", Category);
@@ -96,7 +100,7 @@ const AllRequestedVehicles = (props) => {
   useEffect(() => {
     fetchVehicles();
    
-  }, [Category, page, vehicleStatus]);
+  }, [Category, page, vehicleStatus,registrationNum]);
   useEffect(() => {
     FetchAllyard()
     FetchAllVehicleCategory();
@@ -169,8 +173,8 @@ const AllRequestedVehicles = (props) => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Requested Repo Vehicles
       </h1>
-      <div className="flex items-end">
-        <div className="flex flex-col w-40 ml-5">
+      <div className="flex items-end px-8 gap-40">
+        <div className="flex flex-col w-40 ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -188,6 +192,14 @@ const AllRequestedVehicles = (props) => {
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <Search
+            placeholder="Search by Registration Number"
+            searchLoading={searchLoading}
+            setSearchVehicle={setRegistrationNum}
+            setSearchLoading={setSearchLoading}
+          />
         </div>
       </div>
       {modalOpen && (

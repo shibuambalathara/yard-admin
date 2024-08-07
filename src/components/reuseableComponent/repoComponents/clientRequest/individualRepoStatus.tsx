@@ -65,10 +65,11 @@ console.log(vehicleId);
     try {
       setIsLoading(true);
 
-      const endpoint =`/repossession/repo_veh_req/${vehicleId?.vehId}`
-        
-          // ? `
-          // : `/repossession/repo_veh_req/${vehicleId?.vehId}`;
+
+      const endpoint =
+   user === 'client'
+  ?`/repossession/repo_veh_req/${vehicleId?.vehId}`
+          : `/repossession/repo_veh_req/${vehicleId?.repoId}`;
       const response = await axiosInstance.get(endpoint);
       console.log(response);
       
@@ -230,7 +231,7 @@ console.log(vehicleId);
           </div>
         </form>
 
-        {user === "client" && responseStatus === "REPOSSESSION_REQUESTED" && (
+        {user === "client"||'super' && responseStatus === "REPOSSESSION_REQUESTED" && (
           <>
             {modalOpen && (
               <div className="relative border">
@@ -264,7 +265,7 @@ console.log(vehicleId);
           </>
         )}
 
-        {user !== "client" && responseStatus === "REPOSSESSION_REQUESTED" && (
+        {user !==  "client"||'super' && responseStatus === "REPOSSESSION_REQUESTED" && (
           <div className="w-full text-center p-1 mt-3 space-x-2">
             <button
               type="button"

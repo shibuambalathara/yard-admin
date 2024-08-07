@@ -79,7 +79,7 @@ const RepoClose = ({ onClose, vehicleId, fetchData, status,user }) => {
         <form className="space-y-2" onSubmit={handleSubmit(RepoReq)}>
           
 
-           <p className="text-red-500 text-xl ">Are u sure to close this vehicle </p>
+           <p className="text-red-500  py-6">*Are u sure to close this vehicle </p>
           <div className="w-full text-center space-x-4">
             <button
               onClick={() => onClose()}

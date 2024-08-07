@@ -10,7 +10,7 @@ const ViewFullProfiles = ({ params }: { params: {vehicleId: string } }) => {
   return (
     <div className="h-full w-full">
       
-    <ClientIndividualStatus user={'client'}  vehicleId={params} disable={true}/>
+    <ClientIndividualStatus user={'super'}  vehicleId={params} disable={true}/>
    
      
     </div>
