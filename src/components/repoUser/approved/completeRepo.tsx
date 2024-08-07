@@ -95,7 +95,7 @@ const CompleteRepo = ({  vehicleId }) => {
   }, [success, error]);
 
   const onClose=()=>{
-    router.push('/completedRepoVehicle')
+    router.push('/approvedRepoVehicle')
     }
   
   if (isLoading) {

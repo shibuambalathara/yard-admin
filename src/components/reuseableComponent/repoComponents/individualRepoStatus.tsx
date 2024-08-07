@@ -64,7 +64,7 @@ const IndividualStatuss = (props) => {
   const router = useRouter();
   useEffect(() => {
     // Extract unique state names from Cities array
-    const uniqueStates = Cities.reduce((acc, current) => {
+    const uniqueStates = Cities?.reduce((acc, current) => {
       if (!acc.includes(current.state)) {
         acc.push(current.state);
       }

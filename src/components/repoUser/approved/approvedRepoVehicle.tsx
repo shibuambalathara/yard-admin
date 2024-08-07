@@ -190,8 +190,8 @@ const AllApprovedVehicles = (props) => {
           ))}
         </select>
       </div>
-      <div>
-          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+       <div>
+          <Search placeholder='eg: KL14WW1111'label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
         </div>
 
      

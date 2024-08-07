@@ -264,6 +264,10 @@ const IndividualVehicle = (props) => {
         );
 
         fetchVehicle();
+        // if(user==='super') 
+        //   {router.push('/superUserRepoVehicles')}
+        //   router.push('/repoVehicle')
+        window.close()
         toast.success(response?.data?.message);
       } catch (error) {
         toast.error(error?.response?.data?.message);

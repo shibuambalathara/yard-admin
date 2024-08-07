@@ -143,8 +143,14 @@ const AddIndividualVehicle = (props) => {
     label: item.name,
   }));
   const onClose=()=>{
-    if(superRequire) router.push('/superUserRepoVehicles')
+    if(superRequire) 
+      {
+        router.push('/superUserRepoVehicles')
+      }
+    else 
+    {
       router.push('/repoVehicle')
+    } 
   }
   useEffect(() => {
     FetchAllVehicleCategory();
@@ -221,12 +227,14 @@ const AddIndividualVehicle = (props) => {
     
 
     try {
-      console.log("Submitting form data to /vehicle/create");
+    
       const response = await axiosInstance.post("/repossession/vehicle", dataUpperCase );
       console.log("Response received:", response);
       toast.success(response?.data?.message);
       reset()
-      router.push("/repoVehicle")
+
+
+      onClose()
       // router.push('/vehicle')
     } catch (error) {
       const errorMessages = error?.response?.data?.message;

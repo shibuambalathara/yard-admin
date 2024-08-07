@@ -91,6 +91,7 @@ console.log(superRequire);
             register={register}
             errors={errors}
             defaultValue=""
+            required={true}
           />
         )}
         <div className="space-y-4">

@@ -42,7 +42,7 @@ export const CategoryFilter = (props) => {
 export const Status = (props) => {
   const { label, setVehicleStatus, options } = props;
   const handleStatus = (e) => {
-    setVehicleStatus(e.target.value);
+    setVehicleStatus(e.target.label);
   };
 
   return (
@@ -83,7 +83,7 @@ export const Search = (props) => {
   }, [debouncedSearchTerm, setSearchVehicle]);
 
   return (
-    <div className="flex flex-col w-40  ml-5">
+    <div className="flex flex-col w-56  ml-5">
       <label htmlFor="state" className={labelStyle?.data}>
         {label}
       </label>
