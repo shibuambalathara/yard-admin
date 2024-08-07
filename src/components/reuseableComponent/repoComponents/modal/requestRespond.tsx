@@ -117,7 +117,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
                   pattern
                 /> */}
                 <InputField
-                  label="End Date & Time"
+                  label="Capture Time Period"
                   type="datetime-local"
                   name="end_date"
                   register={register}
@@ -126,7 +126,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
                 />
               </>
             )}
-            {status === "REPOSSESSION_REJECTED"||status === "REPOSSESSION_REQUESTED" && (
+            {status === "REPOSSESSION_REJECTED" && (
               <InputField
                 label="Reason"
                 type="text"

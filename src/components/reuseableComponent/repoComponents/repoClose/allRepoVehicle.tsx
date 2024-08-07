@@ -171,7 +171,7 @@ const fetchChildren = useCallback(async () => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Completed Repo Vehicles
       </h1>
-      <div className="flex items-end px-8 gap-40">
+      <div className="flex items-end px-8 gap-36">
         <div className="flex flex-col w-40 ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
@@ -197,7 +197,7 @@ const fetchChildren = useCallback(async () => {
         </div>)}
         
         <div>
-          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+          <Search placeholder='eg: KL14WW1111'label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
         </div>
       </div>
 
@@ -258,7 +258,7 @@ const View = ({ row, user }) => {
 
 const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId ,setStatus}) => {
   const handleCancelClick = () => {
-    setStatus('REPOSSESSION_REQUESTED')
+    
     setModalOpen(true);
     setSelectedVehicleId({repoId:row.original.id});
   };

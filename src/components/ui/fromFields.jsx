@@ -652,7 +652,7 @@ export const ExcelUploadInput = ({ label, name, register, accept }) => {
             </label>
           </div>
           <p className="text-xs text-gray-500">
-            Excel files (.xlsx, .xls, .csv) up to 10MB
+            Excel files (.xlsx, .xls, .csv)
           </p>
         </div>
       </div>

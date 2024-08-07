@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import { InputField } from "@/components/ui/fromFields";
+import { ConfirmationModal } from "./confirm";
 
 type Inputs = {
   status: string;
@@ -31,7 +32,7 @@ const RepoClose = ({ onClose, vehicleId, fetchData, status,user }) => {
 
       fetchData();
       onClose();
-    router.push('/repoClose');
+    
          
 
     } catch (error) {
@@ -68,36 +69,12 @@ const RepoClose = ({ onClose, vehicleId, fetchData, status,user }) => {
   }
 
   return (
-    <div className="flex items-center justify-center relative z-50">
-      <div className="bg-white rounded-lg shadow-2xl p-5 max-w-5xl w-full space-y-3">
-        <div>
-          <h1 className="p-2 uppercase text-start font-semibold text-base text-slate-400">
-            Repo Request
-          </h1>
-          <div className="border-b"></div>
-        </div>
-        <form className="space-y-2" onSubmit={handleSubmit(RepoReq)}>
-          
-
-           <p className="text-red-500  py-6">*Are u sure to close this vehicle </p>
-          <div className="w-full text-center space-x-4">
-            <button
-              onClick={() => onClose()}
-              type="button"
-              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <ConfirmationModal
+    // open=''
+    onConfirm={ RepoReq}
+     onCancel={onClose}
+     message ='Are u sure to close this vehicle'
+    /> 
   );
 };
 

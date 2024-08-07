@@ -97,7 +97,7 @@ const RepoYardRequest = ({ onClose, vehicleId, fetchData, status, yard }) => {
                 onChangeHandler={handleYardChange}
               />
               <InputField
-                label="End Date & Time"
+                label="Expected Entry Date & Time"
                 type="datetime-local"
                 name="expected_entry_date"
                 register={register}
