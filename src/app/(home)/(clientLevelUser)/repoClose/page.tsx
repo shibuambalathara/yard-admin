@@ -5,7 +5,7 @@ import React from 'react'
 const ViewAllRepoVehicle = () => {
   return (
     <>
-    <AllRepoCloseDetails user={'client'}/></>
+    <AllRepoCloseDetails  user={'client'}/></>
   )
 }
 

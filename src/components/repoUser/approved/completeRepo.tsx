@@ -51,7 +51,7 @@ const CompleteRepo = ({  vehicleId }) => {
       toast.success(response?.data?.message)
       
 
-      router.push('/repoUserVehicles')
+      router.push('/completedRepoVehicle')
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
@@ -94,6 +94,10 @@ const CompleteRepo = ({  vehicleId }) => {
     }
   }, [success, error]);
 
+  const onClose=()=>{
+    router.push('/completedRepoVehicle')
+    }
+  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center border-2 h-full w-full">
@@ -148,7 +152,7 @@ const CompleteRepo = ({  vehicleId }) => {
           </div>
           <div className="w-full text-center space-x-4">
             <button
-              // onClick={() => onClose()}
+              onClick={() => onClose()}
               type="button"
               className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
             >

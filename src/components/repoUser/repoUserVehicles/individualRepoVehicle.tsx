@@ -345,6 +345,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern
               disabled={true}
+              required={false}
             />
 
             <InputField

@@ -1,17 +1,16 @@
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
-
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
-
 import { MdOutlineViewHeadline } from "react-icons/md";
-
 import Pagination from "@/components/pagination/pagination";
-
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import RepoRespond from "@/components/reuseableComponent/repoComponents/modal/requestRespond";
+import { Search } from "@/components/reuseableComponent/filter/filters";
+import { formatDate } from "@/components/reuseableComponent/repoComponents/dateAndTime";
+
 const AllRequestedVehicles = (props) => {
   const { user } = props;
   const [filteredData, setFilteredData] = useState(null);
@@ -27,7 +26,9 @@ const AllRequestedVehicles = (props) => {
   const [limit, setLimit] = useState(5);
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState('');
-  const [selectedVehicleId, setSelectedVehicleId] = useState(null); // State for selected vehicle ID
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [registrationNum, setRegistrationNum] = useState(null);
 
   const fetchVehicles = async () => {
     setIsLoading(true);
@@ -42,10 +43,11 @@ const AllRequestedVehicles = (props) => {
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
 
-      const response = await axiosInstance.get(
-        `repossession/repo_veh_req?${params.toString()}`
-      );
+      const response = await axiosInstance.get(`repossession/repo_veh_req?${params.toString()}`);
       console.log("res", response);
 
       setFilteredData(response?.data?.res);
@@ -77,10 +79,26 @@ const AllRequestedVehicles = (props) => {
 
   useEffect(() => {
     fetchVehicles();
+  }, [Category, page, vehicleStatus, registrationNum]);
+
+  useEffect(() => {
     FetchAllVehicleCategory();
-  }, [Category, page, vehicleStatus]);
+  }, []);
 
   const UsersData = filteredData?.repoVehicleRequests || [];
+
+  // const formatDate = (dateString: string): string => {
+  //   const options: Intl.DateTimeFormatOptions = {
+  //     year: 'numeric',
+  //     month: 'long',
+  //     day: 'numeric',
+  //     hour: 'numeric',
+  //     minute: 'numeric',
+  //     second: 'numeric',
+  //   };
+  //   return new Date(dateString).toLocaleString(undefined, options);
+  // };
+  
 
   const userColumn = useMemo(
     () => [
@@ -97,7 +115,12 @@ const AllRequestedVehicles = (props) => {
         accessorKey: "status",
       },
       {
-        header: "Registration no ",
+        header: "Requested Date",
+        accessorKey: "req_date",
+        cell: ({ row }) => formatDate(row.original.req_date),
+      },
+      {
+        header: "Registration no",
         accessorKey: "repo_vehicle.reg_number",
       },
       {
@@ -110,7 +133,15 @@ const AllRequestedVehicles = (props) => {
       },
       {
         header: "Cancel",
-        cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} setStatus={setStatus}/>,
+        cell: ({ row }) => (
+          <Cancel
+            row={row}
+            user={user}
+            setModalOpen={setModalOpen}
+            setSelectedVehicleId={setSelectedVehicleId}
+            setStatus={setStatus}
+          />
+        ),
       },
     ],
     [filteredData]
@@ -130,7 +161,7 @@ const AllRequestedVehicles = (props) => {
 
   const handleModalClose = () => {
     setModalOpen(false);
-    setSelectedVehicleId(null); // Reset selected vehicle ID
+    setSelectedVehicleId(null);
   };
 
   return (
@@ -138,8 +169,8 @@ const AllRequestedVehicles = (props) => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Requested Repo Vehicles
       </h1>
-      <div className="flex items-end">
-        <div className="flex flex-col w-40 ml-5">
+      <div className="flex items-end px-8 gap-40">
+        <div className="flex flex-col w-40 ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -150,13 +181,15 @@ const AllRequestedVehicles = (props) => {
             onChange={handleCatChange}
           >
             <option value="">All Category</option>
-
             {vehicleCategorys.map((option, index) => (
               <option key={index} value={option?.value}>
                 {option?.label}
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
         </div>
       </div>
       {modalOpen && (
@@ -202,28 +235,22 @@ const View = ({ row, user }) => {
       <p>
         <MdOutlineViewHeadline />
       </p>
-      <Link
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
+      <Link href={href} target="_blank" rel="noopener noreferrer" className="">
         View
       </Link>
     </div>
   );
 };
 
-const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId ,setStatus}) => {
+const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId, setStatus }) => {
   const handleCancelClick = () => {
-    setStatus('REPOSSESSION_REQUESTED')
+    setStatus('REPOSSESSION_REQUESTED');
     setModalOpen(true);
-    setSelectedVehicleId({repoId:row.original.id});
+    setSelectedVehicleId({ repoId: row.original.id });
   };
 
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-red-600 text-white p-1 rounded-md">
-    
       <button onClick={handleCancelClick} className="">
         Cancel
       </button>

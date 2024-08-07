@@ -6,7 +6,7 @@ const IndividualRepoVehicle = ({params}:{params:{vehicleId:string}})  => {
   return (
     <div>
         {/* <p>safasfjasdlfadslf</p> */}
-        <IndividualStatuss vehicleId={params} user={'super'} />
+        <IndividualStatuss vehicleId={params} user={'client'} />
         </div>
   )
 }

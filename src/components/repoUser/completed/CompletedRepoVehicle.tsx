@@ -11,6 +11,7 @@ import Pagination from "@/components/pagination/pagination";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import { Search } from "@/components/reuseableComponent/filter/filters";
 
 const AllCompleted = (props) => {
   const{user}=props
@@ -26,7 +27,8 @@ const AllCompleted = (props) => {
   const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [limit, setLimit] = useState(5);
-
+  const [searchLoading,setSearchLoading]=useState(false)
+  const [registrationNum, setRegistrationNum] = useState(null);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -40,7 +42,9 @@ const AllCompleted = (props) => {
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
-
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
       // if (vehicleStatus) {
       //   params.append("status", vehicleStatus);
       // }
@@ -80,8 +84,11 @@ const AllCompleted = (props) => {
 
   useEffect(() => {
     fetchVehicles();
+   
+  }, [Category, page, vehicleStatus,registrationNum]);
+  useEffect(() => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
-  }, [Category, page, vehicleStatus]);
+  }, []);
 
   const UsersData = filteredData?.repoVehicleRequests
   || [];
@@ -144,8 +151,8 @@ const AllCompleted = (props) => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Rejected Repo Vehicles
       </h1>
-     <div className="flex items-end">
-      <div className="flex flex-col w-40  ml-5">
+     <div className="flex items-end px-8 gap-40">
+      <div className="flex flex-col w-40  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -164,6 +171,9 @@ const AllCompleted = (props) => {
           ))}
         </select>
       </div>
+      <div>
+          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
 
      
        

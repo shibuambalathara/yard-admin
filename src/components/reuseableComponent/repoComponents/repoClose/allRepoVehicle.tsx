@@ -12,9 +12,10 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import RepoClose from "../modal/requestClose";
+import { ClientFilter, Search } from "../../filter/filters";
 
 const  AllRequestedVehicles = (props) => {
-  const { user } = props;
+  const { user ,childrenRequire} = props;
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,9 +29,25 @@ const  AllRequestedVehicles = (props) => {
   const [limit, setLimit] = useState(5);
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState('');
-  const [selectedVehicleId, setSelectedVehicleId] = useState(null); // State for selected vehicle ID
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [searchLoading,setSearchLoading]=useState(false)
+  const [registrationNum, setRegistrationNum] = useState(null); // State for selected vehicle ID
+  const [children, setChildren] = useState([]);
+  const [client, setClient] = useState("");
 console.log(selectedVehicleId);
 
+
+const fetchChildren = useCallback(async () => {
+  if (user === "super") {
+    try {
+      const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
+      setChildren(response?.data?.res?.clientLvlOrg);
+      console.log(response);
+    } catch (error) {
+      console.log("Error fetching children:", error);
+    }
+  }
+}, [user]);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -40,9 +57,14 @@ console.log(selectedVehicleId);
         limit: limit?.toString(),
         status: 'REPOSSESSION_COMPLETED',
       });
-
+      if (childrenRequire && client) {
+        params.append("cl_org_id", client);
+      }
       if (Category) {
         params.append("vehicle_category_id", Category);
+      }
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
       }
 
       const response = await axiosInstance.get(
@@ -76,11 +98,20 @@ console.log(selectedVehicleId);
     value: item.id,
     label: item.name,
   }));
+  const superClientOptions = children.map((item) => ({
+    value: item.id,
+    label: item.org_name,
+  }));
 
   useEffect(() => {
     fetchVehicles();
-    FetchAllVehicleCategory();
-  }, [Category, page, vehicleStatus]);
+    
+  }, [Category, page, vehicleStatus,registrationNum,client]);
+  useEffect(() => {
+    fetchChildren()
+    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
+  }, []);
+
 
   const UsersData = filteredData?.repoVehicleRequests || [];
 
@@ -138,10 +169,10 @@ console.log(selectedVehicleId);
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Requested Repo Vehicles
+        Completed Repo Vehicles
       </h1>
-      <div className="flex items-end">
-        <div className="flex flex-col w-40 ml-5">
+      <div className="flex items-end px-8 gap-40">
+        <div className="flex flex-col w-40 ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -160,7 +191,16 @@ console.log(selectedVehicleId);
             ))}
           </select>
         </div>
+        
+{childrenRequire&&(<div>
+          <ClientFilter    setClient={setClient} options={superClientOptions} />
+        </div>)}
+        
+        <div>
+          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
       </div>
+
       {modalOpen && (
         <div className="relative border">
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">

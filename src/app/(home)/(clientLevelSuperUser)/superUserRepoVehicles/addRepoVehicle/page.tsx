@@ -9,6 +9,7 @@ const classNames = (...classes) => {
   return classes.filter(Boolean).join(' ')
 }
 
+ 
 const AddRepoVehicle = () => {
   return (
     <div className=' bg-gray-100 min-h-screen'>
@@ -46,7 +47,7 @@ const AddRepoVehicle = () => {
               <AddIndividualVehicle  superRequire={true}  />
             </Tab.Panel>
             <Tab.Panel>
-              <AddMultipleVehicle />
+              <AddMultipleVehicle superRequire={true}/>
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

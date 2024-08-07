@@ -640,13 +640,13 @@ export const ExcelUploadInput = ({ label, name, register, accept }) => {
               htmlFor={name}
               className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
             >
-              <span>Upload a file</span>
+              {/* <span>Upload a file</span> */}
               <input
                 id={name}
                 name={name}
                 type="file"
                 accept={accept}
-                className="sr-only"
+                className=""
                 {...register(name)}
               />
             </label>

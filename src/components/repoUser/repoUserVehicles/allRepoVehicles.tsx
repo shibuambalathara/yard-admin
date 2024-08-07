@@ -13,8 +13,8 @@ import {
   Search,
   Status
 } from "@/components/reuseableComponent/filter/filters";
-import {VehicleState} from "@/utils/staticData"
-import Loading from  "@/components/commonComponents/spinner/DataFetching"
+import { RepoStatus2, VehicleState } from "@/utils/staticData";
+import Loading from "@/components/commonComponents/spinner/DataFetching";
 
 const AllRepoDetails = (props) => {
   const { childrenRequire } = props;
@@ -34,101 +34,73 @@ const AllRepoDetails = (props) => {
   const [statusFilter, setStatusFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [children, setChildren] = useState([]);
-  const [searchLoading,setSearchLoading]=useState(false)
-
+  const [searchLoading, setSearchLoading] = useState(false);
   const [client, setClient] = useState("");
 
-  // const fetchChildren = useCallback(async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/clientorg/client_lvl_super_org/child/_org`
-  //     );
-  //     console.log("fetchChildren response",response);
-      
-  //     setChildren(response?.data?.res?.clientLvlOrg);
-      
-  //   } catch (error) {
-  //     // toast.error(error?.response?.data?.message);
-  //     console.log("fetchChildren error", error);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   // fetchAllVehicleCategory();
-  //   fetchChildren();
-  //   // fetchAllYards();
-  // }, []);
-
-  const  FetchAllRepoVehilces=
-    // useCallback(
-    async () => {
-      try {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          limit: limit.toString(),
-        });
-        if (client) {
-          params.append("cl_org_id", client);
-        }
-
-        if (Category) {
-          params.append("vehicle_category_id", Category);
-        }
-      
-        if (vehicleStatus) {
-          params.append("status", vehicleStatus);
-        }
-        if (registrationNum) {
-          params.append("searchByRegNo", registrationNum);
-        }
-
-        const response = await axiosInstance.get(
-          `/repossession/vehicles/eligible?${params.toString()}`
-        );
-
-      
-
-        console.log("all vehicle ownership", response);
-
-        setAllVehicleOwerships(response?.data?.res?.vehicleForRequest);
-
-        setFilteredData(response?.data?.res?.totalCount);
-
-        // console.log("response of vehicle ownership00001", response);
-      } catch (error) {
-        console.log("fetchChildren error", error);
-      } finally {
-        setLoading(true);
+  const fetchAllRepoVehicles = useCallback(async () => {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+      });
+      if (client) {
+        params.append("cl_org_id", client);
       }
-    };
-  // [page, limit,Category, selectedYard, vehicleStatus]
-  // );
-  // //
+      if (Category) {
+        params.append("vehicle_category_id", Category);
+      }
+      if (vehicleStatus) {
+        params.append("status", vehicleStatus);
+      }
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
+
+      const response = await axiosInstance.get(
+        `/repossession/vehicles/eligible?${params.toString()}`
+      );
+
+      console.log("all vehicle ownership", response);
+
+      setAllVehicleOwerships(response?.data?.res?.vehicleForRequest);
+      setFilteredData(response?.data?.res?.totalCount);
+    } catch (error) {
+      console.log("fetchChildren error", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, limit, Category, client, vehicleStatus, registrationNum]);
+
+  const fetchAllVehicleCategory = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/Vehicle/cat`);
+      console.log("cat", response);
+
+      setAllVehicleCategory(response?.data?.vehicleCategory);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const vehicleCategorys = vehicleCategory?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
   const allYardsOptions = allyard?.map((item) => ({
     value: item?.id,
     label: item?.yard_name,
   }));
 
-  console.log(children);
-
-  const superClientOptions = children.map((item) => ({
-    value: item.id,
-    label: item.org_name,
-  }));
-  const handleClient = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    setClient(e.target.value);
-    // setRoleFilter(selectedOption.text)
-    // setClientSelection(true)
-  };
-
-  console.log("searchLoading",searchLoading);
-  
-
+  console.log("searchLoading", searchLoading);
 
   useEffect(() => {
-    FetchAllRepoVehilces();
-  }, [statusFilter, Category, vehicleStatus, page, filteredData, client,registrationNum]);
+    fetchAllVehicleCategory();
+  }, [fetchAllVehicleCategory]);
+
+  useEffect(() => {
+    fetchAllRepoVehicles();
+  }, [statusFilter, Category, vehicleStatus, page, registrationNum, fetchAllRepoVehicles]);
 
   const UsersData = allVehicleOwnerships || [];
 
@@ -167,88 +139,46 @@ const AllRepoDetails = (props) => {
         cell: ({ row }) => <View row={row} />,
       },
     ],
-    [filteredData]
+    []
   );
 
-// console.log("HADLING SEARCH FOR THIS",registrationNum);
-
-if (searchLoading) {
-  return (
-    <div className="flex w-full h-screen items-center justify-center">
-      <Loading/>
-    </div>
-  );
-}
+  if (searchLoading) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         All Repo Vehicles
       </h1>
-      <div className=" grid grid-cols-3  gap-4 items-end px-3 ">
-        {/* <div className="flex flex-col w-40 ml-5">
-          <label htmlFor="state" className={labelStyle?.data}>
-            Select Category
-          </label>
-          <select
-            id="state"
-            className={inputStyle?.data}
-            defaultValue=""
-            onChange={handleCatChange}
-          >
-            <option value="">All Category</option>
-            {vehicleCategory.map((option, index) => (
-              <option key={index} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex flex-col ml-5">
-          <label htmlFor="client" className={labelStyle.data}>
-            Select Client
-          </label>
-
-          <select
-            id="client"
-            className={inputStyle.data}
-            onChange={handleClient}
-          >
-            <option value="">Select Client</option>
-            {superClientOptions.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
-        {/* <div>
-          <ClientFilter />
-        </div> */}
-        
+      <div className="grid grid-cols-3 gap-4 items-end px-3">
         <div>
-          <CategoryFilter label="Select Category" options={VehicleState}/>
+          <CategoryFilter label="Select Category" options={vehicleCategorys} setCategory={setVehiclecat} />
         </div>
-       
         <div>
-          <Search placeholder='Search by Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+          <Search placeholder="Search by Registration Number" searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
+        <div>
+          <Status label="Select Status" options={RepoStatus2} setVehicleStatus={setVehicleStatus} />
         </div>
       </div>
       <div>
-        {filteredData?.totalCount < 1 ? (
+        {filteredData < 1 ? (
           <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />
             <div className="w-full text-center">
-              {filteredData?.totalCount > 0 && (
+              {filteredData > 0 && (
                 <Pagination
                   page={page}
                   setPage={setPage}
                   limit={limit}
-                  totalDataCount={filteredData?.totalCount}
+                  totalDataCount={filteredData}
                 />
               )}
             </div>
