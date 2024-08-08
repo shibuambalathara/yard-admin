@@ -17,6 +17,7 @@ import { Cities } from "@/utils/cities";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
 import ImageUpload from "../imageUpload/imageUpload";
+import VehicleImageGrid from "../imageGrid/imageGrid";
 
 type Inputs = {
   repo_vehicle: {
@@ -88,6 +89,7 @@ const IndividualStatuss = (props) => {
       const response = await axiosInstance.get(endpoint);
       setResponseStatus(response?.data?.res?.status);
       const destructuredData = {
+        ...response?.data?.res,
         cl_org: response?.data?.res?.repo_vehicle?.cl_org?.code,
         org_name: response?.data?.res?.repo_vehicle?.cl_org?.org_name,
         code: response?.data?.res?.repo_vehicle?.code,
@@ -287,8 +289,20 @@ const IndividualStatuss = (props) => {
               />
             )}
           </div>
+          <div>
+          <h1 className="block text-gray-700 text-sm font-bold mb-2">
+        Images
+      </h1>
 
-          <ImageUpload images={images} setImages={setImages} />
+          <VehicleImageGrid
+              vehicleImages={vehicleImage}
+              onImageDelete={handleImageDelete}
+            />
+          </div>
+          
+           { responseStatus === "REPOSSESSION_REQUESTED"&&
+           ( <ImageUpload images={images} setImages={setImages} />)
+         }
 
           <div className="w-full text-center p-1 mt-16 space-x-2">
             <button

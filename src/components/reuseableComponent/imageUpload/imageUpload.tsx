@@ -16,9 +16,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
 
   return (
     <div className="col-span-2">
-      <label className="block text-gray-700 text-sm font-bold mb-2">
+      <h1 className="block text-gray-700 text-sm font-bold mb-2">
         Upload Images
-      </label>
+      </h1>
       <input
         type="file"
         name="files"

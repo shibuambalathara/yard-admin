@@ -149,7 +149,7 @@ const AllCompleted = (props) => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Rejected Repo Vehicles
+      Completed Repo Vehicles
       </h1>
      <div className="flex items-end px-8 gap-40">
       <div className="flex flex-col w-40  ">
