@@ -31,7 +31,6 @@ const AllRepoRequests = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [registrationNum, setRegistrationNum] = useState(null);
 
-
   const FetchAllVehicleCategory = async () => {
     try {
       const response = await FetchVehicleCategory();
@@ -47,7 +46,6 @@ const AllRepoRequests = () => {
     }
   };
 
-  
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -57,8 +55,7 @@ const AllRepoRequests = () => {
         limit: limit?.toString(),
       });
 
-      console.log("category of vehcie",Category);
-      
+      console.log("category of vehcie", Category);
 
       if (Category) {
         params.append("vehicle_category_id", Category);
@@ -86,11 +83,9 @@ const AllRepoRequests = () => {
   useEffect(() => {
     fetchVehicles();
     FetchAllVehicleCategory();
-  }, [page,limit,Category,registrationNum,vehicleStatus]);
+  }, [page, limit, Category, registrationNum, vehicleStatus]);
 
   // console.log("filtredData", filteredData);
-
-
 
   const yardData = filteredData || [];
 
@@ -99,16 +94,9 @@ const AllRepoRequests = () => {
       {
         header: "Expected Entry ",
         accessorKey: "expected_entry_date",
-        cell: ({ row }) => dataFormat(row),
+        cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
       },
-      // {
-      //   header: "make",
-      //   accessorKey: "repo_vehicle.make",
-      // },
-      // {
-      //   header: "model",
-      //   accessorKey: "repo_vehicle.model",
-      // },
+      
 
       {
         header: "Reg No",
@@ -129,7 +117,7 @@ const AllRepoRequests = () => {
       {
         header: "Requested Date ",
         accessorKey: "req_date",
-        cell: ({ row }) => dataFormat(row),
+        cell: ({ row }) => dataFormat(row?.original?.req_date),
       },
       {
         header: "organisation ",
@@ -148,11 +136,9 @@ const AllRepoRequests = () => {
         header: "View",
         cell: ({ row }) => View(row),
       },
-      
     ],
     [filteredData]
   );
-
 
   return (
     <div className="w-full">
@@ -166,7 +152,12 @@ const AllRepoRequests = () => {
         </div> */}
 
         <div>
-          <CategoryFilter label="Select Category" options={vehicleCategory}  setCategory={setCategory} Category={Category}/>
+          <CategoryFilter
+            label="Select Category"
+            options={vehicleCategory}
+            setCategory={setCategory}
+            Category={Category}
+          />
         </div>
 
         <div>
@@ -178,7 +169,11 @@ const AllRepoRequests = () => {
           />
         </div>
         <div>
-          <Status label="Select Status" options={VehicleEntryStatus} setVehicleStatus={setVehicleStatus} />
+          <Status
+            label="Select Status"
+            options={VehicleEntryStatus}
+            setVehicleStatus={setVehicleStatus}
+          />
         </div>
       </div>
       <div>
@@ -233,31 +228,27 @@ const Completed = (row) => {
     reset,
     formState: { errors },
   } = useForm();
-  const [modalOpen,setModalOpen]=useState(false)
-  
-const handleModalOpen=()=>{
-setModalOpen(true)
-}
+  const [modalOpen, setModalOpen] = useState(false);
 
-const handleModalClose=()=>{
-  setModalOpen(false)
-}
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
 
-const onSubmit=()=>{
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
-}
+  const onSubmit = () => {};
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
-      <div
-        onClick={handleModalOpen}
-        className=""
-      >
+      <div onClick={handleModalOpen} className="">
         Status
       </div>
-     { modalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded-lg w-full max-w-md">
             <div className="flex justify-between items-center pb-3">
               <h2 className="text-xl font-semibold">Modify Entry Date</h2>
@@ -291,18 +282,15 @@ const onSubmit=()=>{
               </div>
             </form>
           </div>
-        </div>}
+        </div>
+      )}
     </div>
   );
 };
 
 
-
-
 const dataFormat = (row) => {
-  // console.log("row form dataFormat", row);
-
-  let value = row?.original.expected_entry_date.split("T")[0];
+  let value = row?.split("T")[0];
   // console.log("date from dataformat", value);
 
   return <div>{value}</div>;

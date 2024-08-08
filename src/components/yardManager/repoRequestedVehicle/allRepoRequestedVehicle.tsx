@@ -41,7 +41,6 @@ const AllYardRequestedVehicle = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [registrationNum, setRegistrationNum] = useState(null);
 
-
   const FetchAllVehicleCategory = async () => {
     try {
       const response = await FetchVehicleCategory();
@@ -57,7 +56,6 @@ const AllYardRequestedVehicle = () => {
     }
   };
 
-  
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -67,8 +65,7 @@ const AllYardRequestedVehicle = () => {
         limit: limit?.toString(),
       });
 
-      console.log("category of vehcie",Category);
-      
+      console.log("category of vehcie", Category);
 
       if (Category) {
         params.append("vehicle_category_id", Category);
@@ -96,11 +93,9 @@ const AllYardRequestedVehicle = () => {
   useEffect(() => {
     fetchVehicles();
     FetchAllVehicleCategory();
-  }, [page,limit,Category,registrationNum,vehicleStatus]);
+  }, [page, limit, Category, registrationNum, vehicleStatus]);
 
   // console.log("filtredData", filteredData);
-
-
 
   const yardData = filteredData || [];
 
@@ -109,7 +104,7 @@ const AllYardRequestedVehicle = () => {
       {
         header: "Expected Entry ",
         accessorKey: "expected_entry_date",
-        cell: ({ row }) => dataFormat(row),
+        cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
       },
       // {
       //   header: "make",
@@ -139,7 +134,7 @@ const AllYardRequestedVehicle = () => {
       {
         header: "Requested Date ",
         accessorKey: "req_date",
-        cell: ({ row }) => dataFormat(row),
+        cell: ({ row }) => dataFormat(row?.original?.req_date),
       },
       {
         header: "organisation ",
@@ -158,11 +153,9 @@ const AllYardRequestedVehicle = () => {
         header: "View",
         cell: ({ row }) => View(row),
       },
-      
     ],
     [filteredData]
   );
-
 
   return (
     <div className="w-full">
@@ -176,7 +169,12 @@ const AllYardRequestedVehicle = () => {
         </div> */}
 
         <div>
-          <CategoryFilter label="Select Category" options={vehicleCategory}  setCategory={setCategory} Category={Category}/>
+          <CategoryFilter
+            label="Select Category"
+            options={vehicleCategory}
+            setCategory={setCategory}
+            Category={Category}
+          />
         </div>
 
         <div>
@@ -188,7 +186,11 @@ const AllYardRequestedVehicle = () => {
           />
         </div>
         <div>
-          <Status label="Select Status" options={VehicleEntryStatus} setVehicleStatus={setVehicleStatus} />
+          <Status
+            label="Select Status"
+            options={VehicleEntryStatus}
+            setVehicleStatus={setVehicleStatus}
+          />
         </div>
       </div>
       <div>
@@ -236,13 +238,8 @@ const View = (row) => {
   );
 };
 
-
-
-
 const dataFormat = (row) => {
-  // console.log("row form dataFormat", row);
-
-  let value = row?.original.expected_entry_date.split("T")[0];
+  let value = row?.split("T")[0];
   // console.log("date from dataformat", value);
 
   return <div>{value}</div>;
