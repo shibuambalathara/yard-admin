@@ -15,22 +15,21 @@ import {
   Search,
   Status,
 } from "@/components/reuseableComponent/filter/filters";
-import { VehicleEntryStatus } from "@/utils/staticData";
+import { VehicleEntryStatus, YardEntryStatus } from "@/utils/staticData";
 import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
 
-const AllRepoRequests = () => {
+const AllEntryPendingVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setCategory] = useState("");
   const [catFilter, setCatFilter] = useState("");
-  const [vehicleStatus, setVehicleStatus] = useState("");
+  const [vehicleStatus, setVehicleStatus] = useState(false);
   const [limit, setLimit] = useState(5);
   const [searchLoading, setSearchLoading] = useState(false);
   const [registrationNum, setRegistrationNum] = useState(null);
-
 
   const FetchAllVehicleCategory = async () => {
     try {
@@ -47,7 +46,6 @@ const AllRepoRequests = () => {
     }
   };
 
-  
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -57,8 +55,7 @@ const AllRepoRequests = () => {
         limit: limit?.toString(),
       });
 
-      console.log("category of vehcie",Category);
-      
+      console.log("category of vehcie", Category);
 
       if (Category) {
         params.append("vehicle_category_id", Category);
@@ -66,17 +63,16 @@ const AllRepoRequests = () => {
       if (registrationNum) {
         params.append("searchByRegNo", registrationNum);
       }
-
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
-      }
+      // if (vehicleStatus) {
+      params.append("status", vehicleStatus.toString()); // Convert boolean to string
+      // }
 
       const response = await axiosInstance.get(
-        `/repo_yard/requests?${params.toString()}`
+        `/repo_yard/vehicles/entry?${params.toString()}`
       );
       console.log("res", response);
 
-      setFilteredData(response?.data?.res?.repoYardRequest);
+      setFilteredData(response?.data?.res?.vehicles);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -86,29 +82,23 @@ const AllRepoRequests = () => {
   useEffect(() => {
     fetchVehicles();
     FetchAllVehicleCategory();
-  }, [page,limit,Category,registrationNum,vehicleStatus]);
+  }, [page, limit, Category, registrationNum, vehicleStatus]);
 
   // console.log("filtredData", filteredData);
 
-
-
   const yardData = filteredData || [];
+  console.log("yardData", yardData);
 
   const yardColumn = useMemo(
     () => [
       {
-        header: "Expected Entry ",
-        accessorKey: "expected_entry_date",
-        cell: ({ row }) => dataFormat(row),
+        header: "make",
+        accessorKey: "repo_vehicle.make",
       },
-      // {
-      //   header: "make",
-      //   accessorKey: "repo_vehicle.make",
-      // },
-      // {
-      //   header: "model",
-      //   accessorKey: "repo_vehicle.model",
-      // },
+      {
+        header: "model",
+        accessorKey: "repo_vehicle.model",
+      },
 
       {
         header: "Reg No",
@@ -123,36 +113,12 @@ const AllRepoRequests = () => {
         accessorKey: "repo_vehicle.vehicle_category.name",
       },
       {
-        header: "Requested By ",
-        accessorKey: "req_by_user_org.user.name",
-      },
-      {
-        header: "Requested Date ",
-        accessorKey: "req_date",
-        cell: ({ row }) => dataFormat(row),
-      },
-      {
-        header: "organisation ",
-        accessorKey: "req_to_yard.org_name",
-      },
-      {
-        header: "status ",
-        accessorKey: "status",
-      },
-      // {
-      //   header: "Action ",
-      //   cell: ({ row }) => Completed(row),
-      // },
-
-      {
         header: "View",
         cell: ({ row }) => View(row),
       },
-      
     ],
     [filteredData]
   );
-
 
   return (
     <div className="w-full">
@@ -166,19 +132,30 @@ const AllRepoRequests = () => {
         </div> */}
 
         <div>
-          <CategoryFilter label="Select Category" options={vehicleCategory}  setCategory={setCategory} Category={Category}/>
+          <CategoryFilter
+            label="Select Category"
+            options={vehicleCategory}
+            setCategory={setCategory}
+            Category={Category}
+          />
         </div>
 
         <div>
           <Search
-            placeholder="Search by Registration Number"
+            placeholder="eg: KL14WW1111"
+            label="Search Registration Number"
             searchLoading={searchLoading}
             setSearchVehicle={setRegistrationNum}
             setSearchLoading={setSearchLoading}
           />
         </div>
         <div>
-          <Status label="Select Status" options={VehicleEntryStatus} setVehicleStatus={setVehicleStatus} />
+          <Status
+            title="Select Status"
+            options={YardEntryStatus}
+            setVehicleStatus={setVehicleStatus}
+            isTrue={true}
+          />
         </div>
       </div>
       <div>
@@ -205,7 +182,7 @@ const AllRepoRequests = () => {
   );
 };
 
-export default AllRepoRequests;
+export default AllEntryPendingVehicles;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -215,7 +192,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/repoRequests/${row.original.id}`}
+        href={`/repoRequestedVehicle/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""
@@ -225,84 +202,11 @@ const View = (row) => {
     </div>
   );
 };
-const Completed = (row) => {
-  // console.log("from view", row.original.id);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-  const [modalOpen,setModalOpen]=useState(false)
-  
-const handleModalOpen=()=>{
-setModalOpen(true)
-}
-
-const handleModalClose=()=>{
-  setModalOpen(false)
-}
-
-const onSubmit=()=>{
-
-}
-  return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <div
-        onClick={handleModalOpen}
-        className=""
-      >
-        Status
-      </div>
-     { modalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg w-full max-w-md">
-            <div className="flex justify-between items-center pb-3">
-              <h2 className="text-xl font-semibold">Modify Entry Date</h2>
-              <button onClick={handleModalClose}>&times;</button>
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-">
-                <InputField
-                  label="Expected Entry Date"
-                  type="date"
-                  name="expected_entry_date"
-                  register={register}
-                  errors={errors}
-                  pattern=""
-                />
-              </div>
-              <div className="flex justify-end space-x-4 mt-4">
-                <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>}
-    </div>
-  );
-};
-
-
-
 
 const dataFormat = (row) => {
   // console.log("row form dataFormat", row);
 
-  let value = row?.original.expected_entry_date.split("T")[0];
+  let value = row?.original?.expected_entry_date?.split("T")[0];
   // console.log("date from dataformat", value);
 
   return <div>{value}</div>;

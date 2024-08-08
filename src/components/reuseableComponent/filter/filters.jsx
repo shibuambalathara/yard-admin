@@ -42,13 +42,16 @@ export const CategoryFilter = (props) => {
 export const Status = (props) => {
   const { label, setVehicleStatus, options } = props;
   const handleStatus = (e) => {
-    setVehicleStatus(e.target.label);
+    setVehicleStatus(e.target.value);
   };
+
+  console.log("9998",label);
+  
 
   return (
     <div className="flex flex-col w-40  ml-5">
-      <label htmlFor="status" className={labelStyle?.data}>
-        {label}
+     <label htmlFor="status" className={labelStyle?.data}>
+        {label ? label : props?.title}
       </label>
       <select
         id="status"
@@ -56,7 +59,8 @@ export const Status = (props) => {
         defaultValue=""
         onChange={handleStatus}
       >
-        <option value=""> {label}</option>
+        
+        {label && <option  value= ""> {label}</option> }
         {options &&
           options.map((option, index) => (
             <option key={index} value={option?.value}>

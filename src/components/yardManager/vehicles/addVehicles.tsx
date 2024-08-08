@@ -86,6 +86,8 @@ const AddVehicle = () => {
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
+      console.log('response',response);
+      
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
       // toast.success("Client level Organisations fetched successfully");
     } catch (error) {
@@ -110,7 +112,7 @@ const AddVehicle = () => {
 
   const ClientOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
-    label: item.cl_org_name,
+    label: item.org_name,
   }));
 
   const vehicleCategorys = vehicleCategory?.map((item) => ({
@@ -200,7 +202,7 @@ const AddVehicle = () => {
       console.log("Response received:", response);
       toast.success(response?.data?.message);
       reset()
-      router.push("/vehicle")
+      // router.push("/vehicle")
       // router.push('/vehicle')
     } catch (error) {
       const errorMessages = error?.response?.data?.message;

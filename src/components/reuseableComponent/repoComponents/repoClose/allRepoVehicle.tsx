@@ -70,7 +70,7 @@ const fetchChildren = useCallback(async () => {
       const response = await axiosInstance.get(
         `repossession/repo_veh_req?${params.toString()}`
       );
-      console.log("res", response);
+      console.log("RESPONSE OF API CALL", response?.data?.res);
 
       setFilteredData(response?.data?.res);
     } catch (error) {
