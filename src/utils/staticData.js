@@ -6,26 +6,25 @@
 //   { label: "Client Level Sub User", value: "client_level_subsuer" },
 // ];
 export const RoleAliass = {
-  "SUPER_ADMIN": "SUPER ADMIN ",
-  "YARD_MANAGER": "YARD MANAGER",
-  "CLIENT_LEVEL_SUPER_USER": "CLIENT LEVEL SUPER USER",
-  "CLIENT_LEVEL_USER": "CLIENT LEVEL USER",
-  "CLIENT_LEVEL_SUB_USER": "CLIENT LEVEL SUB USER",
+  SUPER_ADMIN: "SUPER ADMIN ",
+  YARD_MANAGER: "YARD MANAGER",
+  CLIENT_LEVEL_SUPER_USER: "CLIENT LEVEL SUPER USER",
+  CLIENT_LEVEL_USER: "CLIENT LEVEL USER",
+  CLIENT_LEVEL_SUB_USER: "CLIENT LEVEL SUB USER",
 };
-export const HeaderRole  = {
-  "SUPER_ADMIN": "SUPER ADMIN ",
-  "YARD_MANAGER": "YARD MANAGER",
-  "CLIENT_LEVEL_SUPER_USER": " SUPER USER",
-  "CLIENT_LEVEL_USER": " USER",
-  "CLIENT_LEVEL_SUB_USER": " SUB USER",
+export const HeaderRole = {
+  SUPER_ADMIN: "SUPER ADMIN ",
+  YARD_MANAGER: "YARD MANAGER",
+  CLIENT_LEVEL_SUPER_USER: " SUPER USER",
+  CLIENT_LEVEL_USER: " USER",
+  CLIENT_LEVEL_SUB_USER: " SUB USER",
 };
 
-export const superOrgCat=[
+export const superOrgCat = [
   { label: "GOVERNMENT", value: "GOVERNMENT" },
-{ label: "INSURANCE", value: "INSURANCE" },
-{ label: "BANK", value: "BANK" }
-]
-
+  { label: "INSURANCE", value: "INSURANCE" },
+  { label: "BANK", value: "BANK" },
+];
 
 export const Role = [
   { label: "Super Admin", value: "SUPER_ADMIN" },
@@ -36,7 +35,6 @@ export const Role = [
   { label: "Repo User", value: "REPO_USER" },
   { label: "Repo Admin", value: "REPO_ADMIN" },
 ];
-
 
 export const SuperUserChildren = [
   { label: "Yard Manager", value: "YARD_MANAGER" },
@@ -55,18 +53,22 @@ export const RepoStatus = [
   { label: "APPROVED", value: "REPOSSESSION_APPROVED" },
 ];
 
-export const UserStatus=[
-  { label: "ACTIVE", value: 1},
-  { label: "INACTIVE", value: 0},
+export const UserStatus = [
+  { label: "ACTIVE", value: 1 },
+  { label: "INACTIVE", value: 0 },
   ,
-]
+];
 export const VehicleEntryStatus = [
   { label: "ENTRY REQUESTED", value: "ENTRY_REQUESTED" },
   { label: "ENTRY APPROVED", value: "ENTRY_APPROVED" },
   { label: "ENTRY REJECTED", value: "ENTRY_REJECTED" },
-  { label: "ENTRY CANCELLED", value: "ENTRY_CANCELLED" }
+  { label: "ENTRY CANCELLED", value: "ENTRY_CANCELLED" },
 ];
 
+export const YardEntryStatus = [
+  { label: "ENTRY PENDING", value: false },
+  { label: "ENTRY COMPLETED ", value: true },
+];
 
 export const demo = [
   { label: "DEMO1", value: "DEMO1" },
@@ -80,13 +82,11 @@ export const VehicleState = [
   { label: "APPROVED", value: "APPROVED" },
 ];
 
-export const RepoStatus2= [
+export const RepoStatus2 = [
   { label: "PENDING", value: "PENDING" },
   { label: "ONGOING", value: "ONGOING" },
   { label: "CLOSED", value: "CLOSED" },
 ];
-
-
 
 export const ReleaseStatus = [
   { label: "INITIATED", value: "INITIATED" },
@@ -119,10 +119,10 @@ export const paymentStatus = [
   { label: "PENDING", value: "PENDING" },
 ];
 
-export const superUserStatus=[
+export const superUserStatus = [
   { label: "ACTIVE", value: 1 },
   { label: "INACTIVE", value: 0 },
-]
+];
 
 export const Country = [{ label: "INDIA", value: "INDIA" }];
 

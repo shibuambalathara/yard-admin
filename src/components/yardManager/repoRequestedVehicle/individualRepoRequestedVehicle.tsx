@@ -1,3 +1,5 @@
+
+
 "use client";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -8,7 +10,8 @@ import img3 from "../../../../public/aadhar.jpg";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+import { TbRuler } from "react-icons/tb";
+import { VehicleEntryStatus } from "@/utils/staticData";
 
 type User = {
   code: string;
@@ -50,7 +53,9 @@ type Inputs = {
 
 const images = [img1, img2, img3]; // Array containing imported images
 
-const IndividualRepoRequests = ({ yardVehId }) => {
+const IndividualRequestedVehicle = ({ repoVehicleId }) => {
+    console.log("repoVehicleId",repoVehicleId);
+    
   const [yardData, setYardData] = useState<Inputs | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -70,7 +75,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `repo_yard/request/${yardVehId?.yardVehId}`
+        `repo_yard/request/${repoVehicleId?.repoReqId}`
       );
       console.log(
         "response?.data?.expected_entry_date",
@@ -100,9 +105,16 @@ const IndividualRepoRequests = ({ yardVehId }) => {
 
   useEffect(() => {
     FetchInddividualVehicle();
-  }, [yardVehId]);
+  }, [repoVehicleId]);
 
-
+  // const handleModalOpen = (value = false) => {
+  //   setModalOpen(true);
+  //   if (value) {
+  //     setShowStatus(true);
+  //   } else {
+  //     setShowStatus(false);
+  //   }
+  // };
 
   const handleModalOpen = (type) => {
     setModalOpen(true);
@@ -118,31 +130,35 @@ const IndividualRepoRequests = ({ yardVehId }) => {
     try {
       let payload;
       let endpoint;
-      // const validFrom = new Date(data?.expected_entry_date).toISOString();
 
-      const expectedEntryDate = new Date(data.expected_entry_date).toISOString();
-
-    // Create the payload with the converted date
-     payload = { expected_entry_date: expectedEntryDate };
-
-    console.log("payload", payload);
-
-      // if (payload === yardData?.status)
-      //   throw new Error("Cannot Update Same Status");
-
-      endpoint = `repo_yard/request/${yardVehId?.yardVehId}`;
+      payload = { status: data.status };
+      if (payload === yardData?.status)
+        throw new Error("Cannot Update Same Status");
+      endpoint = `repo_yard/status/${repoVehicleId?.repoReqId}`;
 
       const response = await axiosInstance.patch(endpoint, payload);
 
       toast.success(response?.data?.message);
       FetchInddividualVehicle();
       setModalOpen(false);
-      router.push("/repoRequests");
+      router.push("/repoRequestedVehicle");
     } catch (error) {
       console.error("Error updating entry", error);
       toast.error(error?.response?.data?.message);
     }
   };
+
+  const filteredOptions = VehicleEntryStatus?.filter((option) => {
+    if (yardData?.status === "ENTRY_APPROVED") {
+      return ["ENTRY_REJECTED", "ENTRY_APPROVED"].includes(option?.value);
+    } else if (yardData?.status === "ENTRY_REQUESTED") {
+      return ["ENTRY_REQUESTED", "ENTRY_REJECTED", "ENTRY_APPROVED"].includes(
+        option?.value
+      );
+    }
+    // Add more conditions if needed
+    return true; // By default, include all options
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
@@ -276,7 +292,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
                     onClick={() => handleModalOpen("status")}
                     className="px-8 py-2 text-center bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                   >
-                    Modify Expected Date
+                    Change Status
                   </button>
                 </div>
               )}
@@ -288,9 +304,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
           <div className="bg-white p-4 rounded-lg w-full max-w-md">
             <div className="flex justify-between items-center pb-3 w-full">
-              <h2 className="text-xl font-semibold text-center  w-full">
-                Modify Expected Entry Date
-              </h2>
+              <h2 className="text-xl font-semibold text-center  w-full"></h2>
               <button onClick={handleModalClose}>&times;</button>
             </div>
             <form
@@ -298,14 +312,14 @@ const IndividualRepoRequests = ({ yardVehId }) => {
               className="flex  flex-col justify-center items-center"
             >
               <div className="mb-">
-                <InputField
-                  disabled={false}
-                  label="Expected Date"
-                  type="date"
-                  name="expected_entry_date"
+                <SelectInput
+                  label="Select status "
+                  options={filteredOptions}
+                  name="status"
                   register={register}
-                  errors={errors}
-                  pattern
+                  error={errors}
+                  required={true}
+                  defaultValue=""
                 />
               </div>
 
@@ -332,4 +346,4 @@ const IndividualRepoRequests = ({ yardVehId }) => {
   );
 };
 
-export default IndividualRepoRequests;
+export default IndividualRequestedVehicle;

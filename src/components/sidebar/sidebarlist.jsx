@@ -91,53 +91,7 @@ export const Super_Admin = [
   },
 ];
 
-export const yardManager = [
-  { title: "Dashboard", icon: <MdDashboard /> },
-  {
-    title: "Park Fee",
-    path: "/parkfee",
 
-    icon: <GiHomeGarage />,
-  },
-
-  {
-    title: "Vehicles",
-    icon: <FaCarOn />,
-    path: "/vehicle",
-  },
-  {
-    title: "Vehicle Ownership",
-    icon: <RiFilePaperLine />,
-    path: "/vehicleOwnership",
-  },
-  {
-    title: "Vehicle Release",
-    icon: <FaTruckLoading />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Initiated Vehicles",
-        icon: <TbStatusChange />,
-        path: "/releasevehicle/initiatedVehicles",
-      },
-      {
-        title: "Released Vehicles",
-        icon: <MdManageHistory />,
-        path: "/releasevehicle/releasedVehicles",
-      },
-    ],
-  },
-  {
-    title: "Waiver",
-    icon: <MdWavingHand />,
-    path: "/waiver ",
-  },
-  {
-    title: "Repo Requests",
-    icon: <FaCarOn />,
-    path: "/repoRequests ",
-  },
-];
 
 export const clientLevelUser = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -339,6 +293,65 @@ export const clientLevelSubUser = [
   // },
 ];
 
+export const yardManager = [
+  { title: "Dashboard", icon: <MdDashboard /> },
+  {
+    title: "Park Fee",
+    path: "/parkfee",
+
+    icon: <GiHomeGarage />,
+  },
+
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+    path: "/vehicle",
+  },
+  {
+    title: "Vehicle Ownership",
+    icon: <RiFilePaperLine />,
+    path: "/vehicleOwnership",
+  },
+  {
+    title: "Vehicle Release",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Initiated Vehicles",
+        icon: <TbStatusChange />,
+        path: "/releasevehicle/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles",
+        icon: <MdManageHistory />,
+        path: "/releasevehicle/releasedVehicles",
+      },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <MdWavingHand />,
+    path: "/waiver ",
+  },
+  // {
+  //   title: "Repo Requests",
+  //   icon: <FaCarOn />,
+  //   path: "/repoRequests ",
+  // },
+
+  {
+    title: "Repo Requested Vehicle",
+    icon: <FaCarOn />,
+    path: "/repoRequestedVehicle ",
+  },
+  {
+    title: "Pending Vehicle Entry",
+    icon: <FaCarOn />,
+    path: "/yardEntryPendingVehicles ",
+  },
+];
+
 export const RepoUser = [
   { title: "Dashboard", icon: <MdDashboard /> },
 
@@ -380,6 +393,14 @@ export const RepoUser = [
     path: "/yardRequestedVehicle",
   },
 ];
+
+
+
+
+
+
+
+
 
 export const RepoAdmin = [
   { title: "Dashboard", icon: <MdDashboard /> },
