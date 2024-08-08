@@ -128,6 +128,18 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
             )}
             {status === "REPOSSESSION_REJECTED" && (
               <InputField
+               placeholder="Not Satisfied"
+                label="Reason"
+                type="text"
+                name="reason"
+                register={register}
+                errors={errors}
+                pattern
+              />
+            )}
+            {status === "REPOSSESSION_REQUESTED" && (
+              <InputField
+              placeholder="sorry by mistake"
                 label="Reason"
                 type="text"
                 name="reason"
