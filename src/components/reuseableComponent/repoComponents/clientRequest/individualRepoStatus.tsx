@@ -20,6 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import RepoRespond from "../modal/requestRespond";
 import { log } from "console";
+import VehicleImageGrid from "../../imageGrid/imageGrid";
 
 type Inputs = {
   repo_vehicle: {
@@ -66,10 +67,8 @@ console.log(vehicleId);
       setIsLoading(true);
 
 
-      const endpoint =
-   user === 'client'
-  ?`/repossession/repo_veh_req/${vehicleId?.vehId}`
-          : `/repossession/repo_veh_req/${vehicleId?.repoId}`;
+      const endpoint =`/repossession/repo_veh_req/${vehicleId?.vehId}`
+  
       const response = await axiosInstance.get(endpoint);
       console.log(response);
       
@@ -83,7 +82,9 @@ console.log(vehicleId);
         initial_state: response?.data?.res?.initial_state,
         ...response?.data?.res,
       };
-      setVehicleImage(response?.data?.res?.vehicle_img);
+      setVehicleImage(response?.data?.res?.
+        initial_images
+        );
       reset(destructuredData);
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
@@ -229,9 +230,13 @@ console.log(vehicleId);
               </>
             )}
           </div>
+          <VehicleImageGrid
+              vehicleImages={vehicleImage}
+              // onImageDelete={handleImageDelete}
+            />
         </form>
 
-        {user === "client"||'super' && responseStatus === "REPOSSESSION_REQUESTED" && (
+        { responseStatus === "REPOSSESSION_REQUESTED" && (
           <>
             {modalOpen && (
               <div className="relative border">
@@ -265,7 +270,7 @@ console.log(vehicleId);
           </>
         )}
 
-        {user !==  "client"||'super' && responseStatus === "REPOSSESSION_REQUESTED" && (
+        {/* { responseStatus === "REPOSSESSION_REQUESTED" && (
           <div className="w-full text-center p-1 mt-3 space-x-2">
             <button
               type="button"
@@ -281,7 +286,7 @@ console.log(vehicleId);
               SUBMIT
             </button>
           </div>
-        )}
+        )} */}
 
         {responseStatus === "REPOSSESSION_COMPLETED" && (
           <div className="w-full text-center p-1 mt-3 space-x-2">

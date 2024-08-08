@@ -123,7 +123,7 @@ const IndividualVehicle = ({ vehicleId }) => {
         ...response?.data?.res,
         app_entry_date: response?.data?.res?.app_entry_date?.split("T")[0],
         app_exit_date: response?.data?.res?.app_exit_date?.split("T")[0],
-        mfg_year: response?.data?.res?.mfg_year.split("T")[0],
+        mfg_year: response?.data?.res?.mfg_year?.split("T")[0],
         actual_entry_date:
           response?.data?.res?.actual_entry_date?.split("T")[0],
         actual_exit_date: response?.data?.res?.actual_exit_date?.split("T")[0],
@@ -266,7 +266,8 @@ const IndividualVehicle = ({ vehicleId }) => {
   }
   
   const handleModalOpen = () => {
-    setModalOpen(true);
+    // setModalOpen(true);
+    router.push(`${vehicleId?.vehId}/request`)
   };
 
   const handleModalClose = () => {
@@ -386,7 +387,8 @@ const IndividualVehicle = ({ vehicleId }) => {
               name="code"
               register={register}
               errors={errors}
-              pattern disabled={true}
+              pattern 
+              disabled={true}
             />
             {/* <InputField
               label="Condition"
