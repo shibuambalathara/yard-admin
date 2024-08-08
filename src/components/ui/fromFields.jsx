@@ -868,16 +868,18 @@ export const DateField = ({
 
   return (
     <div className="mb-4">
-      <label className="text-gray-800 text-sm font-semibold leading-tight tracking-normal">
+        <label className={`${labelStyle.data}`}>
         {label}
       </label>
       <input
         disabled={disabled}
         type={type}
         {...register(name, registerOptions)}
-        className={`py-1 px-4 block w-72  mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${
-          name === "name" ? "uppercase" : ""
-        } ${disabled ? "bg-gray-100" : ""}`}
+        className=
+        {`${inputStyle.data}`}
+        // {`py-1 px-4 block w-72  mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${
+        //   name === "name" ? "uppercase" : ""
+        // } ${disabled ? "bg-gray-100" : ""}`}
         onChange={handleInputChange}
         placeholder={placeholder}
       />

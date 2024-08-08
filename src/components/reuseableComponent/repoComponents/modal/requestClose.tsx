@@ -73,7 +73,7 @@ const RepoClose = ({ onClose, vehicleId, fetchData, status,user }) => {
     // open=''
     onConfirm={ RepoReq}
      onCancel={onClose}
-     message ='Are u sure to close this vehicle'
+     message ='Are you sure to close this vehicle'
     /> 
   );
 };

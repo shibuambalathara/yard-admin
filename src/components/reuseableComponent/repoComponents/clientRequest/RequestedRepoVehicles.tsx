@@ -8,6 +8,7 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import { Search } from "../../filter/filters";
+import { formatDate } from "../dateAndTime";
 
 const AllRequestedVehicles = (props) => {
   const { user, childrenRequire } = props;
@@ -117,12 +118,20 @@ const AllRequestedVehicles = (props) => {
 
   const userColumn = useMemo(
     () => [
+      {
+        header: "Requested Date",
+        accessorKey: "req_date",
+        cell: ({ row }) => formatDate(row.original.req_date),
+      },
       { header: "City", accessorKey: "initial_city" },
       { header: "State", accessorKey: "initial_state" },
-      { header: "Status", accessorKey: "status" },
+      // { header: "Status", accessorKey: "status" },
       { header: "Organisation", accessorKey: "repo_vehicle.cl_org.org_name" },
       { header: "Registration no", accessorKey: "repo_vehicle.reg_number" },
+      { header: "Requested User", accessorKey: "req_by_user_org.user.name" },
       { header: "Code", accessorKey: "repo_vehicle.code" },
+      
+
       {
         header: "View",
         cell: ({ row }) => <View row={row} user={user} />,

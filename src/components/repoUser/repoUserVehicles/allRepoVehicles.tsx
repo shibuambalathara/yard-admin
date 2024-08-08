@@ -160,7 +160,7 @@ const AllRepoDetails = (props) => {
           <CategoryFilter label="Select Category" options={vehicleCategorys} setCategory={setVehiclecat} />
         </div>
         <div>
-          <Search placeholder="Search by Registration Number" searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+          <Search placeholder='eg: KL14WW1111' label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
         </div>
         <div>
           <Status label="Select Status" options={RepoStatus2} setVehicleStatus={setVehicleStatus} />

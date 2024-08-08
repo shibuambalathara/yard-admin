@@ -28,7 +28,7 @@ type Inputs = {
     code: string;
     reg_number: string;
   };
-  cl_org: string;
+  user: string;
   initial_city: string;
   initial_state: string;
   status: string;
@@ -74,7 +74,7 @@ console.log(vehicleId);
       
       setResponseStatus(response?.data?.res?.status);
       const destructuredData = {
-        cl_org: response?.data?.res?.repo_vehicle?.cl_org?.code,
+        user: response?.data?.res?.req_by_user_org?.user?.name,
         org_name: response?.data?.res?.repo_vehicle?.cl_org?.org_name,
         code: response?.data?.res?.repo_vehicle?.code,
         reg_number: response?.data?.res?.repo_vehicle?.reg_number,
@@ -82,8 +82,7 @@ console.log(vehicleId);
         initial_state: response?.data?.res?.initial_state,
         ...response?.data?.res,
       };
-      setVehicleImage(response?.data?.res?.
-        initial_images
+      setVehicleImage(response?.data?.res?.initial_images
         );
       reset(destructuredData);
     } catch (error) {
@@ -133,9 +132,9 @@ console.log(vehicleId);
         <form onSubmit={handleSubmit((data) => console.log(data))} className="mt-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <InputField
-              label="CL Org Code"
+              label="Requested User"
               type="text"
-              name="cl_org"
+              name="user"
               register={register}
               errors={errors}
               pattern
@@ -143,7 +142,7 @@ console.log(vehicleId);
             />
             {user !== "client" && (
               <InputField
-                label="Org Name"
+                label="Organization Name"
                 type="text"
                 name="org_name"
                 register={register}
@@ -152,7 +151,7 @@ console.log(vehicleId);
                 disabled={true}
               />
             )}
-            <InputField
+            {/* <InputField
               label="Code"
               type="text"
               name="code"
@@ -160,7 +159,7 @@ console.log(vehicleId);
               errors={errors}
               pattern
               disabled={true}
-            />
+            /> */}
             <InputField
               label="Registration Number"
               type="text"

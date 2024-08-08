@@ -298,224 +298,109 @@ const IndividualVehicle = (props) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Details
-        </h2>
+  <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+    <h2 className="text-center text-2xl font-extrabold text-gray-900">
+      Vehicle Details
+    </h2>
 
-        <form  onSubmit={handleSubmit(editImage)}  className="mt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
-            <div>
-              <SelectComponent
-                label="Select Category"
-                name="vehicle_category_id"
-                options={vehicleCategorys}
-                register={register}
-                errors={errors}
-                defaultValue=""
-              />
-            </div>
+    <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-stretch">
+        <SelectComponent
+          label="Vehicle Category"
+          name="vehicle_category_id"
+          options={vehicleCategorys}
+          register={register}
+          errors={errors}
+          defaultValue=""
+        />
 
-           
-              {user==='super'&&(<SelectComponent
-                label="Select Organisation"
-                name="cl_org_id"
-                options={superClientOptions}
-                register={register}
-                errors={errors}
-                defaultValue=""
-              />)}
-              
-          
+        {user === "super" && (
+          <SelectComponent
+            label=" Organisation Name"
+            name="cl_org_id"
+            options={superClientOptions}
+            register={register}
+            errors={errors}
+            defaultValue=""
+          />
+        )}
 
+        <InputField
+          label="Loan Number"
+          type="text"
+          name="loan_number"
+          register={register}
+          errors={errors}
+          pattern
+        />
 
-            <InputField
-              label="Loan Number"
-              type="text"
-              name="loan_number"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            {/* <InputField
-              label="Actual Entry Date"
-              type="date"
-              name="actual_entry_date"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            <InputField
-              label="App Entry Date"
-              type="date"
-              name="app_entry_date"
-              register={register}
-              errors={errors}
-              pattern
-            /> */}
-            {/* <InputField
-              label="App Exit Date"
-              type="date"
-              required={false}
-              name="app_exit_date"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            <InputField
-              label="Actual Exit Date"
-              required={false}
-              type="date"
-              name="actual_exit_date"
-              register={register}
-              errors={errors}
-              pattern
-            /> */}
+        <DateField
+          label="Manufacturing Date"
+          type="date"
+          name="mfg_year"
+          register={register}
+          errors={errors}
+          pattern
+          required={false}
+        />
 
-            <DateField 
-              label="Manufacturing Date"
-              type="date"
-              name="mfg_year"
-              register={register}
-              errors={errors}
-              pattern
-              required={false}
-            />
+        <InputField
+          label="Make"
+          type="text"
+          name="make"
+          register={register}
+          errors={errors}
+          pattern
+        />
 
-            <InputField
-              label="Make"
-              type="text"
-              name="make"
-              register={register}
-              errors={errors  }
-              pattern
-            />
-            <InputField
-              label="Model"
-              type="text"
-              name="model"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            <InputField
-              label="Variant"
-              type="text"
-              name="variant"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            
-            
-            {/* <InputField
-              label="Condition"
-              type="text"
-              name="condition"
-              register={register}
-              errors={errors}
-              pattern
-            /> */}
+        <InputField
+          label="Model"
+          type="text"
+          name="model"
+          register={register}
+          errors={errors}
+          pattern
+        />
 
-            {/* <div>
-              <SelectComponent
-                label="Start Condition"
-                name="start_condition"
-                options={vehicleStatus}
-                register={register}
-                errors={errors}
-                defaultValue=""
-              />
-            </div> */}
-            <InputField
-              label="Registration Number"
-              type="text"
-              name="reg_number"
-              register={register}
-              errors={errors}
-              pattern
-            />
+        <InputField
+          label="Variant"
+          type="text"
+          name="variant"
+          register={register}
+          errors={errors}
+          pattern
+        />
 
-            <InputField
-              label="Engine No"
-              type="text"
-              name="eng_number"
-              register={register}
-              errors={errors}
-              pattern
-            />
+        <InputField
+          label="Registration Number"
+          type="text"
+          name="reg_number"
+          register={register}
+          errors={errors}
+          pattern
+        />
 
-            <InputField
-              label="Chassis No"
-              type="text"
-              name="chasis_number"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            {/* <InputField
-              label="Board Type"
-              type="text"
-              name="board_type"
-              register={register}
-              errors={errors}
-              pattern
-            /> */}
+        <InputField
+          label="Engine No"
+          type="text"
+          name="eng_number"
+          register={register}
+          errors={errors}
+          pattern
+        />
 
-            <div className="justify-self-center"></div>
-          </div>
+        <InputField
+          label="Chassis No"
+          type="text"
+          name="chasis_number"
+          register={register}
+          errors={errors}
+          pattern
+        />
+      </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            {/* {Object.entries(images)?.map(([imageType, imageList]) => (
-              <div
-                key={imageType}
-                className="border rounded-lg shadow-xl border-black"
-              >
-                <h2 className="text-center text-lg font-semibold">
-                  {imageType
-                    .replace("_", " ")
-                    .toLowerCase()
-                    .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                </h2>
-
-                {imageList?.map((img, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center pb-4 mt-3"
-                  >
-                    {previewImages[imageType]?.[index] ? (
-                      <Image
-                        className="rounded-xl mb-2 h-56"
-                        src={previewImages[imageType][index]}
-                        alt={`${imageType} ${index}`}
-                        width={400}
-                        height={400}
-                      />
-                    ) : (
-                      <Image
-                        className="rounded-xl mb-2 h-56"
-                        src={
-                          typeof img === "string"
-                            ? `${img} `
-                            : `${img.src}? v=${img?.updated_at} `
-                        }
-                        alt={`${imageType} ${index}`}
-                        width={400}
-                        height={400}
-                      />
-                    )}
-                    <input
-                      className="mt-1 pl-14 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                      type="file"
-                      onChange={(e) => handleImageUpload(e, imageType, index)}
-                    />
-                  </div>
-                ))}
-                <div className="flex flex-wrap gap-4 mt-2"></div>
-              </div>
-            ))} */}
-          </div>
-          {status.toLowerCase() ==='pending' &&(<div className=" w-full text-center p-1 mt-3  space-x-2">
+      {status.toLowerCase() === 'pending' && (
+        <div className="w-full text-center p-1 mt-3 space-x-2">
           <button
             type="button"
             onClick={() => onClose()}
@@ -525,24 +410,15 @@ const IndividualVehicle = (props) => {
           </button>
           <button
             type="submit"
-             className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+            className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
           >
-           SUBMIT
+            SUBMIT
           </button>
-        </div>)}
-          
-          {/* <button
-            type="submit"
-            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-          >
-            Submit
-          </button> */}
-        </form>
-
-       
-        
-      </div>
-    </div>
+        </div>
+      )}
+    </form>
+  </div>
+</div>
   );
 };
 
