@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FileUploadInput, {
+  DateField,
   FormFieldInput,
   ImageMaping,
   InputField,
@@ -267,8 +268,12 @@ const IndividualVehicle = (props) => {
         // if(user==='super') 
         //   {router.push('/superUserRepoVehicles')}
         //   router.push('/repoVehicle')
-        window.close()
+       
         toast.success(response?.data?.message);
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+        
       } catch (error) {
         toast.error(error?.response?.data?.message);
         console.log(error?.response);
@@ -367,13 +372,14 @@ const IndividualVehicle = (props) => {
               pattern
             /> */}
 
-            <InputField
+            <DateField 
               label="Manufacturing Date"
               type="date"
               name="mfg_year"
               register={register}
               errors={errors}
               pattern
+              required={false}
             />
 
             <InputField
@@ -400,22 +406,8 @@ const IndividualVehicle = (props) => {
               errors={errors}
               pattern
             />
-            <InputField
-              label="Organizatin code"
-              type="text"
-              name="cl_org.code"
-              register={register}
-              errors={errors}
-              pattern
-            />
-            <InputField
-              label="code"
-              type="text"
-              name="code"
-              register={register}
-              errors={errors}
-              pattern
-            />
+            
+            
             {/* <InputField
               label="Condition"
               type="text"

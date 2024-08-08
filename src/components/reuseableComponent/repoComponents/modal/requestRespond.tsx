@@ -47,7 +47,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
         
       const response = await axiosInstance.patch(`${status === "REPOSSESSION_REQUESTED"?
         "repossession/repo_veh_req/cancel_repossession/":
-        "repossession/repo_veh_req/client_respond/"}${vehicleId?.repoId}`, modifiedData);
+        "repossession/repo_veh_req/client_respond/"}${vehicleId?.vehId}`, modifiedData);
       console.log("Response:", response);
       toast.success(response?.data?.message);
 
