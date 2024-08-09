@@ -153,15 +153,59 @@ export const clientLevelUser = [
     icon: <BsFillTruckFrontFill />,
     path: "/repoVehicle",
   },
+  // {
+  //   title: "Requested for Repos",
+  //   icon: <AiFillRightCircle />,
+  //   path: "/requestedRepo",
+  // },
+  // {
+  //   title: "Repo close",
+  //   icon: <AiFillRightCircle />,
+  //   path: "/repoClose",
+  // },
+
   {
-    title: "Requested for Repos",
-    icon: <AiFillRightCircle />,
-    path: "/requestedRepo",
+    title: "Repo Requested Vehicles",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Requested",
+        icon: <ImTruck />,
+        path: "/requestedRepo",
+      },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "",
+      },
+      {
+        title: "Approved",
+        icon: <ImTruck />,
+        path: "",
+      },
+    ],
   },
+  // {
+  //   title: "Requested for Repos",
+  //   icon: <AiFillRightCircle />,
+  //   path: "/SuperRequestedRepo",
+
+    
+  // },
   {
-    title: "Repo close",
+    title: "Captured Vehicles",
     icon: <AiFillRightCircle />,
     path: "/repoClose",
+
+    
+  },
+  {
+    title: "Closed Vehicles",
+    icon: <AiFillRightCircle />,
+    path: "",
+
+    
   },
 ];
 
@@ -250,15 +294,45 @@ export const clientLevelSuperUser = [
     path: "/superUserRepoVehicles",
   },
   {
-    title: "Requested for Repos",
-    icon: <AiFillRightCircle />,
-    path: "/SuperRequestedRepo",
+    title: "Repo Requested Vehicles",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Requested",
+        icon: <ImTruck />,
+        path: "/SuperRequestedRepo",
+      },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "",
+      },
+      {
+        title: "Approved",
+        icon: <ImTruck />,
+        path: "",
+      },
+    ],
+  },
+  // {
+  //   title: "Requested for Repos",
+  //   icon: <AiFillRightCircle />,
+  //   path: "/SuperRequestedRepo",
 
     
-  },{
-    title: "Close Repo",
+  // },
+  {
+    title: "Captured Vehicles",
     icon: <AiFillRightCircle />,
     path: "/superRepoClose",
+
+    
+  },
+  {
+    title: "Closed Vehicles",
+    icon: <AiFillRightCircle />,
+    path: "",
 
     
   },
@@ -361,27 +435,49 @@ export const RepoUser = [
     path: "/repoUserVehicles",
   },
 
+  // {
+  //   title: "Requested",
+  //   icon: <ImTruck />,
+  //   path: "/requestedRepoVehicle",
+  // },
+  // {
+  //   title: "Rejected",
+  //   icon: <ImTruck />,
+  //   path: "/rejectedRepoVehicle",
+  // },
+  // {
+  //   title: "Approved",
+  //   icon: <ImTruck />,
+  //   path: "/approvedRepoVehicle",
+  // },
+
   {
-    title: "Requested",
-    icon: <ImTruck />,
-    path: "/requestedRepoVehicle",
+    title: "Repo Requested Vehicles",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Requested",
+        icon: <ImTruck />,
+        path: "/requestedRepoVehicle",
+      },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/rejectedRepoVehicle",
+      },
+      {
+        title: "Approved",
+        icon: <ImTruck />,
+        path: "/approvedRepoVehicle",
+      },
+    ],
   },
   {
-    title: "Rejected",
-    icon: <ImTruck />,
-    path: "/rejectedRepoVehicle",
-  },
-  {
-    title: "Approved",
-    icon: <ImTruck />,
-    path: "/approvedRepoVehicle",
-  },
-  {
-    title: "Completed",
+    title: "Captured",
     icon: <ImTruck />,
     path: "/completedRepoVehicle",
   },
-
   {
     title: "Yard Available Vehicle",
     icon: <ImTruck />,

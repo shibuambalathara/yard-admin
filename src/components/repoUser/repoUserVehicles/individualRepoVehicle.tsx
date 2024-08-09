@@ -286,7 +286,7 @@ const IndividualVehicle = ({ vehicleId }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
             <div>
               <SelectComponent
-                label="Select Category"
+                label=" Vehicle Category"
                 name="vehicle_category_id"
                 options={vehicleCategorys}
                 register={register}
@@ -374,14 +374,14 @@ const IndividualVehicle = ({ vehicleId }) => {
               pattern disabled={true}
             />
             <InputField
-              label="Organizatin code"
+              label="Organization Name"
               type="text"
-              name="cl_org.code"
+              name="cl_org.org_name"
               register={register}
               errors={errors}
               pattern disabled={true}
             />
-            <InputField
+            {/* <InputField
               label="code"
               type="text"
               name="code"
@@ -389,7 +389,7 @@ const IndividualVehicle = ({ vehicleId }) => {
               errors={errors}
               pattern 
               disabled={true}
-            />
+            /> */}
             {/* <InputField
               label="Condition"
               type="text"

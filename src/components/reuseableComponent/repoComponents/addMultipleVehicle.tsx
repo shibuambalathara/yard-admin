@@ -2,7 +2,7 @@ import FileUploadInput, { ExcelUploadInput, SelectComponent } from '@/components
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axiosInstance from "@/utils/axios";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const AddMultipleVehicle = (props) => {
@@ -19,7 +19,7 @@ console.log(superRequire);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
   const [isLoading, setIsLoading] = useState(false);
   const [children, setChildren] = useState([]);
- const routes=useRouter()
+ const router=useRouter()
   const fetchChildren = useCallback(async () => {
     if (superRequire) {
       try {
@@ -61,7 +61,14 @@ console.log(superRequire);
       console.log("Response received:", response);
       toast.success(response?.data?.message);
       reset();
-     
+      if(superRequire) 
+        {
+          router.push('/superUserRepoVehicles')
+        }
+      else 
+      {
+        router.push('/repoVehicle')
+      } 
     } catch (error) {
       const errorMessages = error?.response?.data?.message;
       if (Array.isArray(errorMessages)) {

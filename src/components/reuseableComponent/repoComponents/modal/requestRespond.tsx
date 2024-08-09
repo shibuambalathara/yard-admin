@@ -153,9 +153,9 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
             <button
               onClick={() => onClose()}
               type="button"
-              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
+              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-8 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
             >
-              Cancel
+              Back
             </button>
             <button
               type="submit"
