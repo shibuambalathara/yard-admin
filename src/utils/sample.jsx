@@ -1,309 +1,1597 @@
-"use client";
-import { useState, useEffect, useMemo, useCallback } from "react";
-import DataTable from "@/components/tables/dataTable";
-import Link from "next/link";
-import axiosInstance from "@/utils/axios";
-import { MdOutlineViewHeadline } from "react-icons/md";
-import Pagination from "@/components/pagination/pagination";
-import { inputStyle, labelStyle } from "@/components/ui/style";
-import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
-import { useForm } from "react-hook-form";
+const demo=[
+  {
+    city: 'KOZHIKODE',
+    state: 'KERALA',
+  },
+  {
+    city: 'THIRUVANANTHAPURAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'KOCHI',
+    state: 'KERALA',
+  },
+  {
+    city: 'THRISSUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'KANNUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'KOLLAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'ALAPPUZHA',
+    state: 'KERALA',
+  },
+  {
+    city: 'MALAPPURAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'PALAKKAD',
+    state: 'KERALA',
+  },
+  {
+    city: 'KOTTAYAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'KASARAGOD',
+    state: 'KERALA',
+  },
+  {
+    city: 'KANHANGAD',
+    state: 'KERALA',
+  },
+  {
+    city: 'THALASSERY',
+    state: 'KERALA',
+  },
+  {
+    city: 'VATAKARA',
+    state: 'KERALA',
+  },
+  {
+    city: 'CHANGANASSERY',
+    state: 'KERALA',
+  },
+  {
+    city: 'OTTAPALAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'CHERTHALA',
+    state: 'KERALA',
+  },
+  {
+    city: 'KOTHAMANGALAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'CHALAKUDY',
+    state: 'KERALA',
+  },
+  {
+    city: 'NEYYATTINKARA',
+    state: 'KERALA',
+  },
+  {
+    city: 'PAYYANUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'MANJERI',
+    state: 'KERALA',
+  },
+  {
+    city: 'PONNANI',
+    state: 'KERALA',
+  },
+  {
+    city: 'VARKALA',
+    state: 'KERALA',
+  },
+  {
+    city: 'KOYILANDY',
+    state: 'KERALA',
+  },
+  {
+    city: 'TIRUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'TALIPARAMBA',
+    state: 'KERALA',
+  },
+  {
+    city: 'KAYAMKULAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'CHENGANNUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'THIRUVALLA',
+    state: 'KERALA',
+  },
+  {
+    city: 'PUNALUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'CHITTUR-THATHAMANGALAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'SHORANUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'PATHANAMTHITTA',
+    state: 'KERALA',
+  },
+  {
+    city: 'KALPETTA',
+    state: 'KERALA',
+  },
+  {
+    city: 'VAIKOM',
+    state: 'KERALA',
+  },
+  {
+    city: 'MANNARKKAD',
+    state: 'KERALA',
+  },
+  {
+    city: 'ADOOR',
+    state: 'KERALA',
+  },
+  {
+    city: 'ERATTUPETTA',
+    state: 'KERALA',
+  },
+  {
+    city: 'NILAMBUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'KOTTARAKKARA',
+    state: 'KERALA',
+  },
+  {
+    city: 'THODUPUZHA',
+    state: 'KERALA',
+  },
+  {
+    city: 'THRIPPUNITHURA',
+    state: 'KERALA',
+  },
+  {
+    city: 'PALA',
+    state: 'KERALA',
+  },
+  {
+    city: 'MUVATTUPUZHA',
+    state: 'KERALA',
+  },
+  {
+    city: 'KUNNAMKULAM',
+    state: 'KERALA',
+  },
+  {
+    city: 'NEDUMANGAD',
+    state: 'KERALA',
+  },
+  {
+    city: 'IRINJALAKUDA',
+    state: 'KERALA',
+  },
+  {
+    city: 'KODUNGALLUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'PARAVUR',
+    state: 'KERALA',
+  },
+  {
+    city: 'CHENNAI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'SALEM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'MADURAI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'COIMBATORE',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'THOOTHUKUDI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'TIRUNELVELI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'TIRUCHIRAPPALLI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'THANJAVUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'TIRUPPUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'VELLORE',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'DINDIGUL',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'CUDDALORE',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'NAGAPATTINAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'PUDUKKOTTAI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'RAJAPALAYAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'ERODE',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KANCHIPURAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KUMBAKONAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'NAGERCOIL',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'HOSUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KARAIKUDI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'AMBUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KANCHEEPURAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'SIVAGANGA',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'NEYVELI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KARUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'RANIPET',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KOVILPATTI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'CHENGALPATTU',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'ALANDUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'ARIYALUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'OOTY',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'ARANI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'VILUPPURAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'THARANGAMBADI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'MADURANTHAKAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'GUDIYATHAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KRISHNAGIRI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'NAMAKKAL',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'THIRUVARUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'PERAMBALUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KURICHI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'RAMANATHAPURAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KANNIYAKUMARI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'TINDIVANAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'PANRUTI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'MELUR',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'PATTUKKOTTAI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'DEVAKOTTAI',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'TIRUMANGALAM',
+    state: 'TAMIL NADU',
+  },
+  {
+    city: 'KULITHALAI',
+    state: 'TAMIL NADU',
+  },
 
-import {
-  CategoryFilter,
-  ClientFilter,
-  Search,
-  Status,
-} from "@/components/reuseableComponent/filter/filters";
-import { VehicleEntryStatus } from "@/utils/staticData";
-import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
-import { InputField } from "@/components/ui/fromFields";
+  {
+    city: 'BENGALURU',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'MANGALURU',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'KALABURAGI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'CHITRADURGA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'ROBERTSONPET',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'SHIVAMOGGA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'UDUPI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'TUMAKURU',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'DAVANAGERE',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'GADAG-BETAGERI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'BHADRAVATHI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'BAGALKOTE',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'KOLAR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'BIDAR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'BALLARI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'RAICHUR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'CHIKKAMAGALURU',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'RANEBENNUR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'GANGAVATHI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'VIJAYAPURA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'MANDYA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'HOSAPETE',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'HASSAN',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'BELAGAVI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'GADAG',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'HUBBALLI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'ARSIKERE',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'HUBLI-DHARWAD',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'KOPPAL',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'RAMANAGARA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'MYSURU',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'ILKAL',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'GUNDLUPETE',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'HARAPANAHALLI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'PANDAVAPURA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'UTTARA KANNADA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'PIRIYAPATNA',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'BANGALORE RURAL',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'MAGADI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'CHINTAMANI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'DHARWAD',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'SINDHANUR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'MADIKERI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'CHAMARAJANAGAR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'HAVERI',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'YADGIR',
+    state: 'KARNATAKA',
+  },
+  {
+    city: 'CHIKKABALLAPUR',
+    state: 'KARNATAKA',
+  },
 
-const AllRepoRequests = () => {
-  const [filteredData, setFilteredData] = useState(null);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [vehicleCategory, setAllVehicleCategory] = useState([]);
-  const [Category, setCategory] = useState("");
-  const [catFilter, setCatFilter] = useState("");
-  const [vehicleStatus, setVehicleStatus] = useState("");
-  const [limit, setLimit] = useState(5);
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [registrationNum, setRegistrationNum] = useState(null);
+  {
+    city: 'VIJAYAWADA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'NELLORE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'RAJAMAHENDRAVARAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'TIRUPATI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'KADAPA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'CHITTOOR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'VISAKHAPATNAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'GUNTUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'ONGOLE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'ELURU',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'ADONI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'KURNOOL',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'HINDUPURAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'TENALI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'VIZIANAGARAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'SRIKAKULAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'KADIRI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'ANANTAPUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'ANAKAPALLE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'PARVATHIPURAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'BOBBILI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'REPALLE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'KANDUKUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'YEMMIGANUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'SATTENAPALLE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'DHONE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'NARSAPUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'RAYADURGAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'VENKATAGIRI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'VINUKONDA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'BHEEMUNIPATNAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'PRODDATUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'BHIMAVARAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'NUZIVIDU',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'GUNTAKAL',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'DHARMAVARAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'MANDAPETA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'PUNGANUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'PUTTUR',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'NARASARAOPETA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'CHIRALA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'GUDIVADA',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'MADANAPALLE',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'TADIPATRI',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'TADEPALLIGUDEM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'PALAKOLLU',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'AMALAPURAM',
+    state: 'ANDHRA PRADESH',
+  },
+  {
+    city: 'GURUGRAM',
+    state: 'HARYANA',
+  },
+  {
+    city: 'ROHTAK',
+    state: 'HARYANA',
+  },
+  {
+    city: 'KARNAL',
+    state: 'HARYANA',
+  },
+  {
+    city: 'HISAR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'BHIWANI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'FARIDABAD',
+    state: 'HARYANA',
+  },
+  {
+    city: 'AMBALA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'PANIPAT',
+    state: 'HARYANA',
+  },
+  {
+    city: 'REWARI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'SIRSA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'THANESAR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'SONIPAT',
+    state: 'HARYANA',
+  },
+  {
+    city: 'KAITHAL',
+    state: 'HARYANA',
+  },
+  {
+    city: 'YAMUNA NAGAR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'JIND',
+    state: 'HARYANA',
+  },
+  {
+    city: 'PANCHKULA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'PALWAL',
+    state: 'HARYANA',
+  },
+  {
+    city: 'JAGADHRI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'JHJAR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'HANSI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'NARNAUL',
+    state: 'HARYANA',
+  },
+  {
+    city: 'BAHADURGARH',
+    state: 'HARYANA',
+  },
+  {
+    city: 'KURUKSHETRA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'PUNDRI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'FATEHABAD',
+    state: 'HARYANA',
+  },
+  {
+    city: 'NUH',
+    state: 'HARYANA',
+  },
+  {
+    city: 'GOHANA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'MAHENDRAGARH',
+    state: 'HARYANA',
+  },
+  {
+    city: 'CHHACHHRAULI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'NARWANA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'SASAULI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'KANSAPUR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'KARDHAN',
+    state: 'HARYANA',
+  },
+  {
+    city: 'LOHARU',
+    state: 'HARYANA',
+  },
+  {
+    city: 'BABYAL',
+    state: 'HARYANA',
+  },
+  {
+    city: 'TAURU',
+    state: 'HARYANA',
+  },
+  {
+    city: 'KALKA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'BILASPUR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'GHARAUNDA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'RATIA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'PATAUDI',
+    state: 'HARYANA',
+  },
+  {
+    city: 'ASSANDH',
+    state: 'HARYANA',
+  },
+  {
+    city: 'PEHOWA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'MEHAM',
+    state: 'HARYANA',
+  },
+  {
+    city: 'SAMALKHA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'NARAINGARH',
+    state: 'HARYANA',
+  },
+  {
+    city: 'SAFIDON',
+    state: 'HARYANA',
+  },
+  {
+    city: 'GANAUR',
+    state: 'HARYANA',
+  },
+  {
+    city: 'FIROZPUR JHIRKA',
+    state: 'HARYANA',
+  },
+  {
+    city: 'BAWAL',
+    state: 'HARYANA',
+  },
+  {
+    city: 'BAWANI KHER',
+    state: 'HARYANA',
+  },
+  {
+    city: 'IMPHAL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'THOUBAL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'UKHRUL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KAKCHING',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'CHURACHANDPUR',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'BISHNUPUR',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'CHANDEL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'TAMENGLONG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'JIRIBAM',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'MOIRANG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KANGPOKPI',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'POROMPAT',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'LILONG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'MAYANG IMPHAL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'TENGNOUPAL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'YAIRIPOK',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'WANGJING',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'ANDRO',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'LAMSHANG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'WANGOI',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'LAMJAOTONGBA',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'SEKMAI BAZAR',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'THONGKHONG LAXMI BAZAR',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'NAMBOL',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KAKCHING KHUNOU',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'NAORIYA PAKHANGLAKPA',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'SAMUROU',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'NUNGBA',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KUMBI',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'SUGNU',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'HEIROK',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'LAMLai',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KWAKTA',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'TORBAN',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'MOREH',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'OINAM',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'NINGTHOUKHONG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KHONGMAN',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'SIKHONG SEKMAI',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'PURUL ATONGBA',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'RENGKAI',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'CHAKPIKARONG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KHARASOM',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KANGPAT',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'LAII',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'BOLJANG',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'KALAPAHA',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'BUALKOT',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'JESSAMI',
+    state: 'MANIPUR',
+  },
+  {
+    city: 'MANGAN',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'NAMCHI',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'GEYZING',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'GANGTOK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'JORETHANG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RANGPO',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SINGTAM',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'UPPER TADONG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'NAYABAZAR',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'PAKYONG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SORENG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RHENOCK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'LACHUNG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'PELLING',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'YUKSOM',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'CHUNGTHANG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'KALUK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RAVANGLA',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'LACHEN',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'PHODONG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'MAJITAR',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'TUMLONG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'ZULUK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'TINKITAM',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RABDENTSE',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RINCHENPONG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SINGHIK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'DIKCHU',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'TARKU',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RONGLI',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'CHALAMTHANG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'BIKMAT',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'GOR',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SUMBUK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'NAMTHANG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'DOLMA',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SAMPA',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SARATHANG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'THANGU VALLEY',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'UPPER DZONGU FOREST BLOCK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'NAGA FOREST BLOCK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'TINGDA',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'KABI FOREST BLOCK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'KAMLING',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'CHUJACHEN',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'PHODONG FOREST BLOCK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'MANGAN FOREST BLOCK',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'SEVOKE',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'LEGSHIP',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'MALBASEY',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'TASHIDING',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'RORATHANG',
+    state: 'SIKKIM',
+  },
+  {
+    city: 'NAMSAI',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'EAST SIANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'KHONSA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'AALO',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'SEPPA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'DAPORIJO',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'ZIRO',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BOMDILA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'TEZU',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'ROING',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'CHANGLANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'HAWAI',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'CHOWKHAM',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'GANDHIGRAM',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'ITANAGAR',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'JAIRAMPUR',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BASAR',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'TAWANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'PASIGHAT',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BORDUMSA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'YINGKIONG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'ANINI',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BOLENG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'PANGIN',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'LUMLA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'NYAPIN',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'DIRANG H.Q.',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'GELLING',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'NAHARLAGUN',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'SAGALEE',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'WAKRO',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'THINGBU',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'DIRANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'NACHO',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BAMENG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'DAMBUK',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'MIPI',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'ZEMITHANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'THEMBANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'YUPIA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'KANUBARI TOWN',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'RUKSIN',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'VIJOYNAGAR',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'YACHULI',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'DONG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BHALUKPONG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'KUMKI, ARUNACHAL PRADESH',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'BHISMAKNAGAR',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'HAYULIANG',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'MECHUKA',
+    state: 'ARUNACHAL PRADESH',
+  },
+  {
+    city: 'KALAKTANG',
+    state: 'ARUNACHAL PRADESH',
+  }
 
-
-  const FetchAllVehicleCategory = async () => {
-    try {
-      const response = await FetchVehicleCategory();
-      // console.log("vehciel category001", response);
-      const vehiclecat = response.map((item) => ({
-        label: item?.name,
-        value: item?.id,
-      }));
-      setAllVehicleCategory(vehiclecat);
-      // console.log("123456", vehiclecat);
-    } catch (error) {
-      console.log("vehciel category", error);
-    }
-  };
-
-  
-  const fetchVehicles = async () => {
-    setIsLoading(true);
-
-    try {
-      const params = new URLSearchParams({
-        page: page?.toString(),
-        limit: limit?.toString(),
-      });
-
-      console.log("category of vehcie",Category);
-      
-
-      if (Category) {
-        params.append("vehicle_category_id", Category);
-      }
-      if (registrationNum) {
-        params.append("searchByRegNo", registrationNum);
-      }
-
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
-      }
-
-      const response = await axiosInstance.get(
-        `/repo_yard/requests?${params.toString()}`
-      );
-      console.log("res", response);
-
-      setFilteredData(response?.data?.res?.repoYardRequest);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchVehicles();
-    FetchAllVehicleCategory();
-  }, [page,limit,Category,registrationNum,vehicleStatus]);
-
-  // console.log("filtredData", filteredData);
-
-
-
-  const yardData = filteredData || [];
-
-  const yardColumn = useMemo(
-    () => [
-      {
-        header: "Expected Entry ",
-        accessorKey: "expected_entry_date",
-        cell: ({ row }) => dataFormat(row),
-      },
-      // {
-      //   header: "make",
-      //   accessorKey: "repo_vehicle.make",
-      // },
-      // {
-      //   header: "model",
-      //   accessorKey: "repo_vehicle.model",
-      // },
-
-      {
-        header: "Reg No",
-        accessorKey: "repo_vehicle.reg_number",
-      },
-      {
-        header: "code",
-        accessorKey: "repo_vehicle.code",
-      },
-      {
-        header: "Category ",
-        accessorKey: "repo_vehicle.vehicle_category.name",
-      },
-      {
-        header: "Requested By ",
-        accessorKey: "req_by_user_org.user.name",
-      },
-      {
-        header: "Requested Date ",
-        accessorKey: "req_date",
-        cell: ({ row }) => dataFormat(row),
-      },
-      {
-        header: "organisation ",
-        accessorKey: "req_to_yard.org_name",
-      },
-      {
-        header: "status ",
-        accessorKey: "status",
-      },
-      // {
-      //   header: "Action ",
-      //   cell: ({ row }) => Completed(row),
-      // },
-
-      {
-        header: "View",
-        cell: ({ row }) => View(row),
-      },
-      
-    ],
-    [filteredData]
-  );
-
-
-  return (
-    <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        All Repo Requests
-      </h1>
-
-      <div className=" grid grid-cols-3  gap-4 items-end px-3 ">
-        {/* <div>
-          <ClientFilter />
-        </div> */}
-
-        <div>
-          <CategoryFilter label="Select Category" options={vehicleCategory}  setCategory={setCategory} Category={Category}/>
-        </div>
-
-        <div>
-          <Search
-            placeholder="Search by Registration Number"
-            searchLoading={searchLoading}
-            setSearchVehicle={setRegistrationNum}
-            setSearchLoading={setSearchLoading}
-          />
-        </div>
-        <div>
-          <Status label="Select Status" options={VehicleEntryStatus} setVehicleStatus={setVehicleStatus} />
-        </div>
-      </div>
-      <div>
-        {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
-        ) : (
-          <div className="w-full">
-            <DataTable data={yardData} columns={yardColumn} />
-
-            <div className="w-full text-center">
-              {filteredData?.totalCount > 0 && (
-                <Pagination
-                  page={page}
-                  setPage={setPage}
-                  limit={limit}
-                  totalDataCount={filteredData?.totalCount}
-                />
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default AllRepoRequests;
-
-const View = (row) => {
-  // console.log("from view", row.original.id);
-  return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <Link
-        href={`/repoRequests/${row.original.id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
-        View
-      </Link>
-    </div>
-  );
-};
-const Completed = (row) => {
-  // console.log("from view", row.original.id);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-  const [modalOpen,setModalOpen]=useState(false)
-  
-const handleModalOpen=()=>{
-setModalOpen(true)
-}
-
-const handleModalClose=()=>{
-  setModalOpen(false)
-}
-
-const onSubmit=()=>{
-
-}
-  return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <div
-        onClick={handleModalOpen}
-        className=""
-      >
-        Status
-      </div>
-     { modalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg w-full max-w-md">
-            <div className="flex justify-between items-center pb-3">
-              <h2 className="text-xl font-semibold">Modify Entry Date</h2>
-              <button onClick={handleModalClose}>&times;</button>
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-">
-                <InputField
-                  label="Expected Entry Date"
-                  type="date"
-                  name="expected_entry_date"
-                  register={register}
-                  errors={errors}
-                  pattern=""
-                />
-              </div>
-              <div className="flex justify-end space-x-4 mt-4">
-                <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>}
-    </div>
-  );
-};
-
-
-
-
-const dataFormat = (row) => {
-  // console.log("row form dataFormat", row);
-
-  let value = row?.original.expected_entry_date.split("T")[0];
-  // console.log("date from dataformat", value);
-
-  return <div>{value}</div>;
-};
+]
