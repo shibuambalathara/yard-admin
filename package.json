@@ -12,6 +12,7 @@
     "@headlessui/react": "^2.0.4",
     "@tanstack/react-table": "^8.17.3",
     "axios": "^1.6.8",
+    "country-state-city": "^3.2.1",
     "js-cookie": "^3.0.5",
     "next": "^14.1.4",
     "npm": "^10.5.2",
