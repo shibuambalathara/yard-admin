@@ -69,7 +69,7 @@ const LogInPassword = () => {
       };
 console.log("user form api",user);
 
-      const authToken = response.data.user.accessToken;
+      const authToken = response?.data?.user?.accessToken;
       // console.log("TOKEN FROM API RESPONSE",authToken);
       const role = response.data.user.role;
       localStorage.setItem('token',authToken)
@@ -81,7 +81,7 @@ console.log("user form api",user);
       router.push('/');
       // wi ndow.onload()
     } catch (error) {
-      console.error('ERROR FROM fetching users:', error.response.data.message);
+      console.error('ERROR FROM fetching users:', error?.response?.data?.message);
       setLoginError(error?.response?.data?.message);
       setError({
         text: error?.response?.data?.message,

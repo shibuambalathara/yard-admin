@@ -59,7 +59,7 @@ export const InputField = ({
   type = "text",
   register,
   errors,
-  required = true,
+  required = false,
   pattern,
   disabled = false,
   placeholder = "",
@@ -212,6 +212,7 @@ export const FormFieldInputLoginInput = ({
         {...register(name, rest)}
         className={`${loginInputStyle.data}`}
         placeholder={placeholder}
+
       />
 
       {error && <p className="text-red-500">This field is required</p>}
@@ -226,8 +227,12 @@ export const RadioButtonInput = ({
   defaultValue,
   error,
   placeholder,
+  disabled=false,
+  required=false,
   ...rest
 }) => {
+  // console.log("error",error);
+  
   return (
     <div className="flex flex-col space-x-2 w-72">
       <p className={`${labelStyle.data} ml-1`}>{label}</p>
@@ -238,8 +243,12 @@ export const RadioButtonInput = ({
             type="radio"
             value="YES"
             name={name}
-            {...register(name)} // Spread the register function with the name
+            
+            {...register(name,{
+              required: required 
+               })}// Spread the register function with the name
             className=""
+            disabled={disabled}
           />
           Yes
         </label>
@@ -253,6 +262,8 @@ export const RadioButtonInput = ({
           />
           No
         </label>
+        {/* {error && <p className="text-red-500">This field is required</p>} */}
+
       </div>
     </div>
   );
@@ -836,6 +847,7 @@ export const DateField = ({
   pattern,
   disabled = false,
   placeholder = "",
+  
 }) => {
   const handleInputChange = (event) => {
     if (
