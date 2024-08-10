@@ -148,22 +148,19 @@ const IndividualVehicle = (props) => {
       console.log("error from vehiclecat", error);
     }
   }, []);
+
+  
   const fetchChildren = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/clientorg/client_lvl_super_org/child/_org`
-      );
-      setChildren(response?.data?.res?.clientLvlOrg);
-      console.log(response);
-      
-    } catch (error) {
-      console.log("error", error);
-
-      // toast.error("Failed to fetch children");
+    if (user === "super") {
+      try {
+        const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
+        setChildren(response?.data?.res?.clientLvlOrg);
+        console.log(response);
+      } catch (error) {
+        console.log("Error fetching children:", error);
+      }
     }
-
-   
-  }, []);
+  }, [user]);
   useEffect(() => {
     fetchChildren();
     fetchVehicle();
@@ -297,14 +294,14 @@ const IndividualVehicle = (props) => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
   <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
     <h2 className="text-center text-2xl font-extrabold text-gray-900">
       Vehicle Details
     </h2>
 
     <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 place-items-stretch">
         <SelectComponent
           label="Vehicle Category"
           name="vehicle_category_id"
@@ -312,6 +309,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           defaultValue=""
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         {user === "super" && (
@@ -322,6 +320,7 @@ const IndividualVehicle = (props) => {
             register={register}
             errors={errors}
             defaultValue=""
+            disabled={status.toLowerCase() !== 'pending'}
           />
         )}
 
@@ -332,6 +331,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <DateField
@@ -342,6 +342,7 @@ const IndividualVehicle = (props) => {
           errors={errors}
           pattern
           required={false}
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <InputField
@@ -351,6 +352,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <InputField
@@ -360,6 +362,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <InputField
@@ -369,6 +372,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <InputField
@@ -378,6 +382,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <InputField
@@ -387,6 +392,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
 
         <InputField
@@ -396,6 +402,7 @@ const IndividualVehicle = (props) => {
           register={register}
           errors={errors}
           pattern
+          disabled={status.toLowerCase() !== 'pending'}
         />
       </div>
 

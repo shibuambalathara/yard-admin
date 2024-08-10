@@ -50,7 +50,7 @@ const AllCompleted = (props) => {
       // }
 
       const response = await axiosInstance.get(
-        `repossession/repo_veh_req?${params.toString()}`
+        `repossession/captured?${params.toString()}`
       );
       console.log("res", response);
 
@@ -90,7 +90,7 @@ const AllCompleted = (props) => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
   }, []);
 
-  const UsersData = filteredData?.repoVehicleRequests
+  const UsersData =filteredData?.repoVehicleCapturedRequests
   || [];
 
   const userColumn = useMemo(

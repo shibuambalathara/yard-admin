@@ -1,34 +1,32 @@
-import FileUploadInput, { ExcelUploadInput, SelectComponent } from '@/components/ui/fromFields';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axiosInstance from "@/utils/axios";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import axiosInstance from '@/utils/axios';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import FileUploadInput, { ExcelUploadInput, SelectComponent } from '@/components/ui/fromFields';
+
+type Inputs = {
+  files: {
+    EXCEL_FILE: FileList;
+  };
+  cl_org_id: string;
+};
 
 const AddMultipleVehicle = (props) => {
   const { superRequire } = props;
-console.log(superRequire);
-
-  type Inputs = {
-    files: {
-      EXCEL_FILE: FileList;
-    };
-    cl_org_id: string;
-  };
-
   const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
   const [isLoading, setIsLoading] = useState(false);
   const [children, setChildren] = useState([]);
- const router=useRouter()
+  const router = useRouter();
+
   const fetchChildren = useCallback(async () => {
-    if (superRequire) {
-      try {
-        const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
-        setChildren(response?.data?.res?.clientLvlOrg);
-        console.log(response);
-      } catch (error) {
-        console.log("error", error);
-      }
+    if (!superRequire) return;
+
+    try {
+      const response = await axiosInstance.get('/clientorg/client_lvl_super_org/child/_org');
+      setChildren(response?.data?.res?.clientLvlOrg || []);
+    } catch (error) {
+      console.error('Error fetching children:', error);
     }
   }, [superRequire]);
 
@@ -36,49 +34,41 @@ console.log(superRequire);
     fetchChildren();
   }, [fetchChildren]);
 
-  const superClientOptions = children.map(item => ({
+  const superClientOptions = children.map((item) => ({
     value: item.id,
-    label: item.org_name
+    label: item.org_name,
   }));
 
   const onSubmit = async (data: Inputs) => {
     setIsLoading(true);
-    const formData = new FormData();
-    if (data?.files?.EXCEL_FILE && data?.files?.EXCEL_FILE?.length > 0) {
-      formData.append('file', data.files.EXCEL_FILE[0]);
-    }
-    if (superRequire && data.cl_org_id) {
-      formData.append('cl_org_id', data.cl_org_id);
-    }
 
     try {
-      console.log("Submitting form data to /repossession/upload/vehicles", data);
-      const response = await axiosInstance.post("/repossession/upload/vehicles", formData, {
+      const formData = new FormData();
+      if (data.files?.EXCEL_FILE?.[0]) {
+        formData.append('file', data.files.EXCEL_FILE[0]);
+      }
+      if (superRequire && data.cl_org_id) {
+        formData.append('cl_org_id', data.cl_org_id);
+      }
+
+      const response = await axiosInstance.post('/repossession/upload/vehicles', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
-      console.log("Response received:", response);
+
       toast.success(response?.data?.message);
       reset();
-      if(superRequire) 
-        {
-          router.push('/superUserRepoVehicles')
-        }
-      else 
-      {
-        router.push('/repoVehicle')
-      } 
+
+      router.push(superRequire ? '/superUserRepoVehicles' : '/repoVehicle');
     } catch (error) {
       const errorMessages = error?.response?.data?.message;
       if (Array.isArray(errorMessages)) {
-        errorMessages.forEach((msg) => {
-          toast.error(msg);
-        });
+        errorMessages.forEach((msg) => toast.error(msg));
       } else {
-        toast.error(error?.response?.data?.message);
+        toast.error(errorMessages || 'An error occurred');
       }
-      console.error("Error occurred:", error);
+      console.error('Error occurred:', error);
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +89,7 @@ console.log(superRequire);
             register={register}
             errors={errors}
             defaultValue=""
-            required={true}
+            required
           />
         )}
         <div className="space-y-4">

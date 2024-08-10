@@ -177,12 +177,12 @@ export const clientLevelUser = [
       {
         title: "Rejected",
         icon: <ImTruck />,
-        path: "",
+        path: "/ clientRejectedVehicles",
       },
       {
         title: "Approved",
         icon: <ImTruck />,
-        path: "",
+        path: "/clientApprovedVehicles",
       },
     ],
   },
@@ -196,14 +196,14 @@ export const clientLevelUser = [
   {
     title: "Captured Vehicles",
     icon: <AiFillRightCircle />,
-    path: "/repoClose",
+    path: "/capturedVehicles",
 
     
   },
   {
     title: "Closed Vehicles",
     icon: <AiFillRightCircle />,
-    path: "",
+    path: "/closedVehicles",
 
     
   },
@@ -306,12 +306,12 @@ export const clientLevelSuperUser = [
       {
         title: "Rejected",
         icon: <ImTruck />,
-        path: "",
+        path: "/superRejectedVehicles",
       },
       {
         title: "Approved",
         icon: <ImTruck />,
-        path: "",
+        path: "/superApprovedVehicles",
       },
     ],
   },
@@ -332,7 +332,7 @@ export const clientLevelSuperUser = [
   {
     title: "Closed Vehicles",
     icon: <AiFillRightCircle />,
-    path: "",
+    path: "/superClosedVehicles",
 
     
   },

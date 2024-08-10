@@ -11,7 +11,7 @@ import {CategoryFilter, CityFilter,ClientFilter,Search,StateFilter} from "@/comp
 import { SelectComponentWithOnchange } from "../ui/fromFields";
 import { RepoStatus, RepoStatus2, VehicleState } from "@/utils/staticData";
 
-const AllRepoDetails = (props) => {
+const AllClosed = (props) => {
 
 const {childrenRequire,user} =props
 
@@ -78,7 +78,7 @@ const {childrenRequire,user} =props
         const params = new URLSearchParams({
             page: page.toString(),
             limit: limit.toString(),
-           
+            status:"CLOSED"
           });
           if (childrenRequire && client) {
             params.append('cl_org_id', client);
@@ -90,10 +90,7 @@ const {childrenRequire,user} =props
           if (selectedYard) {
             params.append('yard_id',selectedYard);
           }
-          if(vehicleStatus){
-            params.append('status',vehicleStatus);
-
-          }
+         
 
       const response = await axiosInstance.get(
         `/repossession/vehicle?${params.toString()}`
@@ -242,29 +239,7 @@ const {childrenRequire,user} =props
                 onChangeHandler={handleRoleChange}
               /> */}
 
-<div className="flex flex-col  ">
-        <label htmlFor="state" className={labelStyle?.data}>
-          Select Status
-        </label>
-        <select
-          id="state"
-          className={inputStyle?.data}
-          defaultValue=""
-          onChange={handleOwnershipStatus}
-        >
-          <option value="">All Status</option>
-          {/* <option value="">ALL STATE</option> */}
 
-          {RepoStatus2.map((option, index) => (
-            <option key={index} value={option?.value}>
-              {option?.label}
-            </option>
-          ))}
-        </select>
-        {/* {errors.state && (
-              <p className="text-red-500">State is required</p>
-                          )} */}
-      </div>   
         { childrenRequire&&(
         <div className="flex flex-col">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>
@@ -276,14 +251,7 @@ const {childrenRequire,user} =props
             ))}
           </select>
         </div>)}
-        <div className="flex w-full  justfy-end  h-fit">
-          <Link
-            href={`${childrenRequire?"/superUserRepoVehicles/addRepoVehicle":"/repoVehicle/addRepoVehicle"}`}
-            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
-          >
-            Add
-          </Link>
-        </div>
+        
       </div>
       <div>
         {filteredData < 1 ? (
@@ -308,13 +276,13 @@ const {childrenRequire,user} =props
   );
 };
 
-export default AllRepoDetails;
+export default AllClosed;
 
 const View = ({ row ,user}) => {
   const href = 
    user === 'client'
-  ? `/repoVehicle/${row.original.id}`
-  : `/superUserRepoVehicles/${row.original.id}`;
+  ? `/closedVehicles/${row.original.id}`
+  : `/superClosedVehicles/${row.original.id}`;
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md">
       <p>

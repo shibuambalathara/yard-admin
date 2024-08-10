@@ -55,7 +55,7 @@ const fetchChildren = useCallback(async () => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
-        status: 'REPOSSESSION_COMPLETED',
+        // status: 'REPOSSESSION_COMPLETED',
       });
       if (childrenRequire && client) {
         params.append("cl_org_id", client);
@@ -68,7 +68,7 @@ const fetchChildren = useCallback(async () => {
       }
 
       const response = await axiosInstance.get(
-        `repossession/repo_veh_req?${params.toString()}`
+        `repossession/captured?${params.toString()}`
       );
       console.log("RESPONSE OF API CALL", response?.data?.res);
 
@@ -113,7 +113,7 @@ const fetchChildren = useCallback(async () => {
   }, []);
 
 
-  const UsersData = filteredData?.repoVehicleRequests || [];
+  const UsersData = filteredData?.repoVehicleCapturedRequests|| [];
 
   const userColumn = useMemo(
     () => [
@@ -169,7 +169,7 @@ const fetchChildren = useCallback(async () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Completed Repo Vehicles
+        Captured Repo Vehicles
       </h1>
       <div className="flex items-end px-8 gap-36">
         <div className="flex flex-col w-40 ">

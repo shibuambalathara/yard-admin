@@ -235,7 +235,7 @@ console.log(vehicleId);
             />
         </form>
 
-        { responseStatus === "REPOSSESSION_REQUESTED" && (
+        { responseStatus === "REPOSSESSION_REQUESTED" ? (
           <>
             {modalOpen && (
               <div className="relative border">
@@ -267,7 +267,15 @@ console.log(vehicleId);
               </button>
             </div>
           </>
-        )}
+        ):(  <div className="w-full text-center p-1 mt-3 space-x-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+          >
+            CANCEL
+          </button>
+        </div>)}
 
         {/* { responseStatus === "REPOSSESSION_REQUESTED" && (
           <div className="w-full text-center p-1 mt-3 space-x-2">
@@ -287,17 +295,9 @@ console.log(vehicleId);
           </div>
         )} */}
 
-        {responseStatus === "REPOSSESSION_COMPLETED" && (
-          <div className="w-full text-center p-1 mt-3 space-x-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
-            >
-              CANCEL
-            </button>
-          </div>
-        )}
+       
+        
+        
       </div>
     </div>
   );

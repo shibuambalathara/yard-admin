@@ -16,9 +16,9 @@ import Image from "next/image";
 import { Cities } from "@/utils/cities";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
-import ImageUpload from "../imageUpload/imageUpload";
-import VehicleImageGrid from "../imageGrid/imageGrid";
-import Link from "next/link";
+import VehicleImageGrid from "../../imageGrid/imageGrid";
+import ImageUpload from "../../imageUpload/imageUpload";
+
 
 type Inputs = {
   repo_vehicle: {
@@ -39,8 +39,7 @@ const IndividualStatuss = (props) => {
   const { vehicleId, user, disable } = props;
   const [vehicleImage, setVehicleImage] = useState<ImageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [captured, setCaptured] = useState(null);
-
+  const [status, setStatus] = useState("");
   const [responseStatus, setResponseStatus] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [filtercitys, setFiltercitys] = useState([]);
@@ -100,7 +99,6 @@ const IndividualStatuss = (props) => {
       console.log(response);
       setSelectState(destructuredData?.initial_state);
       setVehicleImage(response?.data?.res?.initial_images);
-      setCaptured(response?.data?.res?.is_captured)
       reset({
         ...destructuredData,
         initial_images: response?.data?.res?.initial_images,
@@ -115,42 +113,21 @@ const IndividualStatuss = (props) => {
 
   useEffect(() => {
     fetchVehicle();
-  }, []);
+  }, [vehicleId,user]);
 
   const RepoReAssignment = async (data: Inputs) => {
     setIsLoading(true);
     try {
-      const formData = new FormData();
+      
       const modifiedData = {
-        initial_city: data.initial_city,
-        initial_state: data.initial_state,
-        // initial_images:[vehicleImage], // Use the updated vehicleImage array
+        end_date: data?.end_date ? new Date(data.end_date).toISOString() : null
+       
       };
-
-      for (const key in modifiedData) {
-        formData.append(key, modifiedData[key]);
-      }
-      vehicleImage.forEach((image, index) => {
-        formData.append(`initial_images[${index}]`, image);
-      });
-      // formData.append("repo_vehicle_id", vehicleId?.vehId);
-      // formData.append("initial_state", data.initial_state);
-      // formData.append("initial_city", data.initial_city);
-      // formData.append("reason", data.reason);
-
-      images.forEach((image) => {
-        formData.append("files", image);
-      });
 
       console.log(modifiedData);
       const response = await axiosInstance.patch(
-        `repossession/repo_veh_req/update_request_repossession/${vehicleId?.vehId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        `repossession/repo_veh_req/update_approve_repossession/${vehicleId?.vehId}`,
+        modifiedData
       );
       console.log("Response:", response);
       toast.success(response?.data?.message);
@@ -191,7 +168,16 @@ const IndividualStatuss = (props) => {
     }
   };
 
-  
+  const handleModalAccept = () => {
+    setModalOpen(true);
+    setStatus("REPOSSESSION_APPROVED");
+  };
+
+  const handleModalReject = () => {
+    setModalOpen(true);
+    setStatus("REPOSSESSION_REJECTED");
+  };
+
   const handleModalClose = () => {
     setModalOpen(false);
   };
@@ -276,7 +262,7 @@ const IndividualStatuss = (props) => {
                 register={register}
                 errors={errors}
                 pattern
-                disabled={true}
+                
               />
             )}
           </div>
@@ -303,21 +289,14 @@ const IndividualStatuss = (props) => {
             >
               CANCEL
             </button>
-            {!captured&&( <Link
-        href={`/approvedRepoVehicle/${vehicleId?.vehId}/completed`}
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
-      >
-        Complete
-      </Link>)}
-           
-            {responseStatus === "REPOSSESSION_REQUESTED" && (
+          
               <button
                 type="submit"
                 className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
               >
                 SUBMIT
               </button>
-            )}
+            
           </div>
         </form>
       </div>

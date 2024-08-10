@@ -1,12 +1,11 @@
-import IndividualStatuss from '@/components/reuseableComponent/repoComponents/clientRequest/individualRepoStatus'
-
+import ViewIndividualVehicle from '@/components/reuseableComponent/repoComponents/viewIndividualVehicle'
 import React from 'react'
 
 const IndividualRepoVehicle = ({params}:{params:{vehicleId:string}})  => {
   return (
     <div>
         {/* <p>safasfjasdlfadslf</p> */}
-        <IndividualStatuss vehicleId={params} user={'super'} />
+        <ViewIndividualVehicle vehicleId={params} />
         </div>
   )
 }
