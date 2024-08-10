@@ -424,6 +424,11 @@ export const yardManager = [
     icon: <FaCarOn />,
     path: "/yardEntryPendingVehicles ",
   },
+  {
+    title: " Completed Vehicle Entry",
+    icon: <FaCarOn />,
+    path: "/yardCompletedVehicles ",
+  },
 ];
 
 export const RepoUser = [

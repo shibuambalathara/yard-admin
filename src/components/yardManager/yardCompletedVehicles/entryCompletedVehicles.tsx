@@ -19,14 +19,14 @@ import { VehicleEntryStatus, YardEntryStatus } from "@/utils/staticData";
 import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
 
-const AllEntryPendingVehicles = () => {
+const AllEntryCompletedVehicles = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [Category, setCategory] = useState("");
   const [catFilter, setCatFilter] = useState("");
-  const [vehicleStatus, setVehicleStatus] = useState(false);
+  const [vehicleStatus, setVehicleStatus] = useState(true);
   const [limit, setLimit] = useState(5);
   const [searchLoading, setSearchLoading] = useState(false);
   const [registrationNum, setRegistrationNum] = useState(null);
@@ -123,7 +123,7 @@ const AllEntryPendingVehicles = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        Entry Pending Vehicle
+        Entry Completed Vehicles
       </h1>
 
       <div className=" grid grid-cols-3  gap-4 items-end px-3 ">
@@ -182,7 +182,7 @@ const AllEntryPendingVehicles = () => {
   );
 };
 
-export default AllEntryPendingVehicles;
+export default AllEntryCompletedVehicles;
 
 const View = (row) => {
   // console.log("from view", row.original.id);
@@ -192,7 +192,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/yardEntryPendingVehicles/${row.original.id}`}
+        href={`/yardCompletedVehicles/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""
