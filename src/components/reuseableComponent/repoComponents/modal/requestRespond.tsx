@@ -14,78 +14,49 @@ type Inputs = {
   reason?: string;
 };
 
-const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
+const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-   console.log(vehicleId);
-   
-  const RepoReq = async (data: Inputs) => {
+
+  const handleRepoRequest = async (data: Inputs) => {
     setIsLoading(true);
+
+    const modifiedData: Partial<Inputs> = {
+      status,
+      ...(status === "REPOSSESSION_APPROVED" && { end_date: data?.end_date ? new Date(data.end_date).toISOString() : null }),
+      ...(status === "REPOSSESSION_REJECTED" || status === "REPOSSESSION_REQUESTED") && { reason: data.reason }
+    };
+
     try {
-      let modifiedData: Partial<Inputs> = { status };
+      const apiUrl = (() => {
+        switch (status) {
+          case "REPOSSESSION_REQUESTED":
+            return `repossession/repo_veh_req/cancel_repossession/${vehicleId?.vehId}`;
+          case "REPOSSESSION_REJECTED":
+            return `repossession/repo_veh_req/reject_repossession/${vehicleId?.vehId}`;
+          case "REPOSSESSION_APPROVED":
+            return `repossession/repo_veh_req/approve_repossession/${vehicleId?.vehId}`;
+          default:
+            throw new Error("Invalid status");
+        }
+      })();
 
-      if (status === "REPOSSESSION_APPROVED") {
-        modifiedData = {
-          ...modifiedData,
-          // start_date: data?.start_date ? new Date(data?.start_date).toISOString() : null,
-          end_date: data?.end_date ? new Date(data?.end_date).toISOString() : null
-        };
-      } else if (status === "REPOSSESSION_REJECTED"||status === "REPOSSESSION_REQUESTED") {
-        modifiedData = {
-          ...modifiedData,
-          reason: data.reason,
-        };
-      }
+      const response = await axiosInstance.patch(apiUrl, modifiedData);
 
-      console.log(modifiedData);
-      status === "REPOSSESSION_REJECTED"
-        
-      
-        
-      const response = await axiosInstance.patch(`${status === "REPOSSESSION_REQUESTED"?
-        "repossession/repo_veh_req/cancel_repossession/":
-        "repossession/repo_veh_req/client_respond/"}${vehicleId?.vehId}`, modifiedData);
-      console.log("Response:", response);
       toast.success(response?.data?.message);
-
       fetchData();
       onClose();
-      if (status === "REPOSSESSION_REQUESTED") {
-        onClose();
-      } else {
-        if (user === 'client') {
-          router.push('/requestedRepo');
-        } else {
-          router.push('/SuperRequestedRepo');
-        }
+
+      if (status !== "REPOSSESSION_REQUESTED") {
+        router.push(user === 'client' ? '/requestedRepo' : '/SuperRequestedRepo');
       }
     } catch (error) {
-      console.error("Error:", error.response);
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Something went wrong. Please contact support.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (success) {
-      toast.success(success.text ? success.text : "Success");
-      setTimeout(() => {
-        setSuccess(null);
-      }, 2000);
-    }
-    if (error) {
-      toast.error(
-        error.text ? error.text : "Something went wrong. Please contact support"
-      );
-      setTimeout(() => {
-        setError(null);
-      }, 2000);
-    }
-  }, [success, error]);
 
   if (isLoading) {
     return (
@@ -104,42 +75,21 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status,user }) => {
           </h1>
           <div className="border-b"></div>
         </div>
-        <form className="space-y-2" onSubmit={handleSubmit(RepoReq)}>
+        <form className="space-y-2" onSubmit={handleSubmit(handleRepoRequest)}>
           <div className="grid grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide">
             {status === "REPOSSESSION_APPROVED" && (
-              <>
-                {/* <InputField
-                  label="Start Date & Time"
-                  type="datetime-local"
-                  name="start_date"
-                  register={register}
-                  errors={errors}
-                  pattern
-                /> */}
-                <InputField
-                  label="Capture Time Period"
-                  type="datetime-local"
-                  name="end_date"
-                  register={register}
-                  errors={errors}
-                  pattern
-                />
-              </>
-            )}
-            {status === "REPOSSESSION_REJECTED" && (
               <InputField
-               placeholder="Not Satisfied"
-                label="Reason"
-                type="text"
-                name="reason"
+                label="Capture Time Period"
+                type="datetime-local"
+                name="end_date"
                 register={register}
                 errors={errors}
                 pattern
               />
             )}
-            {status === "REPOSSESSION_REQUESTED" && (
+            {(status === "REPOSSESSION_REJECTED" || status === "REPOSSESSION_REQUESTED") && (
               <InputField
-              placeholder="sorry by mistake"
+                placeholder={status === "REPOSSESSION_REQUESTED" ? "Sorry, by mistake" : "Not Satisfied"}
                 label="Reason"
                 type="text"
                 name="reason"
