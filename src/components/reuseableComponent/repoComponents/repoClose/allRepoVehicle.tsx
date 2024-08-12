@@ -126,11 +126,9 @@ const fetchChildren = useCallback(async () => {
         header: "captured State",
         accessorKey: "captured_state",
       },
-      { header: "Vehicle Category", accessorKey: "repo_vehicle.vehicle_category.name" },
-      {
-        header: "Status",
-        accessorKey: "status",
-      },
+      { header: "Category", accessorKey: "repo_vehicle.vehicle_category.name" },
+      { header: "Model", accessorKey: "repo_vehicle.model" },
+      { header: "make", accessorKey: "repo_vehicle.make" },
       {
         header: "Registration no ",
         accessorKey: "repo_vehicle.reg_number",
@@ -153,7 +151,7 @@ const fetchChildren = useCallback(async () => {
           row.original?.repo_vehicle?.status==="CLOSED"? (
             <div className="flex justify-end w-fit h-fit">
               <button className="bg-gray-500 text-white py-1 px-2 rounded cursor-not-allowed mb-1 mr-2">
-               Cancelled
+               Closed
               </button>
             </div>
           ) : (
@@ -252,7 +250,7 @@ export default AllRequestedVehicles;
 const View = ({ row, user }) => {
   const href =
     user === 'client'
-      ? `/repoClose/${row.original.id}`
+      ? `/capturedVehicles/${row.original.id}`
       : `/superRepoClose/${row.original.id}`;
 
   return (

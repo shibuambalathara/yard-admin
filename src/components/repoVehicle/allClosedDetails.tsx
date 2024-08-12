@@ -167,7 +167,7 @@ const {childrenRequire,user} =props
         header: "make",
         accessorKey: "make",
       },
-      { header: "Vehicle Category", accessorKey: "repo_vehicle.vehicle_category.name" },
+      { header: "Category", accessorKey: "vehicle_category.name" },
       {
         header: "model",
         accessorKey: "model",

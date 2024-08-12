@@ -98,13 +98,13 @@ const AllCompleted = (props) => {
   const userColumn = useMemo(
     () => [
       {
-        header: "City",
-        accessorKey: "initial_city",
+        header: "Captured City",
+        accessorKey: "captured_city",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "State",
-        accessorKey: "initial_state",
+        header: "Captured State",
+        accessorKey: "captured_state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -131,7 +131,7 @@ const AllCompleted = (props) => {
         // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Make ",
+        header: "Make",
         accessorKey: "repo_vehicle.make",
         // id: "clsup_org_name", // Ensure unique id
       },

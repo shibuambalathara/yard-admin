@@ -25,6 +25,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
         onChange={handleFileChange}
         multiple
         className="hidden"
+        required={true}
       />
       <div className="flex flex-wrap items-center mb-4">
         {images.map((image, index) => (

@@ -89,7 +89,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
             )}
             {(status === "REPOSSESSION_REJECTED" || status === "REPOSSESSION_REQUESTED") && (
               <InputField
-                placeholder={status === "REPOSSESSION_REQUESTED" ? "Sorry, by mistake" : "Not Satisfied"}
+                placeholder={status === "REPOSSESSION_REQUESTED" ? "Eg:Sorry, by mistake" : "Eg:Not Satisfied"}
                 label="Reason"
                 type="text"
                 name="reason"

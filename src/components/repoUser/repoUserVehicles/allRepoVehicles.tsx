@@ -162,9 +162,9 @@ const AllRepoDetails = (props) => {
         <div>
           <Search placeholder='eg: KL14WW1111' label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
         </div>
-        <div>
+        {/* <div>
           <Status label="Select Status" options={RepoStatus2} setVehicleStatus={setVehicleStatus} />
-        </div>
+        </div> */}
       </div>
       <div>
         {filteredData < 1 ? (
