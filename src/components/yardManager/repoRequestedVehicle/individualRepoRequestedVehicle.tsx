@@ -107,15 +107,6 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
     FetchInddividualVehicle();
   }, [repoVehicleId]);
 
-  // const handleModalOpen = (value = false) => {
-  //   setModalOpen(true);
-  //   if (value) {
-  //     setShowStatus(true);
-  //   } else {
-  //     setShowStatus(false);
-  //   }
-  // };
-
   const handleModalOpen = (type) => {
     setModalOpen(true);
     setModalType(type);
@@ -277,7 +268,7 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
                 label="Status"
                 type="text"
                 name="make"
-                value={yardData?.status || ""}
+                value={vehicleEntryAlias[yardData?.status ]|| ""}
                 disabled={true}
               />
             </div>

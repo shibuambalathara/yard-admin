@@ -15,9 +15,10 @@ import {
   Search,
   Status,
 } from "@/components/reuseableComponent/filter/filters";
-import { VehicleEntryStatus,vehicleEntryAlias } from "@/utils/staticData";
+import { VehicleEntryStatus, vehicleEntryAlias } from "@/utils/staticData";
 import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
+import { log } from "util";
 
 const AllRepoRequests = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -96,7 +97,6 @@ const AllRepoRequests = () => {
         accessorKey: "expected_entry_date",
         cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
       },
-      
 
       {
         header: "Reg No",
@@ -127,7 +127,8 @@ const AllRepoRequests = () => {
         header: "status ",
         accessorKey: "status",
         cell: ({ row }) => {
-          const status = row.original.role;
+          const status = row.original.status;
+
           return <span>{vehicleEntryAlias[status] || status}</span>;
         },
       },
@@ -214,7 +215,7 @@ const View = (row) => {
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/repoRequests/${row.original.id}`}
+        href={`/yardRequestedVehicle/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className=""
@@ -291,7 +292,6 @@ const Completed = (row) => {
     </div>
   );
 };
-
 
 const dataFormat = (row) => {
   let value = row?.split("T")[0];

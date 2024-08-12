@@ -50,7 +50,7 @@ const SidebarItem = ({ item, activePath }) => {
         onClick={() => setOpen(!open)}
       />
 
-      <ul className="pt-16 bg-gray-800 md:pl-6 space-y-5">
+      <ul className="pt-10 bg-gray-800 md:pl-6 space-y-5">
         {item &&
           item.map((menu, index) => (
             <React.Fragment key={index}>

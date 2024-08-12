@@ -440,21 +440,7 @@ export const RepoUser = [
     path: "/repoUserVehicles",
   },
 
-  // {
-  //   title: "Requested",
-  //   icon: <ImTruck />,
-  //   path: "/requestedRepoVehicle",
-  // },
-  // {
-  //   title: "Rejected",
-  //   icon: <ImTruck />,
-  //   path: "/rejectedRepoVehicle",
-  // },
-  // {
-  //   title: "Approved",
-  //   icon: <ImTruck />,
-  //   path: "/approvedRepoVehicle",
-  // },
+  
 
   {
     title: "Repo Requested Vehicles",
