@@ -177,7 +177,7 @@ export const clientLevelUser = [
       {
         title: "Rejected",
         icon: <ImTruck />,
-        path: "/ clientRejectedVehicles",
+        path: "/clientRejectedVehicles",
       },
       {
         title: "Approved",

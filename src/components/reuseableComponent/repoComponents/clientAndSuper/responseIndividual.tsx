@@ -78,7 +78,7 @@ const IndividualStatuss = (props) => {
   const onClose = () => {
     window.close();
   };
-
+   
   const fetchVehicle = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -94,7 +94,7 @@ const IndividualStatuss = (props) => {
         reg_number: response?.data?.res?.repo_vehicle?.reg_number,
         initial_city: response?.data?.res?.initial_city,
         initial_state: response?.data?.res?.initial_state,
-        end_date: response?.data?.res?.end_date?.slice(0, 16),
+        end_date: DateConvert(response?.data?.res?.end_date)
       };
       console.log(response);
       setSelectState(destructuredData?.initial_state);
@@ -305,3 +305,13 @@ const IndividualStatuss = (props) => {
 };
 
 export default IndividualStatuss;
+export const DateConvert=(date)=>{
+  const dateObj = new Date(date);
+const year = dateObj.getFullYear();
+const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+const day = String(dateObj.getDate()).padStart(2, '0');
+const hours = String(dateObj.getHours()).padStart(2, '0');
+const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+const formattedString = `${year}-${month}-${day}T${hours}:${minutes}`;
+return formattedString
+}

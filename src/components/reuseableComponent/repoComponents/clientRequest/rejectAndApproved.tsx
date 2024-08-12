@@ -81,6 +81,7 @@ const AllResponse = ({ user, childrenRequire, response }) => {
       { header: "State", accessorKey: "initial_state" },
       { header: "Organisation", accessorKey: "repo_vehicle.cl_org.org_name" },
       { header: "Registration no", accessorKey: "repo_vehicle.reg_number" },
+      { header: "Vehicle Category", accessorKey: "repo_vehicle.vehicle_category.name" },
       { header: "Requested User", accessorKey: "req_by_user_org.user.name" },
       { header: "Code", accessorKey: "repo_vehicle.code" },
       { header: "View", cell: ({ row }) => <View row={row} user={user} response={response} /> },

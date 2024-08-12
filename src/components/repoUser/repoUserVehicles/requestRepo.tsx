@@ -88,6 +88,9 @@ const RepoRequest = (props) => {
       setImages([...images, file]);
     }
   };
+  const onClose = () => {
+    router.push('/repoUserVehicles');
+  };
 
   useEffect(() => {
     const uniqueStates = Cities.reduce((acc, current) => {
@@ -125,59 +128,55 @@ const RepoRequest = (props) => {
   }
 
   return (
-    <div className="flex items-center justify-center relative py-10">
-      <div className="bg-white rounded-lg p-5  w-full space-y-3">
-        <div>
-          <h1 className="p-2 uppercase text-start font-semibold text-base text-slate-400">
-            Repo Request
-          </h1>
-          <div className=""></div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+  <div className="max-w-5xl w-full space-y-6 p-8 bg-white rounded-xl shadow-md">
+    <h2 className="text-center text-2xl font-bold text-gray-900">Add  Details</h2>
+    
+    <form className="space-y-6" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
+      <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <SelectChange
+            label="Initial State"
+            name="initial_state"
+            options={uniqueStates}
+            register={register}
+            errors={errors}
+            required
+            defaultValue=""
+            handleChange={handleStateChange}
+          />
+          <SelectChange
+            label="Initial City"
+            name="initial_city"
+            options={filterCity}
+            register={register}
+            errors={errors}
+            required
+            defaultValue=""
+          />
         </div>
-        <form className="space-y-2" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide">
-            <div className="mt-4 pt-px">
-              <SelectChange
-                label="State"
-                name="initial_state"
-                options={uniqueStates}
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-                handleChange={handleStateChange}
-              />
-            </div>
-            <div>
-              <SelectChange
-                label="City"
-                name="initial_city"
-                options={filterCity}
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-            <ImageUpload images={images} setImages={setImages} />
-          </div>
-          <div className="w-full text-center space-x-4">
-            <button
-              // onClick={() => onClose()}
-              type="button"
-              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        
+        <ImageUpload images={images} setImages={setImages} />
       </div>
-    </div>
+      
+      <div className="text-center space-x-4">
+        <button
+          onClick={onClose}
+          type="button"
+          className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-lg transition duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg transition duration-200"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
   );
 };
 

@@ -10,6 +10,7 @@ import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import { Search } from "@/components/reuseableComponent/filter/filters";
 import { formatDate } from "@/components/reuseableComponent/repoComponents/dateAndTime";
+import { RepossessionStatus } from "@/utils/staticData";
 
 const AllApprovedVehicles = (props) => {
   const { user } = props;
@@ -83,10 +84,17 @@ const AllApprovedVehicles = (props) => {
         header: "State",
         accessorKey: "initial_state",
       },
-      {
-        header: "Status",
-        accessorKey: "status",
-      },
+
+
+
+      // {
+      //   header: "Status",
+      //   accessorKey: "status",
+      //   cell: ({ row }) => {
+      //     const role = row.original.status;
+      //     return <span>{RepossessionStatus[role] || role}</span>;
+      //   },
+      // },
       {
         header: "Requested Date",
         accessorKey: "req_date",
@@ -99,18 +107,21 @@ const AllApprovedVehicles = (props) => {
       {
         header: "Code",
         accessorKey: "repo_vehicle.code",
+      },{
+        header: " Category",
+        accessorKey: "repo_vehicle.vehicle_category.name",
       },
       {
         header: "View",
         cell: ({ row }) => <View row={row} user={user} />,
       },
       {
-        header: "Complete",
+        header: "Action",
         cell: ({ row }) => (
           row.original.is_captured ? (
-            <div className="flex justify-end w-full h-fit">
-              <button className="bg-gray-500 text-white py-2 px-4 rounded cursor-not-allowed mb-1 mr-6">
-                Completed
+            <div className="flex justify-end w-fit h-fit">
+              <button className="bg-gray-500 text-white py-1 px-2 rounded cursor-not-allowed mb-1 mr-2">
+                Captured
               </button>
             </div>
           ) : (
@@ -129,7 +140,7 @@ const AllApprovedVehicles = (props) => {
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto text-lg font-bold py-1 uppercase">
         Approved Repo Vehicles
       </h1>
       <div className="flex items-end px-8 gap-40">
@@ -198,10 +209,10 @@ const View = ({ row, user }) => {
 
 const Completed = ({ row, user, setSelectedVehicleId }) => {
   return (
-    <div className="flex justify-end w-full h-fit">
+    <div className="flex justify-end w-fit h-fit">
       <Link
         href={`/approvedRepoVehicle/${row.original.id}/completed`}
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
+        className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-2"
       >
         Complete
       </Link>

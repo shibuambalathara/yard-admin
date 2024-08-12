@@ -12,6 +12,13 @@ export const RoleAliass = {
   CLIENT_LEVEL_USER: "CLIENT LEVEL USER",
   CLIENT_LEVEL_SUB_USER: "CLIENT LEVEL SUB USER",
 };
+
+export const RepossessionStatus = {
+  REPOSSESSION_APPROVED: "REPOSSESSION APPROVED",
+  REPOSSESSION_REJECTED: "REPOSSESSION REJECTED",
+  REPOSSESSION_REQUESTED: "REPOSSESSION REQUESTED",
+  
+};
 export const HeaderRole = {
   SUPER_ADMIN: "SUPER ADMIN ",
   YARD_MANAGER: "YARD MANAGER",
@@ -125,6 +132,9 @@ export const superUserStatus = [
 ];
 
 export const Country = [{ label: "INDIA", value: "INDIA" }];
+
+
+
 
 export const State = [
   { label: "ANDHRA PRADESH", value: "ANDHRA PRADESH" },

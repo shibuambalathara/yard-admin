@@ -125,6 +125,7 @@ const AllRequestedVehicles = (props) => {
       },
       { header: "City", accessorKey: "initial_city" },
       { header: "State", accessorKey: "initial_state" },
+      { header: "Vehicle Category", accessorKey: "repo_vehicle.vehicle_category.name" },
       // { header: "Status", accessorKey: "status" },
       { header: "Organisation", accessorKey: "repo_vehicle.cl_org.org_name" },
       { header: "Registration no", accessorKey: "repo_vehicle.reg_number" },

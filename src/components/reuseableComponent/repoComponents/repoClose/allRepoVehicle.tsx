@@ -118,13 +118,15 @@ const fetchChildren = useCallback(async () => {
   const userColumn = useMemo(
     () => [
       {
-        header: "City",
-        accessorKey: "initial_city",
+        header: "captured City",
+        accessorKey: "captured_city",
       },
+      
       {
-        header: "State",
-        accessorKey: "initial_state",
+        header: "captured State",
+        accessorKey: "captured_state",
       },
+      { header: "Vehicle Category", accessorKey: "repo_vehicle.vehicle_category.name" },
       {
         header: "Status",
         accessorKey: "status",
@@ -141,9 +143,23 @@ const fetchChildren = useCallback(async () => {
         header: "View",
         cell: ({ row }) => <View row={row} user={user} />,
       },
+      // {
+      //   header: "Close",
+      //   cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} setStatus={setStatus}/>,
+      // },
       {
-        header: "Close",
-        cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} setStatus={setStatus}/>,
+        header: "Action",
+        cell: ({ row }) => (
+          row.original?.repo_vehicle?.status==="CLOSED"? (
+            <div className="flex justify-end w-fit h-fit">
+              <button className="bg-gray-500 text-white py-1 px-2 rounded cursor-not-allowed mb-1 mr-2">
+               Cancelled
+              </button>
+            </div>
+          ) : (
+            <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} setStatus={setStatus}/>
+          )
+        ),
       },
     ],
     [filteredData]
