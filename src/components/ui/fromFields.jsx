@@ -259,6 +259,8 @@ export const RadioButtonInput = ({
             name={name}
             {...register(name)} // Spread the register function with the name
             className=""
+            disabled={disabled}
+
           />
           No
         </label>

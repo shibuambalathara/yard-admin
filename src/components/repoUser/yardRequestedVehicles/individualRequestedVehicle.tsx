@@ -137,7 +137,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
       toast.success(response?.data?.message);
       FetchInddividualVehicle();
       setModalOpen(false);
-      router.push("/repoRequests");
+      router.push("/yardRequestedVehicle");
     } catch (error) {
       console.error("Error updating entry", error);
       toast.error(error?.response?.data?.message);

@@ -417,17 +417,17 @@ export const yardManager = [
   {
     title: "Repo Requested Vehicle",
     icon: <FaCarOn />,
-    path: "/repoRequestedVehicle ",
+    path: "/repoRequestedVehicle",
   },
   {
     title: "Pending Vehicle Entry",
     icon: <FaCarOn />,
-    path: "/yardEntryPendingVehicles ",
+    path: "/yardEntryPendingVehicles",
   },
   {
     title: " Completed Vehicle Entry",
     icon: <FaCarOn />,
-    path: "/yardCompletedVehicles ",
+    path: "/yardCompletedVehicles",
   },
 ];
 

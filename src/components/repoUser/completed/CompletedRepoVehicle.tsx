@@ -38,7 +38,7 @@ const AllCompleted = (props) => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
-        status:'REPOSSESSION_COMPLETED',
+       
       });
 
       if (Category) {
