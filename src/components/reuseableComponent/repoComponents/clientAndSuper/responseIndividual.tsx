@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   FormFieldInput,
+  FutureDate,
   InputField,
   SelectChange,
   SelectComponent,
@@ -255,7 +256,7 @@ const IndividualStatuss = (props) => {
               disabled={responseStatus !== "REPOSSESSION_REQUESTED"}
             />
             {responseStatus === "REPOSSESSION_APPROVED" && (
-              <InputField
+              <FutureDate
                 label="End Date & Time"
                 type="datetime-local"
                 name="end_date"

@@ -40,7 +40,7 @@ type FileInputs = {
 };
 
 const IndividualStatuss = (props) => {
-  const { vehicleId, user, disable,heading } = props;
+  const { vehicleId, user, disable, heading } = props;
   const [vehicleImage, setVehicleImage] = useState([]);
   const [capturedImages, setCapturedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +51,8 @@ const IndividualStatuss = (props) => {
   const [previewImages, setPreviewImages] = useState<Record<string, string[]>>(
     {}
   );
-console.log(vehicleId);
+  const [capturedCity, setCapturedCity] = useState<string | null>(null);
+  const [capturedState, setCapturedState] = useState<string | null>(null);
 
   const {
     register,
@@ -67,13 +68,15 @@ console.log(vehicleId);
     try {
       setIsLoading(true);
 
+      const endpoint = `/repossession/repo_veh_req/${vehicleId?.vehId}`;
 
-      const endpoint =`/repossession/repo_veh_req/${vehicleId?.vehId}`
-  
       const response = await axiosInstance.get(endpoint);
       console.log(response);
-      
+
       setResponseStatus(response?.data?.res?.status);
+      setCapturedCity(response?.data?.res?.captured_city || null);
+      setCapturedState(response?.data?.res?.captured_state || null);
+
       const destructuredData = {
         user: response?.data?.res?.req_by_user_org?.user?.name,
         org_name: response?.data?.res?.repo_vehicle?.cl_org?.org_name,
@@ -83,9 +86,8 @@ console.log(vehicleId);
         initial_state: response?.data?.res?.initial_state,
         ...response?.data?.res,
       };
-      setVehicleImage(response?.data?.res?.initial_images
-        );
-        setCapturedImages(response?.data?.res?.captured_images)
+      setVehicleImage(response?.data?.res?.initial_images);
+      setCapturedImages(response?.data?.res?.captured_images);
       reset(destructuredData);
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
@@ -153,15 +155,6 @@ console.log(vehicleId);
                 disabled={true}
               />
             )}
-            {/* <InputField
-              label="Code"
-              type="text"
-              name="code"
-              register={register}
-              errors={errors}
-              pattern
-              disabled={true}
-            /> */}
             <InputField
               label="Registration Number"
               type="text"
@@ -199,17 +192,8 @@ console.log(vehicleId);
               disabled={true}
             />
 
-            {responseStatus === "REPOSSESSION_COMPLETED" && (
+            {capturedCity && capturedState && (
               <>
-                <InputField
-                  label="Requested User"
-                  type="text"
-                  name="req_by_user_org.user.name"
-                  register={register}
-                  errors={errors}
-                  pattern
-                  disabled={true}
-                />
                 <InputField
                   label="Captured City"
                   type="text"
@@ -233,20 +217,17 @@ console.log(vehicleId);
           </div>
           <h2 className="text-lg font-semibold mt-4 underline">Initial Images</h2>
 
-<VehicleImageGrid
-    vehicleImages={vehicleImage}
-    // onImageDelete={handleImageDelete}
-  />
-{capturedImages.length>0&&(
-  <><h2 className="text-lg font-semibold mt-4 underline">Captured Images</h2> 
-   <VehicleImageGrid
-    vehicleImages={capturedImages}
-    // onImageDelete={handleImageDelete}
-  /></>)}
+          <VehicleImageGrid vehicleImages={vehicleImage} />
 
+          {capturedImages.length > 0 && (
+            <>
+              <h2 className="text-lg font-semibold mt-4 underline">Captured Images</h2>
+              <VehicleImageGrid vehicleImages={capturedImages} />
+            </>
+          )}
         </form>
 
-        { responseStatus === "REPOSSESSION_REQUESTED" ? (
+        {responseStatus === "REPOSSESSION_REQUESTED" ? (
           <>
             {modalOpen && (
               <div className="relative border">
@@ -278,17 +259,7 @@ console.log(vehicleId);
               </button>
             </div>
           </>
-        ):(  <div className="w-full text-center p-1 mt-3 space-x-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
-          >
-            CANCEL
-          </button>
-        </div>)}
-
-        {/* { responseStatus === "REPOSSESSION_REQUESTED" && (
+        ) : (
           <div className="w-full text-center p-1 mt-3 space-x-2">
             <button
               type="button"
@@ -297,18 +268,8 @@ console.log(vehicleId);
             >
               CANCEL
             </button>
-            <button
-              onClick={handleModalAccept}
-              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
-            >
-              SUBMIT
-            </button>
           </div>
-        )} */}
-
-       
-        
-        
+        )}
       </div>
     </div>
   );

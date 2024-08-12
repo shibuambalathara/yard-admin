@@ -7,6 +7,7 @@ import {
   ImageMaping,
   RadioButtonInput,
   FileUploadInput,
+  DateField,
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
@@ -315,7 +316,7 @@ const AddIndividualVehicle = (props) => {
                   required={true}
                   defaultValue=""
                 />
-            <InputField
+            <DateField
               label="Manufacturing Date"
               type="date"
               name="mfg_year"
