@@ -11,7 +11,7 @@ import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { TbRuler } from "react-icons/tb";
-import { VehicleEntryStatus } from "@/utils/staticData";
+import { VehicleEntryStatus,vehicleEntryAlias } from "@/utils/staticData";
 
 type User = {
   code: string;

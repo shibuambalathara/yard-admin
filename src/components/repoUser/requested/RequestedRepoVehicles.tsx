@@ -259,7 +259,7 @@ const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId, setStatus }) =>
   const handleCancelClick = () => {
     setStatus('REPOSSESSION_REQUESTED');
     setModalOpen(true);
-    setSelectedVehicleId({ repoId: row.original.id });
+    setSelectedVehicleId( row.original.id );
   };
 
   return (

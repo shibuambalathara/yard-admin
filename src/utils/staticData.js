@@ -17,7 +17,6 @@ export const RepossessionStatus = {
   REPOSSESSION_APPROVED: "REPOSSESSION APPROVED",
   REPOSSESSION_REJECTED: "REPOSSESSION REJECTED",
   REPOSSESSION_REQUESTED: "REPOSSESSION REQUESTED",
-  
 };
 export const HeaderRole = {
   SUPER_ADMIN: "SUPER ADMIN ",
@@ -71,6 +70,13 @@ export const VehicleEntryStatus = [
   { label: "ENTRY REJECTED", value: "ENTRY_REJECTED" },
   { label: "ENTRY CANCELLED", value: "ENTRY_CANCELLED" },
 ];
+
+export const vehicleEntryAlias = {
+  ENTRY_REQUESTED: "ENTRY REQUESTED",
+  ENTRY_APPROVED: "ENTRY APPROVED",
+  ENTRY_REJECTED: "ENTRY REJECTED",
+  ENTRY_CANCELLED: "ENTRY CANCELLED",
+};
 
 export const YardEntryStatus = [
   { label: "ENTRY PENDING", value: false },
@@ -132,9 +138,6 @@ export const superUserStatus = [
 ];
 
 export const Country = [{ label: "INDIA", value: "INDIA" }];
-
-
-
 
 export const State = [
   { label: "ANDHRA PRADESH", value: "ANDHRA PRADESH" },

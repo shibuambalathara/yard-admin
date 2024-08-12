@@ -15,6 +15,8 @@ type Inputs = {
 };
 
 const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
+  console.log("vehicleId",vehicleId);
+  
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
@@ -32,7 +34,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
       const apiUrl = (() => {
         switch (status) {
           case "REPOSSESSION_REQUESTED":
-            return `repossession/repo_veh_req/cancel_repossession/${vehicleId?.vehId}`;
+            return `repossession/repo_veh_req/cancel_repossession/${vehicleId}`;
           case "REPOSSESSION_REJECTED":
             return `repossession/repo_veh_req/reject_repossession/${vehicleId?.vehId}`;
           case "REPOSSESSION_APPROVED":
