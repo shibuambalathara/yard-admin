@@ -65,8 +65,8 @@ type FileInputs = {
 };
 
 const IndividualEntryCompleted = ({ vehicleId }) => {
-    console.log("vehicleId",vehicleId);
-    
+  console.log("vehicleId", vehicleId);
+
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
@@ -115,8 +115,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
         `/repo_yard/vehicle/entry/${vehicleId?.completedId}`
       );
 
-      console.log("individualcompletedvehicle",response);
-      
+      console.log("individualcompletedvehicle", response);
 
       const destructuredData = {
         ...response?.data?.res,
@@ -273,6 +272,15 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
 
         <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
+          <InputField
+              label="vehicle code"
+              type="text"
+              name="code"
+              register={register}
+              errors={errors}
+              pattern
+              disabled={true}
+            />
             <div>
               <SelectComponent
                 label="Category"
@@ -281,9 +289,10 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
                 register={register}
                 errors={errors}
                 defaultValue=""
-                disabled ={true}
-                />
+                disabled={true}
+              />
             </div>
+           
 
             <InputField
               label="Loan Number"
@@ -292,8 +301,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
             <InputField
               label="Actual Entry Date"
@@ -302,7 +310,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
+              disabled={true}
             />
             <InputField
               label="App Entry Date"
@@ -311,10 +319,8 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
+              disabled={true}
             />
-           
-            
 
             <DateField
               label="Manufacturing Date"
@@ -323,10 +329,9 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
-
+           
             <InputField
               label="Make"
               type="text"
@@ -334,8 +339,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
             <InputField
               label="Model"
@@ -344,8 +348,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
             <InputField
               label="Variant"
@@ -354,8 +357,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
             <InputField
               label="Colour"
@@ -364,8 +366,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
             <InputField
               label="Condition"
@@ -374,8 +375,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
 
             <div>
@@ -386,8 +386,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
                 register={register}
                 errors={errors}
                 defaultValue=""
-                disabled ={true}
-
+                disabled={true}
               />
             </div>
             <InputField
@@ -397,8 +396,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
 
             <InputField
@@ -408,8 +406,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
 
             <InputField
@@ -419,8 +416,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
             <InputField
               label="Board Type"
@@ -429,8 +425,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
 
             <InputField
@@ -440,8 +435,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
 
             {/* <InputField
@@ -461,6 +455,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
                 error={errors}
                 defaultValue=""
                 placeholder=""
+                disabled={true}
               />
             </div>
 
@@ -471,8 +466,7 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
               register={register}
               errors={errors}
               pattern
-              disabled ={true}
-
+              disabled={true}
             />
           </div>
 
@@ -487,7 +481,6 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
                     .replace("_", " ")
                     .toLowerCase()
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  
                 </h2>
 
                 {imageList?.map((img, index) => (
@@ -516,14 +509,12 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
                         height={400}
                       />
                     )}
-                    
                   </div>
                 ))}
                 <div className="flex flex-wrap gap-4 mt-2"></div>
               </div>
             ))}
           </div>
-         
         </form>
       </div>
     </div>

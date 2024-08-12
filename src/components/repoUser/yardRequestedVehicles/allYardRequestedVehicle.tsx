@@ -15,7 +15,7 @@ import {
   Search,
   Status,
 } from "@/components/reuseableComponent/filter/filters";
-import { VehicleEntryStatus } from "@/utils/staticData";
+import { VehicleEntryStatus,vehicleEntryAlias } from "@/utils/staticData";
 import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
 
@@ -126,6 +126,10 @@ const AllRepoRequests = () => {
       {
         header: "status ",
         accessorKey: "status",
+        cell: ({ row }) => {
+          const status = row.original.role;
+          return <span>{vehicleEntryAlias[status] || status}</span>;
+        },
       },
       // {
       //   header: "Action ",

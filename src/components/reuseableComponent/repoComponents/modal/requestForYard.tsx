@@ -5,7 +5,7 @@ import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
-import { InputField, SelectComponentWithOnchange } from "@/components/ui/fromFields";
+import { FutureDate, InputField, SelectComponentWithOnchange } from "@/components/ui/fromFields";
 
 type Inputs = {
   start_date?: string;
@@ -96,7 +96,7 @@ const RepoYardRequest = ({ onClose, vehicleId, fetchData, status, yard }) => {
                 value={yardId}
                 onChangeHandler={handleYardChange}
               />
-              <InputField
+              <FutureDate
                 label="Expected Entry Date & Time"
                 type="datetime-local"
                 name="expected_entry_date"
