@@ -12,6 +12,8 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import { Search } from "@/components/reuseableComponent/filter/filters";
+import { RepossessionStatus } from "@/utils/staticData";
+import { formatDate } from "@/components/reuseableComponent/repoComponents/dateAndTime";
 
 const AllCompleted = (props) => {
   const{user}=props
@@ -108,7 +110,15 @@ const AllCompleted = (props) => {
       {
         header: "Status",
         accessorKey: "status",
-        // id: "clsup_org_name", // Ensure unique id
+        cell: ({ row }) => {
+          const role = row.original.status;
+          return <span>{RepossessionStatus[role] || role}</span>;
+        },
+      },
+      {
+        header: "Requested Date",
+        accessorKey: "req_date",
+        cell: ({ row }) => formatDate(row.original.req_date),
       },
       // {
       //   header: "Yard  ",
@@ -120,6 +130,17 @@ const AllCompleted = (props) => {
         accessorKey: "repo_vehicle.reg_number",
         // id: "clsup_org_name", // Ensure unique id
       },
+      {
+        header: "Make ",
+        accessorKey: "repo_vehicle.make",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+      {
+        header: "Model ",
+        accessorKey: "repo_vehicle.model",
+        // id: "clsup_org_name", // Ensure unique id
+      },
+
 
       {
         header: "code",
@@ -149,7 +170,7 @@ const AllCompleted = (props) => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-      Completed Repo Vehicles
+      Captured Repo Vehicles
       </h1>
      <div className="flex items-end px-8 gap-40">
       <div className="flex flex-col w-40  ">

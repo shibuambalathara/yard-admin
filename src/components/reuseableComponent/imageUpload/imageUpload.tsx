@@ -37,7 +37,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
           </div>
         ))}
         <div className="ml-4">
-          <label className="w-40 h-40 border-4 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer mb-4">
+          <label className="w-72 h-40 border-4 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer mb-4">
             <input
               type="file"
               onChange={handleFileChange}

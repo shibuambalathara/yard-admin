@@ -10,6 +10,7 @@ import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVe
 import RepoRespond from "@/components/reuseableComponent/repoComponents/modal/requestRespond";
 import { Search } from "@/components/reuseableComponent/filter/filters";
 import { formatDate } from "@/components/reuseableComponent/repoComponents/dateAndTime";
+import { RepossessionStatus } from "@/utils/staticData";
 
 const AllRequestedVehicles = (props) => {
   const { user } = props;
@@ -109,11 +110,16 @@ const AllRequestedVehicles = (props) => {
       {
         header: "State",
         accessorKey: "initial_state",
+        
       },
-      {
-        header: "Status",
-        accessorKey: "status",
-      },
+      // {
+      //   header: "Status",
+      //   accessorKey: "status",
+      //   cell: ({ row }) => {
+      //     const role = row.original.status;
+      //     return <span>{RepossessionStatus[role] || role}</span>;
+      //   },
+      // },
       {
         header: "Requested Date",
         accessorKey: "req_date",
@@ -126,6 +132,13 @@ const AllRequestedVehicles = (props) => {
       {
         header: "Code",
         accessorKey: "repo_vehicle.code",
+      },
+      {
+        header: "Vehicle category",
+        accessorKey: "repo_vehicle.vehicle_category.name",
+      },{
+        header: "Make",
+        accessorKey: "repo_vehicle.make",
       },
       {
         header: "View",

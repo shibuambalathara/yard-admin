@@ -10,6 +10,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import {
   SelectChange,
 } from "../../ui/fromFields";
+import ImageUpload from "@/components/reuseableComponent/imageUpload/imageUpload";
 
 type Inputs = {
   repo_vehicle_id: string;
@@ -52,7 +53,7 @@ const CompleteRepo = ({ vehicleId }) => {
       });
 
       toast.success(response?.data?.message);
-      router.push('/completedRepoVehicle');
+      onClose()
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
@@ -115,94 +116,56 @@ const CompleteRepo = ({ vehicleId }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-start justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Complete
-        </h2>
-
-        <div className="border-b"></div>
-
-        <form className="space-y-2" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide">
-            <div className="mt-4 pt-px">
-              <SelectChange
-                label="State"
-                name="captured_state"
-                options={uniqueStates}
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-                handleChange={handleStateChange}
-              />
-            </div>
-            <div>
-              <SelectChange
-                label="City"
-                name="captured_city"
-                options={filterCity}
-                register={register}
-                errors={errors}
-                required={true}
-                defaultValue=""
-              />
-            </div>
-            <div className="col-span-2">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Upload Images
-              </label>
-              <input
-                type="file"
-                name="files"
-                onChange={handleFileChange}
-                multiple
-                className="hidden"
-              />
-              <div className="flex flex-wrap items-center mb-4">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt={`Upload Preview ${index}`}
-                      className="w-72 border border-stone-500-800 p-1 rounded-md h-48 ml-4 mb-4 space-x-2"
-                    />
-                  </div>
-                ))}
-                <div className="ml-4">
-                  <label className="w-40 h-40 border-4 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer mb-4">
-                    <input
-                      type="file"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                    <div className="flex items-center justify-center space-x-2 ml-2">
-                      <CiCirclePlus className="w-4 h-4 text-blue-600" />
-                      <span className="text-gray-500">Choose file</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full text-center space-x-4">
-            <button
-              onClick={onClose}
-              type="button"
-              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-6 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+  <div className="max-w-5xl w-full space-y-6 p-8 bg-white rounded-xl shadow-md">
+    <h2 className="text-center text-2xl font-bold text-gray-900">Add  Details</h2>
+    
+    <form className="space-y-6" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
+      <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <SelectChange
+            label="Captured State"
+            name="captured_state"
+            options={uniqueStates}
+            register={register}
+            errors={errors}
+            required
+            defaultValue=""
+            handleChange={handleStateChange}
+          />
+          <SelectChange
+            label="Captured City"
+            name="captured_city"
+            options={filterCity}
+            register={register}
+            errors={errors}
+            required
+            defaultValue=""
+          />
+        </div>
+        
+        <ImageUpload images={images} setImages={setImages} />
       </div>
-    </div>
+      
+      <div className="text-center space-x-4">
+        <button
+          onClick={onClose}
+          type="button"
+          className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-lg transition duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg transition duration-200"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
   );
 };
 

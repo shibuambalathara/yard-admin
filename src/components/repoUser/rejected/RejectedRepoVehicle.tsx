@@ -12,6 +12,7 @@ import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import { Search } from "@/components/reuseableComponent/filter/filters";
+import { RepossessionStatus } from "@/utils/staticData";
 
 const AllRequestedVehicles = (props) => {
   const{user}=props
@@ -108,7 +109,10 @@ const AllRequestedVehicles = (props) => {
       {
         header: "Status",
         accessorKey: "status",
-        // id: "clsup_org_name", // Ensure unique id
+        cell: ({ row }) => {
+          const role = row.original.status;
+          return <span>{RepossessionStatus[role] || role}</span>;
+        },
       },
       // {
       //   header: "Yard  ",
@@ -126,7 +130,13 @@ const AllRequestedVehicles = (props) => {
         accessorKey: "repo_vehicle.code",
         // id: "code", // Ensure unique id
       },
-
+      {
+        header: "Vehicle category",
+        accessorKey: "repo_vehicle.vehicle_category.name",
+      },{
+        header: "Make",
+        accessorKey: "repo_vehicle.make",
+      },
       {
         header: "View",
         cell: ({ row }) =><View row={row} user={user} />

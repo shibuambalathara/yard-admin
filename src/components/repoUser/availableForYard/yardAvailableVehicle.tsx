@@ -122,6 +122,7 @@ const AllRequestedVehicles = (props) => {
       {
         header: "Status",
         accessorKey: "status",
+        
       },
       {
         header: "Organization",

@@ -36,7 +36,7 @@ type Inputs = {
 type ImageType = string;
 
 const IndividualStatuss = (props) => {
-  const { vehicleId, user, disable } = props;
+  const { vehicleId, user, disable ,heading} = props;
   const [vehicleImage, setVehicleImage] = useState<ImageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [captured, setCaptured] = useState(null);
@@ -200,7 +200,7 @@ const IndividualStatuss = (props) => {
     <div className="min-h-screen flex items-start justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-          Vehicle Details
+          {heading}
         </h2>
 
         <form onSubmit={handleSubmit(RepoReAssignment)} className="mt-8">
@@ -303,9 +303,9 @@ const IndividualStatuss = (props) => {
             >
               CANCEL
             </button>
-            {!captured&&( <Link
+            {responseStatus === "REPOSSESSION_APPROVED" &&!captured&&( <Link
         href={`/approvedRepoVehicle/${vehicleId?.vehId}/completed`}
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
+        className="bg-blue-500 text-white py-2 px-8 w-32 rounded hover:bg-blue-600 transition duration-200 "
       >
         Complete
       </Link>)}
