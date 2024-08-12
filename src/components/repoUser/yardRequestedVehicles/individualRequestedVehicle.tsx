@@ -8,7 +8,7 @@ import img3 from "../../../../public/aadhar.jpg";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+import { VehicleEntryStatus, vehicleEntryAlias } from "@/utils/staticData";
 
 type User = {
   code: string;
@@ -58,6 +58,8 @@ const IndividualRepoRequests = ({ yardVehId }) => {
   const [modalType, setModalType] = useState(null);
 
   const router = useRouter();
+  console.log("yardVehId",yardVehId);
+  
 
   const {
     register,
@@ -70,7 +72,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `repo_yard/request/${yardVehId?.yardVehId}`
+        `repo_yard/request/${yardVehId?.yardReqId}`
       );
       console.log(
         "response?.data?.expected_entry_date",
@@ -102,8 +104,6 @@ const IndividualRepoRequests = ({ yardVehId }) => {
     FetchInddividualVehicle();
   }, [yardVehId]);
 
-
-
   const handleModalOpen = (type) => {
     setModalOpen(true);
     setModalType(type);
@@ -120,17 +120,19 @@ const IndividualRepoRequests = ({ yardVehId }) => {
       let endpoint;
       // const validFrom = new Date(data?.expected_entry_date).toISOString();
 
-      const expectedEntryDate = new Date(data.expected_entry_date).toISOString();
+      const expectedEntryDate = new Date(
+        data.expected_entry_date
+      ).toISOString();
 
-    // Create the payload with the converted date
-     payload = { expected_entry_date: expectedEntryDate };
+      // Create the payload with the converted date
+      payload = { expected_entry_date: expectedEntryDate };
 
-    console.log("payload", payload);
+      console.log("payload", payload);
 
       // if (payload === yardData?.status)
       //   throw new Error("Cannot Update Same Status");
 
-      endpoint = `repo_yard/request/${yardVehId?.yardVehId}`;
+      endpoint = `repo_yard/request/${yardVehId?.yardReqId}`;
 
       const response = await axiosInstance.patch(endpoint, payload);
 
@@ -260,8 +262,8 @@ const IndividualRepoRequests = ({ yardVehId }) => {
               <DisabledInput
                 label="Status"
                 type="text"
-                name="make"
-                value={yardData?.status || ""}
+                name="status"
+                value={vehicleEntryAlias [yardData?.status] || ""}
                 disabled={true}
               />
             </div>
@@ -271,6 +273,13 @@ const IndividualRepoRequests = ({ yardVehId }) => {
             {yardData?.status !== "ENTRY_REJECTED" &&
               yardData?.status !== "ENTRY_CANCELLED" && (
                 <div className="space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => window.close()}
+                    className="px-8 py-2 text-center bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+                  >
+                    Cancel{" "}
+                  </button>
                   <button
                     type="button"
                     onClick={() => handleModalOpen("status")}
