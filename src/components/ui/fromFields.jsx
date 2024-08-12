@@ -879,7 +879,7 @@ export const DateField = ({
   }
 
   return (
-    <div className="mb-4">
+    <div className="mb-">
         <label className={`${labelStyle.data}`}>
         {label}
       </label>
@@ -892,6 +892,73 @@ export const DateField = ({
         // {`py-1 px-4 block w-72  mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${
         //   name === "name" ? "uppercase" : ""
         // } ${disabled ? "bg-gray-100" : ""}`}
+        onChange={handleInputChange}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="text-red-500 mt-1">
+          {errors[name].message || "This field is required"}
+        </p>
+      )}
+    </div>
+  );
+};export const FutureDate = ({
+  name,
+  label,
+  type = "text",
+  register,
+  errors,
+  required = true,
+  pattern,
+  disabled = false,
+  placeholder = "",
+}) => {
+
+  // Converts input to uppercase for non-email, non-password, non-date, and non-number fields
+  const handleInputChange = (event) => {
+    if (
+      name !== "email" &&
+      name !== "password" &&
+      name !== "date" &&
+      name !== "number"
+    ) {
+      event.target.value = event.target.value.toUpperCase();
+    }
+  };
+
+  // Configure validation options based on the input type and requirements
+  const registerOptions = {
+    required: required && `This field is required`,
+    pattern: pattern && {
+      value: pattern,
+      message: `It is invalid`,
+    },
+  };
+
+  // Additional validation for date inputs to ensure the selected date is in the future
+  if (type === "datetime-local") {
+    registerOptions.valueAsDate = true;
+    registerOptions.validate = (value) => {
+        const selectedDate = new Date(value);
+        selectedDate.setHours(0, 0, 0, 0); // Set selected date time to 00:00:00
+
+        const now = new Date();
+        now.setHours(0, 0, 0, 0); // Set current date time to 00:00:00
+
+        return selectedDate > now || "The selected date must be today or in the future";
+    };
+  }
+
+  return (
+    <div className="mb-">
+      <label className={`${labelStyle.data}`}>
+        {label}
+      </label>
+      <input
+        disabled={disabled}
+        type={type}
+        {...register(name, registerOptions)}
+        className={`${inputStyle.data}`}
         onChange={handleInputChange}
         placeholder={placeholder}
       />

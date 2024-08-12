@@ -5,7 +5,7 @@ import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
-import { InputField } from "@/components/ui/fromFields";
+import { FutureDate, InputField } from "@/components/ui/fromFields";
 
 type Inputs = {
   status: string;
@@ -80,7 +80,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
         <form className="space-y-2" onSubmit={handleSubmit(handleRepoRequest)}>
           <div className="grid grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide">
             {status === "REPOSSESSION_APPROVED" && (
-              <InputField
+              <FutureDate
                 label="Capture Time Period"
                 type="datetime-local"
                 name="end_date"
