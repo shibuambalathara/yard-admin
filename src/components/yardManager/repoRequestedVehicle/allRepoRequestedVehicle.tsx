@@ -25,9 +25,10 @@ import {
   Search,
   Status,
 } from "@/components/reuseableComponent/filter/filters";
-import { VehicleEntryStatus } from "@/utils/staticData";
 import { FetchVehicleCategory } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
+import { VehicleEntryStatus,vehicleEntryAlias } from "@/utils/staticData";
+
 
 const AllYardRequestedVehicle = () => {
   const [filteredData, setFilteredData] = useState(null);
@@ -143,6 +144,10 @@ const AllYardRequestedVehicle = () => {
       {
         header: "status ",
         accessorKey: "status",
+        cell: ({ row }) => {
+          const status = row.original.status;
+          return <span>{vehicleEntryAlias[status] || status}</span>;
+        },
       },
       // {
       //   header: "Action ",
