@@ -40,8 +40,9 @@ type FileInputs = {
 };
 
 const IndividualStatuss = (props) => {
-  const { vehicleId, user, disable } = props;
+  const { vehicleId, user, disable,heading } = props;
   const [vehicleImage, setVehicleImage] = useState([]);
+  const [capturedImages, setCapturedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [responseStatus, setResponseStatus] = useState("");
@@ -84,6 +85,7 @@ console.log(vehicleId);
       };
       setVehicleImage(response?.data?.res?.initial_images
         );
+        setCapturedImages(response?.data?.res?.captured_images)
       reset(destructuredData);
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
@@ -126,7 +128,7 @@ console.log(vehicleId);
     <div className="min-h-screen flex justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-           Individual  Details
+          {heading}
         </h2>
 
         <form onSubmit={handleSubmit((data) => console.log(data))} className="mt-8">
@@ -229,10 +231,19 @@ console.log(vehicleId);
               </>
             )}
           </div>
-          <VehicleImageGrid
-              vehicleImages={vehicleImage}
-              // onImageDelete={handleImageDelete}
-            />
+          <h2 className="text-lg font-semibold mt-4 underline">Initial Images</h2>
+
+<VehicleImageGrid
+    vehicleImages={vehicleImage}
+    // onImageDelete={handleImageDelete}
+  />
+{capturedImages.length>0&&(
+  <><h2 className="text-lg font-semibold mt-4 underline">Captured Images</h2> 
+   <VehicleImageGrid
+    vehicleImages={capturedImages}
+    // onImageDelete={handleImageDelete}
+  /></>)}
+
         </form>
 
         { responseStatus === "REPOSSESSION_REQUESTED" ? (

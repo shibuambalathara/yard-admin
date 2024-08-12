@@ -32,7 +32,7 @@ const RepoYardRequest = ({ onClose, vehicleId, fetchData, status, yard }) => {
     setIsLoading(true);
     try {
       const modifiedData = {
-        repo_vehicle_id: vehicleId?.repoId,
+        repo_vehicle_id: vehicleId,
         yard_id: yardId,
         expected_entry_date: data?.expected_entry_date ? new Date(data?.expected_entry_date).toISOString() : null
       };
