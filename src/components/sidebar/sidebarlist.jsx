@@ -165,7 +165,7 @@ export const clientLevelUser = [
   // },
 
   {
-    title: "Repo Requested Vehicles",
+    title: "Repo Request Vehicles",
     icon: <FaTruckLoading />,
     submenu: true,
     submenuItems: [
@@ -294,7 +294,7 @@ export const clientLevelSuperUser = [
     path: "/superUserRepoVehicles",
   },
   {
-    title: "Repo Requested Vehicles",
+    title: "Repo Request Vehicles",
     icon: <FaTruckLoading />,
     submenu: true,
     submenuItems: [
@@ -443,7 +443,7 @@ export const RepoUser = [
   
 
   {
-    title: "Repo Requested Vehicles",
+    title: "Repo Request Vehicles",
     icon: <FaTruckLoading />,
     submenu: true,
     submenuItems: [
@@ -465,12 +465,12 @@ export const RepoUser = [
     ],
   },
   {
-    title: "Captured",
+    title: "Captured Vehicles",
     icon: <ImTruck />,
     path: "/completedRepoVehicle",
   },
   {
-    title: "Yard Available Vehicle",
+    title: "Yard Eligible Vehicle",
     icon: <ImTruck />,
     path: "/yardAvailableVehicle",
   },
