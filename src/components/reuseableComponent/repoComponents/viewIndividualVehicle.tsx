@@ -423,6 +423,18 @@ const IndividualVehicle = (props) => {
           </button>
         </div>
       )}
+       {status.toLowerCase() === 'closed' && (
+        <div className="w-full text-center p-1 mt-3 space-x-2">
+          <button
+            type="button"
+            onClick={() => onClose()}
+            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+          >
+            BACK
+          </button>
+          
+        </div>
+      )}
     </form>
   </div>
 </div>

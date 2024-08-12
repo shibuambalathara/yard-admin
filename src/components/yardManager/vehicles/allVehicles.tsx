@@ -102,7 +102,7 @@ const AllVehicles = () => {
       },
       // {
       //   header: "Yard  ",
-      //   accessorKey: "yard.yard_name",
+      //   accessorKey: "yard.org_name",
       //   // id: "clsup_org_name", // Ensure unique id
       // },
       {

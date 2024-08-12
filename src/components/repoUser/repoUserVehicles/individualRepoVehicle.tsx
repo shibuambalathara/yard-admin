@@ -508,17 +508,23 @@ const IndividualVehicle = ({ vehicleId }) => {
            
           )}
         <div className=" w-full text-center p-1 mt-3  space-x-2">
-          <button
+         
+          {status!=='CLOSED'?(<><button
             type="button"
             onClick={() => onClose()}
             className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
           >
             CANCEL
-          </button>
-          {status!=='CLOSED'&&(<button
+          </button><button
             onClick={handleModalOpen}
              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
           >REQUEST
+          </button></>):(<button
+            type="button"
+            onClick={() => onClose()}
+            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+          >
+            BACK
           </button>)}
           
         </div>

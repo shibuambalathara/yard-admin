@@ -70,8 +70,8 @@ const AllReleaseInitiatedVehicles = () => {
   }, [page, limit, Category, selectedYard]);
 
   const allYardsOptions = allyard?.map((item) => ({
-    value: item?.id,
-    label: item?.yard_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
   const vehicleCategorysOptions = vehicleCategory?.map((item) => ({
@@ -94,7 +94,7 @@ const AllReleaseInitiatedVehicles = () => {
     () => [
       {
         header: "Client Organisation",
-        accessorKey: "vehicle_ownership.cl_org.cl_org_name",
+        accessorKey: "vehicle_ownership.cl_org.org_name",
       },
       {
         header: "Vehicle Category",
@@ -118,7 +118,7 @@ const AllReleaseInitiatedVehicles = () => {
       },
       {
         header: "Yard Name",
-        accessorKey: "vehicle_ownership.vehicle.yard.yard_name",
+        accessorKey: "vehicle_ownership.vehicle.yard.org_name",
       },
       {
         header: "View",

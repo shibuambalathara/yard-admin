@@ -99,7 +99,7 @@ const AllClientLevelSubOrganisation = () => {
       },
       {
         header: "Client Organisation",
-        accessorKey: "cl_org.cl_org_name",
+        accessorKey: "cl_org.org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
