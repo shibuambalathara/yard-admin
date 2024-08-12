@@ -127,10 +127,8 @@ const fetchChildren = useCallback(async () => {
         accessorKey: "captured_state",
       },
       { header: "Vehicle Category", accessorKey: "repo_vehicle.vehicle_category.name" },
-      {
-        header: "Status",
-        accessorKey: "status",
-      },
+      { header: "Model", accessorKey: "repo_vehicle.model" },
+      { header: "make", accessorKey: "repo_vehicle.make" },
       {
         header: "Registration no ",
         accessorKey: "repo_vehicle.reg_number",
@@ -252,7 +250,7 @@ export default AllRequestedVehicles;
 const View = ({ row, user }) => {
   const href =
     user === 'client'
-      ? `/repoClose/${row.original.id}`
+      ? `/capturedVehicles/${row.original.id}`
       : `/superRepoClose/${row.original.id}`;
 
   return (
