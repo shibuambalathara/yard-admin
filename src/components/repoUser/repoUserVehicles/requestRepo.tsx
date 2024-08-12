@@ -130,7 +130,7 @@ const RepoRequest = (props) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
   <div className="max-w-5xl w-full space-y-6 p-8 bg-white rounded-xl shadow-md">
-    <h2 className="text-center text-2xl font-bold text-gray-900">Add  Details</h2>
+    <h2 className="text-center text-2xl font-bold text-gray-900">Provide  Details</h2>
     
     <form className="space-y-6" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
       <div className="grid grid-cols-1 gap-4">

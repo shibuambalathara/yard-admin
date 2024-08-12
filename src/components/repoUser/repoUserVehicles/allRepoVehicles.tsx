@@ -88,8 +88,8 @@ const AllRepoDetails = (props) => {
   }));
 
   const allYardsOptions = allyard?.map((item) => ({
-    value: item?.id,
-    label: item?.yard_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
   console.log("searchLoading", searchLoading);

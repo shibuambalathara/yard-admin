@@ -49,8 +49,8 @@ const AllReleasedVehicles = () => {
     fetchChildren();
   }, []);
   const superClientOptions = children.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
+     value: item.id,
+    label: item.org_name,
   }));
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
@@ -119,8 +119,8 @@ const AllReleasedVehicles = () => {
   }, [page, Category, selectedYard, vehicleStatus, client]);
 
   const allYardsOptions = allyard?.map((item) => ({
-    value: item?.id,
-    label: item?.yard_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
   // console.log("allYardsOptions",allYardsOptions);
@@ -146,7 +146,7 @@ const AllReleasedVehicles = () => {
     () => [
       {
         header: "Client Organisation ",
-        accessorKey: "vehicle_ownership.cl_org.cl_org_name",
+        accessorKey: "vehicle_ownership.cl_org.org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -178,7 +178,7 @@ const AllReleasedVehicles = () => {
 
       {
         header: "Yard Name  ",
-        accessorKey: "vehicle_ownership.vehicle.yard.yard_name",
+        accessorKey: "vehicle_ownership.vehicle.yard.org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {

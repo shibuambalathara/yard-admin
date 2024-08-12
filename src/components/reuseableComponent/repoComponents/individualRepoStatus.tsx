@@ -307,7 +307,7 @@ const IndividualStatuss = (props) => {
         href={`/approvedRepoVehicle/${vehicleId?.vehId}/completed`}
         className="bg-blue-500 text-white py-2 px-8 w-32 rounded hover:bg-blue-600 transition duration-200 "
       >
-        Complete
+        COMPLETE
       </Link>)}
            
             {responseStatus === "REPOSSESSION_REQUESTED" && (

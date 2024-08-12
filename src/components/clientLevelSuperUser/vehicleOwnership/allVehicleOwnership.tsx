@@ -89,12 +89,12 @@ const AllSuperVehicleOwnership = () => {
 
   const superClientOptions = children.map(item => ({
     value: item.id,
-    label: item.cl_org_name
+    label: item.org_name,
   }));
 
   const allYardsOptions = allyard.map(item => ({
     value: item.id,
-    label: item.yard_name,
+    label: item.org_name,
   }));
 
   const vehicleCategoryOptions = vehicleCategory.map(item => ({
@@ -125,12 +125,12 @@ const AllSuperVehicleOwnership = () => {
   }, [page, Category, selectedYard, vehicleStatus, client]);
 
   const userColumns = useMemo(() => [
-    { header: "Client Organisation", accessorKey: "cl_org.cl_org_name" },
+    { header: "Client Organisation", accessorKey: "cl_org.org_name" },
     { header: "Vehicle Category", accessorKey: "vehicle.vehicle_category.name" },
     { header: "Make", accessorKey: "vehicle.make" },
     { header: "Model", accessorKey: "vehicle.model" },
     { header: "Code", accessorKey: "vehicle.code" },
-    { header: "Yard Name", accessorKey: "vehicle.yard.yard_name" },
+    { header: "Yard Name", accessorKey: "vehicle.yard.org_name" },
     { header: "Status", accessorKey: "status" },
     { header: "View", cell: ({ row }) => View(row) },
   ], [filteredData]);

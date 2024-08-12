@@ -94,8 +94,8 @@ const EditParkFeeIndividual = ({ userId,onClose,fetchData }) => {
   }, []);
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
   const vehicleCategorys = vehicleCategory?.map((item) => ({

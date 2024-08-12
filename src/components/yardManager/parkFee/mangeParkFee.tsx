@@ -54,7 +54,7 @@ const MangeParkFee = () => {
     () => [
       {
         header: "Client Organisation ",
-        accessorKey: "cl_org.cl_org_name",
+        accessorKey: "cl_org.org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -64,7 +64,7 @@ const MangeParkFee = () => {
       },
       {
         header: "Yard  ",
-        accessorKey: "yard.yard_name",
+        accessorKey: "yard.org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
 

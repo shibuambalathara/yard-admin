@@ -106,8 +106,8 @@ const AllCancelledVehicles = () => {
   }, [page, Category, selectedYard, vehicleStatus]);
 
   const allYardsOptions = allyard?.map((item) => ({
-    value: item?.id,
-    label: item?.yard_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
   // console.log("allYardsOptions",allYardsOptions);
@@ -138,7 +138,7 @@ const AllCancelledVehicles = () => {
     () => [
       {
         header: "Client Organisation ",
-        accessorKey: "vehicle_ownership.cl_org.cl_org_name",
+        accessorKey: "vehicle_ownership.cl_org.org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -170,7 +170,7 @@ const AllCancelledVehicles = () => {
 
       {
         header: "Yard Name  ",
-        accessorKey: "vehicle_ownership.vehicle.yard.yard_name",
+        accessorKey: "vehicle_ownership.vehicle.yard.org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {

@@ -96,7 +96,7 @@ const SelectionTable = () => {
 
   const yardOptions = yardData?.map((item) => ({
     value: item.id,
-    label: item.yard_name,
+    label: item.org_name,
   }));
 
   const handleModalOpen = () => {
