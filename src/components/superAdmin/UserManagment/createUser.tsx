@@ -73,7 +73,7 @@ const CreateUser = () => {
       ...data,
 
       name: data?.name.toUpperCase(),
-      // contact: `+91${data?.contact}`,
+      contact: `+91${data?.contact}`,
       account_usage_from: validFrom,
       account_usage_to: validTo,
       document_value: "dummy file name",
