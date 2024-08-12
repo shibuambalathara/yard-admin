@@ -132,7 +132,7 @@ type RepoVehicle = {
   model: string;
   reg_number: string;
   repo_by_user_org: {
-      user: User;
+    user: User;
   };
   status: string;
   files: FileInputs;
@@ -146,7 +146,6 @@ type RepoVehicle = {
 
 // };
 
-
 const IndividualEntryPending = ({ pendingVehId }) => {
   // console.log(pendingVehId?.PendingVehId);
 
@@ -159,8 +158,6 @@ const IndividualEntryPending = ({ pendingVehId }) => {
     {}
   );
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
-
- 
 
   const {
     register,
@@ -192,7 +189,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
 
       setVehicleData(response?.data?.res);
       reset(destructuredData);
-      setFormDatas(destructuredData)
+      setFormDatas(destructuredData);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -250,11 +247,10 @@ const IndividualEntryPending = ({ pendingVehId }) => {
     const actual_entry_date = data?.actual_entry_date
       ? new Date(data?.actual_entry_date).toISOString()
       : null;
-   
+
     const mfg_year = data?.mfg_year
       ? new Date(data?.mfg_year).toISOString()
       : null;
-
 
     const dataUpperCase = {
       ...data,
@@ -321,10 +317,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
       // console.log("Response received:", response);
       toast.success(response?.data?.message);
       reset(FormDatas);
-      // router.push("/vehicle");
-      // router.push('/vehicle')
-      // fetchVehicle()
-      // router.push('/vehicle')
+      router.push("/yardEntryPendingVehicles");
     } catch (error) {
       const errorMessages = error?.response?.data?.message;
       if (Array.isArray(errorMessages)) {
@@ -367,7 +360,6 @@ const IndividualEntryPending = ({ pendingVehId }) => {
                 register={register}
                 errors={errors}
                 defaultValue=""
-                
               />
             </div>
             <div>
