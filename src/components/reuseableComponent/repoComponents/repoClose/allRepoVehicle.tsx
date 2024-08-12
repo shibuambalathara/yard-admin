@@ -149,8 +149,8 @@ const fetchChildren = useCallback(async () => {
         header: "Action",
         cell: ({ row }) => (
           row.original?.repo_vehicle?.status==="CLOSED"? (
-            <div className="flex justify-end w-fit h-fit">
-              <button className="bg-gray-500 text-white py-1 px-2 rounded cursor-not-allowed mb-1 mr-2">
+            <div className="flex justify-end w-fit h-fit ">
+              <button className="bg-gray-500 text-white py-1 px-2 rounded cursor-not-allowed mb-1 mr-2 w-20">
                Closed
               </button>
             </div>

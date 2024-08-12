@@ -40,7 +40,7 @@ type FileInputs = {
 };
 
 const IndividualStatuss = (props) => {
-  const { vehicleId, user, disable } = props;
+  const { vehicleId, user, disable,heading } = props;
   const [vehicleImage, setVehicleImage] = useState([]);
   const [capturedImages, setCapturedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,7 +128,7 @@ console.log(vehicleId);
     <div className="min-h-screen flex justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className="text-center text-2xl font-extrabold text-gray-900">
-           Individual  Details
+          {heading}
         </h2>
 
         <form onSubmit={handleSubmit((data) => console.log(data))} className="mt-8">
