@@ -42,6 +42,7 @@ type FileInputs = {
 const IndividualStatuss = (props) => {
   const { vehicleId, user, disable } = props;
   const [vehicleImage, setVehicleImage] = useState([]);
+  const [capturedImages, setCapturedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [responseStatus, setResponseStatus] = useState("");
@@ -84,6 +85,7 @@ console.log(vehicleId);
       };
       setVehicleImage(response?.data?.res?.initial_images
         );
+        setCapturedImages(response?.data?.res?.captured_images)
       reset(destructuredData);
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
@@ -229,10 +231,19 @@ console.log(vehicleId);
               </>
             )}
           </div>
-          <VehicleImageGrid
-              vehicleImages={vehicleImage}
-              // onImageDelete={handleImageDelete}
-            />
+          <h2 className="text-lg font-semibold mt-4 underline">Initial Images</h2>
+
+<VehicleImageGrid
+    vehicleImages={vehicleImage}
+    // onImageDelete={handleImageDelete}
+  />
+{capturedImages.length>0&&(
+  <><h2 className="text-lg font-semibold mt-4 underline">Captured Images</h2> 
+   <VehicleImageGrid
+    vehicleImages={capturedImages}
+    // onImageDelete={handleImageDelete}
+  /></>)}
+
         </form>
 
         { responseStatus === "REPOSSESSION_REQUESTED" ? (
