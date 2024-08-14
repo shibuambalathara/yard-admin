@@ -73,7 +73,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
-    label: item.cl_org_name
+    label: item.org_name
     ,
   }));
 

@@ -511,12 +511,22 @@ const EditIndividualVehicle = ({ vehicleId }) => {
               </div>
             ))}
           </div>
+          <div className="w-full  text-center space-x-4">
+          <button
+           onClick={()=>window.close()}
+            type="button"
+            className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
             className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
           >
             Submit
           </button>
+          </div>
+          
         </form>
       </div>
     </div>
