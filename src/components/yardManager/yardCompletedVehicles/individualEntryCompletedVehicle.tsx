@@ -516,6 +516,17 @@ const IndividualEntryCompleted = ({ vehicleId }) => {
             ))}
           </div>
         </form>
+        <div className="text-center space-x-6">
+            <button
+                type="button"
+                onClick={()=>{
+                  window.close()
+                }}
+                className=" px-6 py-2 bg-red-600  text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300 "
+              >
+                Back
+              </button>
+              </div>
       </div>
     </div>
   );

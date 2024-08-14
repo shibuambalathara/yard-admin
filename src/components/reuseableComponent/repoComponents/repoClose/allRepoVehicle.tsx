@@ -224,7 +224,7 @@ const fetchChildren = useCallback(async () => {
       )}
       <div>
         {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
+          <NoVehicleMessage typeFilter="Captured Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />
@@ -274,7 +274,7 @@ const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId ,setStatus}) => 
   const handleCancelClick = () => {
     
     setModalOpen(true);
-    setSelectedVehicleId({repoId:row.original.id});
+    setSelectedVehicleId(row.original.id);
   };
 
   return (

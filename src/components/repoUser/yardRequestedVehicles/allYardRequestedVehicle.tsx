@@ -120,7 +120,7 @@ const AllRepoRequests = () => {
         cell: ({ row }) => dataFormat(row?.original?.req_date),
       },
       {
-        header: "organisation ",
+        header: "Yard ",
         accessorKey: "req_to_yard.org_name",
       },
       {
@@ -148,7 +148,7 @@ const AllRepoRequests = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-        All Repo Requests
+        All Yard Requests
       </h1>
 
       <div className=" grid grid-cols-3  gap-4 items-end px-3 ">
@@ -166,8 +166,7 @@ const AllRepoRequests = () => {
         </div>
 
         <div>
-          <Search
-            placeholder="Search by Registration Number"
+            <Search placeholder="e.g., KL14WW1111" label="Search Registration Number"
             searchLoading={searchLoading}
             setSearchVehicle={setRegistrationNum}
             setSearchLoading={setSearchLoading}
@@ -183,7 +182,7 @@ const AllRepoRequests = () => {
       </div>
       <div>
         {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
+          <NoVehicleMessage typeFilter="Requested Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={yardData} columns={yardColumn} />

@@ -175,14 +175,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
          Instock Vehicle Details
         </h2>
 
-        <div className="w-full  flex justify-end">
-          <button
-            onClick={handleInitiateClick}
-            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
-          >
-            Initate  Release
-          </button>
-        </div>
+       
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
          
@@ -378,7 +371,23 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
             </div>
           ))}
         </div>
-        
+        <div className="w-full  flex justify-center gap-5">
+         <button
+                  type="button"
+                  onClick={()=>{
+                    window.close()
+                  }}
+                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+                >
+                  Cancel
+                </button>
+          <button
+            onClick={handleInitiateClick}
+            className="border py-2 px-6 text-white bg-blue-500 h-10 rounded-md shadow-lg hover:bg-blue-600 "
+          >
+            Initiate  Release
+          </button>
+        </div>
         
       </div>
     </div>

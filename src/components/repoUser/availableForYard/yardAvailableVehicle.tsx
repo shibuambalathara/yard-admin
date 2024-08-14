@@ -146,7 +146,7 @@ const AllRequestedVehicles = (props) => {
       },
       {
         header: "Request",
-        cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} setStatus={setStatus}/>,
+        cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} />,
       },
     ],
     [filteredData]
@@ -195,8 +195,8 @@ const AllRequestedVehicles = (props) => {
           </select>
         </div>
         <div>
-          <Search
-            placeholder="Search by Registration Number"
+            <Search placeholder="e.g., KL14WW1111" label="Search Registration Number"
+           
             searchLoading={searchLoading}
             setSearchVehicle={setRegistrationNum}
             setSearchLoading={setSearchLoading}
@@ -206,13 +206,13 @@ const AllRequestedVehicles = (props) => {
       {modalOpen && (
         <div className="relative border">
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-            <RepoYardRequest yard={yards} status={status} onClose={handleModalClose} vehicleId={selectedVehicleId} fetchData={fetchVehicles} />
+            <RepoYardRequest yard={yards}  onClose={handleModalClose} vehicleId={selectedVehicleId} fetchData={fetchVehicles} />
           </div>
         </div>
       )}
       <div>
         {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
+          <NoVehicleMessage typeFilter="Eligible Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />
@@ -255,9 +255,8 @@ const View = ({ row, user }) => {
   );
 };
 
-const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId ,setStatus}) => {
+const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId }) => {
   const handleCancelClick = () => {
-    setStatus('REPOSSESSION_REQUESTED')
     setModalOpen(true);
     setSelectedVehicleId(row.original.id);
   };

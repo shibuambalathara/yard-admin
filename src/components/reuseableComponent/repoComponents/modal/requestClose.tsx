@@ -15,7 +15,8 @@ type Inputs = {
   reason?: string;
 };
 
-const RepoClose = ({ onClose, vehicleId, fetchData, status,user }) => {
+const RepoClose = (props) => {
+const  { onClose, vehicleId, fetchData, status,user }=props
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ const RepoClose = ({ onClose, vehicleId, fetchData, status,user }) => {
   const RepoReq = async (data: Inputs) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.patch(`repossession/repo_veh_req/close_repo_vehicle/${vehicleId?.repoId}`);
+      const response = await axiosInstance.patch(`repossession/repo_veh_req/close_repo_vehicle/${vehicleId}`);
       console.log("Response:", response);
       toast.success(response?.data?.message);
 

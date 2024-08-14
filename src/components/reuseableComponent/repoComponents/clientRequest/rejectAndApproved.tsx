@@ -122,7 +122,7 @@ const AllResponse = ({ user, childrenRequire, response }) => {
       </div>
       <div>
         {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={category} />
+          <NoVehicleMessage typeFilter="Data" catFilter={category} />
         ) : (
           <div className="w-full">
             <DataTable data={filteredData?.repoVehicleRequests || []} columns={userColumns} />

@@ -21,6 +21,7 @@ import Link from "next/link";
 import RepoRespond from "../modal/requestRespond";
 import { log } from "console";
 import VehicleImageGrid from "../../imageGrid/imageGrid";
+import RepoClose from "../modal/requestClose";
 
 type Inputs = {
   repo_vehicle: {
@@ -48,6 +49,8 @@ const IndividualStatuss = (props) => {
   const [responseStatus, setResponseStatus] = useState("");
   const [uploadImages, setUploadImages] = useState<FileInputs>({});
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [isClosed, setIsClosed] = useState(false);
   const [previewImages, setPreviewImages] = useState<Record<string, string[]>>(
     {}
   );
@@ -76,7 +79,7 @@ const IndividualStatuss = (props) => {
       setResponseStatus(response?.data?.res?.status);
       setCapturedCity(response?.data?.res?.captured_city || null);
       setCapturedState(response?.data?.res?.captured_state || null);
-
+      setIsClosed(response?.data?.res?.repo_vehicle?.status==="CLOSED")
       const destructuredData = {
         user: response?.data?.res?.req_by_user_org?.user?.name,
         org_name: response?.data?.res?.repo_vehicle?.cl_org?.org_name,
@@ -99,6 +102,11 @@ const IndividualStatuss = (props) => {
   useEffect(() => {
     fetchVehicle();
   }, [fetchVehicle]);
+  const handleCancelClick = () => {
+    
+    setModalOpen(true);
+    setSelectedVehicleId(vehicleId?.vehId);
+  };
 
   const handleModalAccept = () => {
     setModalOpen(true);
@@ -163,7 +171,7 @@ const IndividualStatuss = (props) => {
               errors={errors}
               pattern
               disabled={true}
-            />
+            />  
             <InputField
               label="Initial City"
               type="text"
@@ -260,6 +268,13 @@ const IndividualStatuss = (props) => {
             </div>
           </>
         ) : (
+          <>{modalOpen && (
+            <div className="relative border">
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <RepoClose status={status} onClose={handleModalClose} vehicleId={selectedVehicleId}  user={user} />
+              </div>
+            </div>
+          )}
           <div className="w-full text-center p-1 mt-3 space-x-2">
             <button
               type="button"
@@ -268,7 +283,18 @@ const IndividualStatuss = (props) => {
             >
               BACK
             </button>
+            {!isClosed ? ( <button onClick={handleCancelClick} className="bg-blue-500 text-white py-2 px-8 w-32 rounded hover:bg-blue-600 transition duration-200">
+        CLOSE
+      </button>):(
+         
+         <button className="bg-gray-500 text-white py-1 px-2 rounded cursor-not-allowed mb-1 mr-2 w-20">
+          Closed
+         </button>
+       
+      )}
+           
           </div>
+          </>
         )}
       </div>
     </div>

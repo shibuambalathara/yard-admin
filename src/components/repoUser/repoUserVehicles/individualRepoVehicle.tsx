@@ -22,6 +22,8 @@ import Image from "next/image";
 import Link from "next/link";
 import RepoRequest from "./requestRepo";
 import { DateConvert } from "@/components/reuseableComponent/date/Date";
+import RepoYardRequest from "@/components/reuseableComponent/repoComponents/modal/requestForYard";
+import useFetchYards from "@/components/commonApi/commonApi";
 
 interface ImageData {
   img_type: string;
@@ -78,7 +80,9 @@ const IndividualVehicle = ({ vehicleId }) => {
   const [previewImages, setPreviewImages] = useState<Record<string, string[]>>(
     {}
   );
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
   const [images, setImages] = useState<Record<string, ImageType[]>>({});
+  const yards = useFetchYards();
   const onClose=()=>{
     window.close()
     }
@@ -274,8 +278,14 @@ const IndividualVehicle = ({ vehicleId }) => {
   const handleModalClose = () => {
     setModalOpen(false);
   };
-
-
+  const handleClose = () => {
+    window.close()
+  };
+  const handleCancelClick = () => {
+    setModalOpen(true);
+   
+    setSelectedVehicleId(vehicleId?.vehId);
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
@@ -500,18 +510,19 @@ const IndividualVehicle = ({ vehicleId }) => {
           </div>
          
         </form>
-        {modalOpen && (
-            <div className="relative border "> <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm'>
-            <RepoRequest onClose={handleModalClose} vehicleId={vehicleId} fetchData={fetchVehicle} />
-         </div></div>
-           
-           
-          )}
+        
 
           
         <div className=" w-full text-center p-1 mt-3  space-x-2">
          
-          {status!=='CLOSED'?(<><button
+          {status!=='CLOSED'?(<>{modalOpen && (
+            <div className="relative border "> <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm'>
+            <RepoRequest onClose={handleModalClose} vehicleId={vehicleId} fetchData={fetchVehicle}  />
+         </div></div>
+           
+           
+          )}
+          <button
             type="button"
             onClick={() => onClose()}
             className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
@@ -521,13 +532,26 @@ const IndividualVehicle = ({ vehicleId }) => {
             onClick={handleModalOpen}
              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
           >REQUEST
-          </button></>):(<button
+          </button></>):(
+            <>{modalOpen && (
+              <div className="relative border">
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                  <RepoYardRequest yard={yards}  onClose={handleClose} vehicleId={selectedVehicleId} fetchData={fetchVehicle} />
+                </div>
+              </div>
+            )}
+             
+            <button
             type="button"
             onClick={() => onClose()}
             className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
           >
             BACK
-          </button>)}
+          </button>
+          <button onClick={handleCancelClick} className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200">
+             REQUEST
+           </button>
+          </>)}
           
         </div>
         

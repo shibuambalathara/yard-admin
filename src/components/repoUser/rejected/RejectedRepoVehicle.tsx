@@ -189,7 +189,7 @@ const AllRequestedVehicles = (props) => {
         </div>
       <div>
       {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+          <NoVehicleMessage typeFilter="Rejected Vehicles" catFilter={catFilter}  />
         ) : (
           <div className="w-full">
              

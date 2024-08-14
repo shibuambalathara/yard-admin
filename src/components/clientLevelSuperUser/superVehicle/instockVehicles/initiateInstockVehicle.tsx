@@ -268,6 +268,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
               register={register}
               errors={errors}
               defaultValue=""
+              disabled={true}
             />
           </div>
           <InputField
@@ -373,10 +374,19 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
           onConfirm={handleConfirmRelease}
           text=""
         /> */}
-         <div className="w-full  flex justify-center">
+         <div className="w-full  flex justify-center gap-5">
+         <button
+                  type="button"
+                  onClick={()=>{
+                    window.close()
+                  }}
+                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+                >
+                  Cancel
+                </button>
           <button
             onClick={handleInitiateClick}
-            className="border p-2 px-6 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
+            className="border py-2 px-6 text-white bg-blue-500 h-10 rounded-md shadow-lg hover:bg-blue-600 "
           >
             Initiate  Release
           </button>
