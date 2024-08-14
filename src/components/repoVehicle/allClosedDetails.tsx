@@ -256,7 +256,7 @@ const {childrenRequire,user} =props
       </div>
       <div>
         {filteredData < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
+          <NoVehicleMessage typeFilter="Closed Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />

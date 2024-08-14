@@ -168,7 +168,7 @@ const AllApprovedVehicles = (props) => {
       </div>
       <div>
         {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
+          <NoVehicleMessage typeFilter="Approved Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={usersData} columns={userColumns} />

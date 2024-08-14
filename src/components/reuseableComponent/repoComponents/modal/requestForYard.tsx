@@ -14,7 +14,8 @@ type Inputs = {
   yard_id: string;
 };
 
-const RepoYardRequest = ({ onClose, vehicleId, fetchData, status, yard }) => {
+const RepoYardRequest = (props) => {
+  const { onClose, vehicleId, fetchData, yard }=props
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +41,10 @@ const RepoYardRequest = ({ onClose, vehicleId, fetchData, status, yard }) => {
       const response = await axiosInstance.post(`repo_yard/request_entry`, modifiedData);
       console.log("Response:", response);
       toast.success(response?.data?.message);
-
-      fetchData();
+         if(fetchData){
+          fetchData();
+         }
+      
       onClose();
     } catch (error) {
       console.error("Error:", error.response);

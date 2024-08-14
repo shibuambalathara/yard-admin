@@ -550,7 +550,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               required={true}
             />
             <div className="col-span-3  w-full ">
-              <div className="w-full grid grid-cols-3  ">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center ">
                 <FileUploadInput
                   label="Front image"
                   name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files
@@ -598,7 +598,16 @@ const IndividualEntryPending = ({ pendingVehId }) => {
           </div>
 
           <div className="">
-            <div className="text-center">
+            <div className="text-center space-x-6">
+            <button
+                type="button"
+                onClick={()=>{
+                  window.close()
+                }}
+                className=" px-6 py-2 bg-red-600  text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300 "
+              >
+                Cancel
+              </button>
               <button
                 type="submit"
                 className=" px-6 py-2 bg-blue-600  text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300 "

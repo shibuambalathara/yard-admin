@@ -175,15 +175,16 @@ export const clientLevelUser = [
         path: "/requestedRepo",
       },
       {
-        title: "Rejected",
-        icon: <ImTruck />,
-        path: "/clientRejectedVehicles",
-      },
-      {
         title: "Approved",
         icon: <ImTruck />,
         path: "/clientApprovedVehicles",
       },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/clientRejectedVehicles",
+      },
+     
     ],
   },
   // {
@@ -304,15 +305,16 @@ export const clientLevelSuperUser = [
         path: "/SuperRequestedRepo",
       },
       {
-        title: "Rejected",
-        icon: <ImTruck />,
-        path: "/superRejectedVehicles",
-      },
-      {
         title: "Approved",
         icon: <ImTruck />,
         path: "/superApprovedVehicles",
       },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/superRejectedVehicles",
+      },
+     
     ],
   },
   // {
@@ -453,15 +455,16 @@ export const RepoUser = [
         path: "/requestedRepoVehicle",
       },
       {
-        title: "Rejected",
-        icon: <ImTruck />,
-        path: "/rejectedRepoVehicle",
-      },
-      {
         title: "Approved",
         icon: <ImTruck />,
         path: "/approvedRepoVehicle",
       },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/rejectedRepoVehicle",
+      },
+     
     ],
   },
   {

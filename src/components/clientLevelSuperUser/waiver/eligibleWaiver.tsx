@@ -186,15 +186,15 @@ const SelectionTable = () => {
     () => [
       {
         id: "select",
-        header: ({ table }) => (
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
+        // header: ({ table }) => (
+        //   <IndeterminateCheckbox
+        //     {...{
+        //       checked: table.getIsAllRowsSelected(),
+        //       indeterminate: table.getIsSomeRowsSelected(),
+        //       onChange: table.getToggleAllRowsSelectedHandler(),
+        //     }}
+        //   />
+        // ),
         cell: ({ row }) => (
           <div className="px-1">
             <IndeterminateCheckbox

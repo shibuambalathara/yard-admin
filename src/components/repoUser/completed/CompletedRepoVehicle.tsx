@@ -107,14 +107,14 @@ const AllCompleted = (props) => {
         accessorKey: "captured_state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
-      {
-        header: "Status",
-        accessorKey: "status",
-        cell: ({ row }) => {
-          const role = row.original.status;
-          return <span>{RepossessionStatus[role] || role}</span>;
-        },
-      },
+      // {
+      //   header: "Status",
+      //   accessorKey: "status",
+      //   cell: ({ row }) => {
+      //     const role = row.original.status;
+      //     return <span>{RepossessionStatus[role] || role}</span>;
+      //   },
+      // },
       {
         header: "Requested Date",
         accessorKey: "req_date",
@@ -201,7 +201,7 @@ const AllCompleted = (props) => {
         </div>
       <div>
       {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+          <NoVehicleMessage typeFilter="Captured Vehicles" catFilter={catFilter}  />
         ) : (
           <div className="w-full">
              

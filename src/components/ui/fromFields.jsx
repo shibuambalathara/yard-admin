@@ -421,10 +421,8 @@ export const SelectComponent = ({
         disabled={disabled}
         id={name}
         {...register(name, { required: required && "This field is required" })}
-        // className="py-1 px-12 border border-gray-300 rounded"
-        className={`${inputStyle?.data} disabled:bg-gray-200`}
-        defaultValue={defaultValue}
-        // always call onChangeHandler
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
+        defaultValue={defaultValue} 
       >
         <option className="max-md:text-sm" value="" disabled hidden>
           {placeholder ? placeholder : label}
@@ -442,6 +440,7 @@ export const SelectComponent = ({
     </div>
   );
 };
+
 
 export const SelectComponentWithOnchange = ({
   label,
@@ -464,7 +463,7 @@ export const SelectComponentWithOnchange = ({
         disabled={disabled}
         id={name}
         {...register(name, { required: required && "This field is required" })}
-        className={inputStyle?.data}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         value={value} // Ensure the select uses value from state
         onChange={onChangeHandler}
       >

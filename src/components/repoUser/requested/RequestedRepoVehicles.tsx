@@ -214,7 +214,7 @@ const AllRequestedVehicles = (props) => {
       )}
       <div>
         {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
+          <NoVehicleMessage typeFilter="Requested Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />

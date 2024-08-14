@@ -127,7 +127,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex  justify-center  py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
       {modalOpen&&<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
         <ConfirmationModal
@@ -137,14 +137,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
           
         /></div>}
         <h2 className="text-center text-2xl font-extrabold text-gray-900">Initiated Vehicle</h2>
-        <div className="w-full flex justify-end">
-          <button
-            onClick={handleInitiateClick}
-            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 mr-2"
-          >
-            Cancel  Release
-          </button>
-        </div>
+        
         <section>
           <div>
             {/* <div className="mb-4 text-xl font-semibold text-gray-900">
@@ -191,6 +184,23 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
           onCancel={handleCancelRelease}
           onConfirm={handleConfirmRelease}
         /> */}
+                <div className="w-full  flex justify-center gap-5">
+         <button
+                  type="button"
+                  onClick={()=>{
+                    window.close()
+                  }}
+                  className="bg-red-500 text-white py-2 h-10 px-8 rounded hover:bg-red-600 transition duration-200"
+                >
+                  Back
+                </button>
+          <button
+            onClick={handleInitiateClick}
+            className="border py-2 px-4 text-white h-10 bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 mr-2"
+          >
+            Cancel  Release
+          </button>
+        </div>
       </div>
     </div>
   );
