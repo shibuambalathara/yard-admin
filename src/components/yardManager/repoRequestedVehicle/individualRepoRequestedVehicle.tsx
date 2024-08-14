@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -11,7 +9,8 @@ import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { TbRuler } from "react-icons/tb";
-import { VehicleEntryStatus,vehicleEntryAlias } from "@/utils/staticData";
+import { VehicleEntryStatus, vehicleEntryAlias } from "@/utils/staticData";
+import { inputStyle, labelStyle } from "@/components/ui/style";
 
 type User = {
   code: string;
@@ -49,13 +48,14 @@ type Inputs = {
   res_date: null | string;
   status: string;
   success: boolean;
+  reject_reason: string;
 };
 
 const images = [img1, img2, img3]; // Array containing imported images
 
 const IndividualRequestedVehicle = ({ repoVehicleId }) => {
-    console.log("repoVehicleId",repoVehicleId);
-    
+  // console.log("repoVehicleId", repoVehicleId);
+
   const [yardData, setYardData] = useState<Inputs | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -77,10 +77,10 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
       const response = await axiosInstance.get(
         `repo_yard/request/${repoVehicleId?.repoReqId}`
       );
-      console.log(
-        "response?.data?.expected_entry_date",
-        response?.data?.res?.expected_entry_date
-      );
+      // console.log(
+      //   "response?.data?.expected_entry_date",
+      //   response?.data?.res?.expected_entry_date
+      // );
 
       setYardData(response?.data?.res);
       const ModifiedData = {
@@ -90,10 +90,10 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
         // response?.data?.res?.mfg_year.split("T")[0],
       };
 
-      console.log(
-        "modified Data",
-        response?.data?.res?.expected_entry_date?.split("T")[0]
-      );
+      // console.log(
+      //   "modified Data",
+      //   response?.data?.res?.expected_entry_date?.split("T")[0]
+      // );
 
       reset(ModifiedData);
     } catch (error) {
@@ -108,33 +108,49 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
   }, [repoVehicleId]);
 
   const handleModalOpen = (type) => {
+    console.log("TYPE", type);
+
     setModalOpen(true);
     setModalType(type);
-    setShowStatus(type === "status");
+    // setShowStatus(type === "status");
+    type === "APPROVE" ? setModalType(true) : setModalType(false);
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, actionType) => {
+    let payload;
+    let endpoint = `repo_yard/status/${repoVehicleId?.repoReqId}`;
+    console.log("hit one", data);
+    // console.log("hit two", frh);
+
+    switch (actionType) {
+      case "ENTRY_APPROVED":
+        payload = { status: "ENTRY_APPROVED" };
+
+        break;
+      default:
+        payload = {
+          status: "ENTRY_REJECTED",
+          reject_reason: data.reject_reason,
+        };
+
+        break;
+    }
+
+    console.log("endpoint:=", endpoint);
+    console.log("payload:=", payload);
+
     try {
-      let payload;
-      let endpoint;
-
-      payload = { status: data.status };
-      if (payload === yardData?.status)
-        throw new Error("Cannot Update Same Status");
-      endpoint = `repo_yard/status/${repoVehicleId?.repoReqId}`;
-
       const response = await axiosInstance.patch(endpoint, payload);
-
       toast.success(response?.data?.message);
       FetchInddividualVehicle();
       setModalOpen(false);
       router.push("/repoRequestedVehicle");
     } catch (error) {
-      console.error("Error updating entry", error);
+      // console.error("Error updating entry", error);
       toast.error(error?.response?.data?.message);
     }
   };
@@ -268,25 +284,43 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
                 label="Status"
                 type="text"
                 name="make"
-                value={vehicleEntryAlias[yardData?.status ]|| ""}
+                value={vehicleEntryAlias[yardData?.status] || ""}
                 disabled={true}
               />
             </div>
           </div>
 
           <div className="self-center space-x-4">
-            {yardData?.status !== "ENTRY_REJECTED" &&
-              yardData?.status !== "ENTRY_CANCELLED" && (
-                <div className="space-x-4">
-                  <button
-                    type="button"
-                    onClick={() => handleModalOpen("status")}
-                    className="px-8 py-2 text-center bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                  >
-                    Change Status
-                  </button>
-                </div>
-              )}
+            {yardData?.status === "ENTRY_REQUESTED" && (
+              <div className="space-x-4">
+                <button
+                  type="button"
+                  onClick={() => handleModalOpen("APPROVE")}
+                  className="px-8 py-2 text-center bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                >
+                  Approve
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleModalOpen("REJECT")}
+                  className="px-8 py-2 text-center bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+                >
+                  Reject
+                </button>
+              </div>
+            )}
+
+            {yardData?.status === "ENTRY_APPROVED" && (
+              <button
+                type="button"
+                onClick={() => handleModalOpen("REJECT")}
+                className="px-8 py-2 text-center bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+              >
+                Reject
+              </button>
+            )}
+
+            {/* No buttons will be shown if status is "ENTRY_REJECTED" */}
           </div>
         </div>
       </div>
@@ -296,40 +330,69 @@ const IndividualRequestedVehicle = ({ repoVehicleId }) => {
           <div className="bg-white p-4 rounded-lg w-full max-w-md">
             <div className="flex justify-between items-center pb-3 w-full">
               <h2 className="text-xl font-semibold text-center  w-full"></h2>
-              <button onClick={handleModalClose}>&times;</button>
+              <button type="button" onClick={handleModalClose}>
+                &times;
+              </button>
             </div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex  flex-col justify-center items-center"
-            >
-              <div className="mb-">
-                <SelectInput
-                  label="Select status "
-                  options={filteredOptions}
-                  name="status"
-                  register={register}
-                  error={errors}
-                  required={true}
-                  defaultValue=""
-                />
-              </div>
+            <div>
+              {modalType ? (
+                <div>
+                  {" "}
+                  <p>Are you sure you want to approve</p>
+                  <div className="flex justify-end space-x-4 mt-4">
+                    <button
+                      type="button"
+                      onClick={handleModalClose}
+                      className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      onClick={() => onSubmit({}, "ENTRY_APPROVED")} // Pass an empty object and "APPROVE"
+                      className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit((data) =>
+                    onSubmit(data, "ENTRY_REJECTED")
+                  )} // Pass form data and "REJECT"
+                  className="flex  flex-col justify-center items-center"
+                >
+                  <div className="">
+                    <InputField
+                      label="Reject Reason"
+                      placeholder="Eg: Wrong Entry"
+                      type="text"
+                      name="reject_reason"
+                      register={register}
+                      errors={errors}
+                      pattern
+                    />
+                  </div>
 
-              <div className="flex justify-end space-x-4 mt-4">
-                <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
+                  <div className="flex justify-end space-x-4 mt-4">
+                    <button
+                      type="button"
+                      onClick={handleModalClose}
+                      className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       )}
