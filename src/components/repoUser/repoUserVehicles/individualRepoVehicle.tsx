@@ -507,6 +507,8 @@ const IndividualVehicle = ({ vehicleId }) => {
            
            
           )}
+
+          
         <div className=" w-full text-center p-1 mt-3  space-x-2">
          
           {status!=='CLOSED'?(<><button
