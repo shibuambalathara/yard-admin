@@ -260,7 +260,7 @@ const AddVehicle = () => {
             </div>
 
             <InputField
-              label="Loan No"
+              label="Loan Number"
               type="text"
               name="loan_number"
               register={register}
@@ -349,7 +349,7 @@ const AddVehicle = () => {
             />
 
             <InputField
-              label="Engine No"
+              label="Engine Number"
               type="text"
               name="eng_number"
               register={register}
@@ -358,7 +358,7 @@ const AddVehicle = () => {
             />
 
             <InputField
-              label="Chassis No"
+              label="Chassis Number"
               type="text"
               name="chasis_number"
               register={register}

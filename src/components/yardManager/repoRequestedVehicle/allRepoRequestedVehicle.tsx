@@ -84,7 +84,7 @@ const AllYardRequestedVehicle = () => {
       );
       console.log("res", response);
 
-      setFilteredData(response?.data?.res?.repoYardRequest);
+      setFilteredData(response?.data?.res);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -98,7 +98,7 @@ const AllYardRequestedVehicle = () => {
 
   // console.log("filtredData", filteredData);
 
-  const yardData = filteredData || [];
+  const yardData = filteredData?.repoYardRequest || [];
 
   const yardColumn = useMemo(
     () => [
@@ -162,6 +162,12 @@ const AllYardRequestedVehicle = () => {
     [filteredData]
   );
 
+  console.log("filtered DAta",filteredData);
+  
+
+  const statusFilter=VehicleEntryStatus.filter((item)=>item?.value !== "ENTRY_CANCELLED")
+  console.log("statusFilter",statusFilter);
+  
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
@@ -184,7 +190,8 @@ const AllYardRequestedVehicle = () => {
 
         <div>
           <Search
-            placeholder="Search by Registration Number"
+          label="Search by Registration No"
+            placeholder="Eg: KL12GH4568"
             searchLoading={searchLoading}
             setSearchVehicle={setRegistrationNum}
             setSearchLoading={setSearchLoading}
@@ -193,7 +200,7 @@ const AllYardRequestedVehicle = () => {
         <div>
           <Status
             label="Select Status"
-            options={VehicleEntryStatus}
+            options={statusFilter}
             setVehicleStatus={setVehicleStatus}
           />
         </div>
@@ -206,7 +213,7 @@ const AllYardRequestedVehicle = () => {
             <DataTable data={yardData} columns={yardColumn} />
 
             <div className="w-full text-center">
-              {filteredData?.totalCount > 0 && (
+              {filteredData?.totalCount > limit && (
                 <Pagination
                   page={page}
                   setPage={setPage}
