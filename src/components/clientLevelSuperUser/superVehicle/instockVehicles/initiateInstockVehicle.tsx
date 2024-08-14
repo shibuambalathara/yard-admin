@@ -174,14 +174,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
           Instock Vehicle Details
         </h2>
 
-        <div className="w-full  flex justify-end">
-          <button
-            onClick={handleInitiateClick}
-            className="border p-2 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
-          >
-            Initiate  Release
-          </button>
-        </div>
+       
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
          
@@ -380,6 +373,14 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
           onConfirm={handleConfirmRelease}
           text=""
         /> */}
+         <div className="w-full  flex justify-center">
+          <button
+            onClick={handleInitiateClick}
+            className="border p-2 px-6 text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600 "
+          >
+            Initiate  Release
+          </button>
+        </div>
       </div>
     </div>
   );
