@@ -153,7 +153,7 @@ const MangeParkFee = () => {
         </div>
       )}
       <div>
-        {filteredData && <DataTable data={UsersData} columns={userColumn} />}
+        {filteredData?.totalCount > 0 &&  <DataTable data={UsersData} columns={userColumn} />}
         <div className="w-full text-center">
               {filteredData?.totalCount && (
                 <Pagination

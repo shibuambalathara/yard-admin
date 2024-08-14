@@ -422,7 +422,7 @@ export const SelectComponent = ({
         id={name}
         {...register(name, { required: required && "This field is required" })}
         // className="py-1 px-12 border border-gray-300 rounded"
-        className={inputStyle?.data}
+        className={`${inputStyle?.data} disabled:bg-gray-200`}
         defaultValue={defaultValue}
         // always call onChangeHandler
       >
