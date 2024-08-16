@@ -86,8 +86,8 @@ const SelectionTable = () => {
     fetchChildren();
   }, []);
   const superClientOptions = children.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
   const FetchAllVehicleCategory = useCallback(async () => {
@@ -123,7 +123,7 @@ const SelectionTable = () => {
 
   const yardOptions = yardData?.map((item) => ({
     value: item.id,
-    label: item.yard_name,
+    label: item.org_name,
   }));
 
   const handleModalOpen = () => {
@@ -186,15 +186,15 @@ const SelectionTable = () => {
     () => [
       {
         id: "select",
-        header: ({ table }) => (
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
+        // header: ({ table }) => (
+        //   <IndeterminateCheckbox
+        //     {...{
+        //       checked: table.getIsAllRowsSelected(),
+        //       indeterminate: table.getIsSomeRowsSelected(),
+        //       onChange: table.getToggleAllRowsSelectedHandler(),
+        //     }}
+        //   />
+        // ),
         cell: ({ row }) => (
           <div className="px-1">
             <IndeterminateCheckbox
@@ -222,7 +222,7 @@ const SelectionTable = () => {
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: "vehicle.yard.yard_name",
+        accessorKey: "vehicle.yard.org_name",
         header: "Yard Name",
         cell: (info) => info.getValue(),
       },

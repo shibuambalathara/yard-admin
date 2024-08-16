@@ -11,8 +11,12 @@ import Pagination from "@/components/pagination/pagination";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import { Search } from "@/components/reuseableComponent/filter/filters";
+import { RepossessionStatus } from "@/utils/staticData";
+import { formatDate } from "@/components/reuseableComponent/repoComponents/dateAndTime";
 
-const AllRepoRequests = () => {
+const AllCompleted = (props) => {
+  const{user}=props
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   //   const [modalOpen, setModalOpen] = useState(false);
@@ -25,7 +29,8 @@ const AllRepoRequests = () => {
   const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [limit, setLimit] = useState(5);
-
+  const [searchLoading,setSearchLoading]=useState(false)
+  const [registrationNum, setRegistrationNum] = useState(null);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -33,18 +38,21 @@ const AllRepoRequests = () => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
+       
       });
 
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
-
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
       }
+      // if (vehicleStatus) {
+      //   params.append("status", vehicleStatus);
+      // }
 
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `repossession/captured?${params.toString()}`
       );
       console.log("res", response);
 
@@ -78,44 +86,71 @@ const AllRepoRequests = () => {
 
   useEffect(() => {
     fetchVehicles();
+   
+  }, [Category, page, vehicleStatus,registrationNum]);
+  useEffect(() => {
     FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
-  }, [Category, page, vehicleStatus]);
+  }, []);
 
-  const UsersData = filteredData?.vehicle || [];
+  const UsersData =filteredData?.repoVehicleCapturedRequests
+  || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "make",
-        accessorKey: "make",
-      
+        header: "Captured City",
+        accessorKey: "captured_city",
+        // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "model",
-        accessorKey: "model",
-        
+        header: "Captured State",
+        accessorKey: "captured_state",
+        // id: "clsup_org_category_name", // Ensure unique id
+      },
+      // {
+      //   header: "Status",
+      //   accessorKey: "status",
+      //   cell: ({ row }) => {
+      //     const role = row.original.status;
+      //     return <span>{RepossessionStatus[role] || role}</span>;
+      //   },
+      // },
+      {
+        header: "Requested Date",
+        accessorKey: "req_date",
+        cell: ({ row }) => formatDate(row.original.req_date),
+      },
+      // {
+      //   header: "Yard  ",
+      //   accessorKey: "yard.org_name",
+      //   // id: "clsup_org_name", // Ensure unique id
+      // },
+      {
+        header: "Registration no ",
+        accessorKey: "repo_vehicle.reg_number",
+        // id: "clsup_org_name", // Ensure unique id
       },
       {
-        header: "Status",
-        accessorKey: "status",
-      
+        header: "Make",
+        accessorKey: "repo_vehicle.make",
+        // id: "clsup_org_name", // Ensure unique id
       },
-  ,
       {
-        header: "Category ",
-        accessorKey: "vehicle_category.name",
-    
+        header: "Model ",
+        accessorKey: "repo_vehicle.model",
+        // id: "clsup_org_name", // Ensure unique id
       },
+
 
       {
         header: "code",
-        accessorKey: "code",
-       
+        accessorKey: "repo_vehicle.code",
+        // id: "code", // Ensure unique id
       },
 
       {
         header: "View",
-        cell: ({ row }) => View(row)
+        cell: ({ row }) =><View row={row} user={user} />
       },
     ],
     [filteredData]
@@ -135,10 +170,10 @@ const AllRepoRequests = () => {
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-       All Repo Requests
+      Captured Repo Vehicles
       </h1>
-     <div className="flex items-end">
-      <div className="flex flex-col w-40  ml-5">
+     <div className="flex items-end px-8 gap-40">
+      <div className="flex flex-col w-40  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -157,13 +192,16 @@ const AllRepoRequests = () => {
           ))}
         </select>
       </div>
+       <div>
+          <Search placeholder='eg: KL14WW1111'label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
 
      
-        
+       
         </div>
       <div>
       {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+          <NoVehicleMessage typeFilter="Captured Vehicles" catFilter={catFilter}  />
         ) : (
           <div className="w-full">
              
@@ -187,17 +225,18 @@ const AllRepoRequests = () => {
   );
 };
 
-export default AllRepoRequests;
+export default AllCompleted;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
+const View = ({ row, user }) => {
+  const href =`/completedRepoVehicle/${row.original.id}`;
+
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicle/${row.original.id}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         className=""

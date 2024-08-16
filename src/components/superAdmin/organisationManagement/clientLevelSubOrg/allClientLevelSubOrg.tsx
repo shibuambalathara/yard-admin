@@ -50,7 +50,7 @@ const AllClientLevelSubOrganisation = () => {
         const params = new URLSearchParams({
             page: page.toString(),
             limit: limit.toString(),
-            status: "INITIATED",
+            status: "1",
           });
           //   params?.
         //   if (Category) {
@@ -92,24 +92,20 @@ const AllClientLevelSubOrganisation = () => {
     () => [
       {
         header: "Sub Organisation Name",
-        accessorKey: "clsub_org_name",
+        accessorKey: "org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Sub Organisation Category",
-        accessorKey: "clsub_org_category.name",
+        accessorKey: "client_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "Client Organisation",
-        accessorKey: "cl_org.cl_org_name",
+        accessorKey: "cl_org.org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
-      {
-        header: "User",
-        accessorKey: "user.name",
-        // id: "clsup_org_category_name", // Ensure unique id
-      },
+     
 
       {
         header: "Code",

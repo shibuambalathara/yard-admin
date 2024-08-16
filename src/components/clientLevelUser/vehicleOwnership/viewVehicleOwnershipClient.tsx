@@ -106,7 +106,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
         app_exit_date:
           response?.data?.res?.vehicle?.app_entry_date?.split("T")[0],
-        mfg_year: response?.data?.res?.vehicle?.mfg_year.split("T")[0],
+        mfg_year: response?.data?.res?.vehicle?.mfg_year?.split("T")[0],
         actual_entry_date:
           response?.data?.res?.vehicle?.actual_entry_date?.split("T")[0],
         actual_exit_date:
@@ -168,64 +168,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
           Vehicle Ownership Details
         </h2>
 
-        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
-          <div className="w-full mb-1 flex gap-5">
-            {isSelectDisabled && (
-              <button
-                type="button"
-                onClick={handleModalOpen}
-                className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto"
-              >
-                Confirm Ownership
-              </button>
-            )}
-
-            {modalOpen && (
-              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-6">
-                  <div className="grid grid-cols-1 gap-4 w-full text-gray-400 uppercase text-lg mb-5 pb-1">
-                    <div className="flex justify-between border-b">
-                      <h1 className="font-bold">Confirm Ownership</h1>
-                    </div>
-                    <div>
-                      <SelectComponent
-                        label="Ownership Status"
-                        name="ownership_status"
-                        options={AccountStatus}
-                        register={register}
-                        errors={errors}
-                        defaultValue=""
-                      />
-                      <InputField
-                        label="Comment"
-                        type="text"
-                        name="comment"
-                        register={register}
-                        errors={errors}
-                        pattern
-                      />
-                      <div className="w-full text-center p-1 mt-3 space-x-2 border-t pt-4">
-                        <button
-                          type="button"
-                          onClick={handleModalClose}
-                          className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </form>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
           
           <InputField
@@ -416,6 +359,91 @@ const EditVehicleOwnership = ({ ownershipId }) => {
             ))}
           </div>
         </div>
+        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
+          <div className="self-end justify-self-end mb-1 flex gap-5">
+            <div className=" w-full text-center space-x-8">
+            {!isSelectDisabled &&<button
+                  type="button"
+                  onClick={()=>{
+                    window.close()
+                  }}
+                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+                >
+                  Back
+                </button>}
+            
+              {isSelectDisabled && (
+                <>
+                <button
+                  type="button"
+                  onClick={()=>{
+                    window.close()
+                  }}
+                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleModalOpen}
+                  className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
+                >
+                  Confirm Ownership
+                </button>
+                </>
+              )}
+            </div>
+
+            {modalOpen && (
+              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
+                <div className="bg-white p-4 rounded-lg w-full max-w-sm">
+                  <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+                    <h1 className=" font-semibold text-base  ">Confirm  Ownership </h1>
+                  </div>
+
+                  <div className="flex  flex-col items-center justify-center border px-2 py-6">
+                    <div>
+                      <SelectComponent
+                        label="Ownership Status"
+                        name="ownership_status"
+                        options={AccountStatus}
+                        register={register}
+                        errors={errors}
+                        defaultValue=""
+                      />
+                    </div>
+
+                    <InputField
+                    placeholder="Eg: It's my vehicle/It's not my vehicle"
+                      label="Comment"
+                      type="text"
+                      name="comment"
+                      register={register}
+                      errors={errors}
+                      pattern
+                    />
+                  </div>
+
+                  <div className=" w-full text-center p-1 mt-3  space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => handleModalClose()}
+                      className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                       className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const UserDetails = () => {
   const token = authStore.token;
   const role = authStore.role;
 
-  console.log("user from authsoter",user);
+  // console.log("user from authsoter",user);
   
 
   const {
@@ -27,7 +27,10 @@ const UserDetails = () => {
     Type,
   } = user || {};
 
-  console.log("user")
+  // console.log("user")
+
+  // console.log("HIT ONE ");
+  
   
 
   const [isOpen, setIsOpen] = useState(false);
@@ -70,7 +73,7 @@ const UserDetails = () => {
        : "transform scale-0 opacity-0 text-gray-500"
    }`}
         >
-          <span className="text-slate-500 uppercase">
+          <span className="text-slate-500 uppercase max-md:hidden">
             {" "}
             {userName && `Welcome,  ${userName}`}
           </span>

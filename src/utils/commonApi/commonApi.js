@@ -112,3 +112,16 @@ export const getUserProfile = async() => {
       console.log("error",error);
     }
   };
+
+  export const FetchOrganisation=async (data)=>{
+    console.log("FetchOrganisation role:===",data);
+    try {
+      const response = await axiosInstance.get(
+        `/user/organizations?role=${data}`
+      ); 
+
+      return response
+    } catch (error) {
+      console.log("fetch org error",error);
+    }
+  }

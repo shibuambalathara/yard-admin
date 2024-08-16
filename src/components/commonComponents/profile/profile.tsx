@@ -37,7 +37,7 @@ const Profile = () => {
   } = useForm<User>();
   const { token, role, setUser: setStoreUser } = useAuthStore();
 
-  // console.log("userRole", role);
+  console.log("HIT ON PROFILE");
 
   const router = useRouter();
 

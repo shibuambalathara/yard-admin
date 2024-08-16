@@ -187,8 +187,8 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     }));
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
+     value: item.id,
+    label: item.org_name,
   }));
   const allVehicleCategorys = allVehicleCategory?.map((item) => ({
     id: item.id,

@@ -209,7 +209,7 @@ const View = ({ row, onEditClick }) => {
   return (
     <div
       onClick={() => onEditClick(row?.original?.id)}
-      className="flex justify-center items-center py-2 px-4   space-x-2 bg-gray-700 rounded-md  text-white"
+      className="flex justify-center items-center sm:py-2 sm:px-4 px-1 py-1   space-x-2 bg-gray-700 rounded-md  text-white"
     >
       {/* <div className="flex flex-col justify-center items-center bg-red-500"> */}
       <p>

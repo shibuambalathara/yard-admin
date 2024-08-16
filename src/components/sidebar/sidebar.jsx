@@ -37,8 +37,8 @@ const SideBar = () => {
         return clientLevelSuperUser;
         case "CLIENT_LEVEL_SUB_USER":
           return clientLevelSubUser;
-          // default :
-          // return RepoUser
+          default :
+          return RepoUser
         
       // Default to user data
     }
@@ -47,7 +47,8 @@ const SideBar = () => {
   // console.log("pathname",pathname);
   // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
   // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}$/, '');
-  const modifiedPathname = pathname.replace(/\/(?!clientCategoryManagement$)[cC][a-zA-Z0-9_-]{23,}$/, '');
+  const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}.*$/, '');
+
 
 
   // console.log('modifiedPathname', modifiedPathname);

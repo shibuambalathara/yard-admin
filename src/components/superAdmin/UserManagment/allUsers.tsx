@@ -18,7 +18,7 @@ import {
 } from "@/components/commonComponents/role";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
 import NoUsersMessage from "@/components/commonComponents/noUser/noUsers";
-import { inputStyle, labelStyle } from "@/components/ui/style";
+import { inputStyle, labelStyle, optionStyle } from "@/components/ui/style";
 // import ConfirmationModal from "@/components/modals/confirmOwnership/confirmOwnership";
 
 const UserManagement = () => {
@@ -76,7 +76,7 @@ const UserManagement = () => {
         );
     
       
-      // console.log("all users", response);
+      console.log("all users", response);
       setFilteredData(response.data?.res);
     
     } catch (error) {
@@ -143,22 +143,7 @@ const UserManagement = () => {
           <div className="">{View(row)}</div>
         ),
       },
-      //       {
-      //         id: "isBlocked",
-      //         header: "Status",
-      //         cell: ({ row }) =>
-      //           row?.original?.is_blocked ?  (
-      //             <div className="border-2 p-1 bg-green-600 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-      //  <p className="text-lg"><FaUserLarge/></p>
-      //               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, false)}>unblock</button>
-      //             </div>
-      //           ) : (
-      //             <div className="border-2 p-1 bg-red-500 space-x-2 font-semibold rounded-md  uppercase text-center flex justify-center items-center">
-      //                <p className="text-xl"><FaUserLargeSlash/> </p>
-      //               <button className="text-white font-semibold uppercase" onClick={() => handleUserBlockToggle(row.original, true)}>block</button>
-      //             </div>
-      //           )
-      //       },
+      
       {
         id: "isBlocked",
         header: "Action",
@@ -258,7 +243,7 @@ const UserManagement = () => {
       <h1 className="text-center font-roboto text-lg font-bold py-4 uppercase">
         User Management
       </h1>
-      <div className="flex w-full px-5 justify-between items-center  ">
+      <div className="flex w-full sm:px-5 px-2 justify-between items-center gap-2 ">
         
         <div className="flex flex-col   ">
           <label htmlFor="state" className={labelStyle?.data}>
@@ -270,11 +255,13 @@ const UserManagement = () => {
             defaultValue=""
             onChange={handleRoleChange}
           >
-            <option value="">All Roles</option>
+            <option 
+            className={optionStyle?.data} value="">All Roles</option>
            
 
             {Role.map((option, index) => (
-              <option key={index} value={option?.value}>
+              <option 
+              className={optionStyle?.data} key={index} value={option?.value}>
                 {option?.label}
               </option>
             ))}
@@ -295,7 +282,8 @@ const UserManagement = () => {
           {/* <option value="">ALL STATE</option> */}
 
           {UserStatus.map((option, index) => (
-            <option key={index} value={option?.value}>
+            <option 
+            className={optionStyle?.data} key={index} value={option?.value}>
               {option?.label}
             </option>
           ))}
@@ -308,7 +296,7 @@ const UserManagement = () => {
           <Link
             href={`/userManagement/createUser`}
             // onClick={handleModalOpen}
-            className="bg-blue-500 text-white py-2 px-8 rounded hover:bg-blue-600 transition duration-200 " 
+            className="bg-blue-500 text-white py-2 md:px-8 px-2  rounded hover:bg-blue-600 transition duration-200 " 
           >
             Add 
           </Link>

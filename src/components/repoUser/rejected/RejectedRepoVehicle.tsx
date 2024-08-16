@@ -11,8 +11,11 @@ import Pagination from "@/components/pagination/pagination";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
+import { Search } from "@/components/reuseableComponent/filter/filters";
+import { RepossessionStatus } from "@/utils/staticData";
 
-const AllRejectedVehicles = () => {
+const AllRequestedVehicles = (props) => {
+  const{user}=props
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
   //   const [modalOpen, setModalOpen] = useState(false);
@@ -25,7 +28,8 @@ const AllRejectedVehicles = () => {
   const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [limit, setLimit] = useState(5);
-
+  const [searchLoading,setSearchLoading]=useState(false)
+  const [registrationNum, setRegistrationNum] = useState(null);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -33,18 +37,21 @@ const AllRejectedVehicles = () => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
+        status:'REPOSSESSION_REJECTED',
       });
 
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
-
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
       }
+      // if (vehicleStatus) {
+      //   params.append("status", vehicleStatus);
+      // }
 
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `repossession/repo_veh_req?${params.toString()}`
       );
       console.log("res", response);
 
@@ -78,48 +85,61 @@ const AllRejectedVehicles = () => {
 
   useEffect(() => {
     fetchVehicles();
-    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
-  }, [Category, page, vehicleStatus]);
 
-  const UsersData = filteredData?.vehicle || [];
+  }, [Category, page, vehicleStatus,registrationNum]);
+  useEffect(() => {
+ 
+    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
+  }, []);
+  const UsersData = filteredData?.repoVehicleRequests
+  || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "make",
-        accessorKey: "make",
+        header: "City",
+        accessorKey: "initial_city",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "model",
-        accessorKey: "model",
+        header: "State",
+        accessorKey: "initial_state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "Status",
         accessorKey: "status",
-        // id: "clsup_org_name", // Ensure unique id
+        cell: ({ row }) => {
+          const role = row.original.status;
+          return <span>{RepossessionStatus[role] || role}</span>;
+        },
       },
       // {
       //   header: "Yard  ",
-      //   accessorKey: "yard.yard_name",
+      //   accessorKey: "yard.org_name",
       //   // id: "clsup_org_name", // Ensure unique id
       // },
       {
-        header: "Category ",
-        accessorKey: "vehicle_category.name",
+        header: "Registration no ",
+        accessorKey: "repo_vehicle.reg_number",
         // id: "clsup_org_name", // Ensure unique id
       },
 
       {
         header: "code",
-        accessorKey: "code",
+        accessorKey: "repo_vehicle.code",
         // id: "code", // Ensure unique id
       },
-
+      {
+        header: "Vehicle category",
+        accessorKey: "repo_vehicle.vehicle_category.name",
+      },{
+        header: "Make",
+        accessorKey: "repo_vehicle.make",
+      },
       {
         header: "View",
-        cell: ({ row }) => View(row)
+        cell: ({ row }) =><View row={row} user={user} />
       },
     ],
     [filteredData]
@@ -141,8 +161,8 @@ const AllRejectedVehicles = () => {
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         Rejected Repo Vehicles
       </h1>
-     <div className="flex items-end">
-      <div className="flex flex-col w-40  ml-5">
+     <div className="flex items-end px-8 gap-40">
+      <div className="flex flex-col w-40  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
         </label>
@@ -161,13 +181,15 @@ const AllRejectedVehicles = () => {
           ))}
         </select>
       </div>
-
+       <div>
+          <Search placeholder='eg: KL14WW1111'label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
      
-    
+       
         </div>
       <div>
       {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+          <NoVehicleMessage typeFilter="Rejected Vehicles" catFilter={catFilter}  />
         ) : (
           <div className="w-full">
              
@@ -191,17 +213,21 @@ const AllRejectedVehicles = () => {
   );
 };
 
-export default AllRejectedVehicles;
+export default AllRequestedVehicles;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
+const View = ({ row, user }) => {
+  const href =
+    user === 'client'
+      ? `/requestedRepo/${row.original.id}`
+      : `/rejectedRepoVehicle/${row.original.id}`;
+
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicle/${row.original.id}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         className=""

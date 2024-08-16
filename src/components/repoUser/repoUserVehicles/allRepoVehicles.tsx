@@ -7,71 +7,77 @@ import { MdOutlineViewHeadline } from "react-icons/md";
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
-import mockData from "@/components/tables/vehicleData.json";
 import {
   CategoryFilter,
-  CityFilter,
   ClientFilter,
-  StateFilter,
   Search,
+  Status
 } from "@/components/reuseableComponent/filter/filters";
+import { RepoStatus2, VehicleState } from "@/utils/staticData";
+import Loading from "@/components/commonComponents/spinner/DataFetching";
 
-const AllRepoVehicles = () => {
+const AllRepoDetails = (props) => {
+  const { childrenRequire } = props;
+
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  //   const [modalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
-  const [Category, setCategory] = useState(null);
+  const [registrationNum, setRegistrationNum] = useState(null);
   const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [limit, setLimit] = useState(5);
-  const [searchVehicle, setSearchVehicle] = useState("");
+  const [Category, setVehiclecat] = useState("");
+  const [allyard, setAllYard] = useState([]);
+  const [selectedYard, setSelectedYard] = useState("");
+  const [allVehicleOwnerships, setAllVehicleOwerships] = useState(null);
+  const [yardFilter, setYardFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [children, setChildren] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [client, setClient] = useState("");
 
-  const fetchVehicles = async () => {
-    setIsLoading(true);
-
+  const fetchAllRepoVehicles = useCallback(async () => {
     try {
       const params = new URLSearchParams({
-        page: page?.toString(),
-        limit: limit?.toString(),
+        page: page.toString(),
+        limit: limit.toString(),
       });
-
+      if (client) {
+        params.append("cl_org_id", client);
+      }
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
-
       if (vehicleStatus) {
         params.append("status", vehicleStatus);
       }
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
 
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `/repossession/vehicles/eligible?${params.toString()}`
       );
-      console.log("res", response);
 
-      setFilteredData(response?.data?.res);
+      console.log("all vehicle ownership", response);
+
+      setAllVehicleOwerships(response?.data?.res?.vehicleForRequest);
+      setFilteredData(response?.data?.res?.totalCount);
     } catch (error) {
-      setError({
-        text: error?.response?.data?.message,
-      });
-      console.error("Error fetching data:", error);
+      console.log("fetchChildren error", error);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
-  };
+  }, [page, limit, Category, client, vehicleStatus, registrationNum]);
 
-  const FetchAllVehicleCategory = useCallback(async () => {
+  const fetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
       console.log("cat", response);
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
     } catch (error) {
-      // toast.error("Failed to fetch vehicle categories");
       console.log(error);
     }
   }, []);
@@ -81,131 +87,98 @@ const AllRepoVehicles = () => {
     label: item.name,
   }));
 
-  useEffect(() => {
-    fetchVehicles();
-    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
-  }, [Category, page, vehicleStatus]);
+  const allYardsOptions = allyard?.map((item) => ({
+     value: item.id,
+    label: item.org_name,
+  }));
 
-  const UsersData = mockData;
+  console.log("searchLoading", searchLoading);
+
+  useEffect(() => {
+    fetchAllVehicleCategory();
+  }, [fetchAllVehicleCategory]);
+
+  useEffect(() => {
+    fetchAllRepoVehicles();
+  }, [statusFilter, Category, vehicleStatus, page, registrationNum, fetchAllRepoVehicles]);
+
+  const UsersData = allVehicleOwnerships || [];
 
   const userColumn = useMemo(
     () => [
       {
+        header: "Client",
+        accessorKey: "cl_org.org_name",
+      },
+      {
+        header: "Reg Number",
+        accessorKey: "reg_number",
+      },
+      {
         header: "make",
         accessorKey: "make",
-        // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "model",
         accessorKey: "model",
-        // id: "clsup_org_category_name", // Ensure unique id
       },
       {
-        header: "color",
-        accessorKey: "color",
-        // id: "clsup_org_name", // Ensure unique id
+        header: "Status",
+        accessorKey: "status",
       },
-
       {
-        header: "Body type ",
-        accessorKey: "body_type",
-        // id: "clsup_org_name", // Ensure unique id
+        header: "Category ",
+        accessorKey: "vehicle_category.name",
       },
-
+      {
+        header: "code",
+        accessorKey: "code",
+      },
       {
         header: "View",
-        cell: ({ row }) => View(row),
+        cell: ({ row }) => <View row={row} />,
       },
     ],
-    [filteredData]
+    []
   );
 
-  const handleCatChange = (e) => {
-    const value = e.target.value;
-    setCategory(value);
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    setCatFilter(selectedOption.text);
-  };
-  const handleOwnershipStatus = (e) => {
-    const value = e.target.value;
-    setVehicleStatus(value);
-  };
+  if (searchLoading) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
         All Repo Vehicles
       </h1>
-      <div className="flex w-full">
-        <div className="w-full  grid grid-cols-3 place-content-center gap-4">
-          <div className="flex flex-col w-40  ml-5">
-            <label htmlFor="state" className={labelStyle?.data}>
-              Select Client
-            </label>
-            <select
-              id="Client"
-              className={inputStyle?.data}
-              defaultValue=""
-              onChange={handleCatChange}
-            >
-              <option value="">All Category</option>
-
-              {vehicleCategorys.map((option, index) => (
-                <option key={index} value={option?.value}>
-                  {option?.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <CategoryFilter
-            label="select State"
-            handleCatChange={handleCatChange}
-            options={vehicleCategorys}
-          />
-          <CategoryFilter
-            label="select City"
-            handleCatChange={handleCatChange}
-            options={vehicleCategorys}
-          />
-          <div>
-            <Search
-              label="Search by vehcile reg"
-              setSearchVehicle={setSearchVehicle}
-              placeholder="search by Reg No"
-            />
-          </div>
+      <div className="grid grid-cols-3 gap-4 items-end px-3">
+        <div>
+          <CategoryFilter label="Select Category" options={vehicleCategorys} setCategory={setVehiclecat} />
         </div>
-        {/* <ClientFilter/>
-        <StateFilter/>
-        <CityFilter/> */}
+        <div>
+          <Search placeholder='eg: KL14WW1111' label='Search Registration Number' searchLoading={searchLoading} setSearchVehicle={setRegistrationNum} setSearchLoading={setSearchLoading} />
+        </div>
+        {/* <div>
+          <Status label="Select Status" options={RepoStatus2} setVehicleStatus={setVehicleStatus} />
+        </div> */}
       </div>
-      {/* <div className="border  flex  mt-4">
-        
-        <div className="flex justify-end w-full h-fit">
-          <Link
-            href={`/vehicle/addvehicle`}
-            // onClick={handleModal}
-            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
-          >
-            Add
-          </Link>
-        </div>
-      </div> */}
       <div>
-        {filteredData?.totalCount < 1 ? (
+        {filteredData < 1 ? (
           <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
             <DataTable data={UsersData} columns={userColumn} />
-
             <div className="w-full text-center">
-              {filteredData?.totalCount > 0 && (
+              {filteredData > 0 && (
                 <Pagination
                   page={page}
                   setPage={setPage}
                   limit={limit}
-                  totalDataCount={filteredData?.totalCount}
+                  totalDataCount={filteredData}
                 />
               )}
             </div>
@@ -216,12 +189,11 @@ const AllRepoVehicles = () => {
   );
 };
 
-export default AllRepoVehicles;
+export default AllRepoDetails;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
+const View = ({ row }) => {
   return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md">
       <p>
         <MdOutlineViewHeadline />
       </p>
@@ -229,7 +201,6 @@ const View = (row) => {
         href={`/repoUserVehicles/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
-        className=""
       >
         View
       </Link>

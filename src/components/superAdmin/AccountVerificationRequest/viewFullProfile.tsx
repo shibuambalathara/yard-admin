@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   FormFieldInput,
   SelectInput,
-  ImageMaping,
+  ImageMaping,  
   TextArea,
 } from "../../ui/fromFields";
 import { formStyle, inputStyle, divStyle } from "../../ui/style";
@@ -22,6 +22,7 @@ type Inputs = {
   email: string;
   contact: number;
   role: string;
+  org_id:string
   designation: string;
   account_verification: string;
   account_usage_from: Date;
@@ -43,7 +44,11 @@ const ViewFullProfile = ({ profileId }) => {
   const [initialData, setInitialData] = useState<Inputs | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [orgs, setAllOrg] = useState([]);
+  const [role, setRole] = useState(null);
   const router = useRouter();
+  console.log(orgs);
+
   const {
     register,
     handleSubmit,
@@ -52,6 +57,11 @@ const ViewFullProfile = ({ profileId }) => {
     setValue,
     reset,
   } = useForm<Inputs>();
+
+  const AllOrgs = orgs?.map((item) => ({
+    value: item?.id,
+    label: item?.org_name,
+  }));
 
   useEffect(() => {
     if (success) {
@@ -77,6 +87,8 @@ const ViewFullProfile = ({ profileId }) => {
         `/account/user/${profileId.profileId}`
       );
       setUserData(response.data.res);
+      setRole(response.data.res.role);
+
       const modifiedData = {
         ...response?.data?.res,
         account_verification: response?.data?.res?.account_verification,
@@ -98,7 +110,12 @@ const ViewFullProfile = ({ profileId }) => {
 
   useEffect(() => {
     FetchUserDate();
+    
   }, [profileId.profileId]);
+  // useEffect(() => {
+
+  //   FetchOrg();
+  // }, [role]);
 
   const handleUserUpdate = async (data: Inputs) => {
     console.log("Data", data);
@@ -109,13 +126,14 @@ const ViewFullProfile = ({ profileId }) => {
     const validTo = data?.account_usage_to
       ? new Date(data.account_usage_to).toISOString()
       : null;
-
+   
     const modifiedData = {
       ...data,
       name: data?.name?.toUpperCase(),
       account_usage_from: validFrom,
       account_usage_to: validTo,
       designation: data?.designation?.toUpperCase(),
+      org_id :data?.org_id
     };
 
     try {
@@ -137,6 +155,7 @@ const ViewFullProfile = ({ profileId }) => {
   const handleApproveClick = () => {
     setModalType("APPROVE");
     setIsModalOpen(true);
+    FetchOrg();
   };
 
   const handleRejectClick = () => {
@@ -153,6 +172,19 @@ const ViewFullProfile = ({ profileId }) => {
     handleSubmit(handleUserUpdate)();
     setIsModalOpen(false);
   };
+
+
+  const FetchOrg = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/user/organizations?role=${role}`
+      );
+      setAllOrg(response?.data?.res);
+      console.log(response + "resss");
+    } catch (error) {
+      console.log("error", error);
+    }
+  }, [role]);
 
   if (isLoading) {
     return (
@@ -234,7 +266,7 @@ const ViewFullProfile = ({ profileId }) => {
             <div className="col-span-2  ">
               <div className={` text-center justify-center `}>
                 {initialData?.account_verification === "REJECTED" && (
-                  <div >
+                  <div>
                     <button
                       type="button"
                       onClick={handleApproveClick}
@@ -245,28 +277,26 @@ const ViewFullProfile = ({ profileId }) => {
                   </div>
                 )}
                 {initialData?.account_verification === "PENDING" && (
-                 <div className="flex gap-4">
-                  <div >
-                  <button
-                    type="button"
-                    onClick={handleRejectClick}
-                    className="bg-red-500 text-white px-4 py-2 border w-40 rounded-md"
-                  >
-                    Reject
-                  </button>
-                </div>
-                  <div >
-                    <button
-                      type="button"
-                      onClick={handleApproveClick}
-                      className="bg-green-500 text-white px-4 py-2 border w-40 rounded-md border-none "
-                    >
-                      Approve
-                    </button>
+                  <div className="flex gap-4">
+                    <div>
+                      <button
+                        type="button"
+                        onClick={handleRejectClick}
+                        className="bg-red-500 text-white px-4 py-2 border w-40 rounded-md"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={handleApproveClick}
+                        className="bg-green-500 text-white px-4 py-2 border w-40 rounded-md border-none "
+                      >
+                        Approve
+                      </button>
+                    </div>
                   </div>
-                  
-                 </div>
-                  
                 )}
               </div>
               {initialData?.account_verification === "APPROVED" && (
@@ -325,6 +355,16 @@ const ViewFullProfile = ({ profileId }) => {
                     defaultValue=""
                     required
                     placeholder=" "
+                  />
+                  <SelectInput
+                    label="organization"
+                    options={AllOrgs}
+                    name="org_id"
+                    register={register}
+                    error={errors}
+                    defaultValue=""
+                    required
+                    
                   />
                 </>
               )}

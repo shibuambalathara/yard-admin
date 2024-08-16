@@ -63,8 +63,8 @@ const AllVehicleOwnerships = () => {
 
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
-    value: item.id,
-    label: item.cl_org_name,
+     value: item.id,
+    label: item.org_name,
   }));
   const vehicleCategorys = vehicleCategory?.map((item) => ({
     value: item.id,
@@ -129,7 +129,7 @@ const AllVehicleOwnerships = () => {
     () => [
       {
         header: "Client Organisation ",
-        accessorKey: "cl_org.cl_org_name",
+        accessorKey: "cl_org.org_name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -155,7 +155,7 @@ const AllVehicleOwnerships = () => {
 
       {
         header: "Yard Name  ",
-        accessorKey: "vehicle.yard.yard_name",
+        accessorKey: "vehicle.yard.org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
 
@@ -175,8 +175,8 @@ const AllVehicleOwnerships = () => {
 
   // console.log("filetered data from clientLevelSuperOrg",filteredData);
   const allYardsOptions = allyard?.map((item) => ({
-    value: item?.id,
-    label: item?.yard_name,
+     value: item.id,
+    label: item.org_name,
   }));
 
 

@@ -23,7 +23,7 @@ import ViewRepoManagement from "./EditRepo";
 const AllRepoManagemnet = () => {
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit,setLimit]=useState(5)
+  const [limit, setLimit] = useState(5);
   const [catFilter, setCatFilter] = useState("");
   const [yardFilter, setYardFilter] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,9 +34,9 @@ const AllRepoManagemnet = () => {
   const [filterDistricts, setFilterDistricts] = useState([]);
   const [selectDistrict, setSelectDistrict] = useState("");
   const stateDropdownRef = useRef(null);
-  const [stateAndCities,setAllStatesAndCities]=useState([])
+  const [stateAndCities, setAllStatesAndCities] = useState([]);
   const [uniqueStates, setUniqueStates] = useState([]);
-  const [editModalOpen, setEditModalOpen] = useState(true);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   const handleModalClose = () => {
@@ -57,41 +57,43 @@ const AllRepoManagemnet = () => {
     setUniqueStates(uniqueStates);
   }, []); // Only run once on component mount
 
-  // const fetchData = async () => {
-  //   setIsLoading(true);
+  const fetchData = async () => {
+    setIsLoading(true);
 
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/yard?page=${page}&limit=${limit}&country=INDIA&state=${selectedState}&city=${selectDistrict}`
-  //     );
-  //     console.log("all yards", response);
-  //     setFilteredData(response?.data?.res);
+    try {
+      const response = await axiosInstance.get(
+        `/repo-agency?page=${page}&limit=${limit}&state=${selectedState}&city=${selectDistrict}`
+      );
+      console.log("all yards", response);
+      setFilteredData(response?.data?.res);
 
-  //     setSuccess({
-  //       text: response?.data?.message,
-  //     });
-  //   } catch (error) {
-  //     setError({
-  //       text: error?.response?.data?.message,
-  //     });
-  //     console.error("Error fetching data:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // console.log("filt", filteredData);
+      setSuccess({
+        text: response?.data?.message,
+      });
+    } catch (error) {
+      setError({
+        text: error?.response?.data?.message,
+      });
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [page, selectedState, selectDistrict]);
+  console.log("filt", filteredData);
   const handleEditClick = (userId) => {
     setSelectedUserId(userId);
     setEditModalOpen(true);
   };
-  const UsersData = filteredData?.yard || [];
+  const UsersData = filteredData?.repoAgency || [];
 
   const userColumn = useMemo(
     () => [
       {
-        header: "yard name",
-        accessorKey: "yard_name",
+        header: "organization name",
+        accessorKey: "org_name",
       },
       {
         header: "state",
@@ -119,29 +121,36 @@ const AllRepoManagemnet = () => {
     [filteredData]
   );
 
-  
-console.log("filteredData subOrg",filteredData);
+  console.log("filteredData subOrg", filteredData);
 
+  // const handleStateChange = (e) => {
+  //   const selectedState = e.target.value;
+  //   // console.log("selectedState from handle change",selectedState);
 
+  //   setSelectedState(selectedState);
+  //   const stateData = Cities.filter((item) => item.state === selectedState);
+  //   console.log("selected state from state array", stateData);
+
+  //   !selectedState && setFilterDistricts([]);
+
+  //   stateData ? setFilterDistricts(stateData?.map((item) => item?.city)) : [];
+  //   setSelectDistrict("");
+
+  //   setCatFilter(e.target.value);
+  // };
 
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
-    // console.log("selectedState from handle change",selectedState);
 
     setSelectedState(selectedState);
+
     const stateData = Cities.filter((item) => item.state === selectedState);
-    console.log("selected state from state array", stateData);
 
-    !selectedState && setFilterDistricts([]);
-
-    stateData ? setFilterDistricts(stateData?.map((item)=>item?.city)) : [];
-    setSelectDistrict("");
-   
-    setCatFilter(e.target.value);
+    setFilterDistricts(selectedState ? stateData.map((item) => item.city) : []);
+    setSelectDistrict(""); // Reset city selection to show placeholder
+    // setCatFilter(e.target.value);
   };
-
-  console.log("filtered districts",filterDistricts);
-  
+  console.log("filtered districts", filterDistricts);
 
   const handleDistricChange = (e) => {
     setSelectDistrict(e.target.value);
@@ -152,15 +161,12 @@ console.log("filteredData subOrg",filteredData);
     // setSelectedUserId(null);
   };
 
-
-
-  
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-     Repo Management
+        Repo Management
       </h1>
-      <div className="grid grid-cols-3 px-5 items-center  gap-4">
+      <div className="grid grid-cols-3 px-5 items-center  gap-4  justify-center">
         {/*  */}
         <div className="flex flex-col w-24 ml-px  ">
           <label htmlFor="state" className={labelStyle?.data}>
@@ -187,14 +193,15 @@ console.log("filteredData subOrg",filteredData);
                           )} */}
         </div>
 
-        <div className="flex flex-col w-24">
+        <div className="flex flex-col ">
           <label htmlFor="district" className={labelStyle?.data}>
             Select District
           </label>
+
           <select
             id="district"
             className={inputStyle?.data}
-            defaultValue=""
+            value={selectDistrict} // Bind the value to state
             onChange={handleDistricChange}
           >
             <option value="" disabled hidden>
@@ -202,108 +209,92 @@ console.log("filteredData subOrg",filteredData);
             </option>
             {filterDistricts?.map((option, index) => (
               <option key={index} value={option}>
-                {option}
+                {option}  
               </option>
             ))}
           </select>
+
           {/* {errors.state && (
     <p className="text-red-500">State is required</p>
   )} */}
         </div>
-            <div className="self-end justify-self-end mb-2 flex gap-5">
-              <button
-                onClick={handleModalOpen}
-                className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mr-12"
-              >
-                Add
-              </button>
-            </div>
-            <div className="w-full relative">
-              {modalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-                  <AddRepo
-                    onClose={handleModalClose}
-                    fetchData={''}
-                  />
-                </div>
-              )}
-            </div>
-         
+        <div className="self-end justify-self-end mb-2 flex gap-5">
+          <button
+            onClick={handleModalOpen}
+            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mr-12"
+          >
+            Add
+          </button>
         </div>
-        {editModalOpen && (
-       <div className="w-full relative">
-              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-                <ViewRepoManagement
-                  clientSuperId={selectedUserId}
-                  onClose={handleEditModalClose}
-                  fetchData={''}
-                />
-              </div>
-             </div>
+        <div className="w-full relative">
+          {modalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+              <AddRepo onClose={handleModalClose} fetchData={fetchData} />
+            </div>
           )}
-      <div>
-      {filteredData?.totalCount< 1?( <div className="flex flex-col justify-center items-center h-96 p-8">
-      <div className="mb-6">
-        <CgOrganisation className='text-red-500 font-bold text-6xl' />
+        </div>
       </div>
-      <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
-        
-          <>
-
-          <span>No Organization  Found</span>
-         
-          </>
-        
-      </p>
-      
-    </div>):( <>
-      {filteredData && 
-
-      <>
-            <DataTable data={UsersData} columns={userColumn} />
-            <div className="w-full text-center">
-          {filteredData?.totalCount >0 && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalDataCount={filteredData?.totalCount}
-              limit={limit}
+      {editModalOpen && (
+        <div className="w-full relative">
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+            <ViewRepoManagement
+              clientSuperId={selectedUserId}
+              onClose={handleEditModalClose}
+              fetchData={fetchData}
             />
-          )}
+          </div>
         </div>
-
-      </>
-
-
-      
-      }
-</>)}
-        </div>
+      )}
+      <div>
+        {filteredData?.totalCount < 1 ? (
+          <div className="flex flex-col justify-center items-center h-96 p-8">
+            <div className="mb-6">
+              <CgOrganisation className="text-red-500 font-bold text-6xl" />
+            </div>
+            <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
+              <>
+                <span>No Organization Found</span>
+              </>
+            </p>
+          </div>
+        ) : (
+          <>
+            {filteredData && (
+              <>
+                <DataTable data={UsersData} columns={userColumn} />
+                <div className="w-full text-center">
+                  {filteredData?.totalCount > 0 && (
+                    <Pagination
+                      page={page}
+                      setPage={setPage}
+                      totalDataCount={filteredData?.totalCount}
+                      limit={limit}
+                    />
+                  )}
+                </div>
+              </>
+            )}
+          </>
+        )}
       </div>
-      
-  
-  );
-};
-
-export default AllRepoManagemnet;
-
-const View = (row) => {
-  // console.log("from view", row.original.id);
-  return (
-    <div className="flex justify-center items-center border space-x-1 bg-gray-700 text-white p-1 rounded-md ">
-      <p>
-        <MdOutlineViewHeadline />
-      </p>
-      <Link
-        href={`/organisationManagement/clientLevelOrg/${row.original.id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
-        View
-      </Link>
     </div>
   );
 };
 
+export default AllRepoManagemnet;
+const View = ({ row, onEditClick }) => {
+  console.log("row form category", row);
 
+  return (
+    <div
+      onClick={() => onEditClick(row?.original?.id)}
+      className="flex justify-center items-center py-1 px-3   space-x-2 bg-gray-700 rounded-md  text-white"
+    >
+      <p>
+        <MdOutlineViewHeadline />
+      </p>
+
+      <span> View</span>
+    </div>
+  );
+};

@@ -40,17 +40,17 @@ const SidebarItem = ({ item, activePath }) => {
   return (
     <div
       className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
-        open ? "w-85" : "w-16"
+        open ? "sm:w-85 w-[388px] " : "md:w-16 max-md:w-8 "
       }`}
     >
       <BsArrowLeftCircle
-        className={`absolute right-3 top-4 z-50 text-xl cursor-pointer border border-black rounded-full ${
+        className={`absolute md:right-3  right-px top-4 z-50 text-xl cursor-pointer border border-black rounded-full ${
           !open && "rotate-180"
         }`}
         onClick={() => setOpen(!open)}
       />
 
-      <ul className="pt-16 bg-gray-800 pl-6 space-y-5">
+      <ul className="pt-10 bg-gray-800 md:pl-6 space-y-5">
         {item &&
           item.map((menu, index) => (
             <React.Fragment key={index}>

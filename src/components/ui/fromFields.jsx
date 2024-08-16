@@ -18,7 +18,7 @@ export const FormFieldInput = ({
   defaultValue,
   error,
   placeholder,
-  disabled=false,
+  disabled = false,
   ...rest
 }) => {
   const handleInputChange = (event) => {
@@ -46,7 +46,9 @@ export const FormFieldInput = ({
         disabled={disabled}
       />
 
-      {error && <p className="text-red-500 text-start">{`This field is required`}</p>}
+      {error && (
+        <p className="text-red-500 text-start">{`This field is required`}</p>
+      )}
     </div>
   );
 };
@@ -57,10 +59,10 @@ export const InputField = ({
   type = "text",
   register,
   errors,
-  required = true,
+  required = false,
   pattern,
   disabled = false,
-  placeholder=""
+  placeholder = "",
 }) => {
   const handleInputChange = (event) => {
     if (
@@ -90,16 +92,51 @@ export const InputField = ({
         // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         // export const inputStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded border `}
 
-        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${disabled && `bg-gray-100`} `}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${
+          disabled && `bg-gray-100`
+        } `}
         onChange={handleInputChange}
         placeholder={placeholder}
       />
       {errors[name] && (
-        <p className="text-red-500  mt-1">{'This field is required'}</p>
+        <p className="text-red-500  mt-1">{"This field is required"}</p>
       )}
     </div>
   );
 };
+
+export const DisabledInput = ({
+  name,
+  label,
+  type = "text",
+  disabled = true,
+  placeholder = "",
+  value,
+}) => {
+  let displayValue = value;
+  
+  // Check if the type is date and format it appropriately
+  if (type === "date" && value) {
+    const date = new Date(value);
+    displayValue = date.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+  }
+
+  return (
+    <div className="mb-">
+      <label className={`${labelStyle.data}`}>{label}</label>
+      <input
+        disabled={disabled}
+        type={type}
+        value={displayValue}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${
+          disabled && `bg-gray-100`
+        }  disabled:bg-white`}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
+
 
 export const FormFieldPassword = ({
   label,
@@ -175,6 +212,7 @@ export const FormFieldInputLoginInput = ({
         {...register(name, rest)}
         className={`${loginInputStyle.data}`}
         placeholder={placeholder}
+
       />
 
       {error && <p className="text-red-500">This field is required</p>}
@@ -189,8 +227,12 @@ export const RadioButtonInput = ({
   defaultValue,
   error,
   placeholder,
+  disabled=false,
+  required=false,
   ...rest
 }) => {
+  // console.log("error",error);
+  
   return (
     <div className="flex flex-col space-x-2 w-72">
       <p className={`${labelStyle.data} ml-1`}>{label}</p>
@@ -201,8 +243,12 @@ export const RadioButtonInput = ({
             type="radio"
             value="YES"
             name={name}
-            {...register(name)} // Spread the register function with the name
+            
+            {...register(name,{
+              required: required 
+               })}// Spread the register function with the name
             className=""
+            disabled={disabled}
           />
           Yes
         </label>
@@ -213,9 +259,13 @@ export const RadioButtonInput = ({
             name={name}
             {...register(name)} // Spread the register function with the name
             className=""
+            disabled={disabled}
+
           />
           No
         </label>
+        {/* {error && <p className="text-red-500">This field is required</p>} */}
+
       </div>
     </div>
   );
@@ -233,6 +283,93 @@ export const SelectInput = ({
   disabled = false,
   ...rest
 }) => {
+  // console.log("options",  options);
+  // console.log("name",  name);
+
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={name} className={`${labelStyle?.data}`}>
+        {label}
+      </label>
+      <select
+        disabled={disabled}
+        {...register(name, { required: required })}
+        className={`${inputStyle?.data}`}
+        {...rest}
+
+        // defaultValue={defaultValue}x
+      >
+        {/* <option  >
+        {label}
+        </option> */}
+        {options &&
+          options?.map((option) => (
+            <option
+              className="max-md:text-sm"
+              key={option?.value}
+              value={option?.value}
+            >
+              {option.label}
+            </option>
+          ))}
+      </select>
+      {error[name] && <p className="text-red-500">This field is required</p>}
+    </div>
+  );
+};
+
+export const SelectInputOptional = ({
+  label,
+  name,
+  options,
+  defaultValue,
+  error,
+  register,
+  required,
+  disabled = false,
+  ...rest
+}) => {
+  // console.log("options",options);
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={name} className={`${labelStyle?.data}`}>
+        {label}
+      </label>
+      <select
+        disabled={disabled}
+        {...register(name, { required: required })}
+        className={`${inputStyle?.data}`}
+        defaultValue={defaultValue}
+        {...rest}
+      >
+        {options &&
+          options?.map((option) => (
+            <option
+              className="max-md:text-sm"
+              key={option?.value}
+              value={option?.value}
+            >
+              {option.label}
+            </option>
+          ))}
+      </select>
+      {error[name] && <p className="text-red-500">This field is required</p>}
+    </div>
+  );
+};
+
+export const SelectInputWithChange = ({
+  label,
+  name,
+  options,
+  defaultValue,
+  error,
+  register,
+  required,
+  disabled = false,
+  handleRoleChange,
+  ...rest
+}) => {
   // console.log("options",options);
 
   return (
@@ -241,11 +378,12 @@ export const SelectInput = ({
         {label}
       </label>
       <select
-      disabled={disabled}
+        disabled={disabled}
         {...register(name, { required: required })}
         className={`${inputStyle?.data}`}
         {...rest}
         // defaultValue={defaultValue}
+        onChange={handleRoleChange}
       >
         {/* <option disabled  selected >
         {label}
@@ -271,10 +409,9 @@ export const SelectComponent = ({
   required = false,
   defaultValue,
   disabled = false,
-  placeholder=""
+  placeholder = "",
+  // default to a no-op function
 }) => {
-  // console.log("errors",errors);
-
   return (
     <div className="flex flex-col w-full">
       <label htmlFor={name} className={labelStyle?.data}>
@@ -284,15 +421,57 @@ export const SelectComponent = ({
         disabled={disabled}
         id={name}
         {...register(name, { required: required && "This field is required" })}
-        // className="py-1 px-12 border border-gray-300 rounded"
-        className={inputStyle?.data}
-        defaultValue={defaultValue}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
+        defaultValue={defaultValue} 
+      >
+        <option className="max-md:text-sm" value="" disabled hidden>
+          {placeholder ? placeholder : label}
+        </option>
+        {options &&
+          options?.map((option, index) => (
+            <option key={index} value={option?.value}>
+              {option?.label}
+            </option>
+          ))}
+      </select>
+      {errors && errors[name] && (
+        <p className="text-red-500">This field is required</p>
+      )}
+    </div>
+  );
+};
+
+
+export const SelectComponentWithOnchange = ({
+  label,
+  name,
+  options,
+  register,
+  errors,
+  required = false,
+  value, // Controlled value
+  disabled = false,
+  placeholder = "",
+  onChangeHandler,
+}) => {
+  return (
+    <div className="flex flex-col w-full">
+      <label htmlFor={name} className={labelStyle?.data}>
+        {label}
+      </label>
+      <select
+        disabled={disabled}
+        id={name}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
+        value={value} // Ensure the select uses value from state
+        onChange={onChangeHandler}
       >
         <option value="" disabled hidden>
           {placeholder ? placeholder : label}
         </option>
         {options &&
-          options?.map((option, index) => (
+          options.map((option, index) => (
             <option key={index} value={option?.value}>
               {option?.label}
             </option>
@@ -419,13 +598,7 @@ export const TextArea = ({
   );
 };
 
-export const FileUploadInput = ({
-  label,
-  name,
-  register,
-  accept,
-  
-}) => {
+export const FileUploadInput = ({ label, name, register, accept }) => {
   return (
     <div>
       <label className={`${labelStyle.data}`}>{label}</label>
@@ -434,19 +607,18 @@ export const FileUploadInput = ({
         name={name}
         type="file"
         accept={accept}
-        
         className={`${inputStyle.data} `}
         {...register(name)}
       />
     </div>
   );
 };
-export  const ExcelUploadInput = ({
-   label, name, register, accept 
-  }) => {
+export const ExcelUploadInput = ({ label, name, register, accept }) => {
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label}
+      </label>
       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md">
         <div className="space-y-1 text-center">
           <svg
@@ -480,26 +652,25 @@ export  const ExcelUploadInput = ({
               htmlFor={name}
               className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
             >
-              <span>Upload a file</span>
+              {/* <span>Upload a file</span> */}
               <input
                 id={name}
                 name={name}
                 type="file"
                 accept={accept}
-                className="sr-only"
+                className=""
                 {...register(name)}
               />
             </label>
           </div>
-          <p className="text-xs text-gray-500">Excel files (.xlsx, .xls, .csv) up to 10MB</p>
+          <p className="text-xs text-gray-500">
+            Excel files (.xlsx, .xls, .csv)
+          </p>
         </div>
       </div>
     </div>
   );
 };
-
-
-
 
 // const labelStyle = {
 //   data: "text-gray-700 mb-2"
@@ -542,49 +713,48 @@ const customStyles = {
   }),
 };
 
-  export const CustomMultiSelect = ({
-    control,
-    name,
-    options,
-    placeholder,
-    label,
-    defaultValue,
-    rules={} // Accept rules as a prop
-  }) => {
-    return (
-      <div className="flex flex-col w-full">
-        <label className="mb-2">
-          {label}
-        </label>
-        <Controller
-          name={name}
-          control={control}
-          defaultValue={defaultValue} // Set default value
-          rules={rules} // Apply validation rules
-          render={({ field, fieldState: { error } }) => (
-            <>
-              <Select
-                {...field}
-                isMulti
-                options={options}
-                className="react-select-container"
-                classNamePrefix="react-select"
-                placeholder={placeholder}
-                onChange={(selected) =>
-                  field.onChange(selected?.map((option) => option?.value))
-                }
-                value={options?.filter((option) =>
-                  field?.value?.includes(option?.value)
-                )}
-              />
-              {error && <p className="text-red-500 mt-2">This field is required</p>}
-            </>
-          )}
-        />
-      </div>
-    );
-  }
-
+export const CustomMultiSelect = ({
+  control,
+  name,
+  options,
+  placeholder,
+  label,
+  defaultValue,
+  rules = {}, // Accept rules as a prop
+}) => {
+  return (
+    <div className="flex flex-col w-full">
+      <label className="mb-2">{label}</label>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={defaultValue} // Set default value
+        rules={rules} // Apply validation rules
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <Select
+              {...field}
+              isMulti
+              options={options}
+              className="react-select-container"
+              classNamePrefix="react-select"
+              placeholder={placeholder}
+              onChange={(selected) =>
+                field.onChange(selected?.map((option) => option?.value))
+              }
+              value={options?.filter((option) =>
+                field?.value?.includes(option?.value)
+              )}
+            />
+            {error && (
+              <p className="text-red-500 mt-2">This field is required</p>
+            )}
+          </>
+        )}
+      />
+    </div>
+  );
+};
 
 export const CustomMultiSelectForEdit = ({
   control,
@@ -592,7 +762,7 @@ export const CustomMultiSelectForEdit = ({
   options,
   placeholder,
   label,
-  defaultValue = []
+  defaultValue = [],
 }) => {
   return (
     <div className="flex flex-col w-full">
@@ -616,7 +786,9 @@ export const CustomMultiSelectForEdit = ({
             placeholder={placeholder}
             onChange={(selected) => field.onChange(selected)}
             value={options?.filter((option) =>
-              field?.value?.some((val) => val.vehicle_category_id === option.value)
+              field?.value?.some(
+                (val) => val.vehicle_category_id === option.value
+              )
             )}
             getOptionLabel={(option) => option.label}
             getOptionValue={(option) => option.value}
@@ -626,9 +798,6 @@ export const CustomMultiSelectForEdit = ({
     </div>
   );
 };
-
- 
-
 
 export default FileUploadInput;
 export const SelectChange = (props) => {
@@ -640,6 +809,7 @@ export const SelectChange = (props) => {
     errors,
     required = true,
     defaultValue,
+    disabled=false,
   } = props;
 
   return (
@@ -649,6 +819,7 @@ export const SelectChange = (props) => {
       </label>
       <select
         id={name}
+        disabled={disabled}
         {...register(name, { required })}
         className={inputStyle.data}
         defaultValue={defaultValue}
@@ -676,7 +847,8 @@ export const DateField = ({
   required = true,
   pattern,
   disabled = false,
-  placeholder = ""
+  placeholder = "",
+  
 }) => {
   const handleInputChange = (event) => {
     if (
@@ -708,18 +880,93 @@ export const DateField = ({
   }
 
   return (
-    <div className="mb-4">
-      <label className="text-gray-800 text-sm font-semibold leading-tight tracking-normal">{label}</label>
+    <div className="mb-">
+        <label className={`${labelStyle.data}`}>
+        {label}
+      </label>
       <input
         disabled={disabled}
         type={type}
         {...register(name, registerOptions)}
-        className={`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${name === "name" ? "uppercase" : ""} ${disabled ? "bg-gray-100" : ""}`}
+        className=
+        {`${inputStyle.data}`}
+        // {`py-1 px-4 block w-72  mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${
+        //   name === "name" ? "uppercase" : ""
+        // } ${disabled ? "bg-gray-100" : ""}`}
         onChange={handleInputChange}
         placeholder={placeholder}
       />
       {errors[name] && (
-        <p className="text-red-500 mt-1">{errors[name].message || 'This field is required'}</p>
+        <p className="text-red-500 mt-1">
+          {errors[name].message || "This field is required"}
+        </p>
+      )}
+    </div>
+  );
+};export const FutureDate = ({
+  name,
+  label,
+  type = "text",
+  register,
+  errors,
+  required = true,
+  pattern,
+  disabled = false,
+  placeholder = "",
+}) => {
+
+  // Converts input to uppercase for non-email, non-password, non-date, and non-number fields
+  const handleInputChange = (event) => {
+    if (
+      name !== "email" &&
+      name !== "password" &&
+      name !== "date" &&
+      name !== "number"
+    ) {
+      event.target.value = event.target.value.toUpperCase();
+    }
+  };
+
+  // Configure validation options based on the input type and requirements
+  const registerOptions = {
+    required: required && `This field is required`,
+    pattern: pattern && {
+      value: pattern,
+      message: `It is invalid`,
+    },
+  };
+
+  // Additional validation for date inputs to ensure the selected date is in the future
+  if (type === "datetime-local") {
+    registerOptions.valueAsDate = true;
+    registerOptions.validate = (value) => {
+        const selectedDate = new Date(value);
+        selectedDate.setHours(0, 0, 0, 0); // Set selected date time to 00:00:00
+
+        const now = new Date();
+        now.setHours(0, 0, 0, 0); // Set current date time to 00:00:00
+
+        return selectedDate > now || "The selected date must be today or in the future";
+    };
+  }
+
+  return (
+    <div className="mb-">
+      <label className={`${labelStyle.data}`}>
+        {label}
+      </label>
+      <input
+        disabled={disabled}
+        type={type}
+        {...register(name, registerOptions)}
+        className={`${inputStyle.data}`}
+        onChange={handleInputChange}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="text-red-500 mt-1">
+          {errors[name].message || "This field is required"}
+        </p>
       )}
     </div>
   );

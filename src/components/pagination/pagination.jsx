@@ -43,7 +43,7 @@ const Pagination = (props) => {
     <>
     {/* { 
     props?.totalDataCount > props?.limit  && (  */}
-      
+
       <div className="space-x-10 my-4 flex  justify-between items-center">
       <div className="w-full  space-x-4">
         <button
@@ -64,7 +64,7 @@ const Pagination = (props) => {
           Previous page
         </button>
         <button
-          
+
           disabled={props?.page >= totalPages && true}
           onClick={() => props?.setPage(props?.page + 1)}
           className={`${buttonStyle.data}  ${
@@ -99,7 +99,7 @@ const Pagination = (props) => {
             onChange={(e) => handlePagination(e.target.value)}
             placeholder="Enter Page Number"
           />
-          
+
         </div>
       </div>
     </div>
@@ -107,5 +107,4 @@ const Pagination = (props) => {
     </>
   );
 };
-
 export default Pagination;

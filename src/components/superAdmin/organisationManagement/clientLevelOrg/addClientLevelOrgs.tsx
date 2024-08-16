@@ -17,10 +17,10 @@ const CreateClientLevelOrganisation = () => {
   const [category, setAllCategory] = useState([]);
   const router = useRouter();
   type Inputs = {
-    cl_org_name: string;
+    org_name: string;
     user_id: string;
     clsup_org_id: string;
-    cl_org_category_id: string;
+   client_category_id: string;
     country: string;
     state: string;
   };
@@ -39,11 +39,11 @@ const CreateClientLevelOrganisation = () => {
       );
       // setAllUsers(response?.data?.data);
 
-      // console.log("reponse of FetchClientLevelSuperUsers ", response);
+      console.log("reponse of FetchClientLevelSuperUsers ", response);
 
       const transformedArray = response?.data?.res?.clientLvlSuperOrg.map(
         (item) => ({
-          label: item.clsup_org_name,
+          label: item.org_name,
           value: item.id,
         })
       );
@@ -60,7 +60,7 @@ const CreateClientLevelOrganisation = () => {
     }
   }, []);
 
-  // console.log('setClientLevelSuperUser',clientLevelSuperUsers);
+  console.log('setClientLevelSuperUser',clientLevelSuperUsers);
 
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
@@ -110,14 +110,14 @@ const CreateClientLevelOrganisation = () => {
   }));
 
   // console.log("AllUsers", AllUsers);
-  // console.log("AllCat", AllCategory);
+  console.log("AllCat", AllCategory);
   //   console.log("clientLevelSuperUsers",clientLevelSuperUsers);
 
   const createClientLevelOrganisation = useCallback(async (data: Inputs) => {
     console.log("create from cientSuperorg", data);
     const modifiedData = {
       ...data,
-      cl_org_name: data?.cl_org_name?.toUpperCase(),
+      org_name: data?.org_name?.toUpperCase(),
     };
 
     console.log("client level org modifiedData", modifiedData);
@@ -158,13 +158,13 @@ const CreateClientLevelOrganisation = () => {
                 <InputField
                   label=" Organisation Name"
                   type="text"
-                  name="cl_org_name"
+                  name="org_name"
                   register={register}
                   errors={errors}
                   pattern=""
                 />
               </div>
-              <div className="mb-">
+              {/* <div className="mb-">
                 <SelectComponent
                   label="Select User"
                   options={AllUsers}
@@ -174,7 +174,7 @@ const CreateClientLevelOrganisation = () => {
                   required={true}
                   defaultValue=""
                 />
-              </div>
+              </div> */}
               <div className="mb-">
                 <SelectComponent
                   label="Select Super Organisation"
@@ -182,7 +182,7 @@ const CreateClientLevelOrganisation = () => {
                   name="clsup_org_id"
                   register={register}
                   errors={errors}
-                  required={true}
+                  required={false}
                   defaultValue=""
                 />
               </div>
@@ -190,7 +190,7 @@ const CreateClientLevelOrganisation = () => {
                 <SelectComponent
                   label="Select Category "
                   options={AllCategory}
-                  name="cl_org_category_id"
+                  name="client_category_id"
                   register={register}
                   errors={errors}
                   required={true}
@@ -209,7 +209,6 @@ const CreateClientLevelOrganisation = () => {
                   defaultValue=""
                 />
               </div>
-              
             </div>
 
             <div className="w-full text-center pt-8 space-x-4 ">

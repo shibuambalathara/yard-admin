@@ -19,7 +19,7 @@ import {
 } from "../../../../components/ui/style";
 import { log } from "console";
 type Inputs = {
-  yard_name: string;
+  org_name: string;
   id: string;
   field_executive_name: string;
   field_executive_contact: number;
@@ -115,7 +115,7 @@ const EdityardDataYard = ({ yardId }) => {
     async (data: Inputs) => {
       const modifiedData = {
         ...data,
-        yard_name: data?.yard_name.toUpperCase(),
+        org_name: data?.org_name.toUpperCase(),
         field_executive_name: data?.field_executive_name?.toUpperCase(),
         city: data?.city,
       };
@@ -170,7 +170,7 @@ const EdityardDataYard = ({ yardId }) => {
               <InputField
                 label="Yard Name"
                 type="text"
-                name="yard_name"
+                name="org_name"
                 register={register}
                 errors={errors}
                 pattern=""
@@ -197,17 +197,7 @@ const EdityardDataYard = ({ yardId }) => {
                 pattern=""
               />
             </div>
-            <div className="">
-              <SelectInput
-                label="Select User"
-                options={AllUsers}
-                name="user_id"
-                register={register}
-                error={errors}
-                required={false}
-                defaultValue={""}
-              />
-            </div>
+           
             <SelectChange
               label="State"
               name="state"

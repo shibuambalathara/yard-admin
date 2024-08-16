@@ -56,25 +56,23 @@ export default async function RootLayout({
   
   return (
     <html lang="en" className="h-full capitalize ">
-      <head></head>
+    <head></head>
 
-      <body
-        className={`${roboto_init.variable} ${Poppins_init.variable} h-full `}
-      >
-        <div className="flex flex-col h-full ">
-          <Header />
-          <div className="flex flex-1 h-full">
-            <SideBar />
-            <div className="flex-1 min-h-full overflow-y-scroll scrollbar-hide">
-              <ToastProvider>
+    <body
+      className={`${roboto_init.variable} ${Poppins_init.variable} h-full `}
+    >
+      <div className="flex flex-col h-full max-md:overflow-hidden">
+        <Header />
+        <div className="flex flex-1 h-full flex-row">
+          <SideBar />
+          <div className="flex-1 min-h-full overflow-y-scroll scrollbar-hide">
+            <ToastProvider>
               {children}
-              </ToastProvider>
-            
-              
-            </div>
+            </ToastProvider>
           </div>
         </div>
-      </body>
-    </html>
+      </div>
+    </body>
+  </html>
   );
 }

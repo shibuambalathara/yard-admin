@@ -22,8 +22,8 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
   const [individual, setIndividual] = useState<Inputs | null>(null);
   type Inputs = {
     clsup_org_category: string;
-    clsup_org_category_id: string;
-    clsup_org_name: string;
+    client_category_id: string;
+    org_name: string;
     clsup_org_status: number;
     code: string;
     country: string;
@@ -148,7 +148,7 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
     console.log("data from cientSuperorg", data);
     const ModifiedData = {
       ...data,
-      clsup_org_name: data?.clsup_org_name?.toUpperCase(),
+      org_name: data?.org_name?.toUpperCase(),
     };
 
     console.log("MODIFIEDDATA", ModifiedData);
@@ -182,13 +182,13 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
               <InputField
                 label="Super Organisation Name"
                 type="text"
-                name="clsup_org_name"
+                name="org_name"
                 register={register}
                 errors={errors}
                 pattern=""
               />
             </div>
-            <div className="mb-">
+            {/* <div className="mb-">
               <SelectInput
                 label="Select User"
                 options={AllUsers}
@@ -198,13 +198,13 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
                 required={true}
                 defaultValue={individual?.user}
               />
-            </div>
+            </div> */}
 
             <div className="mb-">
               <SelectInput
                 label="Select Category "
                 options={AllCategory}
-                name="clsup_org_category_id"
+                name="client_category_id"
                 register={register}
                 error={errors}
                 required={true}
@@ -218,13 +218,13 @@ const ViewClientLevelSuperOrg = ({ clientSuperId, onClose, fetchData }) => {
             <button
               type="button"
               onClick={() => onClose()}
-              className="bg-red-500 text-white py-2 px-10 w-32 rounded hover:bg-red-600 transition duration-200"
+              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-10 w-32 rounded hover:bg-green-600 transition duration-200"
+               className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
             >
               Submit
             </button>

@@ -25,8 +25,8 @@ const CreateClientLevelSubOrganisation = () => {
     user_id: string;
     cl_org_id: string;
     vehicleCatIds: string[];
-    clsub_org_name: string;
-    clsub_org_category_id: string;
+    org_name: string;
+    client_category_id: string;
   };
 
   const {
@@ -34,11 +34,11 @@ const CreateClientLevelSubOrganisation = () => {
     handleSubmit,
     reset,
     control,
-    
+
     formState: { errors },
   } = useForm<Inputs>();
 
-  const router=useRouter()
+  const router = useRouter();
 
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
@@ -120,14 +120,14 @@ const CreateClientLevelSubOrganisation = () => {
   const allowedLabels = ["BANK"];
 
   const AllCategory = category
-    .filter(item => allowedLabels.includes(item.name))
-    .map(item => ({
+    .filter((item) => allowedLabels.includes(item.name))
+    .map((item) => ({
       value: item.id,
       label: item.name,
     }));
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
-    label: item.cl_org_name,
+    label: item.org_name,
   }));
   const allVehicleCategorys = allVehicleCategory?.map((item) => ({
     value: item.id,
@@ -146,7 +146,7 @@ const CreateClientLevelSubOrganisation = () => {
     // console.log("create from cientSuperorg", data);
     const modifiedData = {
       ...data,
-      cl_org_name: data?.clsub_org_name?.toUpperCase(),
+      cl_org_name: data?.org_name?.toUpperCase(),
     };
 
     console.log("client level org modifiedData", modifiedData);
@@ -158,8 +158,7 @@ const CreateClientLevelSubOrganisation = () => {
       );
       // console.log("response after clientOrgCreaet", response);
       toast.success(response?.data?.message);
-      router.push('/organisationManagement/clientLevelSubOrg')
-     
+      router.push("/organisationManagement/clientLevelSubOrg");
     } catch (error) {
       // console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -167,42 +166,38 @@ const CreateClientLevelSubOrganisation = () => {
     // Handle form submission
   }, []);
 
-  const close=()=>{
-    router.back()
-  }
+  const close = () => {
+    router.back();
+  };
 
   return (
     <>
-   <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
-      <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
-        <div className="flex flex-col items-center">
-          <div className="w-full  mb-">
-          <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
-          Create Sub Organisation
-        </h1>
-        <div className="border-b mt-4"></div>
-          </div>
-          
-          <form
-            onSubmit={handleSubmit(createClientLevelSubOrganisation)}
-            className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
-          >
-            
-  
+      <div className="min-h-screen flex flex-col items-center bg-gray-100 py-10">
+        <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
+          <div className="flex flex-col items-center">
+            <div className="w-full  mb-">
+              <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
+                Create Sub Organisation
+              </h1>
+              <div className="border-b mt-4"></div>
+            </div>
 
-           
-            <div className="mb-">
-                  <InputField
-                    label=" Sub Organisation Name"
-                    type="text"
-                    name="clsub_org_name"
-                    register={register}
-                    errors={errors}
-                    pattern=""
-                  />
-                </div>
+            <form
+              onSubmit={handleSubmit(createClientLevelSubOrganisation)}
+              className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
+            >
+              <div className="mb-">
+                <InputField
+                  label=" Sub Organisation Name"
+                  type="text"
+                  name="org_name"
+                  register={register}
+                  errors={errors}
+                  pattern=""
+                />
+              </div>
 
-                <div className="mb-">
+              {/* <div className="mb-">
                   <SelectComponent
                     label="Select User"
                     options={allSubUsers}
@@ -212,61 +207,61 @@ const CreateClientLevelSubOrganisation = () => {
                     required={true}
                     defaultValue=""
                   />
-                </div>
-                <div className="p-4 w-80">
-              <CustomMultiSelect
-                control={control }
-                name="vehicleCatIds"
-                options={allVehicleCategorys}
-                placeholder="Select Vehicle Category"
-                label="Select Vehicle Category"
-                defaultValue=""
-                rules={{ required: "This field is required" }} // Add validation rules
-              />
-            </div>
-                <div className="mb-">
-                  <SelectComponent
-                    label="Select Client Organisation "
-                    options={allClientLevelOrganisations}
-                    name="cl_org_id"
-                    register={register}
-                    errors={errors}
-                    required={true}
-                    defaultValue=""
-                  />
-                </div>
-                <div className="mb-">
-                  <SelectComponent
-                    label=" Select Client Category"
-                    options={AllCategory}
-                    name="clsub_org_category_id"
-                    register={register}
-                    errors={errors}
-                    required={true}
-                    defaultValue=""
-                  />
-                </div>
+                </div> */}
 
+              <div className="p-4 w-80">
+                <CustomMultiSelect
+                  control={control}
+                  name="vehicleCatIds"
+                  options={allVehicleCategorys}
+                  placeholder="Select Vehicle Category"
+                  label="Select Vehicle Category"
+                  defaultValue=""
+                  rules={{ required: "This field is required" }} // Add validation rules
+                />
+              </div>
+              <div className="mb-">
+                <SelectComponent
+                  label="Select Client Organisation "
+                  options={allClientLevelOrganisations}
+                  name="cl_org_id"
+                  register={register}
+                  errors={errors}
+                  required={true}
+                  defaultValue=""
+                />
+              </div>
+              <div className="mb-">
+                <SelectComponent
+                  label=" Select Client Category"
+                  options={AllCategory}
+                  name="client_category_id"
+                  register={register}
+                  errors={errors}
+                  required={true}
+                  defaultValue=""
+                />
+              </div>
 
-            <div className="flex justify-end col-span-full">
-              <button
-                type="button"
-                onClick={() => close()}
-                className="bg-red-500 text-white py-3 px-8 rounded-lg hover:bg-red-600 transition duration-200 mr-4"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition duration-200"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+              <div className="flex justify-end col-span-full">
+                <button
+                  type="button"
+                  onClick={() => close()}
+                  className="bg-red-500 text-white py-3 px-8 rounded-lg hover:bg-red-600 transition duration-200 mr-4"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition duration-200"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

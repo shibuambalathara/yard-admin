@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
@@ -12,12 +11,15 @@ import Pagination from "@/components/pagination/pagination";
 
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
-
-const YardAvailableVehicle = () => {
+import RepoRespond from "@/components/reuseableComponent/repoComponents/modal/requestRespond";
+import RequestForRepo from "./requestForRepo";
+import RepoYardRequest from "@/components/reuseableComponent/repoComponents/modal/requestForYard";
+import { Search } from "@/components/reuseableComponent/filter/filters";
+const AllRequestedVehicles = (props) => {
+  const { user } = props;
   const [filteredData, setFilteredData] = useState(null);
   const [page, setPage] = useState(1);
-  //   const [modalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Initially set to true to show loading spinner
+  const [isLoading, setIsLoading] = useState(true);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +28,12 @@ const YardAvailableVehicle = () => {
   const [catFilter, setCatFilter] = useState("");
   const [vehicleStatus, setVehicleStatus] = useState("");
   const [limit, setLimit] = useState(5);
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [status, setStatus] = useState('');
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [allYard,  setAllYard] = useState([]); // State for selected vehicle ID
+  const [registrationNum, setRegistrationNum] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
   const fetchVehicles = async () => {
     setIsLoading(true);
 
@@ -34,18 +41,18 @@ const YardAvailableVehicle = () => {
       const params = new URLSearchParams({
         page: page?.toString(),
         limit: limit?.toString(),
+        
       });
+      if (registrationNum) {
+        params.append("searchByRegNo", registrationNum);
+      }
 
       if (Category) {
         params.append("vehicle_category_id", Category);
       }
 
-      if (vehicleStatus) {
-        params.append("status", vehicleStatus);
-      }
-
       const response = await axiosInstance.get(
-        `/vehicle/?${params.toString()}`
+        `repo_yard/vehicles/eligible?${params.toString()}`
       );
       console.log("res", response);
 
@@ -67,7 +74,16 @@ const YardAvailableVehicle = () => {
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
     } catch (error) {
-      // toast.error("Failed to fetch vehicle categories");
+      console.log(error);
+    }
+  }, []);
+  const FetchAllyard = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/yard`);
+      console.log("cat", response);
+
+      setAllYard(response?.data?.res.yard);
+    } catch (error) {
       console.log(error);
     }
   }, []);
@@ -76,51 +92,61 @@ const YardAvailableVehicle = () => {
     value: item.id,
     label: item.name,
   }));
+  const yards= allYard?.map((item) => ({
+    value: item?.id,
+    label: item?.org_name,
+  }));
 
   useEffect(() => {
     fetchVehicles();
-    FetchAllVehicleCategory(); // Call fetchData directly inside useEffect
-  }, [Category, page, vehicleStatus]);
+   
+  }, [Category, page, vehicleStatus,registrationNum]);
+  useEffect(() => {
+    FetchAllyard()
+    FetchAllVehicleCategory();
+  }, []);
 
-  const UsersData = filteredData?.vehicle || [];
+
+  const UsersData = filteredData?.vehicles || [];
 
   const userColumn = useMemo(
     () => [
       {
         header: "make",
         accessorKey: "make",
-        // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "model",
         accessorKey: "model",
-        // id: "clsup_org_category_name", // Ensure unique id
       },
       {
         header: "Status",
         accessorKey: "status",
-        // id: "clsup_org_name", // Ensure unique id
+        
       },
-      // {
-      //   header: "Yard  ",
-      //   accessorKey: "yard.yard_name",
-      //   // id: "clsup_org_name", // Ensure unique id
-      // },
+      {
+        header: "Organization",
+        accessorKey: "cl_org.org_name",
+      },
       {
         header: "Category ",
         accessorKey: "vehicle_category.name",
-        // id: "clsup_org_name", // Ensure unique id
       },
-
       {
-        header: "code",
-        accessorKey: "code",
-        // id: "code", // Ensure unique id
+        header: "Registration no ",
+        accessorKey: "reg_number",
       },
-
+      {
+        header: "Code",
+        accessorKey: "code",
+      },
       {
         header: "View",
-        cell: ({ row }) => View(row)
+        cell: ({ row }) => <View row={row} user={user} />,
+      },
+      {
+        header: "Request",
+        cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} />,
       },
     ],
     [filteredData]
@@ -132,48 +158,64 @@ const YardAvailableVehicle = () => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     setCatFilter(selectedOption.text);
   };
+
   const handleOwnershipStatus = (e) => {
     const value = e.target.value;
     setVehicleStatus(value);
   };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedVehicleId(null); // Reset selected vehicle ID
+  };
+
   return (
     <div className="w-full">
       <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
-     Yard Available Vehicles
+      Yard Eligible Vehicles
       </h1>
-     <div className="flex items-end">
-      <div className="flex flex-col w-40  ml-5">
-        <label htmlFor="state" className={labelStyle?.data}>
-          Select Category
-        </label>
-        <select
-          id="state"
-          className={inputStyle?.data}
-          defaultValue=""
-          onChange={handleCatChange}
-        >
-          <option value="">All Category</option>
+      <div className="flex items-end px-8 gap-40">
+        <div className="flex flex-col w-40 ">
+          <label htmlFor="state" className={labelStyle?.data}>
+            Select Category
+          </label>
+          <select
+            id="state"
+            className={inputStyle?.data}
+            defaultValue=""
+            onChange={handleCatChange}
+          >
+            <option value="">All Category</option>
 
-          {vehicleCategorys.map((option, index) => (
-            <option key={index} value={option?.value}>
-              {option?.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-     
-        
+            {vehicleCategorys.map((option, index) => (
+              <option key={index} value={option?.value}>
+                {option?.label}
+              </option>
+            ))}
+          </select>
         </div>
+        <div>
+            <Search placeholder="e.g., KL14WW1111" label="Search Registration Number"
+           
+            searchLoading={searchLoading}
+            setSearchVehicle={setRegistrationNum}
+            setSearchLoading={setSearchLoading}
+          />
+        </div>
+      </div>
+      {modalOpen && (
+        <div className="relative border">
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+            <RepoYardRequest yard={yards}  onClose={handleModalClose} vehicleId={selectedVehicleId} fetchData={fetchVehicles} />
+          </div>
+        </div>
+      )}
       <div>
-      {filteredData?.totalCount < 1 ? (
-          <NoVehicleMessage typeFilter="Vehicles" catFilter={catFilter}  />
+        {filteredData?.totalCount < 1 ? (
+          <NoVehicleMessage typeFilter="Eligible Vehicles" catFilter={catFilter} />
         ) : (
           <div className="w-full">
-             
-              <DataTable data={UsersData} columns={userColumn} />
-            
+            <DataTable data={UsersData} columns={userColumn} />
             <div className="w-full text-center">
               {filteredData?.totalCount > 0 && (
                 <Pagination
@@ -186,29 +228,45 @@ const YardAvailableVehicle = () => {
             </div>
           </div>
         )}
-        </div>
       </div>
-    
+    </div>
   );
 };
 
-export default YardAvailableVehicle;
+export default AllRequestedVehicles;
 
-const View = (row) => {
-  // console.log("from view", row.original.id);
+const View = ({ row, user }) => {
+  const href =`/yardAvailableVehicle/${row.original.id}`;
+
   return (
     <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>
       <Link
-        href={`/vehicle/${row.original.id}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         className=""
       >
         View
       </Link>
+    </div>
+  );
+};
+
+const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId }) => {
+  const handleCancelClick = () => {
+    setModalOpen(true);
+    setSelectedVehicleId(row.original.id);
+  };
+
+  return (
+    <div className="flex justify-center items-center border space-x-1 w-20 bg-green-600 text-white p-1 rounded-md">
+    
+      <button onClick={handleCancelClick} className="">
+        Request
+      </button>
     </div>
   );
 };

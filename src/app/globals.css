@@ -6,3 +6,16 @@ p {
     @apply normal-case;
   }
   
+  .disabled-select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: #f0f0f0; /* Adjust as needed */
+    border: 1px solid #ccc; /* Adjust as needed */
+    color: #666; /* Adjust as needed */
+    pointer-events: none;
+  }
+  
+  .disabled-select::-ms-expand {
+    display: none;
+  }

@@ -10,6 +10,7 @@ import {
   FormFieldInput,
   InputField,
   SelectComponent,
+  SelectComponentWithOnchange,
   FileUploadInput,
 } from "@/components/ui/fromFields";
 import React from "react";
@@ -17,8 +18,12 @@ import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { inputStyle, labelStyle, loginInputStyle } from "@/components/ui/style";
+import { log } from "util";
 
 const CreateUser = () => {
+  const [roles] = useState(Role);
+  const [role, setRole] = useState("");
+  const [organisation, setOrganisation] = useState([]);
   type Inputs = {
     name: string;
     email: string;
@@ -38,6 +43,7 @@ const CreateUser = () => {
     document_type: string;
     document_value: string;
     document_name: string;
+    org_id: string;
   };
 
   const {
@@ -49,6 +55,7 @@ const CreateUser = () => {
   } = useForm<Inputs>();
 
   const router = useRouter();
+
   const onSubmit = useCallback(async (data: Inputs) => {
     console.log("data from createUser", data);
 
@@ -72,7 +79,7 @@ const CreateUser = () => {
       document_value: "dummy file name",
     };
 
-    console.log("data from modal", data);
+    console.log("data from modifiedData", modifiedData);
 
     try {
       const response = await axiosInstance.post(
@@ -94,6 +101,37 @@ const CreateUser = () => {
   const close = () => {
     router.back();
   };
+
+  useEffect(() => {
+    console.log("Role state updated:", role);
+  }, [role]);
+
+  const handleRoleChange = useCallback(
+    async (event) => {
+      const selectedRole = event.target.value;
+      setRole(selectedRole);
+
+      try {
+        const response = await axiosInstance.get(
+          `/user/organizations?role=${selectedRole}`
+        );
+        console.log("response", response);
+
+        // setOrganisation(response?.data?.res || []);
+        const formattedOrganisations = response?.data?.res.map((org) => ({
+          label: org?.org_name,
+          value: org?.id,
+        }));
+        setOrganisation(formattedOrganisations);
+        reset({ org_id: "" });
+      } catch (error) {
+        console.error("API call failed:", error);
+      }
+    },
+    [role]
+  );
+
+  // console.log("ORG", organisation);
 
   return (
     // <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -136,10 +174,22 @@ const CreateUser = () => {
               />
             </div>
             <div className="col-span-1">
-              <SelectComponent
+              <SelectComponentWithOnchange
                 label="Select a Role"
                 name="role"
                 options={Role}
+                register={register}
+                errors={errors}
+                required={true}
+                value={role} // Pass controlled value
+                onChangeHandler={handleRoleChange}
+              />
+            </div>
+            <div className="col-span-1">
+              <SelectComponent
+                label="Select Organisation"
+                name="org_id"
+                options={organisation}
                 register={register}
                 errors={errors}
                 required={true}

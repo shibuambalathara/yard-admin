@@ -36,8 +36,8 @@ interface ClSubOrg {
   cl_org: ClOrg;
   cl_org_id: string;
   clsub_org_category: ClSubOrgCategory;
-  clsub_org_category_id: string;
-  clsub_org_name: string;
+  client_category_id: string;
+  org_name: string;
   code: string;
   id: string;
 }
@@ -51,15 +51,14 @@ interface User {
 interface VehicleCategory {
   label?: string;
   value?: string;
-  
 }
 
 interface ApiResponse {
   cl_org: ClOrg;
   cl_org_id: string;
   clsub_org_category: ClSubOrgCategory;
-  clsub_org_category_id: string;
-  clsub_org_name: string;
+  client_category_id: string;
+  org_name: string;
   code: string;
   id: string;
   user: User;
@@ -72,8 +71,8 @@ interface ApiResponse {
 //   user_id: string;
 //   cl_org_id: string;
 //   veh_cat: [];
-//   clsub_org_name: string;
-//   clsub_org_category_id: string;
+//   org_name: string;
+//  client_category_id: string;
 // };
 
 const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
@@ -86,7 +85,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   const [clientLevelSubOrg, setAllClientLevelSubOrg] =
     useState<ApiResponse | null>(null);
   const [options, setOptions] = useState<VehicleCategory[]>([]);
-  const [defaultValues, setDefaultValues] =useState<VehicleCategory[]>([]);
+  const [defaultValues, setDefaultValues] = useState<VehicleCategory[]>([]);
 
   const {
     register,
@@ -124,7 +123,7 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
     fetchData();
   }, [subOrgId]);
 
-  const router=useRouter()
+  const router = useRouter();
 
   // console.log("clientLevelOrgData",clientLevelOrg);
   // console.log("vehicleCategoryData",allVehicleCategory);
@@ -153,8 +152,8 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
   //       const destructuredData = {
   //         cl_org_name: fetchedData?.cl_org?.cl_org_name,
   //         cl_org_id: fetchedData?.cl_org_id,
-  //         clsub_org_category_id: fetchedData?.clsub_org_category_id,
-  //         clsub_org_name: fetchedData?.clsub_org_name,
+  //        client_category_id: fetchedData?.clsub_org_category_id,
+  //         org_name: fetchedData?.org_name,
   //         code: fetchedData?.code,
   //         id: fetchedData?.id,
   //         user_id: fetchedData?.user_id,
@@ -210,19 +209,17 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
       const vehCatOptions: VehicleCategory[] =
         fetchedData?.vehicleCatIdWithName?.map((cat) => ({
           value: cat.id,
-          
+
           label: cat.name,
-          
         }));
 
-      
       setDefaultValues(vehCatOptions);
 
       const destructuredData = {
-        cl_org_name: fetchedData?.cl_org?.cl_org_name,
+        cl_org_name: fetchedData?.cl_org?.org_name,
         cl_org_id: fetchedData?.cl_org_id,
-        clsub_org_category_id: fetchedData?.clsub_org_category_id,
-        clsub_org_name: fetchedData?.clsub_org_name,
+        client_category_id: fetchedData?.clsub_org_category_id,
+        org_name: fetchedData?.org_name,
         code: fetchedData?.code,
         id: fetchedData?.id,
         user_id: fetchedData?.user_id,
@@ -239,9 +236,6 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
       // toast.error(error?.response?.data?.message);
     }
   };
-
-
-
 
   useEffect(() => {
     FetchIndividualClientLevelSubOrg();
@@ -261,16 +255,15 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
 
   const allClientLevelOrganisations = clientLevelOrg?.map((item) => ({
     value: item.id,
-    label: item.cl_org_name,
+    label: item.org_name,
   }));
   const allVehicleCategorys = allVehicleCategory?.map((item) => ({
     id: item.id,
     name: item.name,
   }));
 
-  console.log("allVehicleCategory",allVehicleCategory);
-  console.log("allVehicleCategorysssss",allVehicleCategorys);
-  
+  console.log("allVehicleCategory", allVehicleCategory);
+  console.log("allVehicleCategorysssss", allVehicleCategorys);
 
   let result = allSubUsers.filter(
     (item) => item?.value == clientLevelSubOrg?.user_id
@@ -310,19 +303,18 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
 
     const submittingData = {
       ...data,
-      veh_cat: data?.vehicleCatIdWithName?.map((item)=>item?.value)
+      veh_cat: data?.vehicleCatIdWithName?.map((item) => item?.value),
       // cl_org_name: data?.cl_org_name?.toUpperCase(),
     };
     console.log("modified data for submit", submittingData);
     try {
       const response = await axiosInstance.put(
-        `clientorg/client_lvl_sub_org/${subOrgId?.subOrgId
-        }`,
+        `clientorg/client_lvl_sub_org/${subOrgId?.subOrgId}`,
         submittingData
       );
       console.log("response after sumbit of cl_lvl_org", response);
       toast.success(response?.data?.message);
-      router.push("/organisationManagement/clientLevelSubOrg")
+      router.push("/organisationManagement/clientLevelSubOrg");
     } catch (error) {
       console.log("error", error);
       toast.error(error?.response?.data?.message);
@@ -335,13 +327,12 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
       <div className="max-w-5xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-3">
         <div className="flex flex-col ">
           <div className="w-full  mb-">
-          <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
-          
-          Edit Client Sub Organisation
-        </h1>
-        <div className="border-b mt-4"></div>
+            <h1 className="text-2xl font-bold text-black-700 pt-1  text-start">
+              Edit Client Sub Organisation
+            </h1>
+            <div className="border-b mt-4"></div>
           </div>
-          
+
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full place-items-center"
@@ -350,13 +341,13 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
               <InputField
                 label=" Sub Organisation Name"
                 type="text"
-                name="clsub_org_name"
+                name="org_name"
                 register={register}
                 errors={errors}
                 pattern=""
               />
             </div>
-            <div>
+            {/* <div>
               <SelectInput
                 label="Select user"
                 options={allSubUsers}
@@ -366,67 +357,35 @@ const ViewIndividualClientLevelSubOrg = ({ subOrgId }) => {
                 required={false}
                 defaultValue=""
               />
+            </div> */}
+            <div className="p-4 w-80">
+              <div className="p-4 w-80">
+                <div className="flex flex-col w-full">
+                  <label htmlFor="">Vehicle Category</label>
+
+                  <Controller
+                    name="vehicleCatIdWithName"
+                    control={control}
+                    defaultValue={defaultValues.map((state) => ({
+                      label: state.label,
+                      value: state.value,
+                    }))}
+                    render={({ field }) => (
+                      <Select
+                        options={allVehicleCategory.map((state) => ({
+                          label: state.name,
+                          value: state.id,
+                        }))}
+                        {...field}
+                        isMulti
+                        getOptionValue={(option) => option.value}
+                        getOptionLabel={(option) => option.label}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="p-4 w-80">
-            <div className="p-4 w-80">
-  <div className="flex flex-col w-full">
-    <label htmlFor="">Vehicle Category</label>
-    {/* <Controller
-      name="veh_cat"
-      control={control}
-      defaultValue={defaultValues?.map((item)=>)}
-      render={({ field }) => (
-        <Select
-          className={`${inputStyle.data}`}
-          options={allVehicleCategory.map((item) => ({
-            value: item.id,
-            label: item.name,
-          }))}
-          {...field}
-          isMulti
-          getOptionValue={(option) => option.value}
-          getOptionLabel={(option) => option.label}
-          onChange={(selectedOptions) => {
-            const selectedValues = selectedOptions.map(option => option.value);
-            field.onChange(selectedValues);
-          }}
-          value={allVehicleCategory
-            .filter(option => field.value.includes(option.id))
-            .map(option => ({
-              value: option.id,
-              label: option.name,
-            }))}
-        /> */}
-
-<Controller
-                  name="vehicleCatIdWithName"
-                  control={control}
-                  defaultValue={defaultValues.map((state) => ({
-                    label: state.label,
-                    value: state.value,
-                  }))}
-                  render={({ field }) => (
-                    <Select
-               
-                      
-                      options={allVehicleCategory.map((state) => ({
-                        label: state.name,
-                        value: state.id,
-                      }))}
-                      {...field}
-                      isMulti
-                      getOptionValue={(option) => option.value}
-                      getOptionLabel={(option) => option.label}
-                    />
-                  )}
-                />
-
-     
-  </div>
-</div>
-
-</div>
-
 
             <div>
               <SelectInput

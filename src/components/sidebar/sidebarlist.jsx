@@ -8,7 +8,15 @@ import {
 } from "react-icons/md";
 import { RiAccountPinBoxFill } from "react-icons/ri";
 import { ImTruck } from "react-icons/im";
-import { FaUsers, FaUserCircle, FaLink, FaHandsHelping, FaUser, FaHandshake, FaTruckLoading } from "react-icons/fa";
+import {
+  FaUsers,
+  FaUserCircle,
+  FaLink,
+  FaHandsHelping,
+  FaUser,
+  FaHandshake,
+  FaTruckLoading,
+} from "react-icons/fa";
 import { CgOrganisation } from "react-icons/cg";
 import { GiHomeGarage } from "react-icons/gi";
 import { TbListDetails, TbStatusChange } from "react-icons/tb";
@@ -18,13 +26,10 @@ import { LiaTruckMovingSolid } from "react-icons/lia";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { VscGitPullRequestNewChanges } from "react-icons/vsc";
 
-import { FaRegHandshake } from 'react-icons/fa';
-import { MdDescription } from 'react-icons/md';
+import { FaRegHandshake } from "react-icons/fa";
+import { MdDescription } from "react-icons/md";
 import { BsFillTruckFrontFill } from "react-icons/bs";
 import { AiFillRightCircle } from "react-icons/ai";
-
-
-
 
 export const Super_Admin = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -77,64 +82,16 @@ export const Super_Admin = [
         icon: <HiBuildingOffice2 />,
         path: "/organisationManagement/yardManagement",
       },
-      // {
-      //   title: "Repo  Organisation  ",
-      //   icon: <HiBuildingOffice2 />,
-      //   path: "/organisationManagement/repoManagement",
-      // },
+      {
+        title: "Repo  Organisation  ",
+        icon: <HiBuildingOffice2 />,
+        path: "/organisationManagement/repoManagement",
+      },
     ],
   },
 ];
 
-export const yardManager = [
-  { title: "Dashboard", icon: <MdDashboard /> },
-  {
-    title: "Park Fee",
-    path: "/parkfee",
 
-    icon: <GiHomeGarage />,
-  },
-
-  {
-    title: "Vehicles",
-    icon: 
-    <FaCarOn />,
-    path: "/vehicle",
-  },
-  {
-    title: "Vehicle Ownership",
-    icon: <RiFilePaperLine />,
-    path: "/vehicleOwnership",
-  },
-  {
-    title: "Vehicle Release",
-    icon: <FaTruckLoading />,
-    submenu: true,
-    submenuItems: [
-      {
-        title: "Initiated Vehicles",
-        icon: <TbStatusChange />,
-        path: "/releasevehicle/initiatedVehicles",
-      },
-      {
-        title: "Released Vehicles",
-        icon: <MdManageHistory />,
-        path: "/releasevehicle/releasedVehicles",
-      },
-    ],
-  },
-  {
-    title: "Waiver",
-    icon: <MdWavingHand />,
-    path: "/waiver ",
-  },  
-  // {
-  //   title: "Repo Requests",
-  //   icon: <FaCarOn />,
-  //   path: "/waiver ",
-  // }
-  
-];
 
 export const clientLevelUser = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -172,7 +129,7 @@ export const clientLevelUser = [
       },
     ],
   },
-  
+
   {
     title: "Waiver",
     icon: <MdWavingHand />,
@@ -191,21 +148,66 @@ export const clientLevelUser = [
       },
     ],
   },
-  // {
-  //   title: "Repo Vehicles",
-  //   icon: <BsFillTruckFrontFill />,
-  //   path: "/repoVehicle",
-
-  //   },
+  {
+    title: "Repo Vehicles",
+    icon: <BsFillTruckFrontFill />,
+    path: "/repoVehicle",
+  },
   // {
   //   title: "Requested for Repos",
   //   icon: <AiFillRightCircle />,
-  //   path: "",
+  //   path: "/requestedRepo",
+  // },
+  // {
+  //   title: "Repo close",
+  //   icon: <AiFillRightCircle />,
+  //   path: "/repoClose",
+  // },
+
+  {
+    title: "Repo Request Vehicles",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Requested",
+        icon: <ImTruck />,
+        path: "/requestedRepo",
+      },
+      {
+        title: "Approved",
+        icon: <ImTruck />,
+        path: "/clientApprovedVehicles",
+      },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/clientRejectedVehicles",
+      },
+     
+    ],
+  },
+  // {
+  //   title: "Requested for Repos",
+  //   icon: <AiFillRightCircle />,
+  //   path: "/SuperRequestedRepo",
 
     
   // },
+  {
+    title: "Captured Vehicles",
+    icon: <AiFillRightCircle />,
+    path: "/capturedVehicles",
 
+    
+  },
+  {
+    title: "Closed Vehicles",
+    icon: <AiFillRightCircle />,
+    path: "/closedVehicles",
 
+    
+  },
 ];
 
 export const clientLevelSuperUser = [
@@ -213,8 +215,7 @@ export const clientLevelSuperUser = [
 
   {
     title: "Vehicle Ownership Requests",
-    icon: <VscGitPullRequestNewChanges 
-    />,
+    icon: <VscGitPullRequestNewChanges />,
     path: "/vehicleSuperOwnership",
   },
   {
@@ -253,7 +254,7 @@ export const clientLevelSuperUser = [
 
   {
     title: "Organisation Management",
-    icon: <CgOrganisation/>,
+    icon: <CgOrganisation />,
 
     submenu: true,
     submenuItems: [
@@ -288,19 +289,55 @@ export const clientLevelSuperUser = [
       },
     ],
   },
-  // {
-  //   title: "Repo Vehicles",
-  //   icon: <BsFillTruckFrontFill />,
-  //   path: "/superUserRepoVehicle",
-
-  //   },
+  {
+    title: "Repo Vehicles",
+    icon: <BsFillTruckFrontFill />,
+    path: "/superUserRepoVehicles",
+  },
+  {
+    title: "Repo Request Vehicles",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Requested",
+        icon: <ImTruck />,
+        path: "/SuperRequestedRepo",
+      },
+      {
+        title: "Approved",
+        icon: <ImTruck />,
+        path: "/superApprovedVehicles",
+      },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/superRejectedVehicles",
+      },
+     
+    ],
+  },
   // {
   //   title: "Requested for Repos",
   //   icon: <AiFillRightCircle />,
-  //   path: "",
+  //   path: "/SuperRequestedRepo",
 
     
   // },
+  {
+    title: "Captured Vehicles",
+    icon: <AiFillRightCircle />,
+    path: "/superRepoClose",
+
+    
+  },
+  {
+    title: "Closed Vehicles",
+    icon: <AiFillRightCircle />,
+    path: "/superClosedVehicles",
+
+    
+  },
 ];
 
 export const clientLevelSubUser = [
@@ -311,7 +348,7 @@ export const clientLevelSubUser = [
     icon: <ImTruck />,
     path: "/vehicleSubOwnership",
   },
-  
+
   // {
   //   title: "Vehicle Tracking",
   //   icon: <FaCarOn />,
@@ -332,6 +369,69 @@ export const clientLevelSubUser = [
   // },
 ];
 
+export const yardManager = [
+  { title: "Dashboard", icon: <MdDashboard /> },
+  {
+    title: "Park Fee",
+    path: "/parkfee",
+
+    icon: <GiHomeGarage />,
+  },
+
+  {
+    title: "Vehicles",
+    icon: <FaCarOn />,
+    path: "/vehicle",
+  },
+  {
+    title: "Vehicle Ownership",
+    icon: <RiFilePaperLine />,
+    path: "/vehicleOwnership",
+  },
+  {
+    title: "Vehicle Release",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Initiated Vehicles",
+        icon: <TbStatusChange />,
+        path: "/releasevehicle/initiatedVehicles",
+      },
+      {
+        title: "Released Vehicles",
+        icon: <MdManageHistory />,
+        path: "/releasevehicle/releasedVehicles",
+      },
+    ],
+  },
+  {
+    title: "Waiver",
+    icon: <MdWavingHand />,
+    path: "/waiver ",
+  },
+  // {
+  //   title: "Repo Requests",
+  //   icon: <FaCarOn />,
+  //   path: "/repoRequests ",
+  // },
+
+  {
+    title: "Repo Requested Vehicle",
+    icon: <FaCarOn />,
+    path: "/repoRequestedVehicle",
+  },
+  {
+    title: "Pending Vehicle Entry",
+    icon: <FaCarOn />,
+    path: "/yardEntryPendingVehicles",
+  },
+  {
+    title: " Completed Vehicle Entry",
+    icon: <FaCarOn />,
+    path: "/yardCompletedVehicles",
+  },
+];
 
 export const RepoUser = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -342,30 +442,55 @@ export const RepoUser = [
     path: "/repoUserVehicles",
   },
 
-  {
-    title: "Requested",
-    icon: <ImTruck />,
-    path: "/requestedRepoVehicle",
-  },
-  {
-    title: "Rejected",
-    icon: <ImTruck />,
-    path: "/rejectedRepoVehicle",
-  },
-  {
-    title: "Approved",
-    icon: <ImTruck />,
-    path: "/approvedRepoVehicle",
-  },
+  
 
   {
-    title: "yard Available Vehicle",
+    title: "Repo Request Vehicles",
+    icon: <FaTruckLoading />,
+    submenu: true,
+    submenuItems: [
+      {
+        title: "Requested",
+        icon: <ImTruck />,
+        path: "/requestedRepoVehicle",
+      },
+      {
+        title: "Approved",
+        icon: <ImTruck />,
+        path: "/approvedRepoVehicle",
+      },
+      {
+        title: "Rejected",
+        icon: <ImTruck />,
+        path: "/rejectedRepoVehicle",
+      },
+     
+    ],
+  },
+  {
+    title: "Captured Vehicles",
+    icon: <ImTruck />,
+    path: "/completedRepoVehicle",
+  },
+  {
+    title: "Yard Eligible Vehicle",
     icon: <ImTruck />,
     path: "/yardAvailableVehicle",
   },
-  
- 
+  {
+    title: "Yard Requested Vehicle",
+    icon: <ImTruck />,
+    path: "/yardRequestedVehicle",
+  },
 ];
+
+
+
+
+
+
+
+
 
 export const RepoAdmin = [
   { title: "Dashboard", icon: <MdDashboard /> },
@@ -375,7 +500,4 @@ export const RepoAdmin = [
     icon: <ImTruck />,
     path: "/vehicleSubOwnership",
   },
-  
-  
- 
 ];
