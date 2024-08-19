@@ -8,7 +8,8 @@ import {
   clientLevelUser,
   clientLevelSuperUser,
   clientLevelSubUser,
-  RepoUser
+  RepoUser,
+  RepoAdmin
 } from "./sidebarlist";
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -37,8 +38,10 @@ const SideBar = () => {
         return clientLevelSuperUser;
         case "CLIENT_LEVEL_SUB_USER":
           return clientLevelSubUser;
-          default :
-          return RepoUser
+          case "REPO_ADMIN":
+        return RepoAdmin;
+          // default :
+          // return RepoUser
         
       // Default to user data
     }
@@ -48,7 +51,7 @@ const SideBar = () => {
   // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
   // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}$/, '');
   const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}.*$/, '');
-
+  // REPO_ADMIN
 
 
   // console.log('modifiedPathname', modifiedPathname);

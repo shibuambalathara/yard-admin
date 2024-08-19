@@ -496,8 +496,8 @@ export const RepoAdmin = [
   { title: "Dashboard", icon: <MdDashboard /> },
 
   {
-    title: "Repo Vehicle",
-    icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    title: "user Management",
+    icon: <FaUsers />,
+    path: "/manageUser",
   },
 ];
