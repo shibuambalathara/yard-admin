@@ -115,7 +115,11 @@ const AllVehicleOwnershipClient = () => {
 
   const userColumn = useMemo(
     () => [
-
+      {
+        header: "Code  ",
+        accessorKey: "vehicle.code",
+        // id: "clsup_org_name", // Ensure unique id
+      },
       {
         header: "Client Organisation ",
         accessorKey: "cl_org.org_name",
@@ -136,11 +140,7 @@ const AllVehicleOwnershipClient = () => {
         accessorKey: "vehicle.model",
         // id: "clsup_org_name", // Ensure unique id
       },
-      {
-        header: "Code  ",
-        accessorKey: "vehicle.code",
-        // id: "clsup_org_name", // Ensure unique id
-      },
+     
       
       {
         header: "Yard Name  ",

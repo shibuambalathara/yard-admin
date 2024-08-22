@@ -159,6 +159,10 @@ const {childrenRequire,user} =props
 
   const userColumn = useMemo(
     () => [
+      {
+        header: "code",
+        accessorKey: "code",
+      },
       // {
       //   header: "Client",
       //   accessorKey: "cl_org.org_name",
@@ -184,10 +188,7 @@ const {childrenRequire,user} =props
         header: "Category ",
         accessorKey: "vehicle_category.name",
       },
-      {
-        header: "code",
-        accessorKey: "code",
-      },
+    
       {
         header: "View",
         cell: ({ row }) => <View row={row}  user={user}/>,

@@ -35,7 +35,7 @@ const RepoYardRequest = (props) => {
       const modifiedData = {
         repo_vehicle_id: vehicleId,
         yard_id: yardId,
-        expected_entry_date: data?.expected_entry_date ? new Date(data?.expected_entry_date).toISOString() : null
+       
       };
 
       const response = await axiosInstance.post(`repo_yard/request_entry`, modifiedData);
@@ -99,14 +99,14 @@ const RepoYardRequest = (props) => {
                 value={yardId}
                 onChangeHandler={handleYardChange}
               />
-              <FutureDate
+              {/* <FutureDate
                 label="Expected Entry Date & Time"
                 type="datetime-local"
                 name="expected_entry_date"
                 register={register}
                 errors={errors}
                 pattern
-              />
+              /> */}
             </>
           </div>
           <div className="w-full text-center space-x-4">

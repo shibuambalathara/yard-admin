@@ -255,7 +255,7 @@ const IndividualStatuss = (props) => {
               defaultValue=""
               disabled={responseStatus !== "REPOSSESSION_REQUESTED"}
             />
-            {responseStatus === "REPOSSESSION_APPROVED" && (
+            {/* {responseStatus === "REPOSSESSION_APPROVED" && (
               <FutureDate
                 label="End Date & Time"
                 type="datetime-local"
@@ -265,7 +265,7 @@ const IndividualStatuss = (props) => {
                 pattern
                 
               />
-            )}
+            )} */}
           </div>
           <div>
           <h1 className="block text-gray-700 text-sm font-bold mb-2">
@@ -288,16 +288,16 @@ const IndividualStatuss = (props) => {
               onClick={() => onClose()}
               className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
             >
-              CANCEL
+              BACK
             </button>
           
-              <button
+              {/* <button
                 type="submit"
                 className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
               >
                 SUBMIT
               </button>
-            
+             */}
           </div>
         </form>
       </div>

@@ -97,6 +97,10 @@ const AllRepoRequests = () => {
   const yardColumn = useMemo(
     () => [
       {
+        header: "code",
+        accessorKey: "repo_vehicle.code",
+      },
+      {
         header: "Expected Entry ",
         accessorKey: "expected_entry_date",
         cell: ({ row }) => dataFormat(row),
@@ -114,10 +118,7 @@ const AllRepoRequests = () => {
         header: "Reg No",
         accessorKey: "repo_vehicle.reg_number",
       },
-      {
-        header: "code",
-        accessorKey: "repo_vehicle.code",
-      },
+      
       {
         header: "Category ",
         accessorKey: "repo_vehicle.vehicle_category.name",
