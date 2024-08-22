@@ -1,5 +1,6 @@
 
-import IndividualStatuss from '@/components/repoUser/completed/individualCompleted'
+
+import IndividualStatuss from '@/components/reuseableComponent/repoComponents/repoClose/individualRepoClose'
 import React from 'react'
 
 const IndividualRepoVehicle = ({params}:{params:{vehicleId:string}})  => {

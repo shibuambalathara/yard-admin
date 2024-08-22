@@ -268,7 +268,7 @@ const IndividualStatuss = (props) => {
               defaultValue=""
               disabled={responseStatus !== "REPOSSESSION_REQUESTED"}
             />
-            {responseStatus === "REPOSSESSION_APPROVED" && (
+            {/* {responseStatus === "REPOSSESSION_APPROVED" && (
               <InputField
                 label="End Date & Time"
                 type="datetime-local"
@@ -278,7 +278,7 @@ const IndividualStatuss = (props) => {
                 pattern
                 disabled={true}
               />
-            )}
+            )} */}
           </div>
           <div>
           <h1 className="block text-gray-700 text-sm font-bold mb-2">
