@@ -33,6 +33,12 @@ const  { onClose, vehicleId, fetchData, status,user }=props
 
       fetchData();
       onClose();
+      if (user==='client'){
+        router.push("/capturedVehicles")
+      }
+      else{
+        router.push("/superRepoClose")
+      }
     
          
 

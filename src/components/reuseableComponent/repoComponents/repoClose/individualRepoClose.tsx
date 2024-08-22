@@ -45,7 +45,7 @@ const IndividualStatuss = (props) => {
   const [vehicleImage, setVehicleImage] = useState([]);
   const [capturedImages, setCapturedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("individual");
   const [responseStatus, setResponseStatus] = useState("");
   const [uploadImages, setUploadImages] = useState<FileInputs>({});
   const [modalOpen, setModalOpen] = useState(false);
@@ -108,16 +108,7 @@ const IndividualStatuss = (props) => {
     setSelectedVehicleId(vehicleId?.vehId);
   };
 
-  const handleModalAccept = () => {
-    setModalOpen(true);
-    setStatus("REPOSSESSION_APPROVED");
-  };
-
-  const handleModalReject = () => {
-    setModalOpen(true);
-    setStatus("REPOSSESSION_REJECTED");
-  };
-
+  
   const handleModalClose = () => {
     setModalOpen(false);
   };
