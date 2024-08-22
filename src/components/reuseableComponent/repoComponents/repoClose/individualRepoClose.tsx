@@ -45,7 +45,7 @@ const IndividualStatuss = (props) => {
   const [vehicleImage, setVehicleImage] = useState([]);
   const [capturedImages, setCapturedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("individual");
   const [responseStatus, setResponseStatus] = useState("");
   const [uploadImages, setUploadImages] = useState<FileInputs>({});
   const [modalOpen, setModalOpen] = useState(false);
@@ -108,16 +108,7 @@ const IndividualStatuss = (props) => {
     setSelectedVehicleId(vehicleId?.vehId);
   };
 
-  const handleModalAccept = () => {
-    setModalOpen(true);
-    setStatus("REPOSSESSION_APPROVED");
-  };
-
-  const handleModalReject = () => {
-    setModalOpen(true);
-    setStatus("REPOSSESSION_REJECTED");
-  };
-
+  
   const handleModalClose = () => {
     setModalOpen(false);
   };
@@ -235,39 +226,35 @@ const IndividualStatuss = (props) => {
           )}
         </form>
 
-       
-          <>
-            {modalOpen && (
-              <div className="relative border">
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-                  <RepoRespond
-                    status={status}
-                    onClose={handleModalClose}
-                    vehicleId={vehicleId}
-                    fetchData={fetchVehicle}
-                    user={user}
-                  />
-                </div>
-              </div>
-            )}
-
-            <div className="w-full text-center p-1 mt-3 space-x-2">
-              <button
-                type="button"
-                onClick={handleModalReject}
-                className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
-              >
-                REJECT
-              </button>
-              <button
-                onClick={handleModalAccept}
-                className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
-              >
-                ACCEPT
-              </button>
-            </div>
-          </>
         
+          <>{modalOpen && (
+            <div className="relative border">
+              <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+                <RepoClose status={status} onClose={handleModalClose} vehicleId={selectedVehicleId}  user={user} fetchData={fetchVehicle} />
+              </div>
+            </div>
+          )}
+          <div className="w-full text-center p-1 mt-3 space-x-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+            >
+              BACK
+            </button>
+            {!isClosed ? ( <button onClick={handleCancelClick} className="bg-blue-500 text-white py-2 px-8 w-32 rounded hover:bg-blue-600 transition duration-200">
+        CLOSE
+      </button>):(
+         
+         <button className="bg-gray-500 text-white py-2 px-8 rounded cursor-not-allowed  w-32">
+          Closed
+         </button>
+       
+      )}
+           
+          </div>
+          </>
+     
       </div>
     </div>
   );

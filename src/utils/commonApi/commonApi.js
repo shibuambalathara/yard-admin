@@ -125,3 +125,26 @@ export const getUserProfile = async() => {
       console.log("fetch org error",error);
     }
   }
+
+
+
+
+  
+  export const fetchChildren = async () => {
+ 
+    try {
+      const response = await axiosInstance.get(`/clientorg/client_lvl_super_org/child/_org`);
+      // console.log(response?.data?.res?.clientLvlOrg);
+      
+      const transformedArray = response?.data?.res?.clientLvlOrg?.map(
+        (item) => ({
+         value: item.id,
+    label: item.org_name,
+        })
+      );
+      return transformedArray;
+    } catch (error) {
+      console.log("Error fetching children:", error);
+    }
+  }
+;

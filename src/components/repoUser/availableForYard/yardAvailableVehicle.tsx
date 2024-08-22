@@ -112,6 +112,10 @@ const AllRequestedVehicles = (props) => {
   const userColumn = useMemo(
     () => [
       {
+        header: "Code",
+        accessorKey: "code",
+      },
+      {
         header: "make",
         accessorKey: "make",
       },
@@ -136,16 +140,13 @@ const AllRequestedVehicles = (props) => {
         header: "Registration no ",
         accessorKey: "reg_number",
       },
-      {
-        header: "Code",
-        accessorKey: "code",
-      },
+     
       {
         header: "View",
         cell: ({ row }) => <View row={row} user={user} />,
       },
       {
-        header: "Request",
+        header: "Yard Entry",
         cell: ({ row }) => <Cancel row={row} user={user} setModalOpen={setModalOpen} setSelectedVehicleId={setSelectedVehicleId} />,
       },
     ],
@@ -265,7 +266,7 @@ const Cancel = ({ row, user, setModalOpen, setSelectedVehicleId }) => {
     <div className="flex justify-center items-center border space-x-1 w-20 bg-green-600 text-white p-1 rounded-md">
     
       <button onClick={handleCancelClick} className="">
-        Request
+       Yard Entry
       </button>
     </div>
   );

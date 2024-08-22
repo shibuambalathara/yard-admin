@@ -268,7 +268,7 @@ const IndividualStatuss = (props) => {
               defaultValue=""
               disabled={responseStatus !== "REPOSSESSION_REQUESTED"}
             />
-            {responseStatus === "REPOSSESSION_APPROVED" && (
+            {/* {responseStatus === "REPOSSESSION_APPROVED" && (
               <InputField
                 label="End Date & Time"
                 type="datetime-local"
@@ -278,7 +278,7 @@ const IndividualStatuss = (props) => {
                 pattern
                 disabled={true}
               />
-            )}
+            )} */}
           </div>
           <div>
           <h1 className="block text-gray-700 text-sm font-bold mb-2">
@@ -304,19 +304,33 @@ const IndividualStatuss = (props) => {
             >
               BACK
             </button>)}
-            {responseStatus === "REPOSSESSION_APPROVED" &&!captured&&(<><button
-              type="button"
-              onClick={() => onClose()}
-              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
-            >
-              CANCEL
-            </button> <Link
-        href={`/approvedRepoVehicle/${vehicleId?.vehId}/completed`}
-        className="bg-blue-500 text-white py-2 px-8 w-32 rounded hover:bg-blue-600 transition duration-200 "
-      >
-        COMPLETE
-      </Link></>)}
-           
+            {responseStatus === "REPOSSESSION_APPROVED" && !captured ? (
+  <>
+    <button
+      type="button"
+      onClick={() => onClose()}
+      className="bg-red-500 text-white py-2 h-10 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+    >
+      CANCEL
+    </button>
+    <Link
+      href={`/approvedRepoVehicle/${vehicleId?.vehId}/completed`}
+      className="bg-blue-500 text-white py-2 h-10 px-8 w-32 rounded hover:bg-blue-600 transition duration-200"
+    >
+      COMPLETE
+    </Link>
+  </>
+) : (
+  responseStatus === "REPOSSESSION_APPROVED" && captured && (
+    <button
+      type="button"
+      onClick={() => onClose()}
+      className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+    >
+      BACK
+    </button>
+  )
+)}
             {responseStatus === "REPOSSESSION_REQUESTED" && (<>
               <button
               type="button"

@@ -85,6 +85,10 @@ const AllYards = () => {
   const userColumn = useMemo(
     () => [
       {
+        header: "Code",
+        accessorKey: "code",
+      },
+      {
         header: "yard name",
         accessorKey: "org_name",
       },
@@ -96,10 +100,7 @@ const AllYards = () => {
         header: "City",
         accessorKey: "city",
       },
-      {
-        header: "Code",
-        accessorKey: "code",
-      },
+    
 
       {
         id: "view",

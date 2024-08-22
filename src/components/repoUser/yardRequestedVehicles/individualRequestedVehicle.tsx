@@ -280,13 +280,13 @@ const IndividualRepoRequests = ({ yardVehId }) => {
                   >
                     Cancel{" "}
                   </button>
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => handleModalOpen("status")}
                     className="px-8 py-2 text-center bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                   >
                     Modify Expected Date
-                  </button>
+                  </button> */}
                 </div>
               )}
           </div>

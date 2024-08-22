@@ -363,7 +363,7 @@ const View = (row) => {
 
 
 
-const ConfirmationModal = ({ open, onConfirm, onCancel, message }) => {
+export const ConfirmationModal = ({ open, onConfirm, onCancel, message }) => {
   if (!open) return null;
 
   return (

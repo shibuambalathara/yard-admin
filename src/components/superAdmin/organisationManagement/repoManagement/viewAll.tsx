@@ -92,6 +92,10 @@ const AllRepoManagemnet = () => {
   const userColumn = useMemo(
     () => [
       {
+        header: "Code",
+        accessorKey: "code",
+      },
+      {
         header: "organization name",
         accessorKey: "org_name",
       },
@@ -103,10 +107,7 @@ const AllRepoManagemnet = () => {
         header: "City",
         accessorKey: "city",
       },
-      {
-        header: "Code",
-        accessorKey: "code",
-      },
+     
 
       {
         id: "view",

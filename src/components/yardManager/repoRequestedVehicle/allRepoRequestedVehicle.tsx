@@ -103,10 +103,14 @@ const AllYardRequestedVehicle = () => {
   const yardColumn = useMemo(
     () => [
       {
-        header: "Expected Entry ",
-        accessorKey: "expected_entry_date",
-        cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
+        header: "code",
+        accessorKey: "repo_vehicle.code",
       },
+      // {
+      //   header: "Expected Entry ",
+      //   accessorKey: "expected_entry_date",
+      //   cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
+      // },
       // {
       //   header: "make",
       //   accessorKey: "repo_vehicle.make",
@@ -120,10 +124,7 @@ const AllYardRequestedVehicle = () => {
         header: "Reg No",
         accessorKey: "repo_vehicle.reg_number",
       },
-      {
-        header: "code",
-        accessorKey: "repo_vehicle.code",
-      },
+     
       {
         header: "Category ",
         accessorKey: "repo_vehicle.vehicle_category.name",

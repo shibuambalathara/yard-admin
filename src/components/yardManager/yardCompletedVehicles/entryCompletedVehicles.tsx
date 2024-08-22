@@ -92,6 +92,10 @@ const AllEntryCompletedVehicles = () => {
   const yardColumn = useMemo(
     () => [
       {
+        header: "code",
+        accessorKey: "repo_vehicle.code",
+      },
+      {
         header: "make",
         accessorKey: "repo_vehicle.make",
       },
@@ -104,10 +108,7 @@ const AllEntryCompletedVehicles = () => {
         header: "Reg No",
         accessorKey: "repo_vehicle.reg_number",
       },
-      {
-        header: "code",
-        accessorKey: "repo_vehicle.code",
-      },
+     
       {
         header: "Category ",
         accessorKey: "repo_vehicle.vehicle_category.name",

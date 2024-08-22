@@ -4,7 +4,9 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import DataTable from "@/components/tables/dataTable";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
-import { MdOutlineViewHeadline } from "react-icons/md";
+import { MdOutlineViewHeadline ,} from "react-icons/md";
+import { FaDownload } from "react-icons/fa6";
+
 import Pagination from "@/components/pagination/pagination";
 import { inputStyle, labelStyle } from "@/components/ui/style";
 import NoVehicleMessage from "@/components/commonComponents/clientLevelUser/noVehicle";
@@ -77,6 +79,10 @@ const AllApprovedVehicles = (props) => {
   const userColumns = useMemo(
     () => [
       {
+        header: "Code",
+        accessorKey: "repo_vehicle.code",
+      },
+      {
         header: "City",
         accessorKey: "initial_city",
       },
@@ -95,6 +101,7 @@ const AllApprovedVehicles = (props) => {
       //     return <span>{RepossessionStatus[role] || role}</span>;
       //   },
       // },
+      
       {
         header: "Requested Date",
         accessorKey: "req_date",
@@ -105,15 +112,16 @@ const AllApprovedVehicles = (props) => {
         accessorKey: "repo_vehicle.reg_number",
       },
       {
-        header: "Code",
-        accessorKey: "repo_vehicle.code",
-      },{
         header: " Category",
         accessorKey: "repo_vehicle.vehicle_category.name",
       },
       {
         header: "View",
         cell: ({ row }) => <View row={row} user={user} />,
+      },
+      {
+        header: "Repo Kit",
+        cell: ({ row }) => <RepoKit row={row} user={user} />,
       },
       {
         header: "Action",
@@ -203,6 +211,22 @@ const View = ({ row, user }) => {
       <Link href={href} target="_blank" rel="noopener noreferrer">
         View
       </Link>
+    </div>
+  );
+};
+
+const RepoKit = ({ row, user }) => {
+  // const href =
+  //   user === "client"
+  //     ? `/requestedRepo/${row.original.id}`
+  //     : `/approvedRepoVehicle/${row.original.id}`;
+
+  return (
+    <div className="flex justify-center items-center border space-x-1 w-16 cursor-pointer bg-gray-700 text-white p-1 rounded-md">
+      <FaDownload />
+      {/* <Link href="" >
+        RepoKit
+      </Link> */}
     </div>
   );
 };

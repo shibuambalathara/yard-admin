@@ -40,7 +40,7 @@ export const Super_Admin = [
   },
 
   {
-    title: "Vehicle Category Management ",
+    title: "Vehicle Category Management",
     icon: <ImTruck />,
     path: "/vehicleCategoryManagement",
   },
@@ -48,7 +48,7 @@ export const Super_Admin = [
   {
     title: "Client Category Management ",
     icon: <FaHandshake />,
-    path: "/clientCategoryManagement",
+    path: "/clientCategory",
   },
 
   {
@@ -142,7 +142,7 @@ export const clientLevelUser = [
         path: "/waivers",
       },
       {
-        title: "View Created Waiver ",
+        title: "View Created Waiver",
         icon: <TfiTruck />,
         path: "/waivers/viewCreatedWaivers",
       },
@@ -230,7 +230,7 @@ export const clientLevelSuperUser = [
         path: "/vehiclesSuperOrg/instockVehicles",
       },
       {
-        title: "Initiated Vehicles  ",
+        title: "Initiated Vehicles",
         icon: <TfiTruck />,
         path: "/vehiclesSuperOrg/initiatedVehicles",
       },
@@ -496,8 +496,8 @@ export const RepoAdmin = [
   { title: "Dashboard", icon: <MdDashboard /> },
 
   {
-    title: "Repo Vehicle",
-    icon: <ImTruck />,
-    path: "/vehicleSubOwnership",
+    title: "user Management",
+    icon: <FaUsers />,
+    path: "/manageUser",
   },
 ];
