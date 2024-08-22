@@ -118,6 +118,10 @@ const fetchChildren = useCallback(async () => {
   const userColumn = useMemo(
     () => [
       {
+        header: "Code",
+        accessorKey: "repo_vehicle.code",
+      },
+      {
         header: "captured City",
         accessorKey: "captured_city",
       },
@@ -133,10 +137,7 @@ const fetchChildren = useCallback(async () => {
         header: "Registration no ",
         accessorKey: "repo_vehicle.reg_number",
       },
-      {
-        header: "Code",
-        accessorKey: "repo_vehicle.code",
-      },
+      
       {
         header: "View",
         cell: ({ row }) => <View row={row} user={user} />,

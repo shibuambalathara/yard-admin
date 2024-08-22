@@ -98,7 +98,7 @@ console.log('clientCatId',typeof(clientId));
         text: response?.data?.message,
       });
       // router.push('');
-      router.push("/clientCategoryManagement");
+      router.push("/clientCategory");
       onClose()
       fetchData()
     } catch (error) {

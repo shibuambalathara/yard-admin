@@ -104,6 +104,10 @@ const AllRequestedVehicles = (props) => {
   const userColumn = useMemo(
     () => [
       {
+        header: "Code",
+        accessorKey: "repo_vehicle.code",
+      },
+      {
         header: "City",
         accessorKey: "initial_city",
       },
@@ -129,10 +133,7 @@ const AllRequestedVehicles = (props) => {
         header: "Registration no",
         accessorKey: "repo_vehicle.reg_number",
       },
-      {
-        header: "Code",
-        accessorKey: "repo_vehicle.code",
-      },
+      
       {
         header: "Vehicle category",
         accessorKey: "repo_vehicle.vehicle_category.name",

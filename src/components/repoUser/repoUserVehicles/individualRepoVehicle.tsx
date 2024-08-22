@@ -549,7 +549,7 @@ const IndividualVehicle = ({ vehicleId }) => {
             BACK
           </button>
           <button onClick={handleCancelClick} className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200">
-             REQUEST
+             YARD ENTRY
            </button>
           </>)}
           

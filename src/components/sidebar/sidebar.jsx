@@ -40,8 +40,8 @@ const SideBar = () => {
           return clientLevelSubUser;
           case "REPO_ADMIN":
         return RepoAdmin;
-          // default :
-          // return RepoUser
+          default :
+          return RepoUser
         
       // Default to user data
     }

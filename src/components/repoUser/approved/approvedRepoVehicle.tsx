@@ -96,6 +96,10 @@ const AllApprovedVehicles = (props) => {
       //   },
       // },
       {
+        header: "Code",
+        accessorKey: "repo_vehicle.code",
+      },
+      {
         header: "Requested Date",
         accessorKey: "req_date",
         cell: ({ row }) => formatDate(row.original.req_date),
@@ -105,9 +109,6 @@ const AllApprovedVehicles = (props) => {
         accessorKey: "repo_vehicle.reg_number",
       },
       {
-        header: "Code",
-        accessorKey: "repo_vehicle.code",
-      },{
         header: " Category",
         accessorKey: "repo_vehicle.vehicle_category.name",
       },

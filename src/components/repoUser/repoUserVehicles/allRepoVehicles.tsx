@@ -107,6 +107,10 @@ const AllRepoDetails = (props) => {
   const userColumn = useMemo(
     () => [
       {
+        header: "code",
+        accessorKey: "code",
+      },
+      {
         header: "Client",
         accessorKey: "cl_org.org_name",
       },
@@ -130,10 +134,7 @@ const AllRepoDetails = (props) => {
         header: "Category ",
         accessorKey: "vehicle_category.name",
       },
-      {
-        header: "code",
-        accessorKey: "code",
-      },
+    
       {
         header: "View",
         cell: ({ row }) => <View row={row} />,

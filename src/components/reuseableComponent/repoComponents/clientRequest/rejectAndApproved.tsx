@@ -76,6 +76,7 @@ const AllResponse = ({ user, childrenRequire, response }) => {
 
   const userColumns = useMemo(
     () => [
+      { header: "Code", accessorKey: "repo_vehicle.code" },
       { header: "Requested Date", accessorKey: "req_date", cell: ({ row }) => formatDate(row.original.req_date) },
       { header: "City", accessorKey: "initial_city" },
       { header: "State", accessorKey: "initial_state" },
@@ -86,7 +87,7 @@ const AllResponse = ({ user, childrenRequire, response }) => {
       { header: "Model", accessorKey: "repo_vehicle.model" },
       
       { header: "Requested User", accessorKey: "req_by_user_org.user.name" },
-      { header: "Code", accessorKey: "repo_vehicle.code" },
+     
       { header: "View", cell: ({ row }) => <View row={row} user={user} response={response} /> },
     ],
     [response, user]

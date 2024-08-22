@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
-import { FutureDate, InputField } from "@/components/ui/fromFields";
+import { InputField } from "@/components/ui/fromFields";
+
 
 type Inputs = {
   status: string;
@@ -15,9 +16,8 @@ type Inputs = {
 };
 
 const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
-  console.log("vehicleId",vehicleId);
-  
   const [isLoading, setIsLoading] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
@@ -26,7 +26,6 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
 
     const modifiedData: Partial<Inputs> = {
       status,
-      ...(status === "REPOSSESSION_APPROVED" && { end_date: data?.end_date ? new Date(data.end_date).toISOString() : null }),
       ...(status === "REPOSSESSION_REJECTED" || status === "REPOSSESSION_REQUESTED") && { reason: data.reason }
     };
 
@@ -60,6 +59,15 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
     }
   };
 
+  const handleConfirm = () => {
+    handleSubmit(handleRepoRequest)();
+    setConfirmModalOpen(false);
+  };
+
+  const handleReject = () => {
+     onClose()
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center border-2 h-full w-full">
@@ -77,49 +85,80 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
           </h1>
           <div className="border-b"></div>
         </div>
-        <form className="space-y-2" onSubmit={handleSubmit(handleRepoRequest)}>
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide">
-            {status === "REPOSSESSION_APPROVED" && (
-              <FutureDate
-                label="Capture Time Period"
-                type="datetime-local"
-                name="end_date"
-                register={register}
-                errors={errors}
-                pattern
-              />
-            )}
-            {(status === "REPOSSESSION_REJECTED" || status === "REPOSSESSION_REQUESTED") && (
-              <InputField
-                placeholder={status === "REPOSSESSION_REQUESTED" ? "Eg:Sorry, by mistake" : "Eg:Not Satisfied"}
-                label="Reason"
-                type="text"
-                name="reason"
-                register={register}
-                errors={errors}
-                pattern
-              />
-            )}
-          </div>
-          <div className="w-full text-center space-x-4">
-            <button
-              onClick={() => onClose()}
-              type="button"
-              className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-8 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+
+        {status === "REPOSSESSION_APPROVED" ? (
+          <>
+            <ConfirmationModal
+              open={confirmModalOpen}
+              onConfirm={handleConfirm}
+              onCancel={handleReject}
+              message="Are you sure you want to approve this repossession?"
+            />
+            
+          </>
+        ) : (
+          <form className="space-y-2" onSubmit={handleSubmit(handleRepoRequest)}>
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-2 border p-4 place-items-center h-auto overflow-y-scroll scrollbar-hide">
+              {(status === "REPOSSESSION_REJECTED" || status === "REPOSSESSION_REQUESTED") && (
+                <InputField
+                  placeholder={status === "REPOSSESSION_REQUESTED" ? "Eg:Sorry, by mistake" : "Eg:Not Satisfied"}
+                  label="Reason"
+                  type="text"
+                  name="reason"
+                  register={register}
+                  errors={errors}
+                  pattern
+                />
+              )}
+            </div>
+            <div className="w-full text-center space-x-4">
+              <button
+                onClick={() => onClose()}
+                type="button"
+                className="bg-gradient-to-r from-red-500 uppercase to-red-700 text-white py-2 px-8 rounded-lg hover:from-red-600 hover:to-red-800 transition duration-300 transform hover:scale-105"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-green-500 uppercase to-green-700 text-white py-2 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
 };
 
 export default RepoRespond;
+export const ConfirmationModal = (props) => {
+  const { open, onConfirm, onCancel, message }= props
+  // if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-6 px-16 rounded shadow-lg">
+        <p className="text-lg font-bold mb-4">{message}</p>
+        <div className="flex justify-center space-x-4">
+          <button
+            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-200"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200"
+            onClick={onConfirm}
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
