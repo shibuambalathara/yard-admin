@@ -96,11 +96,11 @@ const AllRepoRequests = () => {
         header: "code",
         accessorKey: "repo_vehicle.code",
       },
-      {
-        header: "Expected Entry ",
-        accessorKey: "expected_entry_date",
-        cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
-      },
+      // {
+      //   header: "Expected Entry ",
+      //   accessorKey: "expected_entry_date",
+      //   cell: ({ row }) => dataFormat(row?.original?.expected_entry_date),
+      // },
 
       {
         header: "Reg No",
