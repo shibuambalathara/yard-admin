@@ -293,7 +293,7 @@ const AddIndividualVehicle = (props) => {
             </div> */}
 
             <InputField
-              label="Loan No"
+              label="Loan Number"
               type="text"
               name="loan_number"
               register={register}
@@ -388,7 +388,7 @@ const AddIndividualVehicle = (props) => {
             />
 
             <InputField
-              label="Engine No"
+              label="Engine Number"
               type="text"
               name="eng_number"
               register={register}
@@ -398,7 +398,7 @@ const AddIndividualVehicle = (props) => {
             />
 
             <InputField
-              label="Chassis No"
+              label="Chassis Number"
               type="text"
               name="chasis_number"
               register={register}

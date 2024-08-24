@@ -293,8 +293,8 @@ export const SelectInput = ({
       </label>
       <select
         disabled={disabled}
-        {...register(name, { required: required })}
-        className={`${inputStyle?.data}`}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         {...rest}
 
         // defaultValue={defaultValue}x
@@ -337,8 +337,8 @@ export const SelectInputOptional = ({
       </label>
       <select
         disabled={disabled}
-        {...register(name, { required: required })}
-        className={`${inputStyle?.data}`}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         defaultValue={defaultValue}
         {...rest}
       >
@@ -379,8 +379,8 @@ export const SelectInputWithChange = ({
       </label>
       <select
         disabled={disabled}
-        {...register(name, { required: required })}
-        className={`${inputStyle?.data}`}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         {...rest}
         // defaultValue={defaultValue}
         onChange={handleRoleChange}
@@ -820,8 +820,8 @@ export const SelectChange = (props) => {
       <select
         id={name}
         disabled={disabled}
-        {...register(name, { required })}
-        className={inputStyle.data}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         defaultValue={defaultValue}
         onChange={props?.handleChange} // Only add onChange if handleChange is provided
       >

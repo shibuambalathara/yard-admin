@@ -123,7 +123,7 @@ const AddVehicleComponent = () => {
           placeholder=""
         />
          <FormFieldInput
-          label="Engine No"
+          label="Engine Number"
           type="text"
           name="engine_no"
           register={register}
@@ -133,7 +133,7 @@ const AddVehicleComponent = () => {
           placeholder=""
         />
          <FormFieldInput
-          label="Chaiss No"
+          label="Chassis Number"
           type="text"
           name="chaiss_no"
           register={register}
@@ -163,7 +163,7 @@ const AddVehicleComponent = () => {
           required={false}
         /> */}
          <FormFieldInput
-          label="Contract  No"
+          label="Contract  Number"
           type="number"
           name="contract_no"
           register={register}
@@ -173,7 +173,7 @@ const AddVehicleComponent = () => {
           placeholder=""
         />
          <FormFieldInput
-          label="Loan No"
+          label="Loan Number"
           type="number"
           name="loan_no"
           register={register}
