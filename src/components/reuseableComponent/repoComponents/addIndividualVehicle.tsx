@@ -277,6 +277,7 @@ const AddIndividualVehicle = (props) => {
                 register={register}
                 errors={errors}
                 defaultValue=""
+                required={true}
               />)}
               
             
@@ -298,6 +299,7 @@ const AddIndividualVehicle = (props) => {
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
             {/* <InputField
               label="Actual Entry Date"
@@ -321,6 +323,7 @@ const AddIndividualVehicle = (props) => {
               type="date"
               name="mfg_year"
               register={register}
+              required={true}
               errors={errors}
               pattern
             />
@@ -329,6 +332,7 @@ const AddIndividualVehicle = (props) => {
               label="Make"
               type="text"
               name="make"
+              required={true}
               register={register}
               errors={errors}
               pattern
@@ -337,6 +341,7 @@ const AddIndividualVehicle = (props) => {
               label="Model"
               type="text"
               name="model"
+              required={true}
               register={register}
               errors={errors}
               pattern
@@ -344,6 +349,7 @@ const AddIndividualVehicle = (props) => {
             <InputField
               label="Variant"
               type="text"
+              required={true}
               name="variant"
               register={register}
               errors={errors}
@@ -353,6 +359,7 @@ const AddIndividualVehicle = (props) => {
               label="Colour"
               type="text"
               name="colour"
+              
               register={register}
               errors={errors}
               required={false}
@@ -364,8 +371,9 @@ const AddIndividualVehicle = (props) => {
               name="condition"
               register={register}
               errors={errors}
+              required={true}
               pattern
-              required={false}
+              
             />
 
             
@@ -376,6 +384,7 @@ const AddIndividualVehicle = (props) => {
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
 
             <InputField
@@ -385,6 +394,7 @@ const AddIndividualVehicle = (props) => {
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
 
             <InputField
@@ -394,6 +404,7 @@ const AddIndividualVehicle = (props) => {
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
             
 

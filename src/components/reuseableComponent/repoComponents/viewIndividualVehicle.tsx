@@ -423,7 +423,7 @@ const IndividualVehicle = (props) => {
           </button>
         </div>
       )}
-       {status.toLowerCase() === 'closed' && (
+       {status.toLowerCase() !== 'pending' && (
         <div className="w-full text-center p-1 mt-3 space-x-2">
           <button
             type="button"

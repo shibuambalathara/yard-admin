@@ -240,7 +240,7 @@ export const clientLevelSuperUser = [
         path: "/vehiclesSuperOrg/releasedVehicles",
       },
       {
-        title: "Cancelled Vehicles  ",
+        title: "Cancelled Vehicles",
         icon: <TfiTruck />,
         path: "/vehiclesSuperOrg/cancelledVehicles",
       },
@@ -417,7 +417,7 @@ export const yardManager = [
   // },
 
   {
-    title: "Repo Requested Vehicle",
+    title: "Repo Requested Vehicles",
     icon: <FaCarOn />,
     path: "/repoRequestedVehicle",
   },
@@ -473,12 +473,12 @@ export const RepoUser = [
     path: "/completedRepoVehicle",
   },
   {
-    title: "Yard Eligible Vehicle",
+    title: "Yard Eligible Vehicles",
     icon: <ImTruck />,
     path: "/yardAvailableVehicle",
   },
   {
-    title: "Yard Requested Vehicle",
+    title: "Yard Requested Vehicles",
     icon: <ImTruck />,
     path: "/yardRequestedVehicle",
   },

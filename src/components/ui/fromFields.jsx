@@ -971,3 +971,63 @@ export const DateField = ({
     </div>
   );
 };
+export const ThreeDayDate = ({
+  name,
+  label,
+  type = "date",
+  register,
+  errors,
+  required = true,
+  pattern,
+  disabled = false,
+  placeholder = "",
+}) => {
+
+  // Configure validation options based on the input type and requirements
+  const registerOptions = {
+    required: required && `This field is required`,
+    pattern: pattern && {
+      value: pattern,
+      message: `It is invalid`,
+    },
+  };
+
+  // Additional validation for date inputs to ensure the selected date is within the allowed range
+  if (type === "date") {
+    registerOptions.valueAsDate = true;
+    registerOptions.validate = (value) => {
+      const selectedDate = new Date(value);
+      selectedDate.setHours(0, 0, 0, 0); // Set selected date time to 00:00:00
+
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set current date time to 00:00:00
+
+      const threeDaysBefore = new Date(now);
+      threeDaysBefore.setDate(now.getDate() - 3); // Calculate the date 3 days before today
+
+      return (
+        selectedDate >= threeDaysBefore && selectedDate <= now
+      ) || "The selected date must be today or within the last 3 days";
+    };
+  }
+
+  return (
+    <div className="mb-">
+      <label className={`${labelStyle.data}`}>
+        {label}
+      </label>
+      <input
+        disabled={disabled}
+        type={type}
+        {...register(name, registerOptions)}
+        className={`${inputStyle.data}`}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="text-red-500 mt-1">
+          {errors[name].message || "This field is required"}
+        </p>
+      )}
+    </div>
+  );
+};

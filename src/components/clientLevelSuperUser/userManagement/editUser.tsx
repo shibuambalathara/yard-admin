@@ -189,7 +189,7 @@ const EditIndividualUser = ({ userId }) => {
           <div className="w-full text-center pt-4 space-x-4">
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={() => router.push("/userCreation")}
               className="bg-red-500 text-white py-2 px-10 rounded-md hover:bg-red-600 transition duration-200"
             >
               Back
