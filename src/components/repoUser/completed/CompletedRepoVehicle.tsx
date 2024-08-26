@@ -98,8 +98,13 @@ const AllCompleted = (props) => {
   const userColumn = useMemo(
     () => [
       {
-        header: "code",
+        header: "Code",
         accessorKey: "repo_vehicle.code",
+        // id: "code", // Ensure unique id
+      },
+      {
+        header: "Status",
+        accessorKey: "repo_vehicle.status",
         // id: "code", // Ensure unique id
       },
       {
