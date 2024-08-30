@@ -83,12 +83,12 @@ const AllOrganisation = () => {
     () => [
       {
         header: "Organisation Name",
-        accessorKey: "cl_org_name",
+        accessorKey: "org_name",
         // id: "clsup_org_name", // Ensure unique id
       },
       {
         header: "Organisation Category",
-        accessorKey: "cl_org_category.name",
+        accessorKey: "client_category.name",
         // id: "clsup_org_category_name", // Ensure unique id
       },
       {
@@ -96,11 +96,11 @@ const AllOrganisation = () => {
         accessorKey: "state",
         // id: "clsup_org_category_name", // Ensure unique id
       },
-      {
-        header: "user",
-        accessorKey: "user.name",
-        // id: "clsup_org_category_name", // Ensure unique id
-      },
+      // {
+      //   header: "user",
+      //   accessorKey: "user.name",
+      //   // id: "clsup_org_category_name", // Ensure unique id
+      // },
 
       {
         header: "Code",
