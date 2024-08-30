@@ -17,7 +17,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
 
   type Inputs = {
     vehicle_category_id: string;
-    park_fee_per_day:Number
+    park_fee_per_day:number
     cl_org_id: string;
      };
 
@@ -102,7 +102,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
       onClose()
     } catch (error) {
       console.log("error", error);
-      toast.error("Already Exsist");
+      toast.error(error?.response?.data?.message);
     }
     // Handle form submission
   },[])
