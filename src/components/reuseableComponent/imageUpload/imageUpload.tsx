@@ -7,16 +7,20 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
+  const [error, setError] = useState<string | null>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setImages((prevImages) => [...prevImages, file]);
+    }else{
+      
+      setError("Please upload at least one image.");
     }
   };
 
   return (
     <div className="col-span-2">
-      <h1 className="block text-gray-700 text-sm font-bold mb-2">
+      <h1 className="block text-gray-700 text-sm font-bold ">
         Upload Images
       </h1>
       <input
@@ -25,6 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
         onChange={handleFileChange}
         multiple
         className="hidden"
+        // required= {true}
         
       />
       <div className="flex flex-wrap items-center mb-4">
@@ -51,6 +56,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
           </label>
         </div>
       </div>
+      {error && <p className="pl-4 text-red-500 text-sm">{error}</p>}
     </div>
   );
 };

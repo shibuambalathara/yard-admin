@@ -437,7 +437,7 @@ export const RepoUser = [
   { title: "Dashboard", icon: <MdDashboard /> },
 
   {
-    title: "Repo Vehicle",
+    title: "Repo Vehicles",
     icon: <ImTruck />,
     path: "/repoUserVehicles",
   },
