@@ -115,7 +115,7 @@ const DataTable = ({ data, columns }) => {
               <tr className="divide-x divide-gray-500" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
-                    className="py-2 pl-2 pr-1 text-xs sm:text-sm font-semibold text-gray-100 text-left cursor-pointer"
+                    className="py-1 pl-2 pr-1 text-xs sm:text-sm font-semibold text-gray-100 text-left cursor-pointer"
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -152,7 +152,7 @@ const DataTable = ({ data, columns }) => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-2 py-3.5 text-xs sm:text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left normal-case"
+                    className="px-2 py-1 text-xs sm:text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left normal-case"
                   >
                     <div className="flex justify-start">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
