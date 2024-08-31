@@ -40,7 +40,7 @@ const SidebarItem = ({ item, activePath }) => {
   return (
     <div
       className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
-        open ? "sm:w-85 w-[388px] " : "md:w-16 max-md:w-8 "
+        open ? "sm:w-4/5 w-[388px] " : "md:w-16 max-md:w-8 "
       }`}
     >
       <BsArrowLeftCircle

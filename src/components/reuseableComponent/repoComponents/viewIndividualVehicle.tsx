@@ -386,7 +386,7 @@ const IndividualVehicle = (props) => {
         />
 
         <InputField
-          label="Engine No"
+          label="Engine Number"
           type="text"
           name="eng_number"
           register={register}
@@ -396,7 +396,7 @@ const IndividualVehicle = (props) => {
         />
 
         <InputField
-          label="Chassis No"
+          label="Chassis Number"
           type="text"
           name="chasis_number"
           register={register}
@@ -423,7 +423,7 @@ const IndividualVehicle = (props) => {
           </button>
         </div>
       )}
-       {status.toLowerCase() === 'closed' && (
+       {status.toLowerCase() !== 'pending' && (
         <div className="w-full text-center p-1 mt-3 space-x-2">
           <button
             type="button"

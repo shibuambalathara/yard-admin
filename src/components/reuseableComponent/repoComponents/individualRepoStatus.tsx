@@ -124,24 +124,27 @@ const IndividualStatuss = (props) => {
       const modifiedData = {
         initial_city: data.initial_city,
         initial_state: data.initial_state,
-        // initial_images:[vehicleImage], // Use the updated vehicleImage array
       };
-
+  
+      // Append modified data to formData
       for (const key in modifiedData) {
         formData.append(key, modifiedData[key]);
       }
-      vehicleImage.forEach((image, index) => {
-        formData.append(`initial_images[${index}]`, image);
-      });
-      // formData.append("repo_vehicle_id", vehicleId?.vehId);
-      // formData.append("initial_state", data.initial_state);
-      // formData.append("initial_city", data.initial_city);
-      // formData.append("reason", data.reason);
-
+  
+      // If vehicleImage array is empty, append an empty array
+      if (vehicleImage.length === 0) {
+        formData.append("initial_images", JSON.stringify([])); // You can use `null` or `"[]"` based on API expectations
+      } else {
+        vehicleImage.forEach((image, index) => {
+          formData.append(`initial_images[${index}]`, image);
+        });
+      }
+  
+      // Append files from images array
       images.forEach((image) => {
         formData.append("files", image);
       });
-
+  
       console.log(modifiedData);
       const response = await axiosInstance.patch(
         `repossession/repo_veh_req/update_request_repossession/${vehicleId?.vehId}`,
@@ -163,7 +166,6 @@ const IndividualStatuss = (props) => {
       setImages([]);
     }
   };
-
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
     setSelectState(selectedState);
@@ -214,17 +216,7 @@ const IndividualStatuss = (props) => {
               pattern
               disabled={true}
             />
-            {user !== "client" && (
-              <InputField
-                label="Org Name"
-                type="text"
-                name="org_name"
-                register={register}
-                errors={errors}
-                pattern
-                disabled={true}
-              />
-            )}
+            
 
             <InputField
               label="Code"

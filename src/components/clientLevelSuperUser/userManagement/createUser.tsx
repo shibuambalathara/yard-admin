@@ -81,7 +81,7 @@ const CreateUser = () => {
   };
 
   const close = () => {
-    router.back();
+    router.push("/userCreation");
   };
 
   return (

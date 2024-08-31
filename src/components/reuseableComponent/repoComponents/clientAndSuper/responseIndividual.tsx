@@ -201,18 +201,7 @@ const IndividualStatuss = (props) => {
               pattern
               disabled={true}
             />
-            {user !== "client" && (
-              <InputField
-                label="Org Name"
-                type="text"
-                name="org_name"
-                register={register}
-                errors={errors}
-                pattern
-                disabled={true}
-              />
-            )}
-
+          
             <InputField
               label="Code"
               type="text"

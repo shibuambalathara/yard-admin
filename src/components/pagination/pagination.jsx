@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { buttonStyle,inputStyle } from "../ui/style";
+import { buttonStyle, inputStyle } from "../ui/style";
 
 const Pagination = (props) => {
   const [pageValue, setPageValue] = useState(false);
@@ -11,12 +11,12 @@ const Pagination = (props) => {
   useEffect(() => {
     let totalPage = Math.ceil(props?.totalDataCount / props?.limit);
     setTotalPage(totalPage);
-  }, [totalPages,props]);
+  }, [totalPages, props]);
 
   // console.log("pages and total apage",props?.page, totalPages);
 
-  const handlePagination = (value) => { 
-    let convertedValue=parseInt(value)
+  const handlePagination = (value) => {
+    let convertedValue = parseInt(value);
     // console.log("value pf page form pagination", value);
     convertedValue > 0 && props?.setPage(convertedValue);
   };
@@ -35,75 +35,128 @@ const Pagination = (props) => {
     } else if (props?.totalDataCount % props?.limit > 0) {
       console.log("reached at reminder ");
       props?.setPage(Math.floor(props?.totalDataCount / props?.limit + 1));
-
     }
   };
 
   return (
     <>
-    {/* { 
+      {/* { 
     props?.totalDataCount > props?.limit  && (  */}
 
-      <div className="space-x-10 my-4 flex  justify-between items-center">
-      <div className="w-full  space-x-4">
-        <button
+      <div className="space-x-10 my-4 md:flex  justify-between items-center hidden ">
+        <div className="w-full  space-x-4">
+          <button
+            className={`${buttonStyle.data}  ${
+              props?.page === 1 ? "bg-stone-100 text-black" : " bg-gray-700"
+            }`}
+            onClick={() => props?.setPage(1)}
+          >
+            First page
+          </button>
+          <button
+            disabled={props?.page < 2 ? true : false}
+            onClick={() => props?.setPage(props?.page - 1)}
+            className={`${buttonStyle.data}  ${
+              props?.page < 2 ? "bg-stone-100 text-black" : " bg-gray-700"
+            }`}
+          >
+            Previous page
+          </button>
+          <button
+            disabled={props?.page >= totalPages && true}
+            onClick={() => props?.setPage(props?.page + 1)}
+            className={`${buttonStyle.data}  ${
+              props?.page >= totalPages
+                ? "bg-gray-100 text-black "
+                : " bg-gray-700"
+            }`}
+          >
+            Next page {}
+          </button>
+          <button
+            className={`${buttonStyle.data}  ${
+              props?.page >= totalPages
+                ? "bg-gray-100 text-black "
+                : " bg-gray-700"
+            }`}
+            disabled={props?.page >= totalPages && true}
+            onClick={handleLastPage}
+          >
+            Last page
+          </button>
+        </div>
+        <div className="flex w-full  justify-evenly">
+          <div className="normal-case">
+            {" "}
+            <span>{props?.page} Out of</span> <span>{totalPages} page</span>
+          </div>
+          <div className="  space-x-4">
+            <span className=""> Go to</span>
+            <input
+              type="text"
+              // className="border border-black w-40 placeholder:px-2"
+              className={` w-48  text-gray-600 focus:outline-none focus:border font-normal  py-1 px-4  text-sm border-gray-300 rounded border`}
+              onChange={(e) => handlePagination(e.target.value)}
+              placeholder="Enter Page Number"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* mobile */}
+      <div className="space-x-10  flex  justify-between items-center md:hidden ">
+        <div className="w-full  space-x-4">
+          {/* <button
           className={`${buttonStyle.data}  ${
             props?.page === 1 ? "bg-stone-100 text-black" : " bg-gray-700"
           }`}
           onClick={() => props?.setPage(1)}
         >
           First page
-        </button>
-        <button
-          disabled={props?.page < 2 ? true : false}
-          onClick={() => props?.setPage(props?.page - 1)}
-          className={`${buttonStyle.data}  ${
-            props?.page < 2 ? "bg-stone-100 text-black" : " bg-gray-700"
-          }`}
-        >
-          Previous page
-        </button>
-        <button
-
-          disabled={props?.page >= totalPages && true}
-          onClick={() => props?.setPage(props?.page + 1)}
+        </button> */}
+          <button
+            disabled={props?.page < 2 ? true : false}
+            onClick={() => props?.setPage(props?.page - 1)}
+            className={`${buttonStyle.data}  ${
+              props?.page < 2 ? "bg-stone-100 text-black" : " bg-gray-700"
+            }`}
+          >
+            {"<"}
+          </button>
+          <button
+            disabled={props?.page >= totalPages && true}
+            onClick={() => props?.setPage(props?.page + 1)}
+            className={`${buttonStyle.data}  ${
+              props?.page >= totalPages
+                ? "bg-gray-100 text-black "
+                : " bg-gray-700"
+            }`}
+          >
+            {">"}
+          </button>
+          {/* <button 
           className={`${buttonStyle.data}  ${
             props?.page >= totalPages
               ? "bg-gray-100 text-black "
               : " bg-gray-700"
           }`}
-        >
-          Next page {}
-        </button>
-        <button 
-          className={`${buttonStyle.data}  ${
-            props?.page >= totalPages
-              ? "bg-gray-100 text-black "
-              : " bg-gray-700"
-          }`}
           disabled={props?.page >= totalPages && true}
-         onClick={handleLastPage}>Last page</button>
-
-      </div>
-      <div className="flex w-full  justify-evenly">
-        <div  className="normal-case">
-          {" "}
-          <span>{props?.page} Out of</span> <span>{totalPages} page</span>
+         onClick={handleLastPage}>Last page</button> */}
         </div>
-        <div className="  space-x-4">
-        <span className=""> Go to</span>
-          <input
-            type="text"
-            // className="border border-black w-40 placeholder:px-2"
-            className={` w-48  text-gray-600 focus:outline-none focus:border font-normal  py-1 px-4  text-sm border-gray-300 rounded border`}
-            onChange={(e) => handlePagination(e.target.value)}
-            placeholder="Enter Page Number"
-          />
-
+        <div className="flex w-full  ">
+          <div className="  space-x-4">
+            <span className=""> Go to</span>
+            <input
+              type="text"
+              // className="border border-black w-40 placeholder:px-2"
+              className={` w-24 text-gray-600 focus:outline-none focus:border font-normal  py-1 px-4  text-sm border-gray-300 rounded border`}
+              onChange={(e) => handlePagination(e.target.value)}
+              placeholder="page No:"
+            />
+          </div>
         </div>
       </div>
-    </div>
-  {/* )} */}
+      {/* )} */}
     </>
   );
 };
