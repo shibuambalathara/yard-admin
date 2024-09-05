@@ -170,9 +170,9 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-2 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full space-y-8 md:p-10 p-2 bg-white rounded-xl shadow-lg">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           Vehicle Ownership Details
         </h2>
 
@@ -182,7 +182,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               <button
                 type="button"
                 onClick={handleModalOpen}
-                className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
+                className="bg-blue-500 text-white md:py-2 h-10 md:px-12 px-4 rounded hover:bg-blue-600 transition duration-200"
               >
                 Change Ownership
               </button>
@@ -247,7 +247,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
             )}
           </div>
         </form>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
+        <div className="grid  lg:grid-cols-3 gap-3 place-items-center lg:mt-4 md:py-4">
           <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">
             {" "}
           </h2>

@@ -63,7 +63,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   const [vehicleImage, setVehicleImage] = useState<ImageData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSelectDisabled, setIsSelectDisabled] = useState(false);
-  
+
   console.log(ownershipId);
   const router = useRouter();
   const {
@@ -162,15 +162,13 @@ const EditVehicleOwnership = ({ ownershipId }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-2 sm:px-6 lg:px-8">
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <h2 className=" text-2xl text-center  font-extrabold text-gray-900">
           Vehicle Ownership Details
         </h2>
 
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
-          
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 py-4 px-2">
           <InputField
             disabled={true}
             label="Loan Number"
@@ -327,123 +325,127 @@ const EditVehicleOwnership = ({ ownershipId }) => {
             errors={errors}
             pattern
           />
-
-          <div className="grid grid-cols-2 gap-2 col-span-3 mt-6 px-5">
-            {Object.entries(images).map(([imageType, imageList]) => (
-              <div
-                key={imageType}
-                className="border rounded-lg shadow-xl border-black"
-              >
-                <h2 className="text-center text-lg font-semibold">
-                  {imageType
-                    .replace("_", " ")
-                    .toLowerCase()
-                    .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-                  
-                </h2>
-
-                {imageList?.map((image, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center pb-4 mt-3"
-                  >
-                    <img
-                      className="rounded-xl mb-2 "
-                      src={image.src}
-                      alt={`${imageType} ${index}`}
-                      style={{ width: "70%" }}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
         </div>
-        <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
-          <div className="self-end justify-self-end mb-1 flex gap-5">
-            <div className=" w-full text-center space-x-8">
-            {!isSelectDisabled &&<button
-                  type="button"
-                  onClick={()=>{
-                    window.close()
-                  }}
-                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-2 col-span-3 mt-6 md:px-5">
+          {Object.entries(images).map(([imageType, imageList]) => (
+            <div
+              key={imageType}
+              className="border rounded-lg shadow-xl border-black"
+            >
+              <h2 className="text-center text-lg font-semibold">
+                {imageType
+                  .replace("_", " ")
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+              </h2>
+
+              {imageList?.map((image, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center pb-4 mt-3"
                 >
-                  Back
-                </button>}
-            
-              {isSelectDisabled && (
-                <>
+                  <img
+                    className="rounded-xl mb-2 "
+                    src={image.src}
+                    alt={`${imageType} ${index}`}
+                    style={{ width: "70%" }}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+     
+      <form onSubmit={handleSubmit(editVehicle)} className="mt-8 space-y-6">
+        <div className="md:self-end md:justify-self-end mb-1 flex md:gap-5 gap-3">
+          <div className=" w-full text-center md:space-x-8 gap-2   max-md:flex ">
+            {!isSelectDisabled && (
+              <button
+                type="button"
+                onClick={() => {
+                  window.close();
+                }}
+                className="bg-red-500 text-white py-2 h-10 md:px-12 rounded hover:bg-red-600 transition duration-200 text-xs"
+              >
+                Back
+              </button>
+            )}
+
+            {isSelectDisabled && (
+              <>
                 <button
                   type="button"
-                  onClick={()=>{
-                    window.close()
+                  onClick={() => {
+                    window.close();
                   }}
-                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+                  className="bg-red-500 text-white md:py-2 h-10 md:px-12 px-4 rounded hover:bg-red-600 transition duration-200 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleModalOpen}
-                  className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200"
+                  className="bg-blue-500 text-white md:py-2 h-10 md:px-12 px-4 rounded hover:bg-blue-600 transition duration-200 text-xs"
                 >
                   Confirm Ownership
                 </button>
-                </>
-              )}
-            </div>
+              </>
+            )}
+          </div>
+          
+          {modalOpen && (
+            <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
+              <div className="bg-white p-4 rounded-lg md:w-full max-w-sm">
+                <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
+                  <h1 className=" font-semibold text-base  ">
+                    Confirm Ownership{" "}
+                  </h1>
+                </div>
 
-            {modalOpen && (
-              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
-                <div className="bg-white p-4 rounded-lg w-full max-w-sm">
-                  <div className="flex  w-full justify-between text-gray-400 uppercase text-lg border-b mb-5 pb-1">
-                    <h1 className=" font-semibold text-base  ">Confirm  Ownership </h1>
-                  </div>
-
-                  <div className="flex  flex-col items-center justify-center border px-2 py-6">
-                    <div>
-                      <SelectComponent
-                        label="Ownership Status"
-                        name="ownership_status"
-                        options={AccountStatus}
-                        register={register}
-                        errors={errors}
-                        defaultValue=""
-                      />
-                    </div>
-
-                    <InputField
-                    placeholder="Eg: It's my vehicle/It's not my vehicle"
-                      label="Comment"
-                      type="text"
-                      name="comment"
+                <div className="flex  flex-col items-center justify-center border px-2 py-6">
+                  <div>
+                    <SelectComponent
+                      label="Ownership Status"
+                      name="ownership_status"
+                      options={AccountStatus}
                       register={register}
                       errors={errors}
-                      pattern
+                      defaultValue=""
                     />
                   </div>
 
-                  <div className=" w-full text-center p-1 mt-3  space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => handleModalClose()}
-                      className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                       className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
-                    >
-                      Submit
-                    </button>
-                  </div>
+                  <InputField
+                    placeholder="Eg: It's my vehicle/It's not my vehicle"
+                    label="Comment"
+                    type="text"
+                    name="comment"
+                    register={register}
+                    errors={errors}
+                    pattern
+                  />
+                </div>
+
+                <div className=" w-full text-center p-1 mt-3  space-x-2">
+                  <button
+                    type="button"
+                    onClick={() => handleModalClose()}
+                    className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
-            )}
-          </div>
-        </form>
+            </div>
+          )}
+        </div>
+      </form>
       </div>
     </div>
   );

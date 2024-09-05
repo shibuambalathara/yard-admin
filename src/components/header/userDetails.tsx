@@ -63,8 +63,8 @@ const UserDetails = () => {
   };
 
   return (
-    <div ref={dropdownRef} className="relative inline-block">
-      <div className="flex space-x-2 rounded-md px-2 py-2 w-56 justify-between">
+    <div ref={dropdownRef} className="relative inline-block z-50">
+      <div className="flex space-x-2 rounded-md px-2 py-2 md:w-56 justify-between">
         <p
           className={`text-xs font-bold flex items-center transition-transform  duration-150  
    ${

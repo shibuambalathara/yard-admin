@@ -168,11 +168,11 @@ const AllInstockVehicles = () => {
   
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
        All Instock Vehicles
       </h1>
 
-      <div className="flex w-full space-x-14 borde px-5">
+      <div className="flex w-full md:space-x-14 gap-3 borde md:px-5 px-2">
   <div className="flex flex-col  ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
@@ -196,7 +196,7 @@ const AllInstockVehicles = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
       </div>
-      <div className="flex flex-col   ml-8">
+      <div className="flex flex-col   md:ml-8">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Yard
         </label>

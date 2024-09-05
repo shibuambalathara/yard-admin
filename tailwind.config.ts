@@ -7,6 +7,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+
+        screens: {
+          '2xs': '290px',
+          
+        },
       width: {
         '85': '22rem', // Define custom width value for w-85
       },

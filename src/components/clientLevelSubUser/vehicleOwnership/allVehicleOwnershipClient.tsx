@@ -187,7 +187,7 @@ const AllVehicleOwnershipClient = () => {
   };
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         Vehicle Ownership
       </h1>
 

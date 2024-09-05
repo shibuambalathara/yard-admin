@@ -171,11 +171,11 @@ const AllYardRequestedVehicle = () => {
   
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         All Repo Requests
       </h1>
 
-      <div className=" grid grid-cols-3  gap-4 items-end px-3 ">
+      <div className="  grid lg:grid-cols-3 grid-cols-2  md:gap-4 items-end lg:px-3 mr-2 ">
         {/* <div>
           <ClientFilter />
         </div> */}
@@ -235,7 +235,7 @@ export default AllYardRequestedVehicle;
 const View = (row) => {
   // console.log("from view", row.original.id);
   return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 md:w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

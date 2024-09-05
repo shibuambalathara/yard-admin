@@ -61,11 +61,11 @@ export default async function RootLayout({
     <body
       className={`${roboto_init.variable} ${Poppins_init.variable} h-full `}
     >
-      <div className="flex flex-col h-full max-md:overflow-hidden">
+      <div className="flex flex-col h-full relative">
         <Header />
         <div className="flex flex-1 h-full flex-row">
           <SideBar />
-          <div className="flex-1 min-h-full overflow-y-scroll scrollbar-hide">
+          <div className="flex-1 min-h-full overflow-y-scroll scrollbar-hide max-md:overflow-x-hidden  ">
             <ToastProvider>
               {children}
             </ToastProvider>

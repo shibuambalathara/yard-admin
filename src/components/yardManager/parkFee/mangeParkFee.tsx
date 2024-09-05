@@ -80,12 +80,12 @@ const MangeParkFee = () => {
         cell: ({ row }) => (
           <button
             onClick={() => handleEditClick(row.original.id)}
-            className="flex justify-center items-center border space-x-1 bg-gray-700 text-white px-2 py-1 rounded-md "
+            className="flex justify-center   items-center border space-x-1 bg-gray-700 text-white sm:px-2 px-1 py-1 rounded-md "
           >
             <p>
               <MdOutlineViewHeadline />
             </p>
-            <p rel="noopener noreferrer" className="">
+            <p rel="noopener noreferrer " className="max-md:text-xs max-lg:text-sm">
               View
             </p>
           </button>
@@ -114,7 +114,7 @@ const MangeParkFee = () => {
   };
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         Park Fee
       </h1>
       {/* <div className=" w-full px-8 "> */}

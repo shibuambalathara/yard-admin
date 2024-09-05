@@ -180,7 +180,7 @@ const AllRequestedVehicles = (props) => {
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         Requested Repo Vehicles
       </h1>
       <div className="flex items-end px-8 gap-40">
@@ -245,7 +245,7 @@ const View = ({ row, user }) => {
       : `/requestedRepoVehicle/${row.original.id}`;
 
   return (
-    <div className="flex justify-center items-center border space-x-1 w-20 bg-gray-700 text-white p-1 rounded-md ">
+    <div className="flex justify-center items-center border space-x-1 md:w-20 bg-gray-700 text-white p-1 rounded-md ">
       <p>
         <MdOutlineViewHeadline />
       </p>

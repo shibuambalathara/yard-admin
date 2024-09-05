@@ -177,7 +177,7 @@ const IndividualInitiatedVehicles = ({ initiatedId }) => {
           onCancel={handleCancelRelease}
           onConfirm={handleConfirmRelease}
         />
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           Initiate Release
         </h2>
         
