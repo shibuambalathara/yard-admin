@@ -108,6 +108,7 @@ const RepoRespond = ({ onClose, vehicleId, fetchData, status, user }) => {
                   register={register}
                   errors={errors}
                   pattern
+                  required={true}
                 />
               )}
             </div>

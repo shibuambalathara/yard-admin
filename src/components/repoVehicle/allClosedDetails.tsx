@@ -184,10 +184,7 @@ const {childrenRequire,user} =props
         header: "Organization",
         accessorKey: "cl_org.org_name",
       },
-      {
-        header: "Category ",
-        accessorKey: "vehicle_category.name",
-      },
+      
     
       {
         header: "View",

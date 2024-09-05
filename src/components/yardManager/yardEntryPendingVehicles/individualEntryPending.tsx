@@ -11,6 +11,7 @@ import FileUploadInput, {
   SelectComponent,
   SelectInput,
   TextArea,
+  ThreeDayDate,
 } from "@/components/ui/fromFields";
 
 import axiosInstance from "@/utils/axios";
@@ -391,7 +392,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               pattern
               required={true}
             />
-            <InputField
+            <ThreeDayDate
               label="Actual Entry Date"
               type="date"
               name="actual_entry_date"
@@ -400,7 +401,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               pattern
               required={true}
             />
-            <InputField
+            {/* <InputField
               label="App Entry Date"
               type="date"
               name="app_entry_date"
@@ -408,7 +409,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               errors={errors}
               pattern
               required={true}
-            />
+            /> */}
 
             <DateField
               label="Manufacturing Date"
@@ -484,7 +485,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
             />
 
             <InputField
-              label="Engine No"
+              label="Engine Number"
               type="text"
               name="eng_number"
               register={register}
@@ -493,7 +494,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
             />
 
             <InputField
-              label="Chassis No"
+              label="Chassis Number"
               type="text"
               name="chasis_number"
               register={register}
