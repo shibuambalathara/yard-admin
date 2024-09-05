@@ -71,25 +71,25 @@ const AddVehicle = () => {
     setValue,
     formState: { errors },
   } = useForm<Inputs>(
-  //   {
-  //   defaultValues: {
-  //     loan_number: "STRING316",
+    {
+    defaultValues: {
+      loan_number: "STRING316",
 
-  //     make: "STRING",
-  //     model: "STRING",
-  //     variant: "STRING",
-  //     colour: "STRING",
-  //     condition: "STRING",
-  //     start_condition: "1",
-  //     reg_number: "KL12GG5698",
-  //     eng_number: "STRING",
-  //     chasis_number: "STRING",
-  //     odometer: "12345678",
-  //     board_type: "STRING",
-  //     rc_available: "YES", 
-  //     key_count: "2",
-  //   },
-  // }
+      make: "STRING",
+      model: "STRING",
+      variant: "STRING",
+      colour: "STRING",
+      condition: "STRING",
+      start_condition: "1",
+      reg_number: "KL12GG5698",
+      eng_number: "STRING",
+      chasis_number: "STRING",
+      odometer: "12345678",
+      board_type: "STRING",
+      rc_available: "YES", 
+      key_count: "2",
+    },
+  }
 );
 
   const fetchParkFeeData = async () => {
@@ -221,6 +221,15 @@ const AddVehicle = () => {
     appendFiles(data?.files?.OTHER_IMAGE, "OTHER_IMAGE");
 
     console.log("formdata", formData);
+    console.log("data on formdata",formData);
+formData.forEach((value, key) => {
+  if (value instanceof File) {
+    console.log(`${key}: ${value.name}`);
+  } else {
+    console.log(`${key}: ${value}`);
+  }
+});
+
 
     try {
       console.log("Submitting form data to /vehicle/create");

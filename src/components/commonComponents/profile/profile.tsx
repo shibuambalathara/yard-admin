@@ -1,20 +1,24 @@
 "use client";
-import { InputField, SelectComponent } from "@/components/ui/fromFields";
-import axiosInstance from "@/utils/axios";
-import { getUserProfile, updateUserProfile } from "@/utils/commonApi/commonApi";
-import { Role, DocumentType } from "@/utils/staticData";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEdit } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import useAuthStore from "@/store/useAuthStore";
+import { getUserProfile, updateUserProfile } from "@/utils/commonApi/commonApi";
+import { InputField } from "@/components/ui/fromFields";
 
 type Document = {
-  title: string;
-  content: string;
+  doc_name: string;
+  doc_type: string;
+  doc_src: string;
 };
-
+type FileInputs = {
+  AADHAR_FRONT?: File | string;
+  AADHAR_BACK?: File | string;
+  PANCARD_FRONT?: File | string;
+  PANCARD_BACK?: File | string;
+};
 type User = {
   code: string;
   contact: string;
@@ -23,176 +27,303 @@ type User = {
   email: string;
   id: string;
   name: string;
+  files: FileInputs;
 };
 
 const Profile = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>({
+    code: "",
+    contact: "",
+    designation: "",
+    document: [],
+    email: "",
+    id: "",
+    name: "",
+    files: {
+      AADHAR_FRONT: undefined,
+      AADHAR_BACK: undefined,
+      PANCARD_FRONT: undefined,
+      PANCARD_BACK: undefined,
+    },
+  });
+
   const [isDisabled, setIsDisabled] = useState(true);
   const {
     register,
     handleSubmit,
-    watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<User>();
-  const { token, role, setUser: setStoreUser } = useAuthStore();
-
-  console.log("HIT ON PROFILE");
-
+  const { role } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await getUserProfile();
-        // console.log("profile response", response);
+        console.log("response", response);
+
         setUser(response);
-        const phoneNumber = "+918089688206";
         const cleanedPhoneNumber = response?.contact?.replace("+91", "");
-        console.log(cleanedPhoneNumber);
-        const modifiedData = {
-          ...response,
-          contact: cleanedPhoneNumber,
-        };
+        const modifiedData = { ...response, contact: cleanedPhoneNumber };
         reset(modifiedData);
       } catch (error) {
-        console.log("error", error);
+        console.error("error", error);
       }
     };
 
     fetchUserProfile();
-  }, []);
+  }, [reset]);
 
-  // console.log("user 007", user);
+  const toggleDisabled = () => setIsDisabled(!isDisabled);
 
-  const toggleDisabled = () => {
-    setIsDisabled(!isDisabled);
+  
+  const handleFileUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    docType: keyof FileInputs
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+      setUser((prevUser) => {
+        if (prevUser) {
+          const updatedDocument = prevUser.document
+            ? prevUser.document.map((doc) =>
+                doc.doc_type === docType ? { ...doc, doc_src: fileURL } : doc
+              )
+            : [{ doc_name: "", doc_type: docType, doc_src: fileURL }];
+
+          return {
+            ...prevUser,
+            files: {
+              ...prevUser.files,
+              [docType]: file,
+            },
+            document: updatedDocument,
+          };
+        }
+        return prevUser;
+      });
+      setValue(`files.${docType}`, file); // Ensure `docType` is a valid key
+    }
   };
-  const Back = () => {
-    router.back();
+
+  const handleDeleteImage = (docType: string) => {
+    setUser((prevUser) => {
+      if (prevUser) {
+        const updatedDocument = prevUser.document?.filter(
+          (doc) => doc.doc_type !== docType
+        );
+
+        return {
+          ...prevUser,
+          [docType]: null,
+          document: updatedDocument,
+        };
+      }
+      return prevUser;
+    });
+    // setValue(docType as keyof User, null);
+    // setValue(`files.${docType}`, null);
+    setValue(`files.${docType as keyof FileInputs}`, null);
+
+
   };
 
   // const UpdateUserProfile = async (data: User) => {
-  //   try {
-  //     const modifiedData = {
-  //       ...data,
-  //       contact: `+91${data?.contact}`,
-  //     };
-  //     const response = await updateUserProfile(modifiedData);
-        
-      
-      
-     
+  //   console.log("data on submit", data);
 
-  //     console.log("update response", response);
-  //     toast.success(response?.data?.message);
-  //     setIsDisabled(true);
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("name", data.name);
+  //     formData.append("email", data.email);
+  //     formData.append("contact", `+91${data.contact}`);
+  //     formData.append("designation", data.designation);
+
+  //     for (const key of Object.keys(data.files) as (keyof FileInputs)[]) {
+  //       if (data.files[key] instanceof File) {
+  //         formData.append(key, data.files[key]);
+  //       }
+  //     }
+
+  //     const response = await updateUserProfile(formData);
+  //     if (response?.data) {
+  //       setIsDisabled(true);
+  //       toast.success("Profile updated successfully!");
+
+  //       // Optionally update the user in the store
+  //       const updatedUserData = response?.data?.res;
+  //       const updatedProperties = {
+  //         name: updatedUserData.name,
+  //         email: updatedUserData.email,
+  //         contact: updatedUserData.contact,
+  //         designation: updatedUserData.designation,
+  //       };
+  //       const currentUser = useAuthStore.getState().user;
+  //       if (currentUser) {
+  //         const updatedUser = { ...currentUser, ...updatedProperties };
+  //         useAuthStore.setState({ user: updatedUser });
+  //       }
+  //     }
+  //     //  else {
+  //     //   throw new Error("Update failed");
+  //     // }
   //   } catch (error) {
   //     console.log("error", error);
-  //     toast.error(error?.response?.data?.message);
+
+  //     toast.error("Profile update failed.");
   //   }
   // };
-
   const UpdateUserProfile = async (data: User) => {
+    console.log("data on submit", data);
+  
     try {
-      // Prepare the data to be sent to the backend
-      const modifiedData = {
-        ...data,
-        contact: `+91${data?.contact}`
-      };
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("contact", `+91${data.contact}`);
+      formData.append("designation", data.designation);
   
-      // Make the API call to update the user profile
-      const response = await updateUserProfile(modifiedData);
+      for (const key of Object.keys(data.files) as (keyof FileInputs)[]) {
+        if (data.files[key] instanceof File) {
+          formData.append(key, data.files[key]);
+        }
+      }
   
-      // Check if the response is successful and contains updated data
+      const response = await updateUserProfile(formData);
       if (response?.data) {
+        setIsDisabled(true);
+        toast.success("Profile updated successfully!");
+  
+        // Optionally update the user in the store
         const updatedUserData = response?.data?.res;
-        console.log("updatedUserData",updatedUserData);
-        setIsDisabled(true)
-        // Extract only the specific properties to update
         const updatedProperties = {
           name: updatedUserData.name,
           email: updatedUserData.email,
           contact: updatedUserData.contact,
           designation: updatedUserData.designation,
         };
-  
-        console.log("updatedProperties",updatedProperties);
-
-        // Get the current user state from useAuthStore
         const currentUser = useAuthStore.getState().user;
-
-        console.log("current user from store",currentUser);
-        
-  
-        // Merge the specific properties with the current user state
         if (currentUser) {
-          const updatedUser = {
-            ...currentUser,
-            ...updatedProperties,
-          };
-  
-          console.log("updatedUser to store",updatedUser);
-          
-          // Update the user in the store with the merged data
-          useAuthStore.setState  ({ user: updatedUser });
-  
-          // Display a success message
-          toast.success(response?.data?.message);
-        } 
-        
-        else {
-          console.error('Current user not found');
+          const updatedUser = { ...currentUser, ...updatedProperties };
+          useAuthStore.setState({ user: updatedUser });
         }
-
-
-      } else {
-        throw new Error('Update failed');
       }
     } catch (error) {
-      console.log("error123", error?.response?.data);
-      // toast.error(error?.response?.data?.message );
+      console.error('Error updating profile', error);
+      toast.error("Profile update failed.");
     }
   };
   
-
   const isDocumentUpdateAllowed =
     role === "YARD_MANAGER" || role === "CLIENT_LEVEL_USER";
 
+  // const renderDocument = (docType: string) => {
+  //   const document = user?.document?.find((doc) => doc.doc_type === docType);
+
+  //   return (
+  //     <div className="col-span-1 relative">
+  //       {document?.doc_src || user?.[docType] ? (
+  //         <>
+  //           <img
+  //             src={document?.doc_src || URL.createObjectURL(user[docType] as File)}
+  //             alt={docType}
+  //             className="w-full h-auto rounded-lg"
+  //           />
+  //           <button
+  //             onClick={() => handleDeleteImage(docType)}
+  //             type="button"
+  //             className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700 transition duration-200"
+  //           >
+  //             <FaTrashAlt />
+  //           </button>
+  //         </>
+  //       ) : (
+  //         <label className="cursor-pointer">
+  //           <div className="w-full h-full flex justify-center items-center border-2 border-dashed border-gray-300 rounded-lg">
+  //             <FaPlus className="text-2xl text-gray-500" />
+  //           </div>
+  //           <input
+  //             type="file"
+  //             accept="image/*"
+  //             className="hidden"
+  //             onChange={(e) => handleFileUpload(e, docType)}
+  //           />
+  //         </label>
+  //       )}
+  //     </div>
+  //   );
+  // };
+
+  const renderDocument = (docType: keyof FileInputs) => {
+    const document = user?.document?.find((doc) => doc.doc_type === docType);
+
+    return (
+      <div className="col-span-1 relative">
+        {document?.doc_src || (user?.files && user.files[docType]) ? (
+          <>
+            <img
+              src={
+                document?.doc_src ||
+                URL.createObjectURL(user.files[docType] as File)
+              }
+              alt={docType}
+              className="w-full h-auto rounded-lg"
+            />
+            <button
+              onClick={() => handleDeleteImage(docType)}
+              type="button"
+              className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700 transition duration-200"
+            >
+              <FaTrashAlt />
+            </button>
+          </>
+        ) : (
+          <label className="cursor-pointer">
+            <div className="w-full h-full flex justify-center items-center border-2 border-dashed border-gray-300 rounded-lg">
+              <FaPlus className="text-2xl text-gray-500" />
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => handleFileUpload(e, docType)}
+            />
+          </label>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen flex  justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg h-form-Modal">
+    <div className="bg-gray-100 min-h-screen flex justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center border-b pb-4 mb-6">
           <div className="flex items-center space-x-2">
             <h1 className="text-2xl font-bold text-gray-700">
-              Update User profile
+              Update User Profile
             </h1>
           </div>
           <div
-            onClick={() => toggleDisabled()}
-            className=" flex items-center  bg-blue-500 text-white py-2 px-4 space-x-2  rounded-md hover:bg-blue-600 transition duration-200"
+            onClick={toggleDisabled}
+            className="flex items-center bg-blue-500 text-white py-2 px-4 space-x-2 rounded-md hover:bg-blue-600 transition duration-200"
           >
-            <button
-              type="button"
-
-              //   className="bg-blue-500 text-white py-2 px-10  rounded-md hover:bg-blue-600 transition duration-200"
-            >
-              Edit
-            </button>
+            <button type="button">Edit</button>
             <FaEdit className="text-base" />
           </div>
         </div>
         <form onSubmit={handleSubmit(UpdateUserProfile)} className="space-y-6">
-          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="col-span-1">
               <InputField
                 label="Name"
                 type="text"
                 name="name"
                 register={register}
-                pattern=""
                 errors={errors}
                 disabled={isDisabled}
+                pattern
               />
             </div>
             <div className="col-span-1">
@@ -217,7 +348,6 @@ const Profile = () => {
                 disabled={isDisabled}
               />
             </div>
-
             <div className="col-span-1">
               <InputField
                 label="Designation"
@@ -225,84 +355,30 @@ const Profile = () => {
                 name="designation"
                 register={register}
                 errors={errors}
-                pattern=""
                 disabled={isDisabled}
+                pattern
               />
             </div>
-            {/* <div className="col-span-1">
-              <InputField
-                label="Password"
-                type="password"
-                name="password"
-                register={register}
-                errors={errors}
-                pattern=""
-              />
-            </div> */}
-
-            {/* {isDocumentUpdateAllowed && (
-              <>
-                <div className="col-span-1">
-                  <InputField
-                    label="Document Title"
-                    type="text"
-                    name="documentTitle"
-                    register={register}
-                    errors={errors}
-                    pattern=""
-                    disabled={isDisabled}
-                  />
-                </div>
-                <div className="col-span-1">
-                  <SelectComponent
-                    label="Select a Document Type"
-                    name="documentType"
-                    options={DocumentType}
-                    register={register}
-                    errors={errors}
-                    required={true}
-                    defaultValue=""
-                    disabled={isDisabled}
-                  />
-                </div>
-              </>
-            )} */}
-            {/* <div className="col-span-2 w-72 space-y-1">
-            <label className="block  font-semibold " htmlFor="document_value">
-              Document Value
-            </label>
-            <input
-              id="document_value"
-              type="file"
-              className="py-1 px-4 border border-gray-300  w-full"
-              {...register("document_value", { required: true })}
-            />
-            {errors.document_value && (
-              <p className="text-red-500">Document Value is required</p>
-            )}
-          </div> */}
-            {/* <FileUploadInput
-                label=" Document Values"
-                name="document_value" 
-                register={register}
-                accept="image/*"
-                
-              /> */}
+            {/* Document Images */}
+            {renderDocument("AADHAR_FRONT" as keyof FileInputs)}
+            {renderDocument("AADHAR_BACK" as keyof FileInputs)}
+            {renderDocument("PANCARD_FRONT" as keyof FileInputs)}
+            {renderDocument("PANCARD_BACK" as keyof FileInputs)}
           </div>
-          <div className="w-full text-center pt-4 space-x-4 ">
+          <div className="w-full text-center pt-4 space-x-4">
             {isDisabled ? (
               <button
                 type="button"
-                onClick={Back}
-                className="bg-red-500 text-white py-2 px-10  rounded-md hover:bg-red-600 transition duration-200"
+                onClick={router.back}
+                className="bg-red-500 text-white py-2 px-10 rounded-md hover:bg-red-600 transition duration-200"
               >
                 Back
               </button>
             ) : (
               <div className="space-x-2">
                 <button
-                  onClick={() => toggleDisabled()}
-                  type="submit"
+                  onClick={toggleDisabled}
+                  type="button"
                   className="bg-red-600 text-white py-2 px-10 rounded-md hover:bg-red-700 transition duration-200"
                 >
                   Cancel
@@ -315,11 +391,6 @@ const Profile = () => {
                 </button>
               </div>
             )}
-
-            {/* {!isDisabled && (
-                
-                
-        )} */}
           </div>
         </form>
       </div>

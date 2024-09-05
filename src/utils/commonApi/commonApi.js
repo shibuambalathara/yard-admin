@@ -103,9 +103,14 @@ export const getUserProfile = async() => {
     }
   };
 
-  export const updateUserProfile = async (data) => {
+  export const updateUserProfile = async (formData) => {
     try {
-      const response = await axiosInstance.put(`/user/profile`, data); // replace `/path/to/api` with your actual API endpoint
+      // const response = await axiosInstance.put(`/user/profile`, data);
+      const response = await axiosInstance.put(`/user/profile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      }); // replace `/path/to/api` with your actual API endpoint
       return response;
     } catch (error) {
       toast.error(error?.response?.data?.message );
