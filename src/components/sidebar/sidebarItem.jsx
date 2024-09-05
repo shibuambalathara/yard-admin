@@ -24,7 +24,10 @@ const SidebarItem = ({ item, activePath }) => {
     item?.forEach((menu, index) => {
       if (menu?.submenuItems && isAnySubmenuActive(menu?.submenuItems)) {
         setOpenSubmenuIndex(index);
-        setOpen(true);
+        
+          if (window.innerWidth > 768) {
+            setOpen(true);
+          }
       }
     });
   }, [item, activePath]);
@@ -37,39 +40,58 @@ const SidebarItem = ({ item, activePath }) => {
     }
   };
 
+  // Function to handle link click and close sidebar on mobile devices
+  const handleLinkClick = () => {
+    if (window.innerWidth < 768) {
+      setTimeout(() => {
+        setOpen(false);
+      }, "800");
+      
+    }
+
+    
+  };
+
   return (
     <div
-      className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-300 ${
-        open ? "sm:w-4/5 w-[388px] " : "md:w-16 max-md:w-8 "
+      className={`bg-gray-800 h-full scrollbar-hide text-white font-roboto relative transition-all duration-500 md:duration-300 ${
+        open ? "sm:w-85 w-full max-md:absolute z-40 " : "md:w-16 max-md:w-8 "
       }`}
     >
       <BsArrowLeftCircle
-        className={`absolute md:right-3  right-px top-4 z-50 text-xl cursor-pointer border border-black rounded-full ${
+        className={`absolute md:right-3  right-1 top-4 z-40 md:text-xl text-2xl cursor-pointer border border-black rounded-full ${
           !open && "rotate-180"
         }`}
         onClick={() => setOpen(!open)}
       />
 
-      <ul className="pt-10 bg-gray-800 md:pl-6 space-y-5">
+      <ul className="pt-10 bg-gray-800 md:pl-6 md:space-y-5">
         {item &&
           item.map((menu, index) => (
             <React.Fragment key={index}>
               <li
-                className={`text-base font-bold flex items-center p-2 gap-x-4 cursor-pointer ${
+                className={`md:text-base text-sm font-bold flex items-center p-2  gap-x-4 cursor-pointer ${
                   menu?.path === activePath
                     ? "bg-gray-700 text-[#ea580c] "
                     : "hover:bg-gray-700 "
                 } ${menu?.spacing ? "mt-4" : "mt-3"}`}
                 onClick={() => toggleSubmenu(index)}
               >
-                <span className="text-lg block">
+                <span className="text-lg block" onClick={()=>{
+                    if (window.innerWidth < 768) {
+                      setOpen(true);
+                    }
+                 
+                }}>
                   {menu?.icon ? menu?.icon : <MdDashboard />}
                 </span>
                 <span
                   className={`${!open && "hidden"} transition-all duration-300`}
                 >
                   {menu?.path ? (
-                    <Link href={menu?.path}>{menu?.title}</Link>
+                    <Link href={menu?.path} onClick={handleLinkClick}>
+                      {menu?.title}
+                    </Link>
                   ) : (
                     <span>{menu?.title}</span>
                   )}
@@ -78,7 +100,6 @@ const SidebarItem = ({ item, activePath }) => {
                   <MdKeyboardArrowDown
                     className={`${openSubmenuIndex === index && "rotate-180"} `}
                   />
-                  // <div>dfadsf</div>
                 )}
               </li>
 
@@ -95,20 +116,17 @@ const SidebarItem = ({ item, activePath }) => {
                               : "hover:bg-gray-700"
                           } rounded-md mt-2 font-bold`}
                           style={{
-                            color: submenu?.path === activePath ? "#ea580c" : "inherit",
+                            color:
+                              submenu?.path === activePath
+                                ? "#ea580c"
+                                : "inherit",
                           }}
                         >
-                          {/* <span className="text-base">
-                            {submenu?.icon ? (
-                              submenu?.icon
-                            ) : (
-                              <MdOutlineKeyboardArrowRight />
-                              // <div>sdfds</div>
-                            )}
-                          </span> */}
                           <span>
                             {submenu?.path ? (
-                              <Link href={submenu?.path}>{submenu?.title}</Link>
+                              <Link href={submenu?.path} onClick={handleLinkClick}>
+                                {submenu?.title}
+                              </Link>
                             ) : (
                               submenu?.title
                             )}

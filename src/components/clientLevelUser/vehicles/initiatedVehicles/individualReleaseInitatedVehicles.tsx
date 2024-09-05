@@ -138,7 +138,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
          
         /></div>}  
       <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">Initiated Vehicle Details</h2>
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">Initiated Vehicle Details</h2>
       
         <section>
           <div>

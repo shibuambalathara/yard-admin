@@ -34,8 +34,8 @@ const DataTable = ({ data, columns }) => {
 
   return (
     <div className="w-full mx-auto flex flex-col items-center p-2 sm:p-8">
-      <div className="w-full max-w-full">
-        <div className="relative rounded-md shadow-sm max-w-full">
+      <div className="w-full max-w-full ">
+        <div className="relative rounded-md shadow-sm max-w-full ">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <CiSearch className="h-5 w-5 text-gray-800" aria-hidden="true" />
           </div>
@@ -44,7 +44,7 @@ const DataTable = ({ data, columns }) => {
             value={filtering}
             onChange={(e) => setFiltering(e.target.value)}
             placeholder="Search"
-            className="border w-full sm:w-44 focus:ring-indigo-500 focus:outline-none block pl-10 rounded-md border-gray-400 p-2 placeholder:font-semibold text-sm sm:text-base"
+            className="border w-full sm:w-44 focus:ring-indigo-500 focus:outline-none block pl-10 rounded-md border-gray-400 p-2 placeholder:font-semibold text-sm sm:text-base max-md:h-7"
           />
         </div>
       </div>
@@ -108,14 +108,14 @@ const DataTable = ({ data, columns }) => {
       </div>
 
       {/* Mobile-friendly alternative (shown on small screens) */}
-      <div className="block sm:hidden mt-4 w-full space-y-4">
+      <div className="block sm:hidden mt-4 ring-1 w-full h-fit ring-gray-300 rounded-lg overflow-auto ">
       <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-700 rounded-lg">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr className="divide-x divide-gray-500" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
-                    className="py-1 pl-2 pr-1 text-xs sm:text-sm font-semibold text-gray-100 text-left cursor-pointer"
+                    className="py-1 pl-2 pr-1 text-xs md:text-sm font-semibold text-gray-100 text-left cursor-pointer"
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -143,16 +143,16 @@ const DataTable = ({ data, columns }) => {
               </tr>
             ))}
           </thead>
-          <tbody className="text-black divide-y divide-gray-300">
+          <tbody className="text-black divide-y divide-gray-300 text-xs">
             {table.getRowModel().rows.map((row) => (
               <tr
-                className="hover:bg-indigo-50 divide-x divide-gray-300"
+                className="hover:bg-indigo-50 divide-x divide-gray-300 text-xs"
                 key={row.id}
               >
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-2 py-1 text-xs sm:text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left normal-case"
+                    className=" -2 py-1 text-xs sm:text-sm text-gray-800 border-t max-sm:font-bold border-gray-200 text-left normal-case"
                   >
                     <div className="flex justify-start">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -95,7 +95,7 @@ const AllResponse = ({ user, childrenRequire, response }) => {
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         { response==="REPOSSESSION_REJECTED"? "Rejected  Vehicles":'Approved Vehicles'}
       </h1>
       <div className="flex items-end px-8 gap-40">

@@ -150,7 +150,7 @@ const AllSuperVehicleOwnership = () => {
  
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">Vehicle Ownership </h1>
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">Vehicle Ownership </h1>
       <div className="grid grid-cols-3 ">
         <div className="flex flex-col ml-5">
           <label htmlFor="client" className={labelStyle.data}>Select Client</label>

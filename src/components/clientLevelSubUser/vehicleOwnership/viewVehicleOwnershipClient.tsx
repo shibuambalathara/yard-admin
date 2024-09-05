@@ -179,7 +179,7 @@ const EditVehicleOwnership = ({ ownershipId }) => {
               <button
                 type="button"
                 onClick={handleModalOpen}
-                className="bg-blue-500 text-white py-2 h-10 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto"
+                className="bg-blue-500 text-white md:py-2 h-10 md:px-12 px-4 rounded hover:bg-blue-600 transition duration-200 ml-auto"
               >
                 Confirm Ownership
               </button>

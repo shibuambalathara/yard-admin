@@ -15,7 +15,7 @@ const NoVehicleMessage = (props) => {
       <div className="mb-6">
         <TbCarOff className='text-red-500 font-bold text-6xl' />
       </div>
-      <p className="text-gray-700 text-md font-semibold mb-2 uppercase">
+      <p className="text-gray-700 text-md font-semibold mb-2 uppercase max-lg:text-xs">
         
           <>
 
@@ -41,7 +41,7 @@ const NoVehicleMessage = (props) => {
           </>
         
       </p>
-      <p className="text-gray-500 text-md mt-4"> There is no {typeFilter} try adjusting the filters </p>
+      <p className="text-gray-500 text-md mt-4 max-md:text-xs"> There is no {typeFilter} try adjusting the filters </p>
     </div>
   );
 };

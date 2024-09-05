@@ -205,12 +205,12 @@ const AllVehicleOwnerships = () => {
   
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         Vehicle Ownership
       </h1>
 
-      <div className=" grid grid-cols-3 place-items-center mt-6  ">
-        <div className="flex flex-col  mr-16  ">
+      <div className=" grid lg:grid-cols-3 grid-cols-2 place-items-center mt-6  ">
+        <div className="flex flex-col  lg:mr-16  ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Client
           </label>
@@ -236,7 +236,7 @@ const AllVehicleOwnerships = () => {
 
        
 
-        <div className="flex flex-col mr-16  ">
+        <div className="flex flex-col lg:mr-16  ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category
           </label>
@@ -259,7 +259,7 @@ const AllVehicleOwnerships = () => {
               <p className="text-red-500">State is required</p>
                           )} */}
         </div>
-        <div className="flex flex-col mr-16  ">
+        <div className="flex flex-col lg:mr-16  ">
         <label htmlFor="state" className={labelStyle?.data}>
          Select Status
         </label>
@@ -324,7 +324,7 @@ const View = (row) => {
         href={`/vehicleOwnership/${row.original.id}`}
         target="_blank"
         rel="noopener noreferrer"
-        className=""
+        className="max-md:text-xs"
       >
         View
       </Link>

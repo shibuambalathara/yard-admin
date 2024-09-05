@@ -203,7 +203,7 @@ const {childrenRequire,user} =props
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
       Closed Vehicles
       </h1>
       <div className={` grid  items-end px-8   ${user==='super'?'grid-cols-4 gap-x-48': 'grid-cols-3 justify-between' }`}>

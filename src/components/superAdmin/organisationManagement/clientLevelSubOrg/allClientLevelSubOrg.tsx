@@ -136,7 +136,7 @@ const AllClientLevelSubOrganisation = () => {
   return (
     <div className="w-full">
       <div className="space-y-4 mt-2">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
       client Level Sub Organisation
       </h1>
       <div className="flex w-full px-8 justify-between">
