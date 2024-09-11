@@ -232,7 +232,7 @@ const ViewFullUserProfile = ({ profileId }) => {
           <h1 className="text-2xl font-bold text-gray-700">Update User</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="mb-">
               <FormFieldInput
                 label="Name"

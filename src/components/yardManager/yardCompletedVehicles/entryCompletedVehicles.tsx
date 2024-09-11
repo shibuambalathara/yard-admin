@@ -127,7 +127,7 @@ const AllEntryCompletedVehicles = () => {
         Entry Completed Vehicles
       </h1>
 
-      <div className=" grid lg:grid-cols-3 grid-cols-2  lg:gap-4 items-end lg:px-3 ">
+      <div className=" grid lg:grid-cols-3 grid-cols-1  lg:gap-4 items-end lg:px-3 ">
         {/* <div>
           <ClientFilter />
         </div> */}

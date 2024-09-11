@@ -300,8 +300,8 @@ formData.forEach((value, key) => {
     );
   }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
         <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           Add Vehicle Details
         </h2>
@@ -310,7 +310,7 @@ formData.forEach((value, key) => {
           onSubmit={handleSubmit(AddVehicle)}
           encType="multipart/form-data"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
             <div>
               <SelectComponentWithOnchange
                 label="Select Organisation"

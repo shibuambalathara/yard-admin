@@ -268,7 +268,7 @@ const AddIndividualVehicle = (props) => {
           onSubmit={handleSubmit(AddIndividualVehicle)}
           encType="multipart/form-data"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
             
               {superRequire &&(<SelectComponent
                 label="Select Organisation"
@@ -506,13 +506,13 @@ const AddIndividualVehicle = (props) => {
           <button
         type="button"
         onClick={() => onClose()}
-        className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+        className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
       >
         CANCEL
       </button>
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+              className="bg-green-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-green-600 transition duration-200"
             >
               Submit
             </button>
