@@ -38,12 +38,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
             <img
               src={URL.createObjectURL(image)}
               alt={`Upload Preview ${index}`}
-              className="w-72 border border-stone-500-800 p-1 rounded-md h-48 ml-4 mb-4 space-x-2"
+              className="lg:w-72 w-full border border-stone-500-800 p-1 rounded-md h-48 ml-4 mb-4 space-x-2"
             />
           </div>
         ))}
         <div className="ml-4">
-          <label className="w-72 h-40 border-4 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer mb-4">
+          <label className="lg:w-72 w-48 h-40 border-4 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer mb-4">
             <input
               type="file"
               onChange={handleFileChange}

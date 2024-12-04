@@ -168,8 +168,8 @@ const IndividualRelease = ({ cancelledId }) => {
   
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
         <h2 className="text-center md:text-2xl font-extrabold text-gray-900">Cancelled Vehicle</h2>
 
         {/* <div className="w-full flex justify-end">
@@ -224,7 +224,7 @@ const IndividualRelease = ({ cancelledId }) => {
 {/* 
         <div>
           <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">Vehicle Ownership</h2>
-          <div className="border grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
+          <div className="border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center mt-4 py-4">
             <div>
               <label className="font-semibold">Ownership Status:</label>
               <p>{ownership_status}</p>
@@ -246,7 +246,7 @@ const IndividualRelease = ({ cancelledId }) => {
 
         <div>
           <h2 className="text-center text-xl font-semibold text-gray-900 col-span-3">Current Yard Information</h2>
-          <div className="border grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
+          <div className="border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center mt-4 py-4">
             <div>
               <label className="font-semibold">Days in Yard:</label>
               <p>{curr_days_in_yard}</p>

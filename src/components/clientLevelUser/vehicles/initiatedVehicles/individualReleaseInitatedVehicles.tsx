@@ -129,7 +129,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
        {modalOpen&&<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
         <ConfirmationModal
           isOpen={modalOpen}
@@ -137,7 +137,7 @@ const IndividualReleaseInitiated = ({ releaseId }) => {
           onConfirm={handleConfirmRelease}
          
         /></div>}  
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
         <h2 className="text-center md:text-2xl font-extrabold text-gray-900">Initiated Vehicle Details</h2>
       
         <section>

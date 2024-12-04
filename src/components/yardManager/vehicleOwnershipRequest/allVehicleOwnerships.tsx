@@ -209,7 +209,7 @@ const AllVehicleOwnerships = () => {
         Vehicle Ownership
       </h1>
 
-      <div className=" grid lg:grid-cols-3 grid-cols-2 place-items-center mt-6  ">
+      <div className=" grid lg:grid-cols-3 grid-cols-1 place-items-center mt-6  ">
         <div className="flex flex-col  lg:mr-16  ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Client
