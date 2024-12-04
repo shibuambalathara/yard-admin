@@ -1,58 +1,37 @@
 "use client";
-
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FileUploadInput, {
-  FormFieldInput,
-  ImageMaping,
   InputField,
-  RadioButtonInput,
+  SelectChange,
   SelectComponent,
-  SelectInput,
-  TextArea,
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
-import { vehicleStatus } from "@/utils/staticData";
-import Image from "next/image";
-import Link from "next/link";
-
-import { log } from "console";
 import VehicleImageGrid from "@/components/reuseableComponent/imageGrid/imageGrid";
-
+import ImageUpload from "@/components/reuseableComponent/imageUpload/imageUpload";
+import { Cities } from "@/utils/cities";
 
 type Inputs = {
-  repo_vehicle: {
-    org_name: string;
-    code: string;
-    reg_number: string;
-  };
-  user: string;
-  initial_city: string;
-  initial_state: string;
-  status: string;
-  req_by_user_org: string;
-};
-
-type FileInputs = {
-  [key: string]: FileList;
+  captured_city: string;
+  captured_state: string;
+  captured_images: string[];
 };
 
 const IndividualStatuss = (props) => {
   const { vehicleId, user, disable } = props;
   const [vehicleImage, setVehicleImage] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState("");
   const [responseStatus, setResponseStatus] = useState("");
   const [capturedImages, setCapturedImages] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [previewImages, setPreviewImages] = useState<Record<string, string[]>>(
-    {}
-  );
-console.log(vehicleId);
-
+  const [images, setImages] = useState([]);
+  const [uniqueStates, setUniqueStates] = useState([]);
+  const [selectState, setSelectState] = useState("");
+  const [filtercitys, setFiltercitys] = useState([]);
+ console.log(selectState);
+ 
   const {
     register,
     handleSubmit,
@@ -67,25 +46,25 @@ console.log(vehicleId);
     try {
       setIsLoading(true);
 
-
-      const endpoint =`/repossession/repo_veh_req/${vehicleId?.vehId}`
-  
+      const endpoint = `/repossession/repo_veh_req/${vehicleId?.vehId}`;
       const response = await axiosInstance.get(endpoint);
       console.log(response);
-      
-      setResponseStatus(response?.data?.res?.status);
+
+      setResponseStatus(response?.data?.res?.repo_vehicle?.status);
       const destructuredData = {
         user: response?.data?.res?.req_by_user_org?.user?.name,
         org_name: response?.data?.res?.repo_vehicle?.cl_org?.org_name,
         code: response?.data?.res?.repo_vehicle?.code,
         reg_number: response?.data?.res?.repo_vehicle?.reg_number,
         initial_city: response?.data?.res?.initial_city,
+        // captured_city: response?.data?.res?.captured_city,
         initial_state: response?.data?.res?.initial_state,
+        captured_state: response?.data?.res?.captured_state,
         ...response?.data?.res,
       };
-      setVehicleImage(response?.data?.res?.initial_images
-        );
-        setCapturedImages(response?.data?.res?.captured_images )
+      setSelectState(response?.data?.res?.captured_state)
+      setVehicleImage(response?.data?.res?.initial_images);
+      setCapturedImages(response?.data?.res?.captured_images);
       reset(destructuredData);
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
@@ -94,27 +73,93 @@ console.log(vehicleId);
     }
   }, [user, vehicleId, reset]);
 
+  const RepoReAssignment = async (data: Inputs) => {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      const modifiedData = {
+        captured_city: data.captured_city,
+        captured_state: data.captured_state,
+      };
+
+      // Append modified data to formData
+      for (const key in modifiedData) {
+        formData.append(key, modifiedData[key]);
+      }
+
+      // If vehicleImage array is empty, append an empty array
+      if (capturedImages.length === 0) {
+        formData.append("captured_images", JSON.stringify([])); // You can use `null` or `"[]"` based on API expectations
+      } else {
+        capturedImages.forEach((image, index) => {
+          formData.append(`captured_images[${index}]`, image);
+        });
+      }
+
+      // Append files from images array
+      images.forEach((image) => {
+        formData.append("files", image);
+      });
+
+      console.log(modifiedData);
+      const response = await axiosInstance.patch(
+        `repossession/repo_veh_req/update_complete_repossession/${vehicleId?.vehId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Response:", response);
+      toast.success(response?.data?.message);
+      fetchVehicle();
+    } catch (error) {
+      console.error("Error:", error.response);
+      toast.error(error?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
+      setImages([]);
+    }
+  };
+
   useEffect(() => {
     fetchVehicle();
   }, [fetchVehicle]);
 
-  const handleModalAccept = () => {
-    setModalOpen(true);
-    setStatus("REPOSSESSION_APPROVED");
+  const handleImageDelete = (url) => {
+    const updatedImages = capturedImages.filter((image) => image !== url);
+    setCapturedImages(updatedImages);
+    setValue("captured_images", updatedImages); // Update the form value
   };
 
-  const handleModalReject = () => {
-    setModalOpen(true);
-    setStatus("REPOSSESSION_REJECTED");
+  useEffect(() => {
+    // Extract unique state names from Cities array
+    const uniqueStates = Cities?.reduce((acc, current) => {
+      if (!acc.includes(current.state)) {
+        acc.push(current.state);
+      }
+      return acc;
+    }, []);
+
+    setUniqueStates(uniqueStates);
+  }, []);
+
+  useEffect(() => {
+    if (selectState) {
+      const stateData = Cities.filter((state) => state.state === selectState);
+      setFiltercitys(stateData?.map((value) => value?.city));
+    }
+  }, [selectState]);
+  const handleStateChange = (e) => {
+    const selectedState = e.target.value;
+    setSelectState(selectedState);
+    setValue("captured_city", "");
   };
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
+  
 
-  const onClose = () => {
-    window.close();
-  };
+
 
   if (isLoading) {
     return (
@@ -126,14 +171,13 @@ console.log(vehicleId);
 
   return (
     <div className="min-h-screen flex justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
-           Captured  Details
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
+          Captured Details
         </h2>
 
-        <form onSubmit={handleSubmit((data) => console.log(data))} className="mt-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-           
+        <form onSubmit={handleSubmit(RepoReAssignment)} className="mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {user !== "client" && (
               <InputField
                 label="Organization Name"
@@ -145,15 +189,6 @@ console.log(vehicleId);
                 disabled={true}
               />
             )}
-            {/* <InputField
-              label="Code"
-              type="text"
-              name="code"
-              register={register}
-              errors={errors}
-              pattern
-              disabled={true}
-            /> */}
             <InputField
               label="Registration Number"
               type="text"
@@ -191,83 +226,82 @@ console.log(vehicleId);
               disabled={true}
             />
 
-            
+          
               <>
-                <InputField
-                  label="Requested User"
-                  type="text"
-                  name="req_by_user_org.user.name"
-                  register={register}
-                  errors={errors}
-                  pattern
-                  disabled={true}
-                />
-                <InputField
-                  label="Captured City"
-                  type="text"
-                  name="captured_city"
-                  register={register}
-                  errors={errors}
-                  pattern
-                  disabled={true}
-                />
-                <InputField
+                <SelectChange
                   label="Captured State"
-                  type="text"
                   name="captured_state"
+                  options={uniqueStates}
                   register={register}
                   errors={errors}
-                  pattern
-                  disabled={true}
+                  required={true}
+                  handleChange={handleStateChange}
+                  disabled={responseStatus !== "ONGOING"}
                 />
+
+
+                  <SelectComponent
+                    label="Captured City"
+                    name="captured_city"
+                    options={filtercitys.map((city) => ({
+                      value: city,
+                      label: city,
+                    }))}
+                    register={register}
+                    errors={errors}
+                    required={true}
+                    disabled={responseStatus !== "ONGOING"}
+                    defaultValue=""
+                  />
+                
               </>
-            
+           
           </div>
-           <h2 className="text-lg font-semibold mt-4 underline">Initial Images</h2>
 
+          <h2 className="text-lg font-semibold mt-4 underline">
+            Initial Images
+          </h2>
+
+          <VehicleImageGrid vehicleImages={vehicleImage} />
+
+          <h2 className="text-lg font-semibold mt-4 underline">
+            Captured Images
+          </h2>
           <VehicleImageGrid
-              vehicleImages={vehicleImage}
-              // onImageDelete={handleImageDelete}
-            />
-
-<h2 className="text-lg font-semibold mt-4 underline">Captured Images</h2> 
-             <VehicleImageGrid
-              vehicleImages={capturedImages}
-              // onImageDelete={handleImageDelete}
-            />
-        </form>
-
-         <div className="w-full text-center p-1 mt-3 space-x-2">
-          <button
+            vehicleImages={capturedImages}
+            {...(responseStatus === "ONGOING" && {
+              onImageDelete: handleImageDelete,
+            })}
+          />
+          {responseStatus === "ONGOING" ? (
+            <>
+              <ImageUpload images={images} setImages={setImages} />
+              <div className="w-full text-center p-1 mt-3 space-x-2">
+              <button
             type="button"
-            onClick={onClose}
-            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+            onClick={() => window.close()}
+            className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
+          >
+            CANCEL
+          </button>
+                <button className="bg-green-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-green-600 transition duration-200">
+                  SUBMIT
+                </button>
+              </div>
+            </>
+          ):(
+            <div className="w-full text-center p-1 mt-3 space-x-2">
+              <button
+            type="button"
+            onClick={() => window.close()}
+            className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
           >
             BACK
           </button>
-        </div>
-
-        {/* { responseStatus === "REPOSSESSION_REQUESTED" && (
-          <div className="w-full text-center p-1 mt-3 space-x-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
-            >
-              CANCEL
-            </button>
-            <button
-              onClick={handleModalAccept}
-              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
-            >
-              SUBMIT
-            </button>
-          </div>
-        )} */}
-
-       
-        
-        
+            </div>
+            
+          )}
+        </form>
       </div>
     </div>
   );

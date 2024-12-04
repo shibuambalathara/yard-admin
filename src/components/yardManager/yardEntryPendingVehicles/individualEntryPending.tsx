@@ -11,6 +11,7 @@ import FileUploadInput, {
   SelectComponent,
   SelectInput,
   TextArea,
+  ThreeDayDate,
 } from "@/components/ui/fromFields";
 
 import axiosInstance from "@/utils/axios";
@@ -344,14 +345,14 @@ const IndividualEntryPending = ({ pendingVehId }) => {
   // console.log("9090909090", vehicleData?.cl_org?.org_name);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           Vehicle Details
         </h2>
 
         <form onSubmit={handleSubmit(AddVehicle)} className="mt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
             <div>
               <SelectComponent
                 label="Select Organisation"
@@ -391,7 +392,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               pattern
               required={true}
             />
-            <InputField
+            <ThreeDayDate
               label="Actual Entry Date"
               type="date"
               name="actual_entry_date"
@@ -400,7 +401,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               pattern
               required={true}
             />
-            <InputField
+            {/* <InputField
               label="App Entry Date"
               type="date"
               name="app_entry_date"
@@ -408,7 +409,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               errors={errors}
               pattern
               required={true}
-            />
+            /> */}
 
             <DateField
               label="Manufacturing Date"
@@ -484,7 +485,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
             />
 
             <InputField
-              label="Engine No"
+              label="Engine Number"
               type="text"
               name="eng_number"
               register={register}
@@ -493,7 +494,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
             />
 
             <InputField
-              label="Chassis No"
+              label="Chassis Number"
               type="text"
               name="chasis_number"
               register={register}
@@ -550,7 +551,7 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               required={true}
             />
             <div className="col-span-3  w-full ">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center ">
                 <FileUploadInput
                   label="Front image"
                   name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files

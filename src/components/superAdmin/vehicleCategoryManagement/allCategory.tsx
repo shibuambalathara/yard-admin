@@ -42,13 +42,13 @@ const VehicleCategoryManagement = () => {
     }
   }, [success, error]);
 
-  useEffect(() => {
-    console.log("page mount");
+  // useEffect(() => {
+  //   console.log("page mount");
 
-    return () => {
-      console.log("page unmounted");
-    };
-  }, []);
+  //   return () => {
+  //     console.log("page unmounted");
+  //   };
+  // }, []);
 
   const fetchData = async () => {
     setIsLoading(true);

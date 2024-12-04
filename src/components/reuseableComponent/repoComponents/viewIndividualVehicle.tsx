@@ -295,13 +295,13 @@ const IndividualVehicle = (props) => {
 
   return (
     <div className="min-h-screen flex justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-  <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-    <h2 className="text-center text-2xl font-extrabold text-gray-900">
+  <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
+    <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
       Vehicle Details
     </h2>
 
     <form onSubmit={handleSubmit(editImage)} className="mt-8 space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 place-items-stretch">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-stretch">
         <SelectComponent
           label="Vehicle Category"
           name="vehicle_category_id"
@@ -386,7 +386,7 @@ const IndividualVehicle = (props) => {
         />
 
         <InputField
-          label="Engine No"
+          label="Engine Number"
           type="text"
           name="eng_number"
           register={register}
@@ -396,7 +396,7 @@ const IndividualVehicle = (props) => {
         />
 
         <InputField
-          label="Chassis No"
+          label="Chassis Number"
           type="text"
           name="chasis_number"
           register={register}
@@ -411,24 +411,24 @@ const IndividualVehicle = (props) => {
           <button
             type="button"
             onClick={() => onClose()}
-            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+            className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
           >
             CANCEL
           </button>
           <button
             type="submit"
-            className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+            className="bg-green-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-green-600 transition duration-200"
           >
             SUBMIT
           </button>
         </div>
       )}
-       {status.toLowerCase() === 'closed' && (
+       {status.toLowerCase() !== 'pending' && (
         <div className="w-full text-center p-1 mt-3 space-x-2">
           <button
             type="button"
             onClick={() => onClose()}
-            className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+            className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
           >
             BACK
           </button>

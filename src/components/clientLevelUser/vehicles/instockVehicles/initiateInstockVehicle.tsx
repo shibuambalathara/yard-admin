@@ -161,8 +161,8 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
       {modalOpen&&<div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
         <ConfirmationModal
           isOpen={modalOpen}
@@ -171,13 +171,13 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
           text=""
         /></div>}
       
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
          Instock Vehicle Details
         </h2>
 
        
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center mt-4 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center mt-4 py-4">
          
           <InputField
             disabled={true}
@@ -338,7 +338,7 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
         </div>
         
             
-        <div className="grid grid-cols-2 gap-2 col-span-3 mt-6 px-5">
+        <div className="md:grid space-y-4 md:grid-cols-2 gap-2 col-span-3 mt-6 md:px-5">
         <h2 className="text-center text-2xl font-semibold text-gray-900 mt-12 mb-6 col-span-2">
           Vehicle Images
         </h2>
@@ -371,19 +371,19 @@ const InitiateInstockVehicle = ({ instockVehicle }) => {
             </div>
           ))}
         </div>
-        <div className="w-full  flex justify-center gap-5">
+        <div className="w-full  flex justify-center md:gap-5  gap-2">
          <button
                   type="button"
                   onClick={()=>{
                     window.close()
                   }}
-                  className="bg-red-500 text-white py-2 h-10 px-12 rounded hover:bg-red-600 transition duration-200"
+                  className="bg-red-500 text-white py-2 h-10 md:px-12 px-4 rounded hover:bg-red-600 transition duration-200"
                 >
                   Cancel
                 </button>
           <button
             onClick={handleInitiateClick}
-            className="border py-2 px-6 text-white bg-blue-500 h-10 rounded-md shadow-lg hover:bg-blue-600 "
+            className=" border py-2 md:px-6 px-2 text-white bg-blue-500 h-10 rounded-md shadow-lg hover:bg-blue-600  "
           >
             Initiate  Release
           </button>

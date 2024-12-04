@@ -223,11 +223,11 @@ const AllCancelledVehicles = () => {
   };
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         All Cancelled Vehicles
       </h1>
 
-      <div className=" grid grid-cols-3 w-full  gap-4     place-items-start pt-8 px-5">
+      <div className="lg:grid-cols-3 grid-cols-1 w-full  gap-4     place-items-start pt-8 px-5">
         <div>
           <label htmlFor="client" className={labelStyle.data}>
             Select Client

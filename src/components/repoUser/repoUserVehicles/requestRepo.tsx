@@ -29,10 +29,16 @@ const RepoRequest = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
   const router = useRouter();
+  const [imageError, setImageError] = useState<string | null>(null); // New state for image error
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
   const RepoReq = async (data: Inputs) => {
-    setIsLoading(true);
+   
+    if (images.length === 0) {
+      // If no images, set an error and prevent submission
+      setImageError("Please upload at least one image.");
+      return;
+    }
     try {
       const formData = new FormData();
 
@@ -102,22 +108,7 @@ const RepoRequest = (props) => {
     setUniqueStates(uniqueStates);
   }, []);
 
-  useEffect(() => {
-    if (success) {
-      toast.success(success.text ? success.text : "Success");
-      setTimeout(() => {
-        setSuccess(null);
-      }, 2000);
-    }
-    if (error) {
-      toast.error(
-        error.text ? error.text : "Something went wrong. Please contact support"
-      );
-      setTimeout(() => {
-        setError(null);
-      }, 2000);
-    }
-  }, [success, error]);
+  
 
   if (isLoading) {
     return (
@@ -128,8 +119,8 @@ const RepoRequest = (props) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-  <div className="max-w-5xl w-full space-y-6 p-8 bg-white rounded-xl shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+  <div className="lg:max-w-5xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-md">
     <h2 className="text-center text-2xl font-bold text-gray-900">Provide  Details</h2>
     
     <form className="space-y-6" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
@@ -157,6 +148,7 @@ const RepoRequest = (props) => {
         </div>
         
         <ImageUpload images={images} setImages={setImages} />
+        {imageError && <p className="text-red-500 text-sm ">{imageError}</p>}
       </div>
       
       <div className="text-center space-x-4">

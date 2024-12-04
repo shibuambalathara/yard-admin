@@ -268,7 +268,7 @@ const AddIndividualVehicle = (props) => {
           onSubmit={handleSubmit(AddIndividualVehicle)}
           encType="multipart/form-data"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
             
               {superRequire &&(<SelectComponent
                 label="Select Organisation"
@@ -277,6 +277,7 @@ const AddIndividualVehicle = (props) => {
                 register={register}
                 errors={errors}
                 defaultValue=""
+                required={true}
               />)}
               
             
@@ -292,12 +293,13 @@ const AddIndividualVehicle = (props) => {
             </div> */}
 
             <InputField
-              label="Loan No"
+              label="Loan Number"
               type="text"
               name="loan_number"
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
             {/* <InputField
               label="Actual Entry Date"
@@ -321,6 +323,7 @@ const AddIndividualVehicle = (props) => {
               type="date"
               name="mfg_year"
               register={register}
+              required={true}
               errors={errors}
               pattern
             />
@@ -329,6 +332,7 @@ const AddIndividualVehicle = (props) => {
               label="Make"
               type="text"
               name="make"
+              required={true}
               register={register}
               errors={errors}
               pattern
@@ -337,6 +341,7 @@ const AddIndividualVehicle = (props) => {
               label="Model"
               type="text"
               name="model"
+              required={true}
               register={register}
               errors={errors}
               pattern
@@ -344,6 +349,7 @@ const AddIndividualVehicle = (props) => {
             <InputField
               label="Variant"
               type="text"
+              required={true}
               name="variant"
               register={register}
               errors={errors}
@@ -353,6 +359,7 @@ const AddIndividualVehicle = (props) => {
               label="Colour"
               type="text"
               name="colour"
+              
               register={register}
               errors={errors}
               required={false}
@@ -364,8 +371,9 @@ const AddIndividualVehicle = (props) => {
               name="condition"
               register={register}
               errors={errors}
+              required={true}
               pattern
-              required={false}
+              
             />
 
             
@@ -376,24 +384,27 @@ const AddIndividualVehicle = (props) => {
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
 
             <InputField
-              label="Engine No"
+              label="Engine Number"
               type="text"
               name="eng_number"
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
 
             <InputField
-              label="Chassis No"
+              label="Chassis Number"
               type="text"
               name="chasis_number"
               register={register}
               errors={errors}
               pattern
+              required={true}
             />
             
 
@@ -495,13 +506,13 @@ const AddIndividualVehicle = (props) => {
           <button
         type="button"
         onClick={() => onClose()}
-        className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+        className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
       >
         CANCEL
       </button>
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+              className="bg-green-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-green-600 transition duration-200"
             >
               Submit
             </button>

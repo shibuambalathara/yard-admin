@@ -17,7 +17,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
 
   type Inputs = {
     vehicle_category_id: string;
-    park_fee_per_day:Number
+    park_fee_per_day:number
     cl_org_id: string;
      };
 
@@ -102,7 +102,7 @@ const AddParkFee = ({ onClose, fetchData }) => {
       onClose()
     } catch (error) {
       console.log("error", error);
-      toast.error("Already Exsist");
+      toast.error(error?.response?.data?.message);
     }
     // Handle form submission
   },[])
@@ -164,13 +164,13 @@ const AddParkFee = ({ onClose, fetchData }) => {
             <button
             type="button"
               onClick={() => onClose()}
-              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+              className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-               className="bg-green-500 text-white py-2 px-8 w-32 rounded hover:bg-green-600 transition duration-200"
+               className="bg-green-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-green-600 transition duration-200"
             >
               Submit
             </button>

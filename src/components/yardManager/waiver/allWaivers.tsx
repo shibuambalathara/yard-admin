@@ -259,7 +259,7 @@ const AllWaivers = () => {
   }
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         waiver
       </h1>
       <div className="grid grid-cols-3 pl-6 pt-5 items-center">

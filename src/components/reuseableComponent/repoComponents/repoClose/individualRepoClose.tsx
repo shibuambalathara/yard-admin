@@ -127,13 +127,13 @@ const IndividualStatuss = (props) => {
 
   return (
     <div className="min-h-screen flex justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           {heading}
         </h2>
 
         <form onSubmit={handleSubmit((data) => console.log(data))} className="mt-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <InputField
               label="Requested User"
               type="text"
@@ -238,7 +238,7 @@ const IndividualStatuss = (props) => {
             <button
               type="button"
               onClick={onClose}
-              className="bg-red-500 text-white py-2 px-8 w-32 rounded hover:bg-red-600 transition duration-200"
+              className="bg-red-500 text-white py-2 lg:px-8 px-3 lg:w-32 rounded hover:bg-red-600 transition duration-200"
             >
               BACK
             </button>

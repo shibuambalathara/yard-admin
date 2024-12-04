@@ -104,6 +104,61 @@ export const InputField = ({
     </div>
   );
 };
+export const ControlledInputField = ({
+  name,
+  label,
+  type = "text",
+  register,
+  errors,
+  required = false,
+  pattern,
+  disabled = false,
+  placeholder = "",
+  // value,
+  // onChangeHandler
+  // stateValue,
+}) => {
+  // console.log("value of controlled input",value);
+  
+  // const handleInputChange = (event) => {
+  //   console.log("event.target.value", event.target.value);
+
+  //   console.log("got hitting");
+
+  //   const dataValue = event.target.value; // Declare dataValue here
+  //   stateValue(dataValue); 
+  // };
+  return (
+    <div className="mb-">
+      {/* export const labelStyle={data:`text-gray-800 text-sm font-semibold leading-tight tracking-normal `} */}
+
+      <label className={`${labelStyle.data}`}>{label}</label>
+      <input
+        disabled={disabled}
+        type={type}
+        {...register(name, {
+          required: required && `${label} is required`,
+          pattern: {
+            value: pattern,
+            message: `${label} is invalid`,
+          },
+        })}
+        // className="w-96 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        // export const inputStyle={data:`py-1 px-4 block w-72 mb-1 mt-2 text-gray-600 focus:outline-none focus:border font-normal  h-10 flex items-center pl-3 text-sm border-gray-300 rounded border `}
+        // value={value}
+        className={`${inputStyle.data} ${name === `name` && `uppercase`} ${
+          disabled && `bg-gray-100`
+        } `}
+        // onChange={handleInputChange}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="text-red-500  mt-1">{"This field is required"}</p>
+      )}
+    </div>
+  );
+};
+
 
 export const DisabledInput = ({
   name,
@@ -114,7 +169,7 @@ export const DisabledInput = ({
   value,
 }) => {
   let displayValue = value;
-  
+
   // Check if the type is date and format it appropriately
   if (type === "date" && value) {
     const date = new Date(value);
@@ -136,7 +191,6 @@ export const DisabledInput = ({
     </div>
   );
 };
-
 
 export const FormFieldPassword = ({
   label,
@@ -212,7 +266,6 @@ export const FormFieldInputLoginInput = ({
         {...register(name, rest)}
         className={`${loginInputStyle.data}`}
         placeholder={placeholder}
-
       />
 
       {error && <p className="text-red-500">This field is required</p>}
@@ -227,12 +280,12 @@ export const RadioButtonInput = ({
   defaultValue,
   error,
   placeholder,
-  disabled=false,
-  required=false,
+  disabled = false,
+  required = false,
   ...rest
 }) => {
   // console.log("error",error);
-  
+
   return (
     <div className="flex flex-col space-x-2 w-72">
       <p className={`${labelStyle.data} ml-1`}>{label}</p>
@@ -243,10 +296,9 @@ export const RadioButtonInput = ({
             type="radio"
             value="YES"
             name={name}
-            
-            {...register(name,{
-              required: required 
-               })}// Spread the register function with the name
+            {...register(name, {
+              required: required,
+            })} // Spread the register function with the name
             className=""
             disabled={disabled}
           />
@@ -260,12 +312,10 @@ export const RadioButtonInput = ({
             {...register(name)} // Spread the register function with the name
             className=""
             disabled={disabled}
-
           />
           No
         </label>
         {/* {error && <p className="text-red-500">This field is required</p>} */}
-
       </div>
     </div>
   );
@@ -293,8 +343,8 @@ export const SelectInput = ({
       </label>
       <select
         disabled={disabled}
-        {...register(name, { required: required })}
-        className={`${inputStyle?.data}`}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         {...rest}
 
         // defaultValue={defaultValue}x
@@ -337,8 +387,8 @@ export const SelectInputOptional = ({
       </label>
       <select
         disabled={disabled}
-        {...register(name, { required: required })}
-        className={`${inputStyle?.data}`}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         defaultValue={defaultValue}
         {...rest}
       >
@@ -379,8 +429,8 @@ export const SelectInputWithChange = ({
       </label>
       <select
         disabled={disabled}
-        {...register(name, { required: required })}
-        className={`${inputStyle?.data}`}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         {...rest}
         // defaultValue={defaultValue}
         onChange={handleRoleChange}
@@ -421,8 +471,8 @@ export const SelectComponent = ({
         disabled={disabled}
         id={name}
         {...register(name, { required: required && "This field is required" })}
-        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
-        defaultValue={defaultValue} 
+        className={`${inputStyle?.data} ${disabled ? "disabled-select" : ""}`}
+        defaultValue={defaultValue}
       >
         <option className="max-md:text-sm" value="" disabled hidden>
           {placeholder ? placeholder : label}
@@ -440,7 +490,6 @@ export const SelectComponent = ({
     </div>
   );
 };
-
 
 export const SelectComponentWithOnchange = ({
   label,
@@ -463,7 +512,7 @@ export const SelectComponentWithOnchange = ({
         disabled={disabled}
         id={name}
         {...register(name, { required: required && "This field is required" })}
-        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
+        className={`${inputStyle?.data} ${disabled ? "disabled-select" : ""}`}
         value={value} // Ensure the select uses value from state
         onChange={onChangeHandler}
       >
@@ -809,7 +858,7 @@ export const SelectChange = (props) => {
     errors,
     required = true,
     defaultValue,
-    disabled=false,
+    disabled = false,
   } = props;
 
   return (
@@ -820,8 +869,8 @@ export const SelectChange = (props) => {
       <select
         id={name}
         disabled={disabled}
-        {...register(name, { required })}
-        className={inputStyle.data}
+        {...register(name, { required: required && "This field is required" })}
+        className={`${inputStyle?.data} ${disabled ? 'disabled-select' : ''}`}
         defaultValue={defaultValue}
         onChange={props?.handleChange} // Only add onChange if handleChange is provided
       >
@@ -848,7 +897,6 @@ export const DateField = ({
   pattern,
   disabled = false,
   placeholder = "",
-  
 }) => {
   const handleInputChange = (event) => {
     if (
@@ -881,15 +929,12 @@ export const DateField = ({
 
   return (
     <div className="mb-">
-        <label className={`${labelStyle.data}`}>
-        {label}
-      </label>
+      <label className={`${labelStyle.data}`}>{label}</label>
       <input
         disabled={disabled}
         type={type}
         {...register(name, registerOptions)}
-        className=
-        {`${inputStyle.data}`}
+        className={`${inputStyle.data}`}
         // {`py-1 px-4 block w-72  mt-2 text-gray-600 focus:outline-none focus:border font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border ${
         //   name === "name" ? "uppercase" : ""
         // } ${disabled ? "bg-gray-100" : ""}`}
@@ -903,7 +948,8 @@ export const DateField = ({
       )}
     </div>
   );
-};export const FutureDate = ({
+};
+export const FutureDate = ({
   name,
   label,
   type = "text",
@@ -914,7 +960,6 @@ export const DateField = ({
   disabled = false,
   placeholder = "",
 }) => {
-
   // Converts input to uppercase for non-email, non-password, non-date, and non-number fields
   const handleInputChange = (event) => {
     if (
@@ -940,13 +985,74 @@ export const DateField = ({
   if (type === "datetime-local") {
     registerOptions.valueAsDate = true;
     registerOptions.validate = (value) => {
-        const selectedDate = new Date(value);
-        selectedDate.setHours(0, 0, 0, 0); // Set selected date time to 00:00:00
+      const selectedDate = new Date(value);
+      selectedDate.setHours(0, 0, 0, 0); // Set selected date time to 00:00:00
 
-        const now = new Date();
-        now.setHours(0, 0, 0, 0); // Set current date time to 00:00:00
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set current date time to 00:00:00
 
-        return selectedDate > now || "The selected date must be today or in the future";
+      return (
+        selectedDate > now || "The selected date must be today or in the future"
+      );
+    };
+  }
+
+  return (
+    <div className="mb-">
+      <label className={`${labelStyle.data}`}>{label}</label>
+      <input
+        disabled={disabled}
+        type={type}
+        {...register(name, registerOptions)}
+        className={`${inputStyle.data}`}
+        onChange={handleInputChange}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <p className="text-red-500 mt-1">
+          {errors[name].message || "This field is required"}
+        </p>
+      )}
+    </div>
+  );
+};
+export const ThreeDayDate = ({
+  name,
+  label,
+  type = "date",
+  register,
+  errors,
+  required = true,
+  pattern,
+  disabled = false,
+  placeholder = "",
+}) => {
+
+  // Configure validation options based on the input type and requirements
+  const registerOptions = {
+    required: required && `This field is required`,
+    pattern: pattern && {
+      value: pattern,
+      message: `It is invalid`,
+    },
+  };
+
+  // Additional validation for date inputs to ensure the selected date is within the allowed range
+  if (type === "date") {
+    registerOptions.valueAsDate = true;
+    registerOptions.validate = (value) => {
+      const selectedDate = new Date(value);
+      selectedDate.setHours(0, 0, 0, 0); // Set selected date time to 00:00:00
+
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set current date time to 00:00:00
+
+      const threeDaysBefore = new Date(now);
+      threeDaysBefore.setDate(now.getDate() - 3); // Calculate the date 3 days before today
+
+      return (
+        selectedDate >= threeDaysBefore && selectedDate <= now
+      ) || "The selected date must be today or within the last 3 days";
     };
   }
 
@@ -960,7 +1066,6 @@ export const DateField = ({
         type={type}
         {...register(name, registerOptions)}
         className={`${inputStyle.data}`}
-        onChange={handleInputChange}
         placeholder={placeholder}
       />
       {errors[name] && (

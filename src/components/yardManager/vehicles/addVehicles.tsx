@@ -8,6 +8,8 @@ import {
   RadioButtonInput,
   FileUploadInput,
   DateField,
+  SelectComponentWithOnchange,
+  ControlledInputField,
 } from "@/components/ui/fromFields";
 import axiosInstance from "@/utils/axios";
 import toast from "react-hot-toast";
@@ -15,12 +17,19 @@ import { vehicleStatus } from "@/utils/staticData";
 import DataLoading from "@/components/commonComponents/spinner/DataFetching";
 import Spinner from "@/components/commonComponents/spinner/spinner";
 import { useRouter } from "next/navigation";
+import { inputStyle, labelStyle, loginInputStyle } from "@/components/ui/style";
+import { log } from "console";
 
 const AddVehicle = () => {
   const [clientLevelOrg, setClientLevelOrg] = useState([]);
   const [vehicleCategory, setAllVehicleCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const router=useRouter()
+  const [filteredData, setFilteredData] = useState(null);
+  const [vehicleCategoryId, setVehicleCategoryid] = useState("");
+  const [orgId, setOrgId] = useState("");
+  const [parkFee, setParkFee] = useState("");
+
+  const router = useRouter();
 
   type FileInputs = {
     FRONT_IMAGE: FileList;
@@ -49,6 +58,7 @@ const AddVehicle = () => {
     odometer: string;
     board_type: string;
     rc_available: string;
+    park_fee_per_day: number;
     key_count: string;
     files: FileInputs; // Files property containing images
   };
@@ -57,42 +67,57 @@ const AddVehicle = () => {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>(
-  //   {
-  //   defaultValues: {
-  //     cl_org_id: "STRING",
-  //     vehicle_category_id: "STRING",
-  //     loan_number: "STRING316",
-  //     actual_entry_date: "STRING",
-  //     mfg_year: "STRING",
-  //     make: "STRING",
-  //     model: "STRING",
-  //     variant: "STRING",
-  //     colour: "STRING",
-  //     condition: "STRING",
-  //     start_condition: "STRING",
-  //     reg_number: "KL12GG5698",
-  //     eng_number: "STRING",
-  //     chasis_number: "STRING",
-  //     odometer: "STRING",
-  //     board_type: "STRING",
-  //     rc_available: "STRING",
-  //     key_count: "STRING",
-  //   },
-  // }
+    {
+    defaultValues: {
+      loan_number: "STRING316",
+
+      make: "STRING",
+      model: "STRING",
+      variant: "STRING",
+      colour: "STRING",
+      condition: "STRING",
+      start_condition: "1",
+      reg_number: "KL12GG5698",
+      eng_number: "STRING",
+      chasis_number: "STRING",
+      odometer: "12345678",
+      board_type: "STRING",
+      rc_available: "YES", 
+      key_count: "2",
+    },
+  }
 );
+
+  const fetchParkFeeData = async () => {
+    if (vehicleCategoryId && orgId) {
+      try {
+        const response = await axiosInstance.get(
+          `/parkfee/?cl_org_id=${orgId}&vehicle_category_id=${vehicleCategoryId}`
+        );
+        let result = response?.data?.res?.parkFee[0]?.park_fee_per_day || ""; // Fallback to empty string
+        console.log("fetch park fe", result);
+        setValue("park_fee_per_day",result)
+        setParkFee(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
 
   const FetchClientLevelOrgs = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/clientorg/client_lvl_org`);
-      console.log('response',response);
-      
+      // console.log("response", response);
+
       setClientLevelOrg(response?.data?.res?.clientLevelOrg);
       // toast.success("Client level Organisations fetched successfully");
     } catch (error) {
-      console.log("error",error);
-      
+      console.log("error", error);
+
       // toast.error("Failed to fetch client level Organisations");
     }
   }, []);
@@ -105,8 +130,7 @@ const AddVehicle = () => {
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
       // toast.error("Failed to fetch vehicle categories");
-      console.log("error",error);
-      
+      console.log("error", error);
     }
   }, []);
 
@@ -115,29 +139,37 @@ const AddVehicle = () => {
     label: item.org_name,
   }));
 
+  // console.log("ClientOrganisations",ClientOrganisations);
+
   const vehicleCategorys = vehicleCategory?.map((item) => ({
     value: item.id,
     label: item.name,
   }));
+  // console.log("vehicleCategorys",vehicleCategorys);
 
   useEffect(() => {
     FetchAllVehicleCategory();
     FetchClientLevelOrgs();
-  }, [FetchAllVehicleCategory, FetchClientLevelOrgs]);
+    fetchParkFeeData();
+  }, [FetchAllVehicleCategory, FetchClientLevelOrgs, vehicleCategoryId]);
 
   const AddVehicle = useCallback(async (data: Inputs) => {
-    console.log('data on submit',data);
-    
+    console.log("data on submit", data);
+
     setIsLoading(true);
     const formData = new FormData();
-    const actual_entry_date = data?.actual_entry_date ? new Date(data?.actual_entry_date).toISOString() : null;
-    console.log("actual entry date", actual_entry_date);
-     const mfg_year =data?.mfg_year ? new Date(data?.mfg_year).toISOString() : null;
-    
+    const actual_entry_date = data?.actual_entry_date
+      ? new Date(data?.actual_entry_date).toISOString()
+      : null;
+    // console.log("actual entry date", actual_entry_date);
+    const mfg_year = data?.mfg_year
+      ? new Date(data?.mfg_year).toISOString()
+      : null;
 
     // Append other form data fields
     const dataUpperCase = {
       ...data,
+      park_fee_per_day: data?.park_fee_per_day.toString(),
       cl_org_id: data.cl_org_id,
       vehicle_category_id: data.vehicle_category_id,
       loan_number: data.loan_number,
@@ -159,8 +191,8 @@ const AddVehicle = () => {
     };
     // /   // Create a FormData object
 
-    console.log("dataUpperCase",dataUpperCase);
-    
+    // console.log("dataUpperCase", dataUpperCase);
+
     // Append each key-value pair to the FormData object
     for (const key in dataUpperCase) {
       formData.append(key, dataUpperCase[key]);
@@ -168,8 +200,8 @@ const AddVehicle = () => {
 
     // Utility function to append files to FormData
     const appendFiles = (files: FileList, fieldName: string) => {
-      console.log(`Appending files for field: ${fieldName}`);
-      console.log(files);
+      // console.log(`Appending files for field: ${fieldName}`);
+      // console.log(files);
 
       // Convert FileList to array
       const filesArray = Array.from(files);
@@ -180,16 +212,24 @@ const AddVehicle = () => {
     };
 
     // Append files to FormData
-    appendFiles(data.files.FRONT_IMAGE, "FRONT_IMAGE");
-    appendFiles(data.files.BACK_IMAGE, "BACK_IMAGE");
-    appendFiles(data.files.RIGHT_IMAGE, "RIGHT_IMAGE");
-    appendFiles(data.files.LEFT_IMAGE, "LEFT_IMAGE");
-    appendFiles(data.files.ODOMETER_IMAGE, "ODOMETER_IMAGE");
-    appendFiles(data.files.INTERIOR_IMAGE, "INTERIOR_IMAGE");
-    appendFiles(data.files.OTHER_IMAGE, "OTHER_IMAGE");
+    appendFiles(data?.files?.FRONT_IMAGE, "FRONT_IMAGE");
+    appendFiles(data?.files?.BACK_IMAGE, "BACK_IMAGE");
+    appendFiles(data?.files?.RIGHT_IMAGE, "RIGHT_IMAGE");
+    appendFiles(data?.files?.LEFT_IMAGE, "LEFT_IMAGE");
+    appendFiles(data?.files?.ODOMETER_IMAGE, "ODOMETER_IMAGE");
+    appendFiles(data?.files?.INTERIOR_IMAGE, "INTERIOR_IMAGE");
+    appendFiles(data?.files?.OTHER_IMAGE, "OTHER_IMAGE");
 
-    console.log("formdata",formData);
-    
+    console.log("formdata", formData);
+    console.log("data on formdata",formData);
+formData.forEach((value, key) => {
+  if (value instanceof File) {
+    console.log(`${key}: ${value.name}`);
+  } else {
+    console.log(`${key}: ${value}`);
+  }
+});
+
 
     try {
       console.log("Submitting form data to /vehicle/create");
@@ -199,12 +239,19 @@ const AddVehicle = () => {
         },
         maxBodyLength: Infinity,
       });
-      console.log("Response received:", response);
+      // console.log("Response received:", response);
       toast.success(response?.data?.message);
-      reset()
-      router.push("/vehicle")
+      reset();
+      router.push("/vehicle");
       // router.push('/vehicle')
     } catch (error) {
+      // const [vehicleCategoryId, setVehicleCategoryid] = useState("");
+      // const [orgId, setOrgId] = useState("");
+      console.log("park fee from above", parkFee);
+      console.log("orgId fee from above", orgId);
+      console.log("vehicleCategoryId fee from above", vehicleCategoryId);
+
+      // setParkFee(parkFee);
       const errorMessages = error?.response?.data?.message;
       if (Array.isArray(errorMessages)) {
         errorMessages.forEach((msg) => {
@@ -219,17 +266,43 @@ const AddVehicle = () => {
     }
   }, []);
 
+  const handleOrgChange = (event) => {
+    setOrgId(event.target.value);
+    setVehicleCategoryid("");
+    setParkFee(null);
+  };
+
+  const handleVehicleChange = (event) => {
+    setVehicleCategoryid(event.target.value);
+  };
+  const handleParkFee = (e) => {
+    console.log("got hitting");
+    
+    setParkFee(e.target.value);
+  };
+
+  // console.log("orgId with onchange", orgId);
+  // console.log("vehicle category  with onchange", vehicleCategoryId);
+
+  // console.log("orgId",orgId);
+  // const [vehicleCategoryId,setVehicleCategoryid]=useState("")
+  // const  [orgId,setOrgId] =useState("")
+  // let pf=watch("park_fee_per_day")
+  // console.log("pf",pf);
+
+  // console.log("individual park fee", parkFee);
+
   if (isLoading) {
     return (
       <div className="flex w-full h-screen items-center justify-center">
-        <DataLoading/>
+        <DataLoading />
       </div>
     );
   }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+      <div className="lg:max-w-6xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-lg">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           Add Vehicle Details
         </h2>
         <form
@@ -237,28 +310,62 @@ const AddVehicle = () => {
           onSubmit={handleSubmit(AddVehicle)}
           encType="multipart/form-data"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 place-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
             <div>
-              <SelectComponent
+              <SelectComponentWithOnchange
                 label="Select Organisation"
-                name="cl_org_id"
                 options={ClientOrganisations}
+                name="cl_org_id"
                 register={register}
                 errors={errors}
-                defaultValue=""
+                required={true}
+                value={orgId}
+                onChangeHandler={handleOrgChange}
               />
+              
             </div>
             <div>
-              <SelectComponent
+              
+              <SelectComponentWithOnchange
                 label="Select Category"
-                name="vehicle_category_id"
                 options={vehicleCategorys}
+                name="vehicle_category_id"
                 register={register}
                 errors={errors}
-                defaultValue=""
+                required={true}
+                value={vehicleCategoryId}
+                onChangeHandler={handleVehicleChange}
+
               />
             </div>
 
+            {/* <div className="flex flex-col h-fit ">
+              <label
+                className={`${labelStyle.data}`}
+                htmlFor="park_fee_per_day"
+              >
+                Park Fee Per Day
+              </label>
+              <input
+                type="number"
+                {...register("park_fee_per_day")}
+                className={`${inputStyle.data}`}
+                value={parkFee || ""} // Fallback to empty string to ensure it's controlled
+                onChange={(e) => setParkFee(e.target.value)} // Update the state when the input changes
+              />
+            </div> */}
+
+            <ControlledInputField
+              label=" Park Fee Per Day"
+              type="number"
+              name="park_fee_per_day"
+              register={register}
+              errors={errors}
+              pattern
+              required={true}
+              // value={parkFee || ""} // Fallback to empty string to ensure it's controlled
+              // stateValue={setParkFee}
+            />
             <InputField
               label="Loan Number"
               type="text"
@@ -365,7 +472,6 @@ const AddVehicle = () => {
               errors={errors}
               pattern
             />
-            
 
             <InputField
               label="Odometer"
@@ -384,19 +490,18 @@ const AddVehicle = () => {
               errors={errors}
               pattern
               required={false}
-
             />
 
             <div className="">
-            <RadioButtonInput
-              label="RC Available"
-              type="radio"
-              name="rc_available"
-              register={register}
-              error={errors}
-              defaultValue=""
-              placeholder=""
-            />
+              <RadioButtonInput
+                label="RC Available"
+                type="radio"
+                name="rc_available"
+                register={register}
+                error={errors}
+                defaultValue=""
+                placeholder=""
+              />
             </div>
 
             <InputField
@@ -412,49 +517,42 @@ const AddVehicle = () => {
               name="files.FRONT_IMAGE" // Accessing FRONT_IMAGE from files
               register={register}
               accept="image/*"
-            
             />
             <FileUploadInput
               label="Back image"
               name="files.BACK_IMAGE" // Accessing BACK_IMAGE from files
               register={register}
               accept="image/*"
-           
             />
             <FileUploadInput
               label="Right image"
               name="files.RIGHT_IMAGE" // Accessing RIGHT_IMAGE from files
               register={register}
               accept="image/*"
-             
             />
             <FileUploadInput
               label="Left image"
               name="files.LEFT_IMAGE" // Accessing LEFT_IMAGE from files
               register={register}
               accept="image/*"
-            
             />
             <FileUploadInput
               label="Odometer image"
               name="files.ODOMETER_IMAGE" // Accessing ODOMETER_IMAGE from files
               register={register}
               accept="image/*"
-             
             />
             <FileUploadInput
               label="Interior image"
               name="files.INTERIOR_IMAGE" // Accessing INTERIOR_IMAGE from files
               register={register}
               accept="image/*"
-              
             />
             <FileUploadInput
               label="Other image"
               name="files.OTHER_IMAGE" // Accessing OTHER_IMAGE from files
               register={register}
               accept="image/*"
-              
             />
           </div>
 

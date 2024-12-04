@@ -207,11 +207,11 @@ const {childrenRequire,user} =props
   };
 
   return (
-    <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+    <div className="w-full  ">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
        All Repo Vehicles
       </h1>
-      <div className={` grid  items-end px-8   ${user==='super'?'grid-cols-4 gap-x-48': 'grid-cols-3 justify-between' }`}>
+      <div className={` grid  items-end lg:px-8  px-2     ${user==='super'?'grid-cols-4 gap-x-48 max-lg:grid-cols-2': 'grid-cols-3 justify-between max-lg:grid-cols-2' }`}>
         <div className="flex flex-col   ">
         <label htmlFor="state" className={labelStyle?.data}>
           Select Category
@@ -277,10 +277,10 @@ const {childrenRequire,user} =props
             ))}
           </select>
         </div>)}
-        <div className="flex w-full  justfy-end  h-fit">
+        <div className="flex w-full max-md:col-span-2   h-fit">
           <Link
             href={`${childrenRequire?"/superUserRepoVehicles/addRepoVehicle":"/repoVehicle/addRepoVehicle"}`}
-            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200 mb-1 mr-6"
+            className="bg-blue-500 max-md:text-xs  max-md:ml-auto text-white sm:py-2 py-1 md:px-6 px-3 rounded hover:bg-blue-600 transition duration-200 mb-1 md:mr-6"
           >
             Add
           </Link>

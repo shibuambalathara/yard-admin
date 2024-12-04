@@ -147,9 +147,9 @@ const IndividualRepoRequests = ({ yardVehId }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
       <div className="max-w-5xl w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <h2 className="text-center text-2xl font-extrabold text-gray-900">
+        <h2 className="text-center md:text-2xl font-extrabold text-gray-900">
           Vehicle Details
         </h2>
 
@@ -159,7 +159,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
               Repo Vehicle Details
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
               <DisabledInput
                 label="Registration Number"
                 type="text"
@@ -198,7 +198,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
             <h1 className="font-bold text-lg uppercase border w-full p-1 bg-gradient-to-r from-slate-100 to-slate-500 text-gray-900 shadow-md">
               Requested User
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
               <DisabledInput
                 label="Name"
                 type="text"
@@ -225,7 +225,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
             <h1 className="font-bold text-lg uppercase border w-full p-1 bg-gradient-to-r from-slate-100 to-slate-500 text-gray-900 shadow-md">
               Requested Yard
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
               <DisabledInput
                 label="Name"
                 type="text"
@@ -252,7 +252,7 @@ const IndividualRepoRequests = ({ yardVehId }) => {
             <h1 className="font-bold text-lg uppercase border w-full p-1 bg-gradient-to-r from-slate-100 to-slate-500 text-gray-900 shadow-md">
               Other Details
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
               <DisabledInput
                 label="Expected Entry Date"
                 type="date"

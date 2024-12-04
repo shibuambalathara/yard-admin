@@ -7,9 +7,7 @@ import toast from "react-hot-toast";
 import Loading from "@/app/(home)/(superAdmin)/loading";
 import { Cities } from "@/utils/cities";
 import { CiCirclePlus } from "react-icons/ci";
-import {
-  SelectChange,
-} from "../../ui/fromFields";
+import { SelectChange } from "../../ui/fromFields";
 import ImageUpload from "@/components/reuseableComponent/imageUpload/imageUpload";
 
 type Inputs = {
@@ -26,11 +24,18 @@ const CompleteRepo = ({ vehicleId }) => {
   const [filterCity, setFilterCity] = useState([]);
   const [uniqueStates, setUniqueStates] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<File[]>([]); // Use proper typing for images
+  const [imageError, setImageError] = useState<string | null>(null); // New state for image error
   const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
   const RepoReq = async (data: Inputs) => {
+    if (images.length === 0) {
+      // If no images, set an error and prevent submission
+      setImageError("Please upload at least one image.");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const formData = new FormData();
@@ -45,15 +50,19 @@ const CompleteRepo = ({ vehicleId }) => {
         formData.append("files", image);
       });
 
-      const response = await axiosInstance.patch(`repossession/repo_veh_req/complete_repossession/${vehicleId?.vehId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        maxBodyLength: Infinity,
-      });
+      const response = await axiosInstance.patch(
+        `repossession/repo_veh_req/complete_repossession/${vehicleId?.vehId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          maxBodyLength: Infinity,
+        }
+      );
 
       toast.success(response?.data?.message);
-      onClose()
+      onClose();
     } catch (error) {
       console.error("Error:", error.response);
       toast.error(error?.response?.data?.message);
@@ -67,13 +76,6 @@ const CompleteRepo = ({ vehicleId }) => {
     setSelectedState(selectedState);
     const stateData = Cities.filter((item) => item.state === selectedState);
     setFilterCity(stateData.map((item) => item.city));
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImages([...images, file]);
-    }
   };
 
   useEffect(() => {
@@ -116,56 +118,58 @@ const CompleteRepo = ({ vehicleId }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-  <div className="max-w-5xl w-full space-y-6 p-8 bg-white rounded-xl shadow-md">
-    <h2 className="text-center text-2xl font-bold text-gray-900">Provide Details</h2>
-    
-    <form className="space-y-6" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
-      <div className="grid grid-cols-1 gap-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <SelectChange
-            label="Captured State"
-            name="captured_state"
-            options={uniqueStates}
-            register={register}
-            errors={errors}
-            required
-            defaultValue=""
-            handleChange={handleStateChange}
-          />
-          <SelectChange
-            label="Captured City"
-            name="captured_city"
-            options={filterCity}
-            register={register}
-            errors={errors}
-            required
-            defaultValue=""
-          />
-        </div>
-        
-        <ImageUpload images={images} setImages={setImages} />
-      </div>
-      
-      <div className="text-center space-x-4">
-        <button
-          onClick={onClose}
-          type="button"
-          className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-lg transition duration-200"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg transition duration-200"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 lg:py-6  lg:px-8   sm:px-3 sm:py-3 ">
+      <div className="lg:max-w-5xl w-full space-y-8 lg:p-10 p-3 bg-white rounded-xl shadow-md">
+        <h2 className="text-center text-2xl font-bold text-gray-900">Provide Details</h2>
 
+        <form className="space-y-6" onSubmit={handleSubmit(RepoReq)} encType="multipart/form-data">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <SelectChange
+                label="Captured State"
+                name="captured_state"
+                options={uniqueStates}
+                register={register}
+                errors={errors}
+                required
+                defaultValue=""
+                handleChange={handleStateChange}
+              />
+              <SelectChange
+                label="Captured City"
+                name="captured_city"
+                options={filterCity}
+                register={register}
+                errors={errors}
+                required
+                defaultValue=""
+              />
+            </div>
+
+            <ImageUpload images={images} setImages={setImages} />
+
+            {/* Display image error if any */}
+            {imageError && <p className="text-red-500 text-sm ">{imageError}</p>}
+          </div>
+
+          <div className="text-center space-x-4">
+            <button
+              onClick={onClose}
+              type="button"
+              className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-lg transition duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg transition duration-200"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

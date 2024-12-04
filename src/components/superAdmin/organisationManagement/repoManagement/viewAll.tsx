@@ -164,7 +164,7 @@ const AllRepoManagemnet = () => {
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-roboto text-lg font-bold py-2 uppercase">
+      <h1 className="text-center font-roboto md:text-lg font-bold py-2 uppercase">
         Repo Management
       </h1>
       <div className="grid grid-cols-3 px-5 items-center  gap-4  justify-center">
