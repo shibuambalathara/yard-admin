@@ -21,9 +21,16 @@ import { usePathname } from "next/navigation";
 
 const SideBar = () => {
   const { user, token, role } = useAuthStore();
+  useEffect(() => {
+    // Code in this section runs on mount
+    console.log("Component mounted in sidebar");
 
-  // console.log("user  form sidebar",user);
-  // console.log("1234566789");
+    // Return a function to run when the component unmounts
+    return () => {
+      console.log("Component unmounted in sidebar");
+    };
+  }, []); 
+
   const selectSidebarData = () => {
     switch (role) {
       case "SUPER_ADMIN":
@@ -47,18 +54,11 @@ const SideBar = () => {
     }
   };
   const pathname = usePathname();
-  // console.log("pathname",pathname);
-  // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{7,}$/, '');
-  // const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}$/, '');
+
   const modifiedPathname = pathname.replace(/\/[cC][a-zA-Z0-9_-]{23,}.*$/, "");
-  // REPO_ADMIN
 
-  // console.log('modifiedPathname', modifiedPathname);
-
-  // console.log("1234566789");
   const sidebarData = selectSidebarData();
 
-  // console.log("selecteed sidebardata",sidebarData);
 
   return (
     <div className=" h-full">
