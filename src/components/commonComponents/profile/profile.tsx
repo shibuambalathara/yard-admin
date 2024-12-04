@@ -8,6 +8,7 @@ import useAuthStore from "@/store/useAuthStore";
 import { getUserProfile, updateUserProfile } from "@/utils/commonApi/commonApi";
 import { InputField } from "@/components/ui/fromFields";
 
+
 type Document = {
   doc_name: string;
   doc_type: string;
@@ -31,6 +32,13 @@ type User = {
 };
 
 const Profile = () => {
+   const DocumentName={
+    AADHAR_FRONT :"AADHAR FRONT",
+    AADHAR_BACK:"AADHAR BACK",
+    PANCARD_FRONT:"PANCARD FRONT",
+    PANCARD_BACK:"PANCARD BACK"
+  
+  }
   const [user, setUser] = useState<User | null>({
     code: "",
     contact: "",
@@ -131,51 +139,11 @@ const Profile = () => {
 
   };
 
-  // const UpdateUserProfile = async (data: User) => {
-  //   console.log("data on submit", data);
-
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("name", data.name);
-  //     formData.append("email", data.email);
-  //     formData.append("contact", `+91${data.contact}`);
-  //     formData.append("designation", data.designation);
-
-  //     for (const key of Object.keys(data.files) as (keyof FileInputs)[]) {
-  //       if (data.files[key] instanceof File) {
-  //         formData.append(key, data.files[key]);
-  //       }
-  //     }
-
-  //     const response = await updateUserProfile(formData);
-  //     if (response?.data) {
-  //       setIsDisabled(true);
-  //       toast.success("Profile updated successfully!");
-
-  //       // Optionally update the user in the store
-  //       const updatedUserData = response?.data?.res;
-  //       const updatedProperties = {
-  //         name: updatedUserData.name,
-  //         email: updatedUserData.email,
-  //         contact: updatedUserData.contact,
-  //         designation: updatedUserData.designation,
-  //       };
-  //       const currentUser = useAuthStore.getState().user;
-  //       if (currentUser) {
-  //         const updatedUser = { ...currentUser, ...updatedProperties };
-  //         useAuthStore.setState({ user: updatedUser });
-  //       }
-  //     }
-  //     //  else {
-  //     //   throw new Error("Update failed");
-  //     // }
-  //   } catch (error) {
-  //     console.log("error", error);
-
-  //     toast.error("Profile update failed.");
-  //   }
-  // };
+  
+  
   const UpdateUserProfile = async (data: User) => {
+
+
     console.log("data on submit", data);
   
     try {
@@ -219,48 +187,12 @@ const Profile = () => {
   const isDocumentUpdateAllowed =
     role === "YARD_MANAGER" || role === "CLIENT_LEVEL_USER";
 
-  // const renderDocument = (docType: string) => {
-  //   const document = user?.document?.find((doc) => doc.doc_type === docType);
-
-  //   return (
-  //     <div className="col-span-1 relative">
-  //       {document?.doc_src || user?.[docType] ? (
-  //         <>
-  //           <img
-  //             src={document?.doc_src || URL.createObjectURL(user[docType] as File)}
-  //             alt={docType}
-  //             className="w-full h-auto rounded-lg"
-  //           />
-  //           <button
-  //             onClick={() => handleDeleteImage(docType)}
-  //             type="button"
-  //             className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700 transition duration-200"
-  //           >
-  //             <FaTrashAlt />
-  //           </button>
-  //         </>
-  //       ) : (
-  //         <label className="cursor-pointer">
-  //           <div className="w-full h-full flex justify-center items-center border-2 border-dashed border-gray-300 rounded-lg">
-  //             <FaPlus className="text-2xl text-gray-500" />
-  //           </div>
-  //           <input
-  //             type="file"
-  //             accept="image/*"
-  //             className="hidden"
-  //             onChange={(e) => handleFileUpload(e, docType)}
-  //           />
-  //         </label>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
+ 
   const renderDocument = (docType: keyof FileInputs) => {
     const document = user?.document?.find((doc) => doc.doc_type === docType);
 
     return (
-      <div className="col-span-1 relative">
+      <div className=" relative p-4">
         {document?.doc_src || (user?.files && user.files[docType]) ? (
           <>
             <img
@@ -269,13 +201,15 @@ const Profile = () => {
                 URL.createObjectURL(user.files[docType] as File)
               }
               alt={docType}
-              className="w-full h-auto rounded-lg"
+              className="w-full h-48 object-center  rounded-lg"
             />
+            <p className="m-1 p-2 font-poppins text-lg font-medium">{DocumentName[document?.doc_type]}</p>
             <button
               onClick={() => handleDeleteImage(docType)}
               type="button"
-              className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700 transition duration-200"
-            >
+              disabled={isDisabled}
+              className={`absolute top-5 right-6 bg-red-600 text-white p-1 rounded-full ${!isDisabled ? 'hover:bg-red-700 transition duration-200' : ''}`}
+              >
               <FaTrashAlt />
             </button>
           </>
@@ -301,7 +235,7 @@ const Profile = () => {
       <div className="max-w-6xl w-full bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center border-b pb-4 mb-6">
           <div className="flex items-center space-x-2">
-            <h1 className="text-2xl font-bold text-gray-700">
+            <h1 className="sm:text-2xl font-bold text-gray-700">
               Update User Profile
             </h1>
           </div>
@@ -313,86 +247,92 @@ const Profile = () => {
             <FaEdit className="text-base" />
           </div>
         </div>
-        <form onSubmit={handleSubmit(UpdateUserProfile)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="col-span-1">
-              <InputField
-                label="Name"
-                type="text"
-                name="name"
-                register={register}
-                errors={errors}
-                disabled={isDisabled}
-                pattern
-              />
-            </div>
-            <div className="col-span-1">
-              <InputField
-                name="email"
-                label="Email"
-                type="email"
-                register={register}
-                errors={errors}
-                pattern={/^\S+@\S+$/i}
-                disabled={isDisabled}
-              />
-            </div>
-            <div className="col-span-1">
-              <InputField
-                name="contact"
-                label="Contact"
-                type="text"
-                register={register}
-                errors={errors}
-                pattern={/^\d{10}$/}
-                disabled={isDisabled}
-              />
-            </div>
-            <div className="col-span-1">
-              <InputField
-                label="Designation"
-                type="text"
-                name="designation"
-                register={register}
-                errors={errors}
-                disabled={isDisabled}
-                pattern
-              />
-            </div>
-            {/* Document Images */}
-            {renderDocument("AADHAR_FRONT" as keyof FileInputs)}
-            {renderDocument("AADHAR_BACK" as keyof FileInputs)}
-            {renderDocument("PANCARD_FRONT" as keyof FileInputs)}
-            {renderDocument("PANCARD_BACK" as keyof FileInputs)}
-          </div>
-          <div className="w-full text-center pt-4 space-x-4">
-            {isDisabled ? (
-              <button
-                type="button"
-                onClick={router.back}
-                className="bg-red-500 text-white py-2 px-10 rounded-md hover:bg-red-600 transition duration-200"
-              >
-                Back
-              </button>
-            ) : (
-              <div className="space-x-2">
-                <button
-                  onClick={toggleDisabled}
-                  type="button"
-                  className="bg-red-600 text-white py-2 px-10 rounded-md hover:bg-red-700 transition duration-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-600 text-white py-2 px-10 rounded-md hover:bg-green-700 transition duration-200"
-                >
-                  Submit
-                </button>
-              </div>
-            )}
-          </div>
-        </form>
+        <form onSubmit={handleSubmit(UpdateUserProfile)} className="space-y-6  p-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  place-items-center">
+    <div className="col-span-1  max-sm:w-full">
+      <InputField
+        label="Name"
+        type="text"
+        name="name"
+        register={register}
+        errors={errors}
+        disabled={isDisabled}
+        pattern
+      />
+    </div>
+    <div className="col-span-1  max-sm:w-full">
+      <InputField
+        name="email"
+        label="Email"
+        type="email"
+        register={register}
+        errors={errors}
+        pattern={/^\S+@\S+$/i}
+        disabled={isDisabled}
+      />
+    </div>
+    <div className="col-span-1  max-sm:w-full">
+      <InputField
+        name="contact"
+        label="Contact"
+        type="text"
+        register={register}
+        errors={errors}
+        pattern={/^\d{10}$/}
+        disabled={isDisabled}
+      />
+    </div>
+    <div className="col-span-1  max-sm:w-full">
+      <InputField
+        label="Designation"
+        type="text"
+        name="designation"
+        register={register}
+        errors={errors}
+        disabled={isDisabled}
+        pattern
+      />
+    </div>
+    
+    {/* Document Images */}
+    <div className="col-span-1 sm:col-span-2 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {renderDocument("AADHAR_FRONT" as keyof FileInputs)}
+      {renderDocument("AADHAR_BACK" as keyof FileInputs)}
+      {renderDocument("PANCARD_FRONT" as keyof FileInputs)}
+      {renderDocument("PANCARD_BACK" as keyof FileInputs)}
+      {/* {renderDocument("dfdfsd" as keyof FileInputs)}   */}
+    </div>
+  </div>
+
+  <div className="w-full text-center pt-4 space-x-4">
+    {isDisabled ? (
+      <button
+        type="button"
+        onClick={router.back}
+        className="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition duration-200"
+      >
+        Back
+      </button>
+    ) : (
+      <div className="space-x-2">
+        <button
+          onClick={toggleDisabled}
+          type="button"
+          className="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700 transition duration-200"
+        >
+          Submit
+        </button>
+      </div>
+    )}
+  </div>
+</form>
+
       </div>
     </div>
   );
