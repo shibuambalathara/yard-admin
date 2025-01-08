@@ -65,6 +65,8 @@ export const InputField = ({
   placeholder = "",
 }) => {
   const handleInputChange = (event) => {
+
+    
     if (
       name !== "email" &&
       name !== "password" &&
@@ -73,6 +75,8 @@ export const InputField = ({
     ) {
       event.target.value = event.target.value.toUpperCase();
     }
+
+
   };
   return (
     <div className="mb-">

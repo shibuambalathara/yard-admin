@@ -550,6 +550,15 @@ const IndividualEntryPending = ({ pendingVehId }) => {
               pattern
               required={true}
             />
+             <InputField
+              label="Park Fee Per Day"
+              type="number"
+              name="park_fee_per_day"
+              register={register}
+              errors={errors}
+              pattern
+              required={true}
+            />
             <div className="col-span-3  w-full ">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 place-items-center ">
                 <FileUploadInput
