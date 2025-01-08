@@ -21,7 +21,7 @@ const Detail = ({ title, value }) => (
   
   const YardDetails = ({ vehicle }) => {
     const details = [
-      { title: "Yard Name", value: vehicle?.vehicle_ownership?.vehicle?.yard?.yard_name },
+      { title: "Yard Name", value: vehicle?.vehicle_ownership?.vehicle?.yard?.org_name },
       { title: "Yard Code", value: vehicle?.vehicle_ownership?.vehicle?.yard?.code },
       { title: "Current Days In Yard", value: vehicle?.curr_days_in_yard },
       { title: "Total Park Fee", value: vehicle?.curr_total_park_fee },
@@ -48,7 +48,7 @@ const Detail = ({ title, value }) => (
   
   const VehicleOwnerships = ({ vehicle }) => {
     const details = [
-      { title: "Client Organisation Name", value: vehicle?.vehicle_ownership?.cl_org?.cl_org_name },
+      { title: "Client Organisation Name", value: vehicle?.vehicle_ownership?.cl_org?.org_name },
       { title: "Code", value: vehicle?.vehicle_ownership?.cl_org?.code },
       { title: "Comment", value: vehicle?.vehicle_ownership?.comment },
       { title: "Status", value: vehicle?.vehicle_ownership?.status },
@@ -58,7 +58,7 @@ const Detail = ({ title, value }) => (
   };
   
   const ReleaseDetails = ({ vehicle }) => {
-    console.log("vehicle from ReleaseDetails",vehicle?.release_detail?.release_date);
+    console.log("vehicle from ReleaseDetails",vehicle?.release_detail);
     
     const release_details = vehicle?.release_detail?.release_date ? vehicle?.release_detail?.release_date?.split("T")[0] : null;
 console.log("release_details",release_details);
