@@ -182,7 +182,7 @@ const AllReleasedVehicles = () => {
         All Released Vehicles
       </h1>
 
-      <div className=" grid grid-cols-3 w-full  gap-4     place-items-center">
+      <div className="lg:grid-cols-3 grid-cols-1 w-full  gap-4     place-items-center">
         <div className="flex flex-col  mr-14 ">
           <label htmlFor="state" className={labelStyle?.data}>
             Select Category

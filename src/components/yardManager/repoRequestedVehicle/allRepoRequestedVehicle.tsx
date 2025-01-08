@@ -175,7 +175,7 @@ const AllYardRequestedVehicle = () => {
         All Repo Requests
       </h1>
 
-      <div className="  grid lg:grid-cols-3 grid-cols-2  md:gap-4 items-end lg:px-3 mr-2 ">
+      <div className="  grid lg:grid-cols-3 grid-cols-1  md:gap-4 items-end lg:px-3 mr-2 ">
         {/* <div>
           <ClientFilter />
         </div> */}
