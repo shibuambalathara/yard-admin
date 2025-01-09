@@ -17,20 +17,15 @@ const Login = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // console.log('apiURl',apiUrl);
-  
-
 
   // console.log("envVariable",apiUrl);
-  
 
   return (
     <AuthTemplate>
       <div className=" w-96 flex items-center justify-center  z-[10] relative ">
         <div className="  p-1   ">
           <Tab.Group>
-            <Tab.List
-             className="flex space-x-1 rounded  "
-               >
+            <Tab.List className="flex space-x-1 rounded  ">
               <Tab
                 className={({ selected }) =>
                   classNames(
@@ -41,9 +36,9 @@ const Login = () => {
                   )
                 }
               >
-                Login Using OTP
+                Login Using password
               </Tab>
-              <Tab
+              {/* <Tab
                 className={({ selected }) =>
                   classNames(
                     "w-full rounded py-2.5 text-sm font-medium leading-5",
@@ -52,19 +47,19 @@ const Login = () => {
                   )
                 }
               >
-                Login Using Password
-              </Tab>
+                
+              </Tab> */}
             </Tab.List>
 
             <Tab.Panels className="mt-2">
-              <Tab.Panel>
+              {/* <Tab.Panel>
               <LoginUsingOtp />
-              </Tab.Panel>
+              </Tab.Panel> */}
 
               <Tab.Panel>
-            
                 <LogInPassword />
               </Tab.Panel>
+              
             </Tab.Panels>
           </Tab.Group>
         </div>

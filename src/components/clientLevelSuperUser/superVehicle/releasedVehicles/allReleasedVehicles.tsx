@@ -49,23 +49,18 @@ const AllReleasedVehicles = () => {
     fetchChildren();
   }, []);
   const superClientOptions = children.map((item) => ({
-     value: item.id,
+    value: item.id,
     label: item.org_name,
   }));
   const FetchAllVehicleCategory = useCallback(async () => {
     try {
       const response = await axiosInstance.get(`/Vehicle/cat`);
-   
 
       setAllVehicleCategory(response?.data?.vehicleCategory);
-     
-
-      
     } catch (error) {
-      console.log("error",error);
-      
+      console.log("error", error);
+
       // toast.error("Failed to fetch vehicle categories");
-      
     }
   }, []);
 
@@ -77,8 +72,8 @@ const AllReleasedVehicles = () => {
       setAllYard(response?.data?.res?.yard);
       // toast.success("Vehicle categories fetched successfully");
     } catch (error) {
-      console.log("error",error);
-      
+      console.log("error", error);
+
       // toast.error("Failed to fetch yards");
     }
   }, []);
@@ -112,14 +107,13 @@ const AllReleasedVehicles = () => {
       setvehicleRelease(response?.data?.res?.vehicleReleaseData);
       setFilteredData(response?.data?.res?.totalCount);
     } catch (error) {
-      console.log("error",error);
-      
+      console.log("error", error);
     } finally {
     }
   }, [page, Category, selectedYard, vehicleStatus, client]);
 
   const allYardsOptions = allyard?.map((item) => ({
-     value: item.id,
+    value: item.id,
     label: item.org_name,
   }));
 
@@ -225,7 +219,7 @@ const AllReleasedVehicles = () => {
         All Released Vehicles
       </h1>
 
-      <div className="lg:grid-cols-3 grid-cols-1 w-full  gap-4     place-items-start px-5">
+      <div className=" grid grid-cols-1 md:grid-cols-3  w-full  gap-4     place-items-start px-5 ">
         <div>
           <label htmlFor="client" className={labelStyle.data}>
             Select Client
@@ -235,7 +229,7 @@ const AllReleasedVehicles = () => {
             className={inputStyle.data}
             onChange={handleOrgChange}
           >
-            <option value="">Select Client  </option>
+            <option value="">Select Client </option>
             {superClientOptions.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
@@ -291,7 +285,7 @@ const AllReleasedVehicles = () => {
         </div>
         <div className="flex flex-col  ">
           <label htmlFor="state" className={labelStyle?.data}>
-           Select Status
+            Select Status
           </label>
           <select
             id="state"
@@ -313,6 +307,7 @@ const AllReleasedVehicles = () => {
                           )} */}
         </div>
       </div>
+
       <div>
         {/* {isLoading ? (
           <div className="flex w-full h-screen items-center justify-center">
@@ -326,13 +321,12 @@ const AllReleasedVehicles = () => {
             )
           ) : (
             <NoVehicleMessage
-            typeFilter="vehicles"
-            roleFilter={roleFilter}
-            statusFilter={statusFilter}
-            categoryFilter={categoryFilter}
-            yardFilter={yardFilter}
-
-          />
+              typeFilter="vehicles"
+              roleFilter={roleFilter}
+              statusFilter={statusFilter}
+              categoryFilter={categoryFilter}
+              yardFilter={yardFilter}
+            />
           )
 
           /* )} */

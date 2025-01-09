@@ -223,7 +223,7 @@ const AllReleaseInitiatedVehicles = () => {
         All  Initiated Vehicles
       </h1>
 
-      <div className="lg:grid-cols-3 grid-cols-1 w-full  gap-4     place-items-start px-5">
+      <div className="grid lg:grid-cols-3 grid-cols-1 w-full  gap-4     place-items-start px-5">
         <div>
           <label htmlFor="client" className={labelStyle.data}>
             Select Client
